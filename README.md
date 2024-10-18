@@ -1,5 +1,12 @@
 # SAE-S3-S4_Creepy_Night
 
+# Collaborateurs
+- Tim CARRARA (timcarrara)
+- Enzo VIDY (EnzoVidy)
+- Harry BOISSELOT (hboissel-iut90)
+- Mathéo ROSE (matheorose)
+- Yahia KHERZA (Zuuret)
+
 ## Project setup
 ```
 npm install
