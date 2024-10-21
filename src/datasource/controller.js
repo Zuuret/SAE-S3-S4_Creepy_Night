@@ -21,6 +21,11 @@ function ajoutUtilisateur(data) {
     return { error: 0, status: 200, data: nouvelUtilisateur };
 }
 
+function getAllUsers() {
+    return {error: 0, data: utilisateurs}
+}
+
 export default {
-    ajoutUtilisateur
+    ajoutUtilisateur,
+    getAllUsers,
 };
