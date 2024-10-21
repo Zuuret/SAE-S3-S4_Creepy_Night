@@ -1,10 +1,11 @@
 <template>
   <div id="app">
     <nav>
+      <CompteRebours />
       <router-link to="/about">Créer profil</router-link>
     </nav>
     <router-view/>
-    <CompteRebours />
+
   </div>
 
 </template>
