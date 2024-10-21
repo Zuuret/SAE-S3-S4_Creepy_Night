@@ -1,11 +1,24 @@
 <template>
   <div id="app">
     <nav>
+      <CompteRebours />
       <router-link to="/about">Créer profil</router-link>
     </nav>
     <router-view/>
+
   </div>
+
 </template>
+
+<script>
+import CompteRebours from './components/CompteRebours.vue';
+
+export default {
+  components: {
+    CompteRebours,
+  },
+};
+</script>
 
 <style>
 
@@ -15,6 +28,7 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+
 }
 
 nav {
