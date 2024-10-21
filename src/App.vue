@@ -4,8 +4,20 @@
       <router-link to="/about">Créer profil</router-link>
     </nav>
     <router-view/>
+    <CompteRebours />
   </div>
+
 </template>
+
+<script>
+import CompteRebours from './components/CompteRebours.vue';
+
+export default {
+  components: {
+    CompteRebours,
+  },
+};
+</script>
 
 <style>
 
