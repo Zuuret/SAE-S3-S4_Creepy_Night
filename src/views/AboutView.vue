@@ -1,7 +1,7 @@
 <template>
   <div class="inscriptionProfil">
     <h1>Inscription</h1>
-    <form @submit.prevent="submitInscription">
+    <form @submit.prevent="enregistrementUtilisateur({ prenom, nom, dateNaissance, email, emailConfirmation, motDePasse })">
       <div class="form-group">
         <label for="prenom">Prénom :</label>
         <input type="text" v-model="prenom" id="prenom" placeholder="Entrez votre prénom" required>
@@ -61,24 +61,10 @@ export default {
     ...mapState(['utilisateur', 'utilisateurs']),
   },
   methods: {
-    ...mapActions(['enregistrementUtilisateur', 'getAllUser']),
-    async submitInscription() {
-      const data = {
-        prenom: this.prenom,
-        nom: this.nom,
-        dateNaissance: this.dateNaissance,
-        email: this.email,
-        emailConfirmation: this.emailConfirmation,
-        motDePasse: this.motDePasse,
-      };
-
-      try {
-        await this.enregistrementUtilisateur(data);
-        await this.getAllUser();
-      } catch (err) {
-        console.log("Erreur lors de l'inscription :", err);
-      }
-    }
+    ...mapActions(['enregistrementUtilisateur','getAllUser']),
+  },
+  mounted() {
+    this.getAllUser();
   }
 }
 </script>

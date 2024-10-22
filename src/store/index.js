@@ -24,22 +24,24 @@ export default new Vuex.Store({
   actions: {
     async enregistrementUtilisateur({commit}, data){
       console.log("enregistrement d'un nouvel utilisateur")
-      let response = controller.ajoutUtilisateur(data);
+      let response = await controller.ajoutUtilisateur(data);
       if(response.error === 0){
         commit('updateUtilisateur', response.data);
+        return true;
       } else {
-        console.log(response.data)
+        console.log(response.data);
+        return false;
       }
     },
-    async getAllUser({commit}){
-      console.log("récupération des utilisateurs")
+    async getAllUser({ commit }) {
+      console.log("Récupération des utilisateurs");
       let response = await ProfilService.getAllUsers();
       if (response.error === 0) {
         commit('updateListeUtilisateur', response.data);
       } else {
         console.log(response.data);
       }
-    },
+    }
   },
   modules: {
   }
