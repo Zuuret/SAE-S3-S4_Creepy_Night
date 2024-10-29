@@ -5,11 +5,11 @@
 Développement Full-Stack du site web d'un événement (fictif) sur la peur.
 
 ## Membres du groupe:  
- - [Mathéo ROSE](mailto:matheo.rose@edu.univ-fcomte.fr?subject=creepy_night_sae)
- - [Harry BOISSELOT](mailto:harry.boisselot@edu.univ-fcomte.fr?subject=creepy_night_sae)  
- - [Tim CARRARA](mailto:tim.carrara@edu.univ-fcomte.fr?subject=creepy_night_sae)  
- - [Enzo VIDY](mailto:enzo.vidy@edu.univ-fcomte.fr?subject=creepy_night_sae)
- - [Yahia KHERZA](mailto:yahia.kherza@edu.univ-fcomte.fr?subject=creepy_night_sae)
+ - [Mathéo ROSE (matheorose)]
+ - [Harry BOISSELOT (hboissel-iut90)] 
+ - [Tim CARRARA (timcarrara)] 
+ - [Enzo VIDY (EnzoVidy]
+ - [Yahia KHERZA (Zuuret)]
 
 ## Organisation  
 Pour ce projet, nous utilisons un développement agile.
