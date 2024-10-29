@@ -5,11 +5,11 @@
 Développement Full-Stack du site web d'un événement (fictif) sur la peur.
 
 ## Membres du groupe:  
- - [Mathéo ROSE (matheorose)]
- - [Harry BOISSELOT (hboissel-iut90)] 
- - [Tim CARRARA (timcarrara)] 
- - [Enzo VIDY (EnzoVidy]
- - [Yahia KHERZA (Zuuret)]
+ - Mathéo ROSE (matheorose)
+ - Harry BOISSELOT (hboissel-iut90) 
+ - Tim CARRARA (timcarrara)
+ - Enzo VIDY (EnzoVidy)
+ - Yahia KHERZA (Zuuret)
 
 ## Organisation  
 Pour ce projet, nous utilisons un développement agile.
