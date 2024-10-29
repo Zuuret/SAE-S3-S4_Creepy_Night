@@ -2,7 +2,9 @@
   <div id="app">
     <nav>
       <CompteRebours />
-      <router-link to="/about">Créer profil</router-link>
+      <router-link to="/profil">Créer profil</router-link>
+      <p></p>
+      <router-link to="/concert">Réserver un concert</router-link>
     </nav>
     <router-view/>
   </div>

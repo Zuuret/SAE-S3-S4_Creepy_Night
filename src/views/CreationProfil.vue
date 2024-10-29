@@ -48,7 +48,7 @@
 import { mapState, mapActions } from 'vuex';
 
 export default {
-  name: 'AboutView.vue',
+  name: 'CreationProfil.vue',
   data: () => ({
     prenom: '',
     nom: '',

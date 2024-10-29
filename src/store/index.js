@@ -5,11 +5,13 @@ import controller from "@/datasource/controller";
 Vue.use(Vuex)
 
 import ProfilService from '../services/profil.service'
+import ConcertService from "@/services/concert.service";
 
 export default new Vuex.Store({
   state: {
     utilisateur: null,
     utilisateurs: [],
+    concerts: [],
   },
   getters: {
   },
@@ -19,6 +21,9 @@ export default new Vuex.Store({
     },
     updateListeUtilisateur(state, utilisateurs){
       state.utilisateurs = utilisateurs;
+    },
+    updateListeConcert(state, concerts){
+      state.concerts = concerts;
     }
   },
   actions: {
@@ -38,6 +43,15 @@ export default new Vuex.Store({
       let response = await ProfilService.getAllUsers();
       if (response.error === 0) {
         commit('updateListeUtilisateur', response.data);
+      } else {
+        console.log(response.data);
+      }
+    },
+    async getConcert({commit}){
+      console.log("Récupération des concert");
+      let response = await ConcertService.getConcert();
+      if (response.error === 0) {
+        commit('updateListeConcert', response.data);
       } else {
         console.log(response.data);
       }

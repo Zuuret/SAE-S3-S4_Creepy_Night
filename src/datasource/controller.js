@@ -1,4 +1,4 @@
-import { utilisateurs } from './data.js';
+import {concerts, utilisateurs} from './data.js';
 
 function ajoutUtilisateur(data) {
     if (!data.prenom) return { error: 1, status: 404, data: 'Aucun prénom fourni' };
@@ -25,7 +25,12 @@ function getAllUsers() {
     return {error: 0, data: utilisateurs}
 }
 
+function getConcert(){
+    return {error: 0, data: concerts}
+}
+
 export default {
     ajoutUtilisateur,
     getAllUsers,
+    getConcert,
 };
