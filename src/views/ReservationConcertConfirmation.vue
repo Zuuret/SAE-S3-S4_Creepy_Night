@@ -3,42 +3,59 @@
     <h1>Détails du concert</h1>
     <div v-if="concert">
       <img :src="concert.image" alt="Affiche du concert" />
-      <h2>{{ concert.artiste }}</h2>
+      <h2>{{ concert.artiste }} - {{ concert.categorie }}</h2>
       <p>Date : {{ concert.date }}</p>
       <p>Heure : {{ concert.heure }}</p>
-      <p>Prix unitaire : {{ concert.prix }}€</p>
+      <p>{{ concert.scene }}</p>
       <p>Total : {{ prixTotal }}€</p>
     </div>
 
-    <div>
-      <label for="selection_quantite">Quantité :</label>
-      <select id="selection_quantite" v-model="quantite">
-        <option v-for="n in 6" :key="n" :value="n">{{ n }}</option>
-      </select>
+    <div v-if="place_concerts.length > 0">
+      <h3>Places disponibles :</h3>
+      <div v-for="place in place_concerts" :key="place.id_concert + '-' + place.type_place">
+        <p>Type de place : {{ place.type_place }} - Nombre de places : {{ place.nb_places }}</p>
+        <label :for="`selection_quantite_${place.type_place}`">Quantité :</label>
+        <select v-model.number="quantiteParType[place.type_place]" :name="`quantité_${place.type_place}`" :id="`selection_quantite_${place.type_place}`">
+          <option v-for="n in 7" :key="n" :value="n-1">{{ n-1 }}</option>
+        </select>
+      </div>
+    </div>
+    <div v-else>
+      <p>Aucune place disponible pour ce concert.</p>
+    </div>
+
+    <div class="button">
+      <button>Valider</button>
     </div>
   </div>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex';
+
 export default {
   name: 'ReservationConcertConfirmation',
   data() {
     return {
-      concert: null,
-      quantite: 0, // Quantité par défaut
+      quantiteParType: {},
     };
   },
   computed: {
+    ...mapState(['concert', 'place_concerts']),
     prixTotal() {
-      // Calcule le prix total en fonction de la quantité sélectionnée
-      return this.concert ? this.concert.prix * this.quantite : 0;
+      return this.place_concerts.reduce((total, place) => {
+        const quantite = this.quantiteParType[place.type_place] || 0;
+        return total + (place.prix_place * quantite);
+      }, 0);
     },
   },
+  methods: {
+    ...mapActions(['getConcertbyId', 'getPlacesConcerts']),
+  },
   mounted() {
-    // Récupère l'ID du concert à partir de l'URL
-    const concertId = this.$route.params.id;
-    // Recherchez le concert avec cet ID
-    this.concert = this.$store.state.concerts.find(concert => concert.id === parseInt(concertId));
+    const concertId = parseInt(this.$route.params.id);
+    this.getConcertbyId(concertId);
+    this.getPlacesConcerts(concertId);
   },
 };
 </script>

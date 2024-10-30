@@ -1,4 +1,4 @@
-import {concerts, utilisateurs} from './data.js';
+import {concerts, places_concerts, utilisateurs} from './data.js';
 
 function ajoutUtilisateur(data) {
     if (!data.prenom) return { error: 1, status: 404, data: 'Aucun prénom fourni' };
@@ -20,17 +20,29 @@ function ajoutUtilisateur(data) {
     return { error: 0, status: 200, data: nouvelUtilisateur };
 }
 
-
 function getAllUsers() {
     return {error: 0, data: utilisateurs}
 }
 
-function getConcert(){
+function getAllConcerts(){
     return {error: 0, data: concerts}
 }
+
+function getConcertbyId(concertId){
+    let concert = concerts.find(c => c.id === parseInt(concertId))
+    return {error: 0, data: concert}
+}
+
+function getPlaceConcert(concertId) {
+    let placeConcert = places_concerts.filter(place => place.id_concert === parseInt(concertId));
+    return { error: 0, data: placeConcert };
+}
+
 
 export default {
     ajoutUtilisateur,
     getAllUsers,
-    getConcert,
+    getAllConcerts,
+    getConcertbyId,
+    getPlaceConcert,
 };

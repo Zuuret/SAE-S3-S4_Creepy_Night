@@ -5,7 +5,6 @@
       <img class="concert-img" :src="concert.image" alt="Affiche du concert" />
       <p>{{ concert.artiste }}</p>
       <p>{{ concert.date }} à {{ concert.heure }}</p>
-      <p>Prix : {{ concert.prix }}€</p>
       <router-link :to="`/concert/${concert.id}`">
         <button>Réserver ma place</button>
       </router-link>
@@ -25,10 +24,10 @@ export default {
     ...mapState(['concerts'])
   },
   methods: {
-    ...mapActions(['getConcert']),
+    ...mapActions(['getAllConcert']),
   },
   mounted() {
-    this.getConcert();
+    this.getAllConcert();
   }
 };
 </script>

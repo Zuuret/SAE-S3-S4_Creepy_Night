@@ -5,13 +5,15 @@ import controller from "@/datasource/controller";
 Vue.use(Vuex)
 
 import ProfilService from '../services/profil.service'
-import ConcertService from "@/services/concert.service";
+import ConcertService from "../services/concert.service";
 
 export default new Vuex.Store({
   state: {
     utilisateur: null,
     utilisateurs: [],
+    concert: null,
     concerts: [],
+    place_concerts: []
   },
   getters: {
   },
@@ -22,8 +24,14 @@ export default new Vuex.Store({
     updateListeUtilisateur(state, utilisateurs){
       state.utilisateurs = utilisateurs;
     },
+    updateConcertById(state, concert){
+      state.concert = concert;
+    },
     updateListeConcert(state, concerts){
       state.concerts = concerts;
+    },
+    updateListePlaceConcert(state, place_concerts){
+      state.place_concerts = place_concerts
     }
   },
   actions: {
@@ -47,11 +55,29 @@ export default new Vuex.Store({
         console.log(response.data);
       }
     },
-    async getConcert({commit}){
-      console.log("Récupération des concert");
-      let response = await ConcertService.getConcert();
+    async getAllConcert({commit}){
+      console.log("Récupération des concerts");
+      let response = await ConcertService.getAllConcerts();
       if (response.error === 0) {
         commit('updateListeConcert', response.data);
+      } else {
+        console.log(response.data);
+      }
+    },
+    async getConcertbyId({commit}, concertId){
+      console.log("Récupération du concert ID : ", concertId);
+      let response = await ConcertService.getConcertbyId(concertId);
+      if (response.error === 0) {
+        commit('updateConcertById', response.data);
+      } else {
+        console.log(response.data);
+      }
+    },
+    async getPlacesConcerts({ commit }, concertId) {
+      console.log("Récupération des places de concerts pour le concert ID : ", concertId);
+      let response = await ConcertService.getPlacesConcerts(concertId);
+      if (response.error === 0) {
+        commit('updateListePlaceConcert', response.data);
       } else {
         console.log(response.data);
       }
