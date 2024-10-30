@@ -6,7 +6,9 @@
       <p>{{ concert.artiste }}</p>
       <p>{{ concert.date }} à {{ concert.heure }}</p>
       <p>Prix : {{ concert.prix }}€</p>
-      <button><span><a href="src/views/ReservationConcertConfirmation.vue">Réserver ma place</a></span></button>
+      <router-link :to="`/concert/${concert.id}`">
+        <button>Réserver ma place</button>
+      </router-link>
     </div>
   </div>
 </template>

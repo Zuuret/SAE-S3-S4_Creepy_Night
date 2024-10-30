@@ -23,6 +23,10 @@ const routes = [
     name: 'concert',
     component: () => import('../views/ReservationConcert.vue')
   },
+  {
+    path : '/concert/:id',
+    component: () => import('../views/ReservationConcertConfirmation.vue')
+  },
 ]
 
 const router = new VueRouter({
