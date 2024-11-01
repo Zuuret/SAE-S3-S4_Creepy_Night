@@ -5,7 +5,7 @@ async function getAllUsersFromLocalSource() {
 }
 
 async function getAllUsers() {
-    let response = null;
+    let response;
     try {
         response = await getAllUsersFromLocalSource()
     }

@@ -8,13 +8,12 @@
       <p>Heure : {{ concert.heure }}</p>
       <p>{{ concert.scene }}</p>
     </div>
-
     <div v-if="places_concert.length > 0">
       <h3>Places disponibles :</h3>
       <div v-for="place in places_concert" :key="place.id_concert + '-' + place.type_place">
         <p>Type de place : {{ place.type_place }} - Nombre de places : {{ place.nb_places }} - Prix : {{ place.prix_place }} €</p>
-        <label :for="`selection_quantite_${place.type_place}`">Quantité :</label>
-        <select v-model.number="quantiteParType[place.type_place]">
+        <label for="selection_quantite">Quantité :</label>
+        <select id="selection_quantite" v-model.number="quantiteParType[place.type_place]">
           <option v-for="n in 7" :key="n" :value="n-1">{{ n-1 }}</option>
         </select>
       </div>
@@ -25,10 +24,7 @@
     <div>
       <p>Total : {{ prixTotal }}€</p>
     </div>
-
-    <router-link :to="'/concert/validate'">
-      <button @click.prevent>Réserver ma place</button>
-    </router-link>
+    <button @click="obtenirPlace">Obtenir ma place</button>
   </div>
 </template>
 
@@ -55,9 +51,18 @@ export default {
   },
   methods: {
     ...mapActions(['getConcertbyId', 'getPlacesConcerts']),
+    obtenirPlace() {
+      if (this.$route.path !== '/concert/validate') {
+        console.log('Bouton cliqué, redirection en cours...');
+        this.$router.push('/concert/validate');
+      } else {
+        console.log('Déjà sur la page de validation');
+      }
+    }
   },
   mounted() {
     const concertId = parseInt(this.$route.params.id);
+    console.log("ID du concert : ", concertId);
     this.getConcertbyId(concertId);
     this.getPlacesConcerts(concertId).then(() => {
       this.places_concert.forEach(place => {
@@ -80,7 +85,6 @@ div {
   text-align: center;
   box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
 }
-
 /* Titre principal */
 h1 {
   color: #ff0000;
@@ -89,15 +93,12 @@ h1 {
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
   margin-bottom: 20px;
 }
-
 /* Titre du concert */
 h2 {
   color: #ffaaaa;
   font-size: 2rem;
   margin-bottom: 10px;
-  font-family: 'Creepster', cursive;
 }
-
 /* Image du concert */
 img {
   width: 100%;
@@ -106,16 +107,14 @@ img {
   margin-bottom: 15px;
   box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
 }
-
 /* Détails du concert */
 p {
   font-size: 1.2rem;
   color: #eeeeee;
   margin: 5px 0;
 }
-
 /* Select pour la quantité */
-#selection_quantite {
+select {
   background-color: #222;
   color: #ffaaaa;
   padding: 8px;
@@ -124,12 +123,10 @@ p {
   border-radius: 4px;
   margin-top: 10px;
 }
-
-#selection_quantite:focus {
+select:focus {
   outline: none;
   box-shadow: 0 0 5px #ff4444;
 }
-
 /* Effet de bouton */
 button {
   background-color: #ff0000;
@@ -141,17 +138,14 @@ button {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.3s ease;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
 }
-
 button:hover {
   background-color: #cc0000;
   transform: scale(1.05);
 }
-
 button:active {
   background-color: #990000;
   transform: scale(0.95);
 }
 </style>
-

@@ -13,7 +13,8 @@ export default new Vuex.Store({
     utilisateurs: [],
     concert: null,
     concerts: [],
-    places_concert: []
+    places_concert: [],
+    coordoneesBancaire: [],
   },
   getters: {
   },
@@ -31,7 +32,10 @@ export default new Vuex.Store({
       state.concerts = concerts;
     },
     updateListePlaceConcert(state, places_concert){
-      state.places_concert = places_concert
+      state.places_concert = places_concert;
+    },
+    updateCoordoneesBancaire(state, coordonneesBancaire){
+      state.coordoneesBancaire = coordonneesBancaire;
     }
   },
   actions: {
@@ -80,6 +84,17 @@ export default new Vuex.Store({
         commit('updateListePlaceConcert', response.data);
       } else {
         console.log(response.data);
+      }
+    },
+    async enregistrementCoordonneesBancaires({commit}, data){
+      console.log("enregistrement de nouvelles données bancaire")
+      let response = await controller.validerPaiement(data);
+      if(response.error === 0){
+        commit('updateCoordoneesBancaire', response.data);
+        return true;
+      } else {
+        console.log(response.data);
+        return false;
       }
     }
   },

@@ -38,6 +38,14 @@ function getPlaceConcert(concertId) {
     return { error: 0, data: placeConcert };
 }
 
+function validerPaiement(data){
+    if (!data.nom) return { error: 1, status: 404, data: 'Aucun nom de titulaire de la carte fourni' };
+    if (!data.numero_carte) return { error: 1, status: 404, data: 'Aucun numero de carte fourni' };
+    if (!data.date_expiration) return { error: 1, status: 404, data: "Aucune date d'expiration fourni" };
+    if (!data.cvv) return { error: 1, status: 404, data: 'Aucun cvv fourni' };
+}
+
+
 
 export default {
     ajoutUtilisateur,
@@ -45,4 +53,5 @@ export default {
     getAllConcerts,
     getConcertbyId,
     getPlaceConcert,
+    validerPaiement,
 };

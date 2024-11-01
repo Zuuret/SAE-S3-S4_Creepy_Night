@@ -1,31 +1,33 @@
 <template>
-  <form @submit.prevent="validerPaiement">
-    <h3>Coordonnées bancaires</h3>
-    <div>
-      <label for="nom">Nom sur la carte :</label>
-      <input type="text" v-model="nom" required />
+  <div>
+    <form @submit.prevent="validerPaiement({nom, numeroCarte, expiration, cvv})">
+      <h3>Coordonnées bancaires</h3>
+      <div>
+        <label for="nom">Nom sur la carte :</label>
+        <input id="nom" name="nom_titulaire" type="text" v-model="nom" required />
+      </div>
+      <div>
+        <label for="numeroCarte">Numéro de carte :</label>
+        <input id="numeroCarte" name="numero_carte" type="text" v-model="numeroCarte" required />
+      </div>
+      <div>
+        <label for="expiration">Date d'expiration :</label>
+        <input id="expiration" name="date_expiration" type="month" v-model="expiration" required />
+      </div>
+      <div>
+        <label for="cvv">CVV :</label>
+        <input id="cvv" name="numero_cvv" type="text" v-model="cvv" required />
+      </div>
+      <button type="submit">Confirmer le paiement</button>
+    </form>
+    <div v-if="coordonnees_bancaire" class="success-message">
+      <p>Votre paiement a bien été pris en compte : <strong>{{ utilisateur.prenom }} {{ utilisateur.nom }}</strong></p>
     </div>
-    <div>
-      <label for="numeroCarte">Numéro de carte :</label>
-      <input type="text" v-model="numeroCarte" required />
-    </div>
-    <div>
-      <label for="expiration">Date d'expiration :</label>
-      <input type="month" v-model="expiration" required />
-    </div>
-    <div>
-      <label for="cvv">CVV :</label>
-      <input type="text" v-model="cvv" required />
-    </div>
-    <button type="submit">Confirmer le paiement</button>
-  </form>
-
-  <div v-if="coordonnees_bancaire" class="success-message">
-    <p>Votre paiement à bien été pris en compte : <strong>{{ utilisateur.prenom }} {{ utilisateur.nom }}</strong></p>
   </div>
 </template>
 
-<script setup>
+
+<script>
 import { mapActions, mapState } from 'vuex';
 
 export default {
@@ -40,7 +42,7 @@ export default {
     ...mapState(['coordonnees_bancaire']),
   },
   methods: {
-    ...mapActions(),
+    ...mapActions(['enregistrementCoordonneesBancaires']),
   },
   mounted() {
   }
@@ -48,5 +50,72 @@ export default {
 </script>
 
 <style scoped>
+/* Style global pour le formulaire */
+form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
 
+h3 {
+  text-align: center;
+  color: #333;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+input[type="text"],
+input[type="month"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Message de confirmation */
+.success-message {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #e6ffed;
+  border: 1px solid #a2dfab;
+  border-radius: 4px;
+  color: #2f8a5f;
+  text-align: center;
+}
+
+.success-message p {
+  margin: 0;
+}
+
+.success-message strong {
+  font-weight: bold;
+}
 </style>
