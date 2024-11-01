@@ -4,6 +4,7 @@
       <CompteRebours />
       <router-link to="/about">Créer profil</router-link>
     </nav>
+    <router-link to="/planning">Placer concert</router-link>
     <router-view/>
   </div>
 
