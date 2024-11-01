@@ -12,8 +12,8 @@
       <h3>Places disponibles :</h3>
       <div v-for="place in places_concert" :key="place.id_concert + '-' + place.type_place">
         <p>Type de place : {{ place.type_place }} - Nombre de places : {{ place.nb_places }} - Prix : {{ place.prix_place }} €</p>
-        <label for="selection_quantite">Quantité :</label>
-        <select id="selection_quantite" v-model.number="quantiteParType[place.type_place]">
+        <label :for="`selection_quantite_${place.type_place}`">Quantité :</label>
+        <select v-model.number="quantiteParType[place.type_place]">
           <option v-for="n in 7" :key="n" :value="n-1">{{ n-1 }}</option>
         </select>
       </div>
@@ -24,7 +24,9 @@
     <div>
       <p>Total : {{ prixTotal }}€</p>
     </div>
-    <button @click="obtenirPlace">Obtenir ma place</button>
+    <router-link :to="`/concert/${concert.id}/validate`">
+      <button>Obtenir ma place</button>
+    </router-link>
   </div>
 </template>
 
@@ -51,14 +53,6 @@ export default {
   },
   methods: {
     ...mapActions(['getConcertbyId', 'getPlacesConcerts']),
-    obtenirPlace() {
-      if (this.$route.path !== '/concert/validate') {
-        console.log('Bouton cliqué, redirection en cours...');
-        this.$router.push('/concert/validate');
-      } else {
-        console.log('Déjà sur la page de validation');
-      }
-    }
   },
   mounted() {
     const concertId = parseInt(this.$route.params.id);

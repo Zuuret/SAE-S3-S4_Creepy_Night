@@ -13,7 +13,7 @@ const routes = [
   { path: '/profil', name: 'profil', component: CreationProfil },
   { path: '/concert', name: 'concert', component: ReservationConcert },
   { path: '/concert/:id', name: 'reservationConcert', component: ReservationConcertConfirmation },
-  { path: '/concert/validate', name: 'validationConcert', component: ValidationReservation }
+  { path: '/concert/:id/validate', name: 'validationConcert', component: ValidationReservation }
 ];
 
 const router = new VueRouter({
