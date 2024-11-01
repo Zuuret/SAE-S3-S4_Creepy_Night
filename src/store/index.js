@@ -13,7 +13,7 @@ export default new Vuex.Store({
     utilisateurs: [],
     concert: null,
     concerts: [],
-    place_concerts: []
+    places_concert: []
   },
   getters: {
   },
@@ -30,8 +30,8 @@ export default new Vuex.Store({
     updateListeConcert(state, concerts){
       state.concerts = concerts;
     },
-    updateListePlaceConcert(state, place_concerts){
-      state.place_concerts = place_concerts
+    updateListePlaceConcert(state, places_concert){
+      state.places_concert = places_concert
     }
   },
   actions: {

@@ -28,10 +28,15 @@ let scenes_festival = [
     { "id": 2, "scene": "Scène de la peur", "emplacement": "Zone Nord du festival" },
 ];
 
+let coordonnees_bancaire = [
+    {'nom': 'Doe', "numero_carte": "123456789ABCDEFG", 'date_expiration': "11/31", 'cvv': '484'}
+]
+
 module.exports = {
     utilisateurs,
     concerts,
     places_concerts,
     categories_concerts,
     scenes_festival,
+    coordonnees_bancaire,
 }

@@ -7,15 +7,14 @@
       <p>Date : {{ concert.date }}</p>
       <p>Heure : {{ concert.heure }}</p>
       <p>{{ concert.scene }}</p>
-      <p>Total : {{ prixTotal }}€</p>
     </div>
 
-    <div v-if="place_concerts.length > 0">
+    <div v-if="places_concert.length > 0">
       <h3>Places disponibles :</h3>
-      <div v-for="place in place_concerts" :key="place.id_concert + '-' + place.type_place">
-        <p>Type de place : {{ place.type_place }} - Nombre de places : {{ place.nb_places }}</p>
+      <div v-for="place in places_concert" :key="place.id_concert + '-' + place.type_place">
+        <p>Type de place : {{ place.type_place }} - Nombre de places : {{ place.nb_places }} - Prix : {{ place.prix_place }} €</p>
         <label :for="`selection_quantite_${place.type_place}`">Quantité :</label>
-        <select v-model.number="quantiteParType[place.type_place]" :name="`quantité_${place.type_place}`" :id="`selection_quantite_${place.type_place}`">
+        <select v-model.number="quantiteParType[place.type_place]">
           <option v-for="n in 7" :key="n" :value="n-1">{{ n-1 }}</option>
         </select>
       </div>
@@ -23,10 +22,13 @@
     <div v-else>
       <p>Aucune place disponible pour ce concert.</p>
     </div>
-
-    <div class="button">
-      <button>Valider</button>
+    <div>
+      <p>Total : {{ prixTotal }}€</p>
     </div>
+
+    <router-link :to="'/concert/validate'">
+      <button @click.prevent>Réserver ma place</button>
+    </router-link>
   </div>
 </template>
 
@@ -41,12 +43,14 @@ export default {
     };
   },
   computed: {
-    ...mapState(['concert', 'place_concerts']),
+    ...mapState(['concert', 'places_concert']),
     prixTotal() {
-      return this.place_concerts.reduce((total, place) => {
+      let total = 0;
+      for (const place of this.places_concert) {
         const quantite = this.quantiteParType[place.type_place] || 0;
-        return total + (place.prix_place * quantite);
-      }, 0);
+        total += place.prix_place * quantite;
+      }
+      return total;
     },
   },
   methods: {
@@ -55,9 +59,13 @@ export default {
   mounted() {
     const concertId = parseInt(this.$route.params.id);
     this.getConcertbyId(concertId);
-    this.getPlacesConcerts(concertId);
+    this.getPlacesConcerts(concertId).then(() => {
+      this.places_concert.forEach(place => {
+        this.$set(this.quantiteParType, place.type_place, 0);
+      });
+    });
   },
-};
+}
 </script>
 
 <style scoped>
