@@ -8,6 +8,7 @@
       <p>Heure : {{ concert.heure }}</p>
       <p>{{ concert.scene }}</p>
     </div>
+
     <div v-if="places_concert.length > 0">
       <h3>Places disponibles :</h3>
       <div v-for="place in places_concert" :key="place.id_concert + '-' + place.type_place">
@@ -24,7 +25,7 @@
     <div>
       <p>Total : {{ prixTotal }}€</p>
     </div>
-    <router-link :to="`/concert/${concert.id}/validate`">
+    <router-link v-if="concert" :to="`/concert/${concert.id}/validate`">
       <button>Obtenir ma place</button>
     </router-link>
   </div>

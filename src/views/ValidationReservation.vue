@@ -1,27 +1,27 @@
 <template>
   <div>
-    <form @submit.prevent="validerPaiement({nom, numeroCarte, expiration, cvv})">
+    <form @submit.prevent="validerPaiement({nom, numeroCarte, dateExpiration, cvv})">
       <h3>Coordonnées bancaires</h3>
       <div>
         <label for="nom">Nom sur la carte :</label>
-        <input id="nom" name="nom_titulaire" type="text" v-model="nom" required />
+        <input id="nom" name="nom" type="text" v-model="nom" required />
       </div>
       <div>
         <label for="numeroCarte">Numéro de carte :</label>
-        <input id="numeroCarte" name="numero_carte" type="text" v-model="numeroCarte" required />
+        <input id="numeroCarte" name="numeroCarte" type="text" v-model="numeroCarte" required />
       </div>
       <div>
-        <label for="expiration">Date d'expiration :</label>
-        <input id="expiration" name="date_expiration" type="month" v-model="expiration" required />
+        <label for="dateExpiration">Date d'expiration :</label>
+        <input id="dateExpiration" name="dateExpiration" type="month" v-model="dateExpiration" required />
       </div>
       <div>
         <label for="cvv">CVV :</label>
-        <input id="cvv" name="numero_cvv" type="text" v-model="cvv" required />
+        <input id="cvv" name="cvv" type="text" v-model="cvv" required />
       </div>
       <button type="submit">Confirmer le paiement</button>
     </form>
-    <div v-if="coordonnees_bancaire" class="success-message">
-      <p>Votre paiement a bien été pris en compte : <strong>{{ utilisateur.prenom }} {{ utilisateur.nom }}</strong></p>
+    <div v-if="coordonneesBancaire" class="success-message">
+      <p>Votre paiement a bien été pris en compte</p>
     </div>
   </div>
 </template>
@@ -35,14 +35,14 @@ export default {
   data: () => ({
     nom: '',
     numeroCarte: '',
-    expiration: '',
+    dateExpiration: '',
     cvv: '',
   }),
   computed: {
-    ...mapState(['coordonnees_bancaire']),
+    ...mapState(['coordonneesBancaire']),
   },
   methods: {
-    ...mapActions(['enregistrementCoordonneesBancaires']),
+    ...mapActions(['validerPaiement']),
   },
   mounted() {
   }
