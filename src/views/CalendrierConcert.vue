@@ -53,7 +53,7 @@ export default {
   data() {
     return {
       days: this.getLastWeekOfOctober(),
-      hours: ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '00:00', '01:00', '02:00'],
+      hours: ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '00:00', '01:00'],
     };
   },
   computed: {
@@ -130,7 +130,7 @@ h1 {
   font-family: 'Creepster', cursive;
   letter-spacing: 2px;
   color: #ff4444;
-  text-shadow: 0 0 4px rgba(255, 0, 0, 0.2), 0 0 10px rgba(255, 0, 0, 0.2);
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.3), 0 0 20px rgba(255, 0, 0, 0.3);
   margin-bottom: 20px;
 }
 
@@ -184,7 +184,10 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid #444;
+  border: 1px solid #ff4444;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.3), 0 0 10px rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -194,16 +197,19 @@ h1 {
 }
 
 .concert-card + .concert-card {
-  margin-left: 4%; /* espace entre les deux cartes de concert */
+  margin-left: 4%;
 }
 
 .concert-img {
+  min-height: 70px;
+  min-width: 70px;
   width: 100%;
   height: 100%;
   object-fit: cover;
   filter: grayscale(60%) brightness(80%);
   margin-bottom: 5px;
   border-radius: 4px;
+  transition: filter 0.3s;
 }
 
 .calendar-cell > .concert-card:first-child {
@@ -230,7 +236,7 @@ h1 {
 
 .cell .scene {
   width: 50%;
-  padding: 5px; /* pour ajouter un peu d'espace autour de chaque carte */
+  padding: 5px;
 }
 
 .concert-card {
@@ -238,10 +244,66 @@ h1 {
 }
 
 .nomArtiste {
-  font-size: 15px;
+  font-size: 0.8em;
   font-family: 'Creepster', cursive;
-  margin: 10px 0;
+  margin: 7px 0;
   color: #f2f2f2;
   text-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
+}
+
+.concert-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.7), 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.concert-img:hover {
+  filter: grayscale(0%) brightness(100%);
+}
+
+button {
+  padding: 9px 9px;
+  font-size: 0.8em;
+  font-family: 'Creepster', cursive;
+  color: #fff;
+  background-color: #ff4444;
+  border: 2px solid #ff4444;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+button:hover {
+  background-color: #ff0000;
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 10px rgba(0, 0, 0, 0.5);
+  transform: scale(1.05);
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300%;
+  height: 300%;
+  background: radial-gradient(circle, transparent 20%, #ff0000);
+  border-radius: 50%;
+  transition: width 0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+button:hover::before {
+  width: 0;
+  height: 0;
+  top: 50%;
+  left: 50%;
+}
+
+button span {
+  position: relative;
+  z-index: 1;
 }
 </style>
