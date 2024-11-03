@@ -5,6 +5,7 @@ import CreationProfil from '../views/CreationProfil.vue';
 import ReservationConcert from '../views/ReservationConcert.vue';
 import ReservationConcertConfirmation from '../views/ReservationConcertConfirmation.vue';
 import ValidationReservation from '../views/ValidationReservation.vue';
+import CalendrierConcert from '../views/CalendrierConcert.vue';
 
 Vue.use(VueRouter);
 
@@ -13,7 +14,8 @@ const routes = [
   { path: '/profil', name: 'profil', component: CreationProfil },
   { path: '/concert', name: 'concert', component: ReservationConcert },
   { path: '/concert/:id', name: 'reservationConcert', component: ReservationConcertConfirmation },
-  { path: '/concert/:id/validate', name: 'validationConcert', component: ValidationReservation }
+  { path: '/concert/:id/validate', name: 'validationConcert', component: ValidationReservation },
+  { path: '/concert-schedule', name: 'calendrierConcert', component: CalendrierConcert }
 ];
 
 const router = new VueRouter({
