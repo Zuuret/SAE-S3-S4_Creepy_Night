@@ -30,17 +30,8 @@ let places_concerts = [
     { "id_concert": 2, "type_place": "Fosse", "nb_places": 400, "prix_place": 40 },
 ];
 
-// Table des catégories
-let categories_concerts = [
-    { "id": 1, "categorie": "Rap" },
-    { "id": 2, "categorie": "Électro" },
-    { "id": 3, "categorie": "Rock" },
-    { "id": 4, "categorie": "House" }
-];
-
-let scenes_festival = [
-    { "id": 1, "scene": "Grande Scène", "emplacement": "Entrée principale du festival" },
-    { "id": 2, "scene": "Scène de la peur", "emplacement": "Zone Nord du festival" },
+let panier_concert = [
+    {'nb_places_prises':'2', 'type_place_prises':'Fosse'}
 ];
 
 let coordonnees_bancaire = [
@@ -51,7 +42,6 @@ module.exports = {
     utilisateurs,
     concerts,
     places_concerts,
-    categories_concerts,
-    scenes_festival,
+    panier_concert,
     coordonnees_bancaire,
 }

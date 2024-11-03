@@ -1,4 +1,4 @@
-import {concerts, places_concerts, utilisateurs} from './data.js';
+import {concerts, coordonnees_bancaire, places_concerts, utilisateurs} from './data.js';
 
 function ajoutUtilisateur(data) {
     if (!data.prenom) return { error: 1, status: 404, data: 'Aucun prénom fourni' };
@@ -40,9 +40,17 @@ function getPlaceConcert(concertId) {
 
 function validerPaiement(data){
     if (!data.nom) return { error: 1, status: 404, data: 'Aucun nom de titulaire de la carte fourni' };
-    if (!data.numero_carte) return { error: 1, status: 404, data: 'Aucun numero de carte fourni' };
-    if (!data.date_expiration) return { error: 1, status: 404, data: "Aucune date d'expiration fourni" };
+    if (!data.numeroCarte) return { error: 1, status: 404, data: 'Aucun numero de carte fourni' };
+    if (!data.dateExpiration) return { error: 1, status: 404, data: "Aucune date d'expiration fourni" };
     if (!data.cvv) return { error: 1, status: 404, data: 'Aucun cvv fourni' };
+
+    let nouvelleCoordonnees = {
+        nom: coordonnees_bancaire.nom,
+        numeroCarte: coordonnees_bancaire.numero_carte,
+        dateExpiration: coordonnees_bancaire.date_expiration,
+        cvv: coordonnees_bancaire.cvv,
+    }
+    return { error: 0, status: 200, data: nouvelleCoordonnees };
 }
 
 
