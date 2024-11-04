@@ -27,9 +27,6 @@ export default {
   methods: {
     ...mapActions(['setDecision','getArtistes']),
   },
-  mounted() {
-    this.getAllUser();
-  }
 }
 
 </script>

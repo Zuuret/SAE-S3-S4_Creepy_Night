@@ -19,7 +19,7 @@ export default new Vuex.Store({
     },
     updateListeUtilisateur(state, utilisateurs){
       state.utilisateurs = utilisateurs;
-    }
+    },
   },
   actions: {
     async enregistrementUtilisateur({commit}, data){
@@ -41,7 +41,7 @@ export default new Vuex.Store({
       } else {
         console.log(response.data);
       }
-    }
+    },
   },
   modules: {
   }
