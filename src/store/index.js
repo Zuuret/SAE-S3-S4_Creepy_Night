@@ -5,11 +5,15 @@ import controller from "@/datasource/controller";
 Vue.use(Vuex)
 
 import ProfilService from '../services/profil.service'
+import ValidArtiste from '../services/validArtiste.service'
+import validArtisteService from "../services/validArtiste.service";
 
 export default new Vuex.Store({
   state: {
     utilisateur: null,
     utilisateurs: [],
+    artistes: [],
+    artiste: [],
   },
   getters: {
   },
@@ -19,6 +23,12 @@ export default new Vuex.Store({
     },
     updateListeUtilisateur(state, utilisateurs){
       state.utilisateurs = utilisateurs;
+    },
+    updateListeArtistes(state, artistes){
+      state.artistes = artistes;
+    },
+    updateArtiste(state, artiste){
+      state.artiste = artiste;
     },
   },
   actions: {
@@ -44,9 +54,18 @@ export default new Vuex.Store({
     },
     async getArtistes({ commit }) {
       console.log("Récupération des artistes");
-      let response = await ProfilService.getAllUsers();
+      let response = await validArtisteService.getArtistes();
       if (response.error === 0) {
-        commit('updateListeUtilisateur', response.data);
+        commit('updateListeArtistes', response.data);
+      } else {
+        console.log(response.data);
+      }
+    },
+    async setDecision({commit}, artiste) {
+      console.log("Récupération des artistes");
+      let response = await validArtisteService.setDecision(artiste);
+      if (response.error === 0) {
+        commit('updateArtiste', response.data);
       } else {
         console.log(response.data);
       }
