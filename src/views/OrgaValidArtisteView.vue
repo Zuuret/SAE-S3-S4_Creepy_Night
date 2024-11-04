@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="orga">
     <h1>Validation de concert</h1>
     <p>Liste des artistes</p>
       <li v-for="(artiste) in artistes" :key="artiste.id">
@@ -23,12 +23,18 @@ export default {
     ...mapState(['artistes']),
   },
   methods: {
-    ...mapActions(['setDecision', 'getArtistes']),
+    ...mapActions(['setDecision', "getArtistes"]),
   },
+  mounted() {
+    this.getArtistes();
+  }
 }
 
 </script>
 
 <style>
+.orga {
+  background-color: #F0F0F0;
+}
 
 </style>
