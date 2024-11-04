@@ -4,6 +4,9 @@ async function getArtistesFromLocalSource() {
     return LocalSource.getArtistes();
 }
 
+async function setDecisionInLocalSource(artiste) {
+    return LocalSource.setDecision(artiste);
+}
 async function getArtistes() {
     let response = null;
     try {
@@ -16,6 +19,20 @@ async function getArtistes() {
     return response
 }
 
+
+async function setDecision(artiste) {
+    let response = null;
+    try {
+        response = await setDecisionInLocalSource(artiste);
+        return response;
+    }
+    catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible de récupérer la decision concernant l'artiste"  }
+    }
+    return response
+}
+
 export default {
-    getArtistes
+    getArtistes,
+    setDecision
 }
