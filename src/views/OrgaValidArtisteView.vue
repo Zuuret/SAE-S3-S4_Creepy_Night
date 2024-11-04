@@ -23,7 +23,7 @@ export default {
     ...mapState(['artistes']),
   },
   methods: {
-    ...mapActions(['setDecision', "getArtistes"]),
+    ...mapActions(['setDecision', 'getArtistes']),
   },
   mounted() {
     this.getArtistes();
