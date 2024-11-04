@@ -3,25 +3,26 @@ let utilisateurs = [
 ];
 
 let concerts = [
-    {"id": 1, "artiste": "Traître Gims", "date": "10-31-2025", "heure": "18h00", "duree": "2", "image": require("../assets/affiche_Gims.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
-    {"id": 2, "artiste": "Daft Peur", "date": "10-31-2025", "heure": "22h00", "duree": "2", "image": require("../assets/affiche_DaftPunk.jpg"), "categorie": "Électro", "scene": "Grande Scène"},
-    {"id": 3, "artiste": "The Rolling Bones", "date": "10-31-2025", "heure": "20h30", "duree": "2", "image": require("../assets/affiche_RollingStones.jpg"), "categorie": "Rock", "scene": "Scène de la peur"},
-    {"id": 4, "artiste": "DJ Fantom", "date": "10-30-2025", "heure": "23h00", "duree": "1.5", "image": require("../assets/affiche_VladimirCauchemard.jpg"), "categorie": "Électro", "scene": "Scène de la peur"},
-    {"id": 5, "artiste": "PhoBigAli", "date": "10-27-2025", "heure": "22h00", "duree": "2", "image": require("../assets/affiche_BigAli.jpg"), "categorie": "House", "scene": "Scène de la peur"},
-    {"id": 6, "artiste": "Travis Grotesquott", "date": "10-28-2025", "heure": "19h00", "duree": "2", "image": require("../assets/affiche_TravisScott.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
-    {"id": 7, "artiste": "Kendrick Lamentable", "date": "10-31-2025", "heure": "20h00", "duree": "1.5", "image": require("../assets/affiche_KendrickLamar.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
+    {"id": 1, "artiste": "Traître Gims", "date": "10-31-2025", "heure": "18h00", "duree": "1", "image": require("../assets/affiche_Gims.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
+    {"id": 2, "artiste": "Daft Peur", "date": "10-31-2025", "heure": "22h00", "duree": "1", "image": require("../assets/affiche_DaftPunk.jpg"), "categorie": "Électro", "scene": "Grande Scène"},
+    {"id": 3, "artiste": "The Rolling Bones", "date": "10-31-2025", "heure": "20h30", "duree": "1", "image": require("../assets/affiche_RollingStones.jpg"), "categorie": "Rock", "scene": "Scène de la peur"},
+    {"id": 4, "artiste": "DJ Fantom", "date": "10-30-2025", "heure": "23h00", "duree": "1", "image": require("../assets/affiche_VladimirCauchemard.jpg"), "categorie": "Électro", "scene": "Scène de la peur"},
+    {"id": 5, "artiste": "PhoBigAli", "date": "10-27-2025", "heure": "22h00", "duree": "1", "image": require("../assets/affiche_BigAli.jpg"), "categorie": "House", "scene": "Scène de la peur"},
+    {"id": 6, "artiste": "Travis Grotesquott", "date": "10-28-2025", "heure": "19h00", "duree": "1", "image": require("../assets/affiche_TravisScott.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
+    {"id": 7, "artiste": "Kendrick Lamentable", "date": "10-31-2025", "heure": "20h00", "duree": "1", "image": require("../assets/affiche_KendrickLamar.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
     {"id": 8, "artiste": "KungSombre", "date": "10-30-2025", "heure": "21h30", "duree": "1", "image": require("../assets/affiche_Kungs.jpg"), "categorie": "House", "scene": "Scène de la peur"},
-    {"id": 9, "artiste": "CaucheMuse", "date": "10-29-2025", "heure": "22h00", "duree": "2", "image": require("../assets/affiche_Muse.jpg"), "categorie": "Rock", "scene": "Grande Scène"},
-    {"id": 10, "artiste": "David GuetTarentule", "date": "10-29-2025", "heure": "00h00", "duree": "2", "image": require("../assets/affiche_DavidGuetta.jpg"), "categorie": "Électro", "scene": "Grande Scène"},
-    {"id": 11, "artiste": "Guy2bezbAffreux", "date": "11-01-2025", "heure": "18h00", "duree": "1.5", "image": require("../assets/affiche_Guy2Bezbar.jpg"), "categorie": "Rap", "scene": "Scène de la peur"},
-    {"id": 12, "artiste": "DémoniaKeBlack", "date": "11-01-2025", "heure": "20h30", "duree": "1.5", "image": require("../assets/affiche_KeBlack.jpg"), "categorie": "Rap", "scene": "Scène de la peur"},
-    {"id": 13, "artiste": "SnooPeur Dogg", "date": "11-01-2025", "heure": "18h00", "duree": "1.5", "image": require("../assets/affiche_SnoopDogg.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
-    {"id": 14, "artiste": "DJ SnaKrainte", "date": "11-01-2025", "heure": "23h30", "duree": "2", "image": require("../assets/affiche_DJSnake.jpg"), "categorie": "Électro", "scene": "Grande Scène"},
-    {"id": 15, "artiste": "Linkin Peur", "date": "11-02-2025", "heure": "21h00", "duree": "2", "image": require("../assets/affiche_LinkinPark.jpg"), "categorie": "Rock", "scene": "Grande Scène"},
-    {"id": 16, "artiste": "DamsHorrible", "date": "11-02-2025", "heure": "18h30", "duree": "1.5", "image": require("../assets/affiche_Damso.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
+    {"id": 9, "artiste": "CaucheMuse", "date": "10-29-2025", "heure": "22h00", "duree": "1", "image": require("../assets/affiche_Muse.jpg"), "categorie": "Rock", "scene": "Grande Scène"},
+    {"id": 10, "artiste": "David GuetTarentule", "date": "10-29-2025", "heure": "00h00", "duree": "1", "image": require("../assets/affiche_DavidGuetta.jpg"), "categorie": "Électro", "scene": "Grande Scène"},
+    {"id": 11, "artiste": "Guy2bezbAffreux", "date": "11-01-2025", "heure": "18h00", "duree": "1", "image": require("../assets/affiche_Guy2Bezbar.jpg"), "categorie": "Rap", "scene": "Scène de la peur"},
+    {"id": 12, "artiste": "DémoniaKeBlack", "date": "11-01-2025", "heure": "20h30", "duree": "1", "image": require("../assets/affiche_KeBlack.jpg"), "categorie": "Rap", "scene": "Scène de la peur"},
+    {"id": 13, "artiste": "SnooPeur Dogg", "date": "11-01-2025", "heure": "18h00", "duree": "1", "image": require("../assets/affiche_SnoopDogg.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
+    {"id": 14, "artiste": "DJ SnaKrainte", "date": "11-01-2025", "heure": "23h30", "duree": "1", "image": require("../assets/affiche_DJSnake.jpg"), "categorie": "Électro", "scene": "Grande Scène"},
+    {"id": 15, "artiste": "Linkin Peur", "date": "11-02-2025", "heure": "21h00", "duree": "1", "image": require("../assets/affiche_LinkinPark.jpg"), "categorie": "Rock", "scene": "Grande Scène"},
+    {"id": 16, "artiste": "DamsHorrible", "date": "11-02-2025", "heure": "18h30", "duree": "1", "image": require("../assets/affiche_Damso.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
     {"id": 17, "artiste": "MonstKhali", "date": "11-02-2025", "heure": "18h00", "duree": "1", "image": require("../assets/affiche_Khali.jpg"), "categorie": "Rap", "scene": "Scène de la peur"},
-    {"id": 18, "artiste": "MackleMort", "date": "11-02-2025", "heure": "20h30", "duree": "1.5", "image": require("../assets/affiche_Macklemore.jpg"), "categorie": "Rap", "scene": "Scène de la peur"},
-    {"id": 19, "artiste": "Bob Sinistre", "date": "11-02-2025", "heure": "23h00", "duree": "2", "image": require("../assets/affiche_BobSinclar.jpg"), "categorie": "House", "scene": "Grande Scène"}
+    {"id": 18, "artiste": "MackleMort", "date": "11-02-2025", "heure": "20h30", "duree": "1", "image": require("../assets/affiche_Macklemore.jpg"), "categorie": "Rap", "scene": "Scène de la peur"},
+    {"id": 19, "artiste": "Bob Sinistre", "date": "11-02-2025", "heure": "23h00", "duree": "1", "image": require("../assets/affiche_BobSinclar.jpg"), "categorie": "House", "scene": "Grande Scène"},
+    {"id": 20, "artiste": "Valdemort", "date": "10-29-2025", "heure": "21h00", "duree": "1", "image": require("../assets/affiche_Vald.jpg"), "categorie": "Rape", "scene": "Scène de la peur"}
 ];
 
 let places_concerts = [
