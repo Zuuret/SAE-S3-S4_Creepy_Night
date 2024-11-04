@@ -6,7 +6,6 @@ Vue.use(Vuex)
 
 import ProfilService from '../services/profil.service'
 import ValidArtiste from '../services/validArtiste.service'
-import validArtisteService from "../services/validArtiste.service";
 
 export default new Vuex.Store({
   state: {
@@ -54,7 +53,7 @@ export default new Vuex.Store({
     },
     async getArtistes({ commit }) {
       console.log("Récupération des artistes");
-      let response = await validArtisteService.getArtistes();
+      let response = await ValidArtiste.getArtistes();
       if (response.error === 0) {
         commit('updateListeArtistes', response.data);
       } else {
@@ -63,7 +62,7 @@ export default new Vuex.Store({
     },
     async setDecision({commit}, artiste) {
       console.log("Récupération des artistes");
-      let response = await validArtisteService.setDecision(artiste);
+      let response = await ValidArtiste.setDecision(artiste);
       if (response.error === 0) {
         commit('updateArtiste', response.data);
       } else {

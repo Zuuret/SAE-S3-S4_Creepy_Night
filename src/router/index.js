@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import OrgaValidConcertView from "@/views/OrgaValidConcertView.vue";
+import OrgaValidArtisteView from "@/views/OrgaValidArtisteView.vue";
 
 Vue.use(VueRouter)
 
@@ -20,9 +20,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
-    path: "/organisateur/validconcert",
-    name: "validConcert",
-    component: OrgaValidConcertView
+    path: "/organisateur/validartiste",
+    name: "validArtiste",
+    component: OrgaValidArtisteView
   }
 ]
 

@@ -1,10 +1,10 @@
 <template>
-  <div class="container">
+  <div>
     <h1>Validation de concert</h1>
     <p>Liste des artistes</p>
-    <ul class="validation-table">
-      <li v-for="(artiste) in artistes" :key="artiste.id">
-        <div v-if="artiste.decision == 'null'">
+    <ul v-for="(artiste) in artistes" :key="artiste.id">
+      <li v-if="artiste.decision == 'null'">
+        <div>
           {{ artiste.nomGroupe }}, {{ artiste.nbMembres }}
           <button @click="setDecision(['true', artiste.id])"> Accepter </button>
           <button @click="setDecision(['false', artiste.id])"> Refuser </button>
