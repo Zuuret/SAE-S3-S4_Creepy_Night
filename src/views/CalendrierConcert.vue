@@ -10,11 +10,13 @@
         <div v-for="hour in hours" :key="hour" class="calendar-row">
           <div class="calendar-hour">{{ hour }}</div>
           <div v-for="day in days" :key="day" class="calendar-cell">
+            <div v-if="!concertsByDayAndHour[day][hour]" class="empty-cell">
+              <p class="placeholder-text">À venir</p>
+            </div>
             <div v-if="concertsByDayAndHour[day][hour]" class="concert-card">
-              <img class="concert-img" :src="concertsByDayAndHour[day][hour].image" alt="Affiche du concert" />
-              <p class="nomArtiste">{{ concertsByDayAndHour[day][hour].artiste }}</p>
               <router-link :to="`/concert/${concertsByDayAndHour[day][hour].id}`">
-                <button>Détails/Réserver</button>
+                <img class="concert-img" :src="concertsByDayAndHour[day][hour].image" alt="Affiche du concert" />
+                <p class="nomArtiste">{{ concertsByDayAndHour[day][hour].artiste }}</p>
               </router-link>
             </div>
           </div>
@@ -104,24 +106,24 @@ h1 {
 }
 
 .calendar {
+  margin-right: 35px;
+  margin-top: 65px;
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  gap: 1px;
+  grid-template-columns: 100px repeat(7, 1fr);
+  gap: 5px;
 }
 
 .calendar-header {
   display: contents;
+  font-weight: bold;
+  font-size: 20px;
 }
 
 .calendar-hour {
-  grid-column: 1;
-  text-align: center;
+  text-align: right;
   font-weight: bold;
-}
-
-.calendar-day {
-  text-align: center;
-  font-weight: bold;
+  font-size: 20px;
+  padding-right: 20px;
 }
 
 .calendar-body {
@@ -133,32 +135,19 @@ h1 {
 }
 
 .calendar-cell {
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #ddd;
-  min-height: 100px;
+  border: 2px solid black;
+  border-radius: 8px;
   position: relative;
+  max-height: 200px;
 }
 
 .concert-card {
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
   color: #fff;
-  padding: 10px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   border: 1px solid #ff4444;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(255, 0, 0, 0.3), 0 0 10px rgba(255, 255, 255, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
+  border-radius: 7px;
   box-sizing: border-box;
-  overflow: hidden;
-  position: relative;
-  z-index: 1;
 }
 
 .concert-img {
@@ -167,73 +156,48 @@ h1 {
   object-fit: cover;
   filter: grayscale(60%) brightness(80%);
   margin-bottom: 5px;
-  border-radius: 4px;
+  border-radius: 6px;
   transition: filter 0.3s;
 }
 
 .nomArtiste {
-  font-size: 1.2em;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 25px;
   font-family: 'Creepster', cursive;
-  margin: 7px 0;
-  color: #f2f2f2;
-  text-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0 0 6px rgba(255, 0, 0, 0.7);
+  pointer-events: none;
 }
 
 .concert-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 30px rgba(255, 0, 0, 0.7), 0 0 15px rgba(255, 255, 255, 0.2);
-  z-index: 10;
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.7), 0 0 15px rgb(0, 0, 0);
 }
 
 .concert-img:hover {
   filter: grayscale(0%) brightness(100%);
 }
 
-button {
-  padding: 9px;
-  font-size: 1em;
-  font-family: 'Creepster', cursive;
-  color: #fff;
-  background-color: #ff4444;
-  border: 2px solid #ff4444;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
-  position: relative;
-  overflow: hidden;
+.empty-cell {
+  background-color: #f0f0f0;
+  background-size: cover;
+  background-image: url("../assets/affiche_Vide.jpg");
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+  box-sizing: border-box;
 }
 
-button:hover {
-  background-color: #ff0000;
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 10px rgba(0, 0, 0, 0.5);
-  transform: scale(1.05);
-}
-
-button::before {
-  content: "";
+.placeholder-text {
   position: absolute;
-  top: 50%;
+  font-family: 'Creepster', cursive;
+  color: rgb(239, 255, 2);
+  text-shadow: 0 0 20px rgb(0, 0, 0);
+  font-size: 25px;
+  top: 40%;
   left: 50%;
-  width: 300%;
-  height: 300%;
-  background: radial-gradient(circle, transparent 20%, #ff0000);
-  border-radius: 50%;
-  transition: width 0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease;
   transform: translate(-50%, -50%);
-  z-index: 0;
 }
-
-button:hover::before {
-  width: 0;
-  height: 0;
-  top: 50%;
-  left: 50%;
-}
-
-button span {
-  position: relative;
-  z-index: 1;
-}
-
 </style>
