@@ -5,38 +5,17 @@
       <div class="calendar-header">
         <div class="calendar-hour"></div>
         <div v-for="day in days" :key="day" class="calendar-day">{{ day }}</div>
-        <div class="calendar-header-scene">
-          <div class="calendar-hour"></div>
-          <div v-for="day in days" :key="day" class="calendar-scene-header">
-            <span>Grande Scène</span> | <span>Scène de la peur</span>
-          </div>
-        </div>
-
       </div>
       <div class="calendar-body">
         <div v-for="hour in hours" :key="hour" class="calendar-row">
           <div class="calendar-hour">{{ hour }}</div>
           <div v-for="day in days" :key="day" class="calendar-cell">
-            <div class="cell">
-              <div class="scene">
-                <div v-if="concertsByDayAndHour[day][hour]['Grande Scène']" class="concert-card">
-                  <img class="concert-img" :src="concertsByDayAndHour[day][hour]['Grande Scène'].image" alt="Affiche du concert" />
-                  <p class="nomArtiste">{{ concertsByDayAndHour[day][hour]['Grande Scène'].artiste }}</p>
-                  <router-link :to="`/concert/${concertsByDayAndHour[day][hour]['Grande Scène'].id}`">
-                    <button>Détails/Réserver</button>
-                  </router-link>
-                </div>
-              </div>
-              <!-- Section pour la Scène de la Peur -->
-              <div class="scene" >
-                <div v-if="concertsByDayAndHour[day][hour]['Scène de la peur']" class="concert-card">
-                  <img class="concert-img" :src="concertsByDayAndHour[day][hour]['Scène de la peur'].image" alt="Affiche du concert" />
-                  <p class="nomArtiste">{{ concertsByDayAndHour[day][hour]['Scène de la peur'].artiste }}</p>
-                  <router-link :to="`/concert/${concertsByDayAndHour[day][hour]['Scène de la peur'].id}`">
-                    <button>Détails/Réserver</button>
-                  </router-link>
-                </div>
-              </div>
+            <div v-if="concertsByDayAndHour[day][hour]" class="concert-card">
+              <img class="concert-img" :src="concertsByDayAndHour[day][hour].image" alt="Affiche du concert" />
+              <p class="nomArtiste">{{ concertsByDayAndHour[day][hour].artiste }}</p>
+              <router-link :to="`/concert/${concertsByDayAndHour[day][hour].id}`">
+                <button>Détails/Réserver</button>
+              </router-link>
             </div>
           </div>
         </div>
@@ -63,32 +42,22 @@ export default {
       this.days.forEach(day => {
         concertsByDayAndHour[day] = {};
         this.hours.forEach(hour => {
-          concertsByDayAndHour[day][hour] = { 'Grande Scène': null, 'Scène de la peur': null };
+          concertsByDayAndHour[day][hour] = null;
         });
       });
       this.concerts.forEach(concert => {
-        console.log('Concert:', concert);
         const concertDate = new Date(concert.date);
         const concertDay = concertDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
         const concertHour = concert.heure.split('h')[0] + ':00';
-        console.log('Concert Day:', concertDay, 'Concert Hour:', concertHour);
         if (this.days.includes(concertDay)) {
-          concertsByDayAndHour[concertDay][concertHour][concert.scene] = concert;
+          concertsByDayAndHour[concertDay][concertHour] = concert;
         }
       });
 
-      Object.keys(concertsByDayAndHour).forEach(day => {
-        Object.keys(concertsByDayAndHour[day]).forEach(hour => {
-          const grandeScene = concertsByDayAndHour[day][hour]['Grande Scène'];
-          const scenePeur = concertsByDayAndHour[day][hour]['Scène de la peur'];
-          if (grandeScene && !scenePeur) grandeScene.single = true;
-          if (scenePeur && !grandeScene) scenePeur.single = true;
-        });
-      });
-      console.log('Concerts by day and hour:', concertsByDayAndHour);
       return concertsByDayAndHour;
     }
-  },
+  }
+,
   methods: {
     ...mapActions(['getAllConcert']),
     getLastWeekOfOctober() {
@@ -137,7 +106,6 @@ h1 {
 .calendar {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  grid-template-rows: auto;
   gap: 1px;
 }
 
@@ -166,16 +134,15 @@ h1 {
 
 .calendar-cell {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   border: 1px solid #ddd;
   min-height: 100px;
   position: relative;
 }
 
 .concert-card {
-  width: 48%;
+  width: 100%;
   height: 100%;
-  position: relative;
   background-color: rgba(0, 0, 0, 0.8);
   color: #fff;
   padding: 10px;
@@ -190,19 +157,11 @@ h1 {
   transition: transform 0.3s, box-shadow 0.3s;
   box-sizing: border-box;
   overflow: hidden;
-}
-
-.concert-card.single {
-  width: 100%;
-}
-
-.concert-card + .concert-card {
-  margin-left: 4%;
+  position: relative;
+  z-index: 1;
 }
 
 .concert-img {
-  min-height: 70px;
-  min-width: 70px;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -212,39 +171,8 @@ h1 {
   transition: filter 0.3s;
 }
 
-.calendar-cell > .concert-card:first-child {
-  border-right: 1px solid #777;
-}
-
-.calendar-header-scene {
-  display: contents;
-}
-
-.calendar-scene-header {
-  font-size: 10px;
-  grid-column: span 1;
-  text-align: center;
-  font-weight: bold;
-  color: #333;
-  padding-bottom: 5px;
-  white-space: nowrap;
-}
-
-.cell {
-  display: flex;
-}
-
-.cell .scene {
-  width: 50%;
-  padding: 5px;
-}
-
-.concert-card {
-  width: 100%;
-}
-
 .nomArtiste {
-  font-size: 0.8em;
+  font-size: 1.2em;
   font-family: 'Creepster', cursive;
   margin: 7px 0;
   color: #f2f2f2;
@@ -254,6 +182,7 @@ h1 {
 .concert-card:hover {
   transform: scale(1.05);
   box-shadow: 0 0 30px rgba(255, 0, 0, 0.7), 0 0 15px rgba(255, 255, 255, 0.2);
+  z-index: 10;
 }
 
 .concert-img:hover {
@@ -261,8 +190,8 @@ h1 {
 }
 
 button {
-  padding: 9px 9px;
-  font-size: 0.8em;
+  padding: 9px;
+  font-size: 1em;
   font-family: 'Creepster', cursive;
   color: #fff;
   background-color: #ff4444;
@@ -306,4 +235,5 @@ button span {
   position: relative;
   z-index: 1;
 }
+
 </style>
