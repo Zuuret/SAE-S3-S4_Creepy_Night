@@ -1,4 +1,4 @@
-import {concerts, coordonnees_bancaire, places_concerts, utilisateurs} from './data.js';
+import {concerts, coordonnees_bancaire, places_concerts, utilisateurs, artistes} from './data.js';
 
 function ajoutUtilisateur(data) {
     if (!data.prenom) return { error: 1, status: 404, data: 'Aucun prénom fourni' };
@@ -19,6 +19,7 @@ function ajoutUtilisateur(data) {
     utilisateurs.push(nouvelUtilisateur);
     return { error: 0, status: 200, data: nouvelUtilisateur };
 }
+
 
 function getAllUsers() {
     return {error: 0, data: utilisateurs}
@@ -55,6 +56,24 @@ function validerPaiement(data){
 
 
 
+function getArtistes() {
+    return {error: 0, data: artistes}
+}
+
+function setDecision(cjs) {
+    let decision = cjs[0];
+    let id = cjs[1];
+    if (!decision) return {error: 1, status: 404, data: "Aucune décision n'a été prise."};
+    if (!id) return {error: 1, status: 404, data: "Cette identifiant n'existe pas."};
+
+    let demande = artistes.find(e => e.id === id)
+    console.log(demande.nbMembres)
+    if (!demande) return {error: 1, status: 404, data: 'artiste non trouvé'}
+    demande.decision = decision;
+    return {error: 0, status: 200, data: demande}
+}
+
+
 export default {
     ajoutUtilisateur,
     getAllUsers,
@@ -62,4 +81,6 @@ export default {
     getConcertbyId,
     getPlaceConcert,
     validerPaiement,
+    getArtistes,
+    setDecision
 };
