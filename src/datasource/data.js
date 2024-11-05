@@ -1,6 +1,11 @@
 let utilisateurs = [
     {"id":1, "prenom":"John", "nom":"Doe", "dateNaissance":"23-09-1998", "email":"johndoe@gmail.com", "motDePasse":"mdp123"},
 ];
+let artistes = [
+    {"id":1, "nomGroupe":"PINK", "nbMembres":5, "decision":"null"},
+    {"id":2, "nomGroupe":"KISS", "nbMembres":4, "decision":"null"},
+    {"id":3, "nomGroupe":"BABY", "nbMembres":2, "decision":"null"},
+];
 
 let concerts = [
     {"id": 1, "artiste": "PhoBigAli", "date": "10-27-2025", "heure": "22h00", "duree": "1", "image": require("../assets/affiche_BigAli.jpg"), "categorie": "House", "scene": "Grande Scène"},
@@ -66,4 +71,5 @@ module.exports = {
     places_concerts,
     panier_concert,
     coordonnees_bancaire,
+    artistes
 }
