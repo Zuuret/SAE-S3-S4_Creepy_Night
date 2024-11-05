@@ -66,8 +66,8 @@ export default {
     return {
       concerts: [
         { id: 1, name: 'Traitre Gims', duration: 60 },
-        { id: 2, name: 'Les Aphtes Punk', duration: 90 },
-        { id: 3, name: 'VladimirReveur', duration: 45 },
+        { id: 2, name: 'Les Aphtes Punk', duration: 60 },
+        { id: 3, name: 'VladimirReveur', duration: 60 },
       ],
       days: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
       hours: Array.from({ length: 7 }, (_, i) => (i + 20) % 24), // De 20h à 2h
