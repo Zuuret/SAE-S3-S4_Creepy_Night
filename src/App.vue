@@ -9,6 +9,8 @@
       <router-link to="/concert-schedule">Programmation des concerts</router-link>
       <br><br>
       <router-link to="/planning">Placer concert</router-link>
+      <br><br>
+      <router-link to="/organisateur/validartiste">Valider concert</router-link>
     </nav>
     <router-view/>
   </div>

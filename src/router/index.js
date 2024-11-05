@@ -16,9 +16,6 @@ const routes = [
   { path: '/profil', name: 'profil', component: CreationProfil },
   { path: '/concert', name: 'concert', component: ReservationConcert },
   { path: '/concert/:id', name: 'reservationConcert', component: ReservationConcertConfirmation },
-  { path: '/about', name: 'about', component: () => import('../views/AboutView.vue') }, // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
   { path: '/concert/:id/validate', name: 'validationConcert', component: ValidationReservation },
   { path: '/planning', name: 'Planning', component: ConcertPlanner},
   { path: '/concert-schedule', name: 'calendrierConcert', component: CalendrierConcert },
