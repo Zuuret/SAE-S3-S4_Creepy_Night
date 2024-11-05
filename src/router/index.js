@@ -6,6 +6,7 @@ import ReservationConcert from '../views/ReservationConcert.vue';
 import ReservationConcertConfirmation from '../views/ReservationConcertConfirmation.vue';
 import ValidationReservation from '../views/ValidationReservation.vue';
 import CalendrierConcert from '../views/CalendrierConcert.vue';
+import ConcertPlanner from "@/views/ConcertPlanner.vue";
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,7 @@ const routes = [
   { path: '/concert', name: 'concert', component: ReservationConcert },
   { path: '/concert/:id', name: 'reservationConcert', component: ReservationConcertConfirmation },
   { path: '/concert/:id/validate', name: 'validationConcert', component: ValidationReservation },
+  {path: '/planning', name: 'Planning', component: ConcertPlanner},
   { path: '/concert-schedule', name: 'calendrierConcert', component: CalendrierConcert }
 ];
 

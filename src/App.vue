@@ -7,6 +7,8 @@
       <router-link to="/concert">Réserver un concert</router-link>
       <br><br>
       <router-link to="/concert-schedule">Programmation des concerts</router-link>
+      <br><br>
+      <router-link to="/planning">Placer concert</router-link>
     </nav>
     <router-view/>
   </div>
