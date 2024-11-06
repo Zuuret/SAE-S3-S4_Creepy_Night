@@ -181,9 +181,8 @@ h1 {
 }
 
 .empty-cell {
-  background-color: #f0f0f0;
+  background-color: #e66666;
   background-size: cover;
-  background-image: url("../assets/affiche_Vide.jpg");
   width: 100%;
   height: 100%;
   border-radius: 7px;
@@ -193,7 +192,7 @@ h1 {
 .placeholder-text {
   position: absolute;
   font-family: 'Creepster', cursive;
-  color: rgb(239, 255, 2);
+  color: rgb(0, 0, 0);
   text-shadow: 0 0 20px rgb(0, 0, 0);
   font-size: 25px;
   top: 40%;
