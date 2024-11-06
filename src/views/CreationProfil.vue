@@ -1,151 +1,231 @@
 <template>
-  <div class="inscriptionProfil">
-    <h1>Inscription</h1>
-    <form @submit.prevent="enregistrementUtilisateur({ prenom, nom, dateNaissance, email, emailConfirmation, motDePasse })">
-      <div class="form-group">
-        <label for="prenom">Prénom :</label>
-        <input type="text" v-model="prenom" id="prenom" placeholder="Entrez votre prénom" required>
-      </div>
-      <div class="form-group">
-        <label for="nom">Nom :</label>
-        <input type="text" v-model="nom" id="nom" placeholder="Entrez votre nom" required>
-      </div>
-      <div class="form-group">
-        <label for="dateNaissance">Date de naissance :</label>
-        <input type="date" v-model="dateNaissance" id="dateNaissance" required>
-      </div>
-      <div class="form-group">
-        <label for="email">Email :</label>
-        <input type="email" v-model="email" id="email" placeholder="Entrez votre email" required>
-      </div>
-      <div class="form-group">
-        <label for="emailConfirmation">Confirmation de l'email :</label>
-        <input type="email" v-model="emailConfirmation" id="emailConfirmation" placeholder="Confirmez votre email" required>
-      </div>
-      <div class="form-group">
-        <label for="motDePasse">Mot de passe :</label>
-        <input type="password" v-model="motDePasse" id="motDePasse" placeholder="Entrez votre mot de passe" required>
-      </div>
-      <button type="submit" class="btn-submit">Confirmer l'inscription</button>
-    </form>
+  <div class="form-container">
 
-    <div v-if="utilisateur" class="success-message">
-      <p>Nouvel utilisateur ajouté : <strong>{{ utilisateur.prenom }} {{ utilisateur.nom }}</strong></p>
-    </div>
+    <div class="form-box">
 
-    <div v-if="utilisateurs.length > 0" class="user-list">
-      <h2>Liste des utilisateurs :</h2>
-      <ul>
-        <li v-for="user in utilisateurs" :key="user.id">
-          {{ user.prenom }} {{ user.nom }} - {{ user.email }}
-        </li>
-      </ul>
+      <h2>Inscription</h2>
+
+      <div class="user-type-tabs">
+        <span @click="setUserType('Utilisateur')" :class="{ active: userType === 'Utilisateur' }">Utilisateur</span>
+        <span @click="setUserType('Organisateur')" :class="{ active: userType === 'Organisateur' }">Organisateur</span>
+        <span @click="setUserType('Prestataire')" :class="{ active: userType === 'Prestataire' }">Prestataire</span>
+      </div>
+
+      <form @submit.prevent="submitForm" class="form-content">
+        <!-- User fields (arranged in a column) -->
+        <div v-if="userType === 'Utilisateur'">
+          <div class="form-group">
+            <label>Prénom :</label>
+            <input type="text" placeholder="Entrez votre prénom" v-model="form.prenom" />
+          </div>
+
+          <div class="form-group">
+            <label>Nom :</label>
+            <input type="text" placeholder="Entrez votre nom" v-model="form.nom" />
+          </div>
+
+          <div class="form-group">
+            <label>Date de naissance :</label>
+            <input type="text" placeholder="jj/mm/aaaa" v-model="form.dateNaissance" />
+          </div>
+
+          <div class="form-group">
+            <label>Email :</label>
+            <input type="email" placeholder="Entrez votre email" v-model="form.email" />
+          </div>
+
+          <div class="form-group">
+            <label>Confirmation de l'email :</label>
+            <input type="email" placeholder="Confirmez votre email" v-model="form.confirmEmail" />
+          </div>
+
+          <div class="form-group">
+            <label>Mot de passe :</label>
+            <input type="password" placeholder="Entrez votre mot de passe" v-model="form.password" />
+          </div>
+        </div>
+
+        <!-- Organizer fields -->
+        <div v-if="userType === 'Organisateur'">
+          <div class="form-group">
+            <label>Nom de l'organisateur :</label>
+            <input type="text" placeholder="Entrez le nom de l'organisateur" v-model="form.organizerName" />
+          </div>
+
+          <div class="form-group">
+            <label>Email :</label>
+            <input type="email" placeholder="Entrez votre email" v-model="form.email" />
+          </div>
+
+          <div class="form-group">
+            <label>Confirmation de l'email :</label>
+            <input type="email" placeholder="Confirmez votre email" v-model="form.confirmEmail" />
+          </div>
+
+          <div class="form-group">
+            <label>Mot de passe :</label>
+            <input type="password" placeholder="Entrez votre mot de passe" v-model="form.password" />
+          </div>
+
+          <div class="form-group">
+            <label>Numéro de téléphone :</label>
+            <input type="text" placeholder="Entrez votre numéro de téléphone" v-model="form.phoneNumber" />
+          </div>
+        </div>
+
+        <!-- Provider fields -->
+        <div v-if="userType === 'Prestataire'">
+          <div class="form-group">
+            <label>Nom de la société :</label>
+            <input type="text" placeholder="Entrez le nom de la société" v-model="form.companyName" />
+          </div>
+
+          <div class="form-group">
+            <label>Email :</label>
+            <input type="email" placeholder="Entrez votre email" v-model="form.email" />
+          </div>
+
+          <div class="form-group">
+            <label>Confirmation de l'email :</label>
+            <input type="email" placeholder="Confirmez votre email" v-model="form.confirmEmail" />
+          </div>
+
+          <div class="form-group">
+            <label>Mot de passe :</label>
+            <input type="password" placeholder="Entrez votre mot de passe" v-model="form.password" />
+          </div>
+
+          <div class="form-group">
+            <label>Adresse de la société :</label>
+            <input type="text" placeholder="Entrez l'adresse de la société" v-model="form.companyAddress" />
+          </div>
+        </div>
+
+        <button type="submit" class="submit-button">Confirmer l'inscription</button>
+      </form>
+
+      <div v-if="message" class="message">{{ message }}</div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-
 export default {
-  name: 'CreationProfil.vue',
-  data: () => ({
-    prenom: '',
-    nom: '',
-    dateNaissance: '',
-    email: '',
-    emailConfirmation: '',
-    motDePasse: '',
-  }),
-  computed: {
-    ...mapState(['utilisateur', 'utilisateurs']),
+  data() {
+    return {
+      userType: 'Utilisateur',  // Default user type
+      form: {
+        prenom: 'matheo',
+        nom: 'rose',
+        dateNaissance: '17/03/2005',
+        email: 'matheo@gmail.com',
+        confirmEmail: 'matheo@gmail.com',
+        password: 'a',
+        organizerName: '',
+        phoneNumber: '',
+        companyName: '',
+        companyAddress: ''
+      },
+      message: ''
+    };
   },
   methods: {
-    ...mapActions(['enregistrementUtilisateur','getAllUser']),
-  },
-  mounted() {
-    this.getAllUser();
+    setUserType(type) {
+      this.userType = type;
+      this.form = {
+        prenom: '',
+        nom: '',
+        dateNaissance: '',
+        email: '',
+        confirmEmail: '',
+        password: '',
+        organizerName: '',
+        phoneNumber: '',
+        companyName: '',
+        companyAddress: ''
+      };
+    },
+    submitForm() {
+      this.message = `Nouvel utilisateur ajouté : ${this.form.prenom} ${this.form.nom}`;
+    }
   }
-}
+};
 </script>
 
 <style scoped>
-.inscriptionProfil {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
-}
 
-h1 {
-  text-align: center;
-  color: #333;
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .form-group {
   margin-bottom: 15px;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
+.user-type-tabs {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
   font-weight: bold;
+  margin-bottom: 15px;
 }
 
-input {
-  width: 100%;
-  padding: 10px;
+.user-type-tabs span {
+  cursor: pointer;
+}
+
+.user-type-tabs .active {
+  color: blue;
+  text-decoration: underline;
+}
+
+.form-box {
+  width: 350px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-content label {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.form-content input {
+  padding: 8px;
+  margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-input:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-.btn-submit {
-  width: 100%;
+.submit-button {
+  margin-top: 15px;
   padding: 10px;
   background-color: #007bff;
   color: white;
+  font-weight: bold;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 16px;
 }
 
-.btn-submit:hover {
+.submit-button:hover {
   background-color: #0056b3;
 }
 
-.success-message {
-  margin-top: 20px;
-  padding: 10px;
-  border: 1px solid #4caf50;
-  background-color: #dff0d8;
-  color: #3c763d;
-  border-radius: 4px;
-}
-
-.user-list {
-  margin-top: 20px;
-}
-
-.user-list h2 {
-  color: #333;
-}
-
-.user-list ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.user-list li {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
+.message {
+  color: green;
+  font-weight: bold;
+  margin-top: 15px;
+  text-align: center;
 }
 </style>
