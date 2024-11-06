@@ -26,7 +26,7 @@
 
           <div class="form-group">
             <label>Date de naissance :</label>
-            <input type="text" placeholder="jj/mm/aaaa" v-model="form.dateNaissance" />
+            <input type="date" placeholder="jj/mm/aaaa" v-model="form.dateNaissance" />
           </div>
 
           <div class="form-group">
@@ -146,7 +146,11 @@ export default {
       };
     },
     submitForm() {
-      this.message = `Nouvel utilisateur ajouté : ${this.form.prenom} ${this.form.nom}`;
+      if ( this.form.email != this.form.confirmEmail){
+        this.message = "L'email n'est pas identique à l'email de confirmation"
+      } else {
+        this.message = `Nouvel utilisateur ajouté : ${this.form.prenom} ${this.form.nom}`;
+      }
     }
   }
 };
