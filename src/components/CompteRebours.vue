@@ -1,7 +1,12 @@
 <template>
-  <div>
+  <div class="compte-rebours">
     <h1>Temps restant avant le début</h1>
-    <p>{{ days }} jours, {{ hours }} heures, {{ minutes }} minutes, {{ seconds }} secondes</p>
+    <p class="time-display">
+      <span class="time-unit">{{ formatTime(days) }}</span> :
+      <span class="time-unit">{{ formatTime(hours) }}</span> :
+      <span class="time-unit">{{ formatTime(minutes) }}</span> :
+      <span class="time-unit">{{ formatTime(seconds) }}</span>
+    </p>
   </div>
 </template>
 
@@ -45,7 +50,10 @@ export default {
     setTargetDate() {
       this.targetDate = new Date(this.currentYear, 9, 25).getTime();
       this.updateCompteRebours();
-    }
+    },
+    formatTime(unit) {
+      return String(unit).padStart(2, '0');
+    },
   },
   mounted() {
     this.setTargetDate();
@@ -58,11 +66,37 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  color: #42b983;
-  font-size: 24px;
+.compte-rebours {
+  text-align: center;
+  font-family: 'Creepster', cursive;
+  padding: 5px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  max-width: 800px;
 }
-p {
-  font-size: 20px;
+
+h1 {
+  font-size: 2.5rem;
+  color: #000000;
+  margin-bottom: 20px;
+}
+
+.time-display {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.time-unit {
+  background-color: #1a1a1a;
+  padding: 10px 20px;
+  border-radius: 8px;
+  min-width: 70px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
 }
 </style>
