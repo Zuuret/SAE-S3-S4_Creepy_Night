@@ -31,13 +31,13 @@ const routes = [
   },
   {
     path: '/expo/:id',
-    name: 'reservationConcert',
-    component: ReservationConcertConfirmation
+    name: 'reservationExpo',
+    component: ReservationExpoConfirmation
   },
   {
     path: '/expo/:id/validate',
-    name: 'validationConcert',
-    component: ValidationReservation
+    name: 'validationExpo',
+    component: ReservationExpoValidation
   },
 ]
 
