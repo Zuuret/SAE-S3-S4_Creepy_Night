@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h1>Liste des concerts</h1>
-    <div v-for="concert in concerts" :key="concert.id" class="concert-card">
-      <img class="concert-img" :src="concert.image" alt="Affiche du concert" />
-      <p>{{ concert.artiste }}</p>
-      <p>{{ concert.date }} à {{ concert.heure }}</p>
-      <router-link :to="`/concert/${concert.id}`">
+    <h1>Liste des costumes</h1>
+    <div v-for="expo in expos" :key="expo.id" class="concert-card">
+      <img class="concert-img" :src="expo.image" alt="Affiche du concert" />
+      <p>{{ expo.artiste }}</p>
+      <p>{{ expo.date }} à {{ expo.heure }}</p>
+      <router-link :to="`/expo/${expo.id}`">
         <button>Réserver ma place</button>
       </router-link>
     </div>
@@ -21,13 +21,13 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(['concerts'])
+    ...mapState(['expos'])
   },
   methods: {
-    ...mapActions(['getAllConcert']),
+    ...mapActions(['getAllExpo']),
   },
   mounted() {
-    this.getAllConcert();
+    this.getAllExpo();
   }
 };
 </script>

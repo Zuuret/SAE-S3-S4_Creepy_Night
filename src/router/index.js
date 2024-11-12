@@ -2,6 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import OrgaValidArtisteView from "@/views/OrgaValidArtisteView.vue";
+import ReservationExpo from "@/views/ReservationExpo.vue";
+import ReservationExpoConfirmation from "@/views/ReservationExpoConfirmation.vue";
+import ReservationExpoValidation from "@/views/ReservationExpoValidation.vue";
 
 Vue.use(VueRouter)
 
