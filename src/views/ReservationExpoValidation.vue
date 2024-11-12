@@ -31,7 +31,7 @@
 import { mapActions, mapState } from 'vuex';
 
 export default {
-  name: 'ValidationReservation',
+  name: 'ReservationExpoValidation',
   data: () => ({
     nom: '',
     numeroCarte: '',

@@ -35,7 +35,7 @@
 import { mapActions, mapState } from 'vuex';
 
 export default {
-  name: 'ReservationConcertConfirmation',
+  name: 'ReservationExpoConfirmation',
   data() {
     return {
       quantiteParType: {},
