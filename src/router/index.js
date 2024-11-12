@@ -8,6 +8,7 @@ import ValidationReservation from '../views/ValidationReservation.vue';
 import CalendrierConcert from '../views/CalendrierConcert.vue';
 import ConcertPlanner from "@/views/ConcertPlanner.vue";
 import OrgaValidArtisteView from "@/views/OrgaValidArtisteView.vue";
+import Esteban from "@/views/Esteban.vue"
 
 Vue.use(VueRouter);
 
@@ -19,7 +20,8 @@ const routes = [
   { path: '/concert/:id/validate', name: 'validationConcert', component: ValidationReservation },
   { path: '/planning', name: 'Planning', component: ConcertPlanner},
   { path: '/concert-schedule', name: 'calendrierConcert', component: CalendrierConcert },
-  { path: "/organisateur/validartiste", name: "validArtiste", component: OrgaValidArtisteView }
+  { path: "/organisateur/validartiste", name: "validArtiste", component: OrgaValidArtisteView},
+  {path: "/estebanGay", name: "Esteban", component: Esteban}
 ];
 
 const router = new VueRouter({

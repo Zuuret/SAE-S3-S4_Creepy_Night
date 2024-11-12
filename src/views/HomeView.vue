@@ -17,6 +17,7 @@
     <router-link to="/concert-schedule" @click.native="closeMenu">Programmation des concerts</router-link>
     <router-link to="/planning" @click.native="closeMenu">Placer concert</router-link>
     <router-link to="/organisateur/validartiste" @click.native="closeMenu">Valider concert</router-link>
+    <router-link to="/estebanGay" @click.native="closeMenu">Esteban = GAY</router-link>
   </div>
 
   <div class="accueil">
