@@ -23,7 +23,22 @@ const routes = [
     path: "/organisateur/validartiste",
     name: "validArtiste",
     component: OrgaValidArtisteView
-  }
+  },
+  {
+    path: '/expo',
+    name: 'concert',
+    component: ReservationExpo
+  },
+  {
+    path: '/expo/:id',
+    name: 'reservationConcert',
+    component: ReservationConcertConfirmation
+  },
+  {
+    path: '/expo/:id/validate',
+    name: 'validationConcert',
+    component: ValidationReservation
+  },
 ]
 
 const router = new VueRouter({
