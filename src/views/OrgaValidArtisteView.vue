@@ -2,20 +2,22 @@
   <div class="orga">
     <h1>Validation de concert</h1>
     <p>Liste des artistes</p>
-    <div v-for="(artiste) in artistes" :key="artiste.id">
-      <li v-if="artiste.decision == 'null'">
-        <div>
-          <div>{{ artiste.nomGroupe }}</div>
-          <div>{{ artiste.nbMembres }}</div>
+    <div>
+      <!--p v-if="artistes == []">Aucune proposition d'artistep <p-->
+      <div v-for="(artiste) in artistes" :key="artiste.id">
+        <li v-if="artiste.decision == 'null'">
           <div>
-            <div class="button-box">
-              <button @click="setDecision(['true', artiste.id])">Accepter</button>
-              <button @click="setDecision(['false', artiste.id])">Refuser</button>
+            <div>{{ artiste.nomGroupe }}</div>
+            <div>{{ artiste.nbMembres }}</div>
+            <div>
+              <div class="button-box">
+                <button @click="setDecision(['true', artiste.id])">Accepter</button>
+                <button @click="setDecision(['false', artiste.id])">Refuser</button>
+              </div>
             </div>
           </div>
-        </div>
-      </li>
-      <!-- p v-if="artiste.decision != 'null'">Aucune proposition d'artistep <p -->
+        </li>
+      </div>
     </div>
   </div>
 </template>
