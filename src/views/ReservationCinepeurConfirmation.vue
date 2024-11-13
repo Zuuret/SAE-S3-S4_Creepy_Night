@@ -1,17 +1,17 @@
 <template>
   <div>
-    <h1>Détails du concert</h1>
-    <div v-if="concert">
-      <img :src="concert.image" alt="Affiche du concert" />
-      <h2>{{ concert.artiste }} - {{ concert.categorie }}</h2>
-      <p>Date : {{ concert.date }}</p>
-      <p>Heure : {{ concert.heure }}</p>
-      <p>{{ concert.scene }}</p>
+    <h1>Détails du film</h1>
+    <div v-if="film">
+      <img :src="film.image" alt="Affiche du film" />
+      <h2>{{ film.artiste }} - {{ film.categorie }}</h2>
+      <p>Date : {{ film.date }}</p>
+      <p>Heure : {{ film.heure }}</p>
+      <p>{{ film.scene }}</p>
     </div>
 
-    <div v-if="places_concert.length > 0">
+    <div v-if="places_film.length > 0">
       <h3>Places disponibles :</h3>
-      <div v-for="place in places_concert" :key="place.id_concert + '-' + place.type_place">
+      <div v-for="place in places_film" :key="place.id_film + '-' + place.type_place">
         <p>Type de place : {{ place.type_place }} - Nombre de places : {{ place.nb_places }} - Prix : {{ place.prix_place }} €</p>
         <label :for="`selection_quantite_${place.type_place}`">Quantité :</label>
         <select v-model.number="quantiteParType[place.type_place]">
@@ -20,12 +20,12 @@
       </div>
     </div>
     <div v-else>
-      <p>Aucune place disponible pour ce concert.</p>
+      <p>Aucune place disponible pour ce film.</p>
     </div>
     <div>
       <p>Total : {{ prixTotal }}€</p>
     </div>
-    <router-link v-if="concert" :to="`/concert/${concert.id}/validate`">
+    <router-link v-if="film" :to="`/film/${film.id}/validate`">
       <button>Obtenir ma place</button>
     </router-link>
   </div>
@@ -42,10 +42,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(['concert', 'places_concert']),
+    ...mapState(['film', 'places_film']),
     prixTotal() {
       let total = 0;
-      for (const place of this.places_concert) {
+      for (const place of this.places_film) {
         const quantite = this.quantiteParType[place.type_place] || 0;
         total += place.prix_place * quantite;
       }
@@ -53,14 +53,14 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['getConcertbyId', 'getPlacesConcerts']),
+    ...mapActions(['getFilmbyId', 'getPlacesFilms']),
   },
   mounted() {
-    const concertId = parseInt(this.$route.params.id);
-    console.log("ID du concert : ", concertId);
-    this.getConcertbyId(concertId);
-    this.getPlacesConcerts(concertId).then(() => {
-      this.places_concert.forEach(place => {
+    const filmId = parseInt(this.$route.params.id);
+    console.log("ID du film : ", filmId);
+    this.getFilmbyId(filmId);
+    this.getPlacesFilms(filmId).then(() => {
+      this.places_film.forEach(place => {
         this.$set(this.quantiteParType, place.type_place, 0);
       });
     });
@@ -88,13 +88,13 @@ h1 {
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
   margin-bottom: 20px;
 }
-/* Titre du concert */
+/* Titre du film */
 h2 {
   color: #ffaaaa;
   font-size: 2rem;
   margin-bottom: 10px;
 }
-/* Image du concert */
+/* Image du film */
 img {
   width: 100%;
   border: 2px solid #ff4444;
@@ -102,7 +102,7 @@ img {
   margin-bottom: 15px;
   box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
 }
-/* Détails du concert */
+/* Détails du film */
 p {
   font-size: 1.2rem;
   color: #eeeeee;
