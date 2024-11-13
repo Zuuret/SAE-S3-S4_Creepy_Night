@@ -1,5 +1,9 @@
 <template>
   <div class="page-with-background">
+    <div class="navbar">
+      <NavBar />
+    </div>
+
     <h1 class="titre">TICKETS ET ABONNEMENTS</h1>
 
     <!-- Carrousel -->
@@ -30,8 +34,11 @@
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
+
 export default {
   name: "PageWithBackground",
+  components: {NavBar},
   data() {
     return {
       tickets: [
