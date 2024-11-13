@@ -1,5 +1,8 @@
 <template>
   <div class="form-container">
+    <div class="navbar">
+      <NavBar />
+    </div>
 
     <div class="form-box">
 
@@ -110,7 +113,10 @@
 </template>
 
 <script>
+import NavBar from "@/components/NavBar.vue";
+
 export default {
+  components: {NavBar},
   data() {
     return {
       userType: 'Utilisateur',  // Default user type

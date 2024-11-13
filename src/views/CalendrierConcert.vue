@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="navbar">
+      <NavBar />
+    </div>
     <h1>Calendrier des concerts</h1>
     <div class="calendar">
       <div class="calendar-header">
@@ -28,9 +31,11 @@
 
 <script>
 import {mapActions, mapState} from 'vuex';
+import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: 'CalendrierConcert.vue',
+  components: {NavBar},
   data() {
     return {
       days: this.getLastWeekOfOctober(),
