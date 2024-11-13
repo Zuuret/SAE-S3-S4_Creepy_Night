@@ -1,30 +1,30 @@
 <template>
-  <body>
-  <nav v-if="!isMenuOpen" class="navbar">
-    <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo">
-    <div class="selection-language">
-      <SelecteurLanguage />
+  <div>
+    <nav v-if="!isMenuOpen" class="navbar">
+      <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo">
+      <div class="selection-language">
+        <SelecteurLanguage />
+      </div>
+      <img src="@/assets/menu-burger.png" alt="menu-burger" class="menu-burger" @click="toggleMenu">
+    </nav>
+
+    <div v-if="isMenuOpen" class="overlay" @click="toggleMenu"></div>
+
+    <div v-if="isMenuOpen" class="burger-menu">
+      <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo-burger">
+      <router-link to="/profil" @click="closeMenu">Créer profil</router-link>
+      <router-link to="/concert-schedule" @click="closeMenu">Programmation des concerts</router-link>
+      <router-link to="/planning" @click="closeMenu">Placer concert</router-link>
+      <router-link to="/organisateur/validartiste" @click="closeMenu">Valider concert</router-link>
     </div>
-    <img src="@/assets/menu-burger.png" alt="menu-burger" class="menu-burger" @click="toggleMenu">
-  </nav>
 
-  <div v-if="isMenuOpen" class="overlay" @click="toggleMenu"></div>
-
-  <div v-if="isMenuOpen" class="burger-menu">
-    <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo-burger">
-    <router-link to="/profil" @click.native="closeMenu">Créer profil</router-link>
-    <router-link to="/concert-schedule" @click.native="closeMenu">Programmation des concerts</router-link>
-    <router-link to="/planning" @click.native="closeMenu">Placer concert</router-link>
-    <router-link to="/organisateur/validartiste" @click.native="closeMenu">Valider concert</router-link>
-  </div>
-
-  <div class="accueil">
-    <img src="@/assets/fond_Accueil.png" alt="CreepyNight_accueil" class="accueil_image">
-    <div class="compte-rebours">
-      <CompteRebours />
+    <div class="accueil">
+      <img src="@/assets/fond_Accueil.png" alt="CreepyNight_accueil" class="accueil_image">
+      <div class="compte-rebours">
+        <CompteRebours />
+      </div>
     </div>
   </div>
-  </body>
 </template>
 
 <script>
@@ -47,16 +47,24 @@ export default {
       if (this.isMenuOpen) {
         document.body.style.overflow = 'hidden';
       } else {
-        document.body.style.overflow = '';
+        document.body.style.overflow = 'auto';
       }
     },
     closeMenu() {
       this.isMenuOpen = false;
-      document.body.style.overflow = ''; // Réactiver le défilement
+      document.body.style.overflow = 'auto';
     },
   },
+  beforeRouteLeave(to, from, next) {
+    if (this.isMenuOpen) {
+      this.closeMenu();
+    }
+    next();
+  }
 };
 </script>
+
+
 
 <style scoped>
 * {
@@ -141,12 +149,8 @@ export default {
   z-index: 150;
 }
 
-.accueil {
-  margin-top: 70px;
-  width: 100vw;
-}
-
 .accueil .accueil_image {
+  margin-top: 6.5%;
   width: 100%;
   height: 100%;
   object-fit: cover;
