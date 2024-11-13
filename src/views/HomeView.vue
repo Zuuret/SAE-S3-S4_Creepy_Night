@@ -1,31 +1,30 @@
 <template>
-  <body>
-  <nav v-if="!isMenuOpen" class="navbar">
-    <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo">
-    <div class="selection-language">
-      <SelecteurLanguage />
+  <div>
+    <nav v-if="!isMenuOpen" class="navbar">
+      <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo">
+      <div class="selection-language">
+        <SelecteurLanguage />
+      </div>
+      <img src="@/assets/menu-burger.png" alt="menu-burger" class="menu-burger" @click="toggleMenu">
+    </nav>
+
+    <div v-if="isMenuOpen" class="overlay" @click="toggleMenu"></div>
+
+    <div v-if="isMenuOpen" class="burger-menu">
+      <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo-burger">
+      <router-link to="/profil" @click="closeMenu">Créer profil</router-link>
+      <router-link to="/concert-schedule" @click="closeMenu">Programmation des concerts</router-link>
+      <router-link to="/planning" @click="closeMenu">Placer concert</router-link>
+      <router-link to="/organisateur/validartiste" @click="closeMenu">Valider concert</router-link>
     </div>
-    <img src="@/assets/menu-burger.png" alt="menu-burger" class="menu-burger" @click="toggleMenu">
-  </nav>
 
-  <div v-if="isMenuOpen" class="overlay" @click="toggleMenu"></div>
-
-  <div v-if="isMenuOpen" class="burger-menu">
-    <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo-burger">
-    <router-link to="/profil" @click.native="closeMenu">Créer profil</router-link>
-    <router-link to="/concert" @click.native="closeMenu">Réserver un concert</router-link>
-    <router-link to="/concert-schedule" @click.native="closeMenu">Programmation des concerts</router-link>
-    <router-link to="/planning" @click.native="closeMenu">Placer concert</router-link>
-    <router-link to="/organisateur/validartiste" @click.native="closeMenu">Valider concert</router-link>
-  </div>
-
-  <div class="accueil">
-    <img src="@/assets/fond_Accueil.png" alt="CreepyNight_accueil" class="accueil_image">
-    <div class="compte-rebours">
-      <CompteRebours />
+    <div class="accueil">
+      <img src="@/assets/fond_Accueil.png" alt="CreepyNight_accueil" class="accueil_image">
+      <div class="compte-rebours">
+        <CompteRebours />
+      </div>
     </div>
   </div>
-  </body>
 </template>
 
 <script>
@@ -48,28 +47,30 @@ export default {
       if (this.isMenuOpen) {
         document.body.style.overflow = 'hidden';
       } else {
-        document.body.style.overflow = '';
+        document.body.style.overflow = 'auto';
       }
     },
     closeMenu() {
       this.isMenuOpen = false;
-      document.body.style.overflow = ''; // Réactiver le défilement
+      document.body.style.overflow = 'auto';
     },
   },
+  beforeRouteLeave(to, from, next) {
+    if (this.isMenuOpen) {
+      this.closeMenu();
+    }
+    next();
+  }
 };
 </script>
+
+
 
 <style scoped>
 * {
   margin: 0;
   padding: 0;
   text-decoration: none;
-}
-
-body, html {
-  overflow-x: hidden;
-  width: 100%;
-  height: 100%;
 }
 
 .navbar {
@@ -104,7 +105,6 @@ body, html {
   right: 5%;
 }
 
-/* Augmenter le z-index pour le menu burger */
 .burger-menu {
   position: fixed;
   background-color: black;
@@ -116,7 +116,7 @@ body, html {
   flex-direction: column;
   top: 0;
   left: 0;
-  z-index: 200; /* Plus élevé que l'overlay */
+  z-index: 200;
 }
 
 .burger-menu .logo-burger {
@@ -139,7 +139,6 @@ body, html {
   transition: 0.3s;
 }
 
-/* Overlay avec un z-index moins élevé */
 .overlay {
   position: fixed;
   top: 0;
@@ -147,16 +146,11 @@ body, html {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.7);
-  z-index: 150; /* Moins élevé que le burger-menu */
-}
-
-.accueil {
-  margin-top: 70px;
-  width: 100vw;
-  overflow: hidden;
+  z-index: 150;
 }
 
 .accueil .accueil_image {
+  margin-top: 6.5%;
   width: 100%;
   height: 100%;
   object-fit: cover;

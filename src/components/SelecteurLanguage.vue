@@ -52,7 +52,7 @@ export default {
   display: inline-block;
   cursor: pointer;
   color: white;
-  font-size: 50px;
+  font-size: 35px;
   font-family: "Agency FB";
   font-weight: bold;
 }
@@ -61,16 +61,16 @@ export default {
   align-items: center;
 }
 .selected-option img {
-  width: 45px;
-  height: 45px;
+  width: 30px;
+  height: 30px;
   margin-right: 5px;
 }
 .chevron {
   width: 0;
   height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-top: 30px solid #ff0000; /* Couleur de la flèche */
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 20px solid #ff0000; /* Couleur de la flèche */
   display: inline-block;
   margin-left: 5px;
 }
