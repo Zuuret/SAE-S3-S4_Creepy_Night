@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Liste des costumes</h1>
+    <h1>Liste des expositions</h1>
     <div v-for="expo in expos" :key="expo.id" class="concert-card">
       <img class="concert-img" :src="expo.image" alt="Affiche du concert" />
       <p>{{ expo.artiste }}</p>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Liste des costumes</h1>
+    <h1>Liste des films</h1>
     <div v-for="film in films" :key="film.id" class="concert-card">
       <img class="concert-img" :src="film.image" alt="Affiche du concert" />
       <p>{{ film.artiste }}</p>
