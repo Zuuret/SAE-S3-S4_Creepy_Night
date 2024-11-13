@@ -16,7 +16,7 @@
 import {mapActions, mapState} from 'vuex';
 
 export default {
-  name: 'ReservationExpo',
+  name: 'Expo',
   data() {
     return {};
   },

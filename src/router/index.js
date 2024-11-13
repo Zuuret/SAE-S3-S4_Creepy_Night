@@ -2,9 +2,10 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import OrgaValidArtisteView from "@/views/OrgaValidArtisteView.vue";
-import ReservationExpo from "@/views/ReservationExpo.vue";
-import ReservationExpoConfirmation from "@/views/ReservationExpoConfirmation.vue";
-import ReservationExpoValidation from "@/views/ReservationExpoValidation.vue";
+import Expo from "@/views/Expo.vue";
+import ReservationCinepeurConfirmation from "@/views/ReservationCinepeurConfirmation.vue";
+import ReservationCinepeurValidation from "@/views/ReservationCinepeurValidation.vue";
+import ReservationCinepeur from "@/views/ReservationCinepeur.vue";
 
 Vue.use(VueRouter)
 
@@ -15,32 +16,29 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  },
-  {
     path: "/organisateur/validartiste",
     name: "validArtiste",
     component: OrgaValidArtisteView
   },
   {
     path: '/expo',
-    name: 'concert',
-    component: ReservationExpo
+    name: 'expo',
+    component: Expo
   },
   {
-    path: '/expo/:id',
-    name: 'reservationExpo',
-    component: ReservationExpoConfirmation
+    path: '/cinepeur',
+    name: 'cinepeur',
+    component: ReservationCinepeur
   },
   {
-    path: '/expo/:id/validate',
-    name: 'validationExpo',
-    component: ReservationExpoValidation
+    path: '/cinepeur/:id',
+    name: 'reservationCinepeur',
+    component: ReservationCinepeurConfirmation
+  },
+  {
+    path: '/cinepeur/:id/validate',
+    name: 'validationCinepeur',
+    component: ReservationCinepeurValidation
   },
 ]
 
