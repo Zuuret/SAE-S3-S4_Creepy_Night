@@ -21,31 +21,6 @@ export default {
   components: {
     CompteRebours,
     NavBar,
-  },
-  data() {
-    return {
-      isMenuOpen: false,
-    };
-  },
-  methods: {
-    toggleMenu() {
-      this.isMenuOpen = !this.isMenuOpen;
-      if (this.isMenuOpen) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = 'auto';
-      }
-    },
-    closeMenu() {
-      this.isMenuOpen = false;
-      document.body.style.overflow = 'auto';
-    },
-  },
-  beforeRouteLeave(to, from, next) {
-    if (this.isMenuOpen) {
-      this.closeMenu();
-    }
-    next();
   }
 };
 </script>

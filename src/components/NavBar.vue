@@ -47,12 +47,6 @@ export default {
       document.body.style.overflow = 'auto';
     },
   },
-  beforeRouteLeave(to, from, next) {
-    if (this.isMenuOpen) {
-      this.closeMenu();
-    }
-    next();
-  }
 };
 </script>
 
