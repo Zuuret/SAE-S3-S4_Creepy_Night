@@ -151,11 +151,11 @@ export default {
 }
 
 .carousel-button.left {
-  left: 25%;
+  left: 20%;
 }
 
 .carousel-button.right {
-  right: 25%;
+  right: 20%;
 }
 
 .buy-button {
