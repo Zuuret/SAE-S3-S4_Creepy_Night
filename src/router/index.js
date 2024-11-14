@@ -8,6 +8,7 @@ import CalendrierConcert from '../views/CalendrierConcert.vue';
 import ConcertPlanner from "@/views/ConcertPlanner.vue";
 import OrgaValidArtisteView from "@/views/OrgaValidArtisteView.vue";
 import BilletAchat from "@/views/BilletAchat.vue";
+import SecuFlippe from "@/views/SecuFlippe.vue";
 
 Vue.use(VueRouter);
 
@@ -20,6 +21,7 @@ const routes = [
   { path: '/concert-schedule', name: 'calendrierConcert', component: CalendrierConcert },
   { path: "/organisateur/validartiste", name: "validArtiste", component: OrgaValidArtisteView},
   { path: '/billet', name: 'billet', component: BilletAchat },
+  { path: '/secuflippe', name: 'secuFlippe', component: SecuFlippe}
 ];
 
 const router = new VueRouter({
