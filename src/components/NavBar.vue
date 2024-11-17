@@ -17,7 +17,8 @@
       <router-link to="/planning" @click="closeMenu">Placer concert</router-link>
       <router-link to="/organisateur/validartiste" @click="closeMenu">Valider concert</router-link>
       <router-link to="/billet" @click="closeMenu">Tickets et abonnements</router-link>
-      <router-link to="/secuflippe" @click="closeMenu">Secuflippe</router-link>
+      <router-link to="/secuflippe" @click="closeMenu">SecuFlippe</router-link>
+      <router-link to="/cauchemarathon" @click="closeMenu">CaucheMarathon</router-link>
     </div>
   </div>
 </template>
