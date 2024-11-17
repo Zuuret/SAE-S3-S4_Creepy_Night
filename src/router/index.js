@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import OrgaValidArtisteView from "@/views/OrgaValidArtisteView.vue";
 import Expo from "@/views/Expo.vue";
+import ReservationExpo from "@/views/ReservationExpo.vue";
 import ReservationCinepeurConfirmation from "@/views/ReservationCinepeurConfirmation.vue";
 import ReservationCinepeurValidation from "@/views/ReservationCinepeurValidation.vue";
 import ReservationCinepeur from "@/views/ReservationCinepeur.vue";
@@ -24,6 +25,11 @@ const routes = [
     path: '/expo',
     name: 'expo',
     component: Expo
+  },
+  {
+    path: '/expo/:id',
+    name: 'reservationExpo',
+    component: ReservationExpo
   },
   {
     path: '/cinepeur',

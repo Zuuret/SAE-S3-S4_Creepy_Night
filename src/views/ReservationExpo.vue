@@ -35,14 +35,14 @@
 import { mapActions, mapState } from 'vuex';
 
 export default {
-  name: 'ReservationCinepeurConfirmation',
+  name: 'ReservationExpo',
   data() {
     return {
       quantiteParType: {},
     };
   },
   computed: {
-    ...mapState(['film', 'places_film']),
+    ...mapState(['expo', 'oeuvres_expo']),
     prixTotal() {
       let total = 0;
       for (const place of this.places_film) {
