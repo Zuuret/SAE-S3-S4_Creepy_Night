@@ -1,16 +1,19 @@
 <template>
 
   <!-- Faire des emplacements réservés ou non -> Si non reservé, est cliquable. -->
-
   <div>
     <h1>Liste des expositions</h1>
-    <div v-for="oeuvre in oeuvres" :key="oeuvre.id" class="concert-card">
-      <img class="concert-img" :src="oeuvre.image" alt="Affiche du concert" />
-      <p>{{ oeuvre.createur }}</p>
-      <p>{{ oeuvre.date }} à {{ oeuvre.description }}</p>
-      <router-link :to="`/expo/${expo.id}`">
-        <button>Réserver ma place</button>
-      </router-link>
+    <div class="expo-dispo">
+      <div v-for="oeuvre in oeuvres" :key="oeuvre.id" class="expo-card">
+        <img class="expo-img" :src="oeuvre.image" alt="Affiche du expo" />
+        <p>{{ oeuvre.createur }}</p>
+        <p>{{ oeuvre.date }} à {{ oeuvre.description }}</p>
+        <div v-if="oeuvre.createur == 'null'">
+          <router-link :to="`/expo/${oeuvre.id}`">
+            <button>Réserver ma place</button>
+          </router-link>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -48,9 +51,17 @@ h1 {
   margin-bottom: 20px;
 }
 
-/* Carte de concert */
-.concert-card {
-  max-width: 400px;
+/* Disposition des cartes */
+.expo-dispo {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: 20px;
+  grid: auto auto auto auto;
+}
+
+/* Carte de l'expo */
+.expo-card {
+  max-width: 200px;
   margin: 20px auto;
   padding: 20px;
   background-color: #222;
@@ -61,25 +72,25 @@ h1 {
 }
 
 /* Effet de survol pour un aspect dynamique */
-.concert-card:hover {
+.expo-card:hover {
   transform: scale(1.05);
   box-shadow: 0 0 30px rgba(255, 0, 0, 0.7), 0 0 15px rgba(255, 255, 255, 0.2);
 }
 
-/* Image du concert */
-.concert-img {
-  width: 100%;
+/* Image du expo */
+.expo-img {
+  width: 90%;
   border-radius: 4px;
   filter: grayscale(80%) brightness(80%);
   transition: filter 0.3s;
 }
 
-.concert-img:hover {
+.expo-img:hover {
   filter: grayscale(0%) brightness(100%);
 }
 
 /* Texte de la carte */
-.concert-card p {
+.expo-card p {
   font-size: 1.2em;
   font-family: 'Creepster', cursive;
   margin: 10px 0;
@@ -88,14 +99,14 @@ h1 {
 }
 
 /* Prix en rouge sang */
-.concert-card p:last-of-type {
+.expo-card p:last-of-type {
   font-family: 'Creepster', cursive;
   color: #ff4444;
   font-weight: bold;
   font-size: 1.4em;
 }
 
-.concert-card:hover {
+.expo-card:hover {
   animation: glow 1.5s infinite alternate;
 }
 

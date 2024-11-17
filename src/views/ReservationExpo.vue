@@ -1,146 +1,121 @@
 <template>
   <div>
-    <h1>Détails du film</h1>
-    <div v-if="film">
-      <img :src="film.image" alt="Affiche du film" />
-      <h2>{{ film.artiste }} - {{ film.categorie }}</h2>
-      <p>Date : {{ film.date }}</p>
-      <p>Heure : {{ film.heure }}</p>
-      <p>{{ film.scene }}</p>
-    </div>
-
-    <div v-if="places_film.length > 0">
-      <h3>Places disponibles :</h3>
-      <div v-for="place in places_film" :key="place.id_film + '-' + place.type_place">
-        <p>Type de place : {{ place.type_place }} - Nombre de places : {{ place.nb_places }} - Prix : {{ place.prix_place }} €</p>
-        <label :for="`selection_quantite_${place.type_place}`">Quantité :</label>
-        <select v-model.number="quantiteParType[place.type_place]">
-          <option v-for="n in 7" :key="n" :value="n-1">{{ n-1 }}</option>
-        </select>
+    <form @submit.prevent="validerPaiement({nom, numeroCarte, dateExpiration, cvv})">
+      <h3>Coordonnées bancaires</h3>
+      <div>
+        <label for="nom">Nom sur la carte :</label>
+        <input id="nom" name="nom" type="text" v-model="nom" required />
       </div>
+      <div>
+        <label for="numeroCarte">Numéro de carte :</label>
+        <input id="numeroCarte" name="numeroCarte" type="text" v-model="numeroCarte" required />
+      </div>
+      <div>
+        <label for="dateExpiration">Date d'expiration :</label>
+        <input id="dateExpiration" name="dateExpiration" type="month" v-model="dateExpiration" required />
+      </div>
+      <div>
+        <label for="cvv">CVV :</label>
+        <input id="cvv" name="cvv" type="text" v-model="cvv" required />
+      </div>
+      <button type="submit">Confirmer le paiement</button>
+    </form>
+    <div v-if="coordonneesBancaire" class="success-message">
+      <p>Votre paiement a bien été pris en compte</p>
     </div>
-    <div v-else>
-      <p>Aucune place disponible pour ce film.</p>
-    </div>
-    <div>
-      <p>Total : {{ prixTotal }}€</p>
-    </div>
-    <router-link v-if="film" :to="`/film/${film.id}/validate`">
-      <button>Obtenir ma place</button>
-    </router-link>
   </div>
 </template>
+
 
 <script>
 import { mapActions, mapState } from 'vuex';
 
 export default {
-  name: 'ReservationExpo',
-  data() {
-    return {
-      quantiteParType: {},
-    };
-  },
+  name: 'ReservationCinepeurValidation',
+  data: () => ({
+    nom: '',
+    numeroCarte: '',
+    dateExpiration: '',
+    cvv: '',
+  }),
   computed: {
-    ...mapState(['expo', 'oeuvres_expo']),
-    prixTotal() {
-      let total = 0;
-      for (const place of this.places_film) {
-        const quantite = this.quantiteParType[place.type_place] || 0;
-        total += place.prix_place * quantite;
-      }
-      return total;
-    },
+    ...mapState(['coordonneesBancaire']),
   },
   methods: {
-    ...mapActions(['getFilmbyId', 'getPlacesFilms']),
+    ...mapActions(['validerPaiement']),
   },
   mounted() {
-    const filmId = parseInt(this.$route.params.id);
-    console.log("ID du film : ", filmId);
-    this.getFilmbyId(filmId);
-    this.getPlacesFilms(filmId).then(() => {
-      this.places_film.forEach(place => {
-        this.$set(this.quantiteParType, place.type_place, 0);
-      });
-    });
-  },
+  }
 }
 </script>
 
 <style scoped>
-/* Style principal du conteneur */
-div {
-  color: #ff4444;
-  background-color: #111;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 600px;
+/* Style global pour le formulaire */
+form {
+  max-width: 400px;
   margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+h3 {
   text-align: center;
-  box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+  color: #333;
 }
-/* Titre principal */
-h1 {
-  color: #ff0000;
-  font-size: 2.5rem;
-  font-family: 'Creepster', cursive;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
-  margin-bottom: 20px;
-}
-/* Titre du film */
-h2 {
-  color: #ffaaaa;
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
-/* Image du film */
-img {
-  width: 100%;
-  border: 2px solid #ff4444;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-}
-/* Détails du film */
-p {
-  font-size: 1.2rem;
-  color: #eeeeee;
-  margin: 5px 0;
-}
-/* Select pour la quantité */
-select {
-  background-color: #222;
-  color: #ffaaaa;
-  padding: 8px;
-  font-size: 1.1rem;
-  border: 1px solid #ff4444;
-  border-radius: 4px;
-  margin-top: 10px;
-}
-select:focus {
-  outline: none;
-  box-shadow: 0 0 5px #ff4444;
-}
-/* Effet de bouton */
-button {
-  background-color: #ff0000;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1.2rem;
+
+label {
+  display: block;
   font-weight: bold;
+  margin-bottom: 5px;
+  color: #555;
+}
+
+input[type="text"],
+input[type="month"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 16px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+  transition: background-color 0.3s;
 }
+
 button:hover {
-  background-color: #cc0000;
-  transform: scale(1.05);
+  background-color: #45a049;
 }
-button:active {
-  background-color: #990000;
-  transform: scale(0.95);
+
+/* Message de confirmation */
+.success-message {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #e6ffed;
+  border: 1px solid #a2dfab;
+  border-radius: 4px;
+  color: #2f8a5f;
+  text-align: center;
+}
+
+.success-message p {
+  margin: 0;
+}
+
+.success-message strong {
+  font-weight: bold;
 }
 </style>

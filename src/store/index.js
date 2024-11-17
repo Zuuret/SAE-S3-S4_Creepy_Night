@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 import ValidArtiste from '../services/validArtiste.service'
+import ExpoOeuvres from '../services/expoOeuvres.services'
 
 export default new Vuex.Store({
   state: {
@@ -20,8 +21,8 @@ export default new Vuex.Store({
     updateArtiste(state, artiste){
       state.artiste = artiste;
     },
-    updateListeOeuvres(state, artistes){
-      state.artistes = artistes;
+    updateListeOeuvres(state, oeuvres){
+      state.oeuvres = oeuvres;
     },
   },
   actions: {
@@ -44,8 +45,8 @@ export default new Vuex.Store({
       }
     },
     async getOeuvres({ commit }) {
-      console.log("Récupération des artistes");
-      let response = await ValidArtiste.getOeuvres();
+      console.log("Récupération des oeuvres");
+      let response = await ExpoOeuvres.getOeuvres();
       if (response.error === 0) {
         commit('updateListeOeuvres', response.data);
       } else {
