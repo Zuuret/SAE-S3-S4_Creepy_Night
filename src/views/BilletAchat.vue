@@ -23,7 +23,9 @@
           <ul>
             <li v-for="(feature, i) in ticket.features" :key="i">{{ feature }}</li>
           </ul>
-          <button class="buy-button">Acheter</button>
+          <button class="buy-button">
+            <router-link to="`//${concertsByDayAndHour[day][hour].id}`">Acheter</router-link>
+          </button>
         </div>
       </div>
 

@@ -18,6 +18,8 @@
       <router-link to="/organisateur/validartiste" @click="closeMenu">Valider concert</router-link>
       <router-link to="/billet" @click="closeMenu">Tickets et abonnements</router-link>
       <router-link to="/secuflippe" @click="closeMenu">Secuflippe</router-link>
+      <router-link to="/baltrouille" @click="closeMenu">Bal'trouille</router-link>
+      <router-link to="/carihorreur" @click="closeMenu">CariHorreur</router-link>
     </div>
   </div>
 </template>
