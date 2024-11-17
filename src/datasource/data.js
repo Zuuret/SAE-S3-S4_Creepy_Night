@@ -63,7 +63,7 @@ let panier_concert = [
 
 let coordonnees_bancaire = [
     {'nom': 'Doe', "numero_carte": "123456789ABCDEFG", 'date_expiration': "11/31", 'cvv': '484'}
-]
+];
 
 let expo_oeuvres = [
     {"id": 1, "createur": "Jeremy Colin", "date": "20-11-2023", "description": "null", "image": require("../assets/logo.png")},
@@ -79,7 +79,7 @@ let expo_oeuvres = [
     {"id": 11, "createur": "null", "date":  "null", "description": "null", "image": "null"},
     {"id": 12, "createur": "Jeremy Colin", "date": "20-11-2023", "description": "null", "image": require("../assets/logo.png")},
     {"id": 13, "createur": "null", "date":  "null", "description": "null", "image": "null"},
-    {"id": 14, "createur": "Jeremy Colin", "date": "20-11-2023", "description": "null", "image": require("../assets/logo.png")
+    {"id": 14, "createur": "Jeremy Colin", "date": "20-11-2023", "description": "null", "image": require("../assets/logo.png")},
     {"id": 15, "createur": "null", "date":  "null", "description": "null", "image": "null"},
     {"id": 16, "createur": "Jeremy Colin", "date": "20-11-2023", "description": "null", "image": require("../assets/logo.png")},
     {"id": 17, "createur": "null", "date":  "null", "description": "null", "image": "null"},
@@ -90,7 +90,7 @@ let expo_oeuvres = [
     {"id": 22, "createur": "Jeremy Colin", "date": "20-11-2023", "description": "null", "image": require("../assets/logo.png")},
     {"id": 23, "createur": "null", "date":  "null", "description": "null", "image": "null"},
     {"id": 24, "createur": "Jeremy Colin", "date": "20-11-2023", "description": "null", "image": require("../assets/logo.png")},
-]
+];
 
 
 module.exports = {
