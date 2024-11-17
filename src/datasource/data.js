@@ -70,7 +70,6 @@ let expo_oeuvres = [
 
 module.exports = {
     utilisateurs,
-    concerts,
     places_concerts,
     panier_concert,
     coordonnees_bancaire,
