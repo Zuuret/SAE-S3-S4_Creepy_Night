@@ -19,7 +19,7 @@
 import {mapActions, mapState} from 'vuex';
 
 export default {
-  name: 'Expo',
+  name: 'PageExpo',
   data() {
     return {};
   },
