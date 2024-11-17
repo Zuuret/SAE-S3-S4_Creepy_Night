@@ -1,6 +1,9 @@
 <template>
   <div>
-    <NavBar />
+    <div class="navbar">
+      <NavBar />
+    </div>
+
     <h1 class="titre">Cauche'Marathon</h1>
 
     <div class="container">
