@@ -1,4 +1,7 @@
 <template>
+
+  <!-- Faire des emplacements réservés ou non -> Si non reservé, est cliquable. -->
+
   <div>
     <h1>Liste des expositions</h1>
     <div v-for="expo in expos" :key="expo.id" class="concert-card">
