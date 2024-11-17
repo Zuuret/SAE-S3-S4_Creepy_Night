@@ -9,18 +9,18 @@
         <!-- User fields (arranged in a column) -->
         <div>
           <div class="form-group">
-            <label>Prénom :</label>
-            <input type="text" placeholder="Entrez votre prénom" v-model="form.prenom" />
+            <label>Nom/Prénom :</label>
+            <input type="text" placeholder="Entrez votre nom et prénom" v-model="form.createur" />
           </div>
 
           <div class="form-group">
-            <label>Nom :</label>
-            <input type="text" placeholder="Entrez votre nom" v-model="form.nom" />
+            <label>Date de création :</label>
+            <input type="date" placeholder="jj/mm/aaaa" v-model="form.dateCrea" />
           </div>
 
           <div class="form-group">
-            <label>Date de naissance :</label>
-            <input type="date" placeholder="jj/mm/aaaa" v-model="form.dateNaissance" />
+            <label>Description :</label>
+            <input type="text" placeholder="Insérez une description" v-model="form.description" />
           </div>
 
           <div class="form-group">
@@ -32,14 +32,15 @@
             <label>Confirmation de l'email :</label>
             <input type="email" placeholder="Confirmez votre email" v-model="form.confirmEmail" />
           </div>
-
+          <!--
           <div class="form-group">
-            <label>Mot de passe :</label>
-            <input type="password" placeholder="Entrez votre mot de passe" v-model="form.password" />
+            <label>Image :</label>
+            <input type="text" v-model="form.image" />
           </div>
+          -->
         </div>
 
-        <button type="submit" class="submit-button" @click="setOeuvre([createur,date,description,image])">Confirmer l'inscription</button>
+        <button type="submit" class="submit-button" @click="submitForm">Confirmer l'inscription</button>
       </form>
 
       <div v-if="message" class="message">{{ message }}</div>
@@ -48,15 +49,16 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 
 export default {
   data() {
     return {
       form: {
         createur: '',
-        date: '',
+        dateCrea: '',
         description: '',
-        image: '',
+        image: 'null',
         email: '',
         confirmEmail: '',
       },
@@ -64,11 +66,17 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['setOeuvre']),
     submitForm() {
-      if ( this.form.email != this.form.confirmEmail){
-        this.message = "L'email n'est pas identique à l'email de confirmation"
+      if ((this.form.createur != '') && (this.form.email != '') && (this.form.dateCrea != '') && (this.form.description != '') && (this.form.image != 'null')) {
+        if (this.form.email != this.form.confirmEmail) {
+          this.message = "L'email n'est pas identique à l'email de confirmation";
+        } else {
+          this.message = "Demande d'emplacement envoyée.";
+          this.setOeuvre([this.form.createur,this.form.email,this.form.dateCrea,this.form.description,this.form.image]);
+        }
       } else {
-        this.message = `Nouvel utilisateur ajouté : ${this.form.prenom} ${this.form.nom}`;
+        this.message = "Une information est manquante.";
       }
     }
   }

@@ -3,6 +3,11 @@ import LocalSource from "@/datasource/controller";
 async function getOeuvresFromLocalSource() {
     return LocalSource.getOeuvres();
 }
+
+async function setOeuvreInLocalSource(oeuvre) {
+    return LocalSource.setDecision(oeuvre);
+}
+
 async function getOeuvres() {
     let response = null;
     try {
@@ -14,6 +19,20 @@ async function getOeuvres() {
     }
     return response
 }
+
+async function setOeuvre(oeuvre) {
+    let response = null;
+    try {
+        response = await setOeuvreInLocalSource(oeuvre);
+        return response;
+    }
+    catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible de récupérer la decision concernant l'artiste"  }
+    }
+    return response
+}
+
 export default {
     getOeuvres,
+    setOeuvre,
 }

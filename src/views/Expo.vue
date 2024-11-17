@@ -7,7 +7,7 @@
       <div v-for="oeuvre in oeuvres" :key="oeuvre.id" class="expo-card">
         <img class="expo-img" :src="oeuvre.image" alt="Affiche du expo" />
         <p>{{ oeuvre.createur }}</p>
-        <p>{{ oeuvre.date }} à {{ oeuvre.description }}</p>
+        <p>{{ oeuvre.dateCrea }} à {{ oeuvre.description }}</p>
         <div v-if="oeuvre.createur == 'null'">
           <router-link :to="`/expo/${oeuvre.id}`">
             <button>Réserver ma place</button>

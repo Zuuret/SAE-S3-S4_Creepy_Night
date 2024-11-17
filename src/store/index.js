@@ -11,6 +11,7 @@ export default new Vuex.Store({
     artistes: [],
     artiste: [],
     oeuvres: [],
+    oeuvre: [],
   },
   getters: {
   },
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     updateListeOeuvres(state, oeuvres){
       state.oeuvres = oeuvres;
     },
+    updateOeuvre(state, oeuvre){
+      state.oeuvre = oeuvre;
+    },
   },
   actions: {
     async getArtistes({ commit }) {
@@ -36,7 +40,7 @@ export default new Vuex.Store({
       }
     },
     async setDecision({commit}, artiste) {
-      console.log("Récupération des artistes");
+      console.log("Decision donnée");
       let response = await ValidArtiste.setDecision(artiste);
       if (response.error === 0) {
         commit('updateArtiste', response.data);
@@ -49,6 +53,15 @@ export default new Vuex.Store({
       let response = await ExpoOeuvres.getOeuvres();
       if (response.error === 0) {
         commit('updateListeOeuvres', response.data);
+      } else {
+        console.log(response.data);
+      }
+    },
+    async setOeuvre({commit}, oeuvre) {
+      console.log("Demande d'emplacement envoyée");
+      let response = await ExpoOeuvres.setOeuvre(oeuvre);
+      if (response.error === 0) {
+        commit('updateOeuvre', response.data);
       } else {
         console.log(response.data);
       }
