@@ -19,6 +19,8 @@
       <router-link to="/billet" @click="closeMenu">Tickets et abonnements</router-link>
       <router-link to="/secuflippe" @click="closeMenu">SecuFlippe</router-link>
       <router-link to="/cauchemarathon" @click="closeMenu">CaucheMarathon</router-link>
+      <router-link to="/baltrouille" @click="closeMenu">Bal'trouille</router-link>
+      <router-link to="/carihorreur" @click="closeMenu">CariHorreur</router-link>
     </div>
   </div>
 </template>
