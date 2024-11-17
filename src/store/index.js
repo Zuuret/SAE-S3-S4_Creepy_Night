@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     artistes: [],
     artiste: [],
+    oeuvres: [],
   },
   getters: {
   },
@@ -18,6 +19,9 @@ export default new Vuex.Store({
     },
     updateArtiste(state, artiste){
       state.artiste = artiste;
+    },
+    updateListeOeuvres(state, artistes){
+      state.artistes = artistes;
     },
   },
   actions: {
@@ -41,9 +45,9 @@ export default new Vuex.Store({
     },
     async getOeuvres({ commit }) {
       console.log("Récupération des artistes");
-      let response = await ValidArtiste.getArtistes();
+      let response = await ValidArtiste.getOeuvres();
       if (response.error === 0) {
-        commit('updateListeArtistes', response.data);
+        commit('updateListeOeuvres', response.data);
       } else {
         console.log(response.data);
       }

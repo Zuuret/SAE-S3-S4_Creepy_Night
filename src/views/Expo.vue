@@ -4,10 +4,10 @@
 
   <div>
     <h1>Liste des expositions</h1>
-    <div v-for="expo in expos" :key="expo.id" class="concert-card">
-      <img class="concert-img" :src="expo.image" alt="Affiche du concert" />
-      <p>{{ expo.artiste }}</p>
-      <p>{{ expo.date }} à {{ expo.heure }}</p>
+    <div v-for="oeuvre in oeuvres" :key="oeuvre.id" class="concert-card">
+      <img class="concert-img" :src="oeuvre.image" alt="Affiche du concert" />
+      <p>{{ oeuvre.createur }}</p>
+      <p>{{ oeuvre.date }} à {{ oeuvre.description }}</p>
       <router-link :to="`/expo/${expo.id}`">
         <button>Réserver ma place</button>
       </router-link>
@@ -24,13 +24,13 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(['expos'])
+    ...mapState(['oeuvres'])
   },
   methods: {
-    ...mapActions(['getAllExpo']),
+    ...mapActions(['getOeuvres']),
   },
   mounted() {
-    this.getAllExpo();
+    this.getOeuvres();
   }
 };
 </script>
