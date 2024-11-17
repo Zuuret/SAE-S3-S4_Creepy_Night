@@ -1,121 +1,161 @@
 <template>
-  <div>
-    <form @submit.prevent="validerPaiement({nom, numeroCarte, dateExpiration, cvv})">
-      <h3>Coordonnées bancaires</h3>
-      <div>
-        <label for="nom">Nom sur la carte :</label>
-        <input id="nom" name="nom" type="text" v-model="nom" required />
-      </div>
-      <div>
-        <label for="numeroCarte">Numéro de carte :</label>
-        <input id="numeroCarte" name="numeroCarte" type="text" v-model="numeroCarte" required />
-      </div>
-      <div>
-        <label for="dateExpiration">Date d'expiration :</label>
-        <input id="dateExpiration" name="dateExpiration" type="month" v-model="dateExpiration" required />
-      </div>
-      <div>
-        <label for="cvv">CVV :</label>
-        <input id="cvv" name="cvv" type="text" v-model="cvv" required />
-      </div>
-      <button type="submit">Confirmer le paiement</button>
-    </form>
-    <div v-if="coordonneesBancaire" class="success-message">
-      <p>Votre paiement a bien été pris en compte</p>
+  <div class="form-container">
+
+    <div class="form-box">
+
+      <h2>Inscription</h2>
+
+      <form @submit.prevent="submitForm" class="form-content">
+        <!-- User fields (arranged in a column) -->
+        <div>
+          <div class="form-group">
+            <label>Prénom :</label>
+            <input type="text" placeholder="Entrez votre prénom" v-model="form.prenom" />
+          </div>
+
+          <div class="form-group">
+            <label>Nom :</label>
+            <input type="text" placeholder="Entrez votre nom" v-model="form.nom" />
+          </div>
+
+          <div class="form-group">
+            <label>Date de naissance :</label>
+            <input type="date" placeholder="jj/mm/aaaa" v-model="form.dateNaissance" />
+          </div>
+
+          <div class="form-group">
+            <label>Email :</label>
+            <input type="email" placeholder="Entrez votre email" v-model="form.email" />
+          </div>
+
+          <div class="form-group">
+            <label>Confirmation de l'email :</label>
+            <input type="email" placeholder="Confirmez votre email" v-model="form.confirmEmail" />
+          </div>
+
+          <div class="form-group">
+            <label>Mot de passe :</label>
+            <input type="password" placeholder="Entrez votre mot de passe" v-model="form.password" />
+          </div>
+        </div>
+
+        <button type="submit" class="submit-button" @click="setOeuvre([createur,date,description,image])">Confirmer l'inscription</button>
+      </form>
+
+      <div v-if="message" class="message">{{ message }}</div>
     </div>
   </div>
 </template>
 
-
 <script>
-import { mapActions, mapState } from 'vuex';
 
 export default {
-  name: 'ReservationCinepeurValidation',
-  data: () => ({
-    nom: '',
-    numeroCarte: '',
-    dateExpiration: '',
-    cvv: '',
-  }),
-  computed: {
-    ...mapState(['coordonneesBancaire']),
+  data() {
+    return {
+      form: {
+        createur: '',
+        date: '',
+        description: '',
+        image: '',
+        email: '',
+        confirmEmail: '',
+      },
+      message: ''
+    };
   },
   methods: {
-    ...mapActions(['validerPaiement']),
-  },
-  mounted() {
+    submitForm() {
+      if ( this.form.email != this.form.confirmEmail){
+        this.message = "L'email n'est pas identique à l'email de confirmation"
+      } else {
+        this.message = `Nouvel utilisateur ajouté : ${this.form.prenom} ${this.form.nom}`;
+      }
+    }
   }
-}
+};
 </script>
 
 <style scoped>
-/* Style global pour le formulaire */
-form {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
-}
 
-h3 {
-  text-align: center;
-  color: #333;
-}
-
-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: #555;
-}
-
-input[type="text"],
-input[type="month"] {
+input {
   width: 100%;
   padding: 10px;
-  margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: 16px;
 }
 
-button {
-  width: 100%;
-  padding: 12px;
-  background-color: #4CAF50;
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.user-type-tabs {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.user-type-tabs span {
+  cursor: pointer;
+}
+
+.user-type-tabs .active {
+  color: blue;
+  text-decoration: underline;
+}
+
+.form-box {
+  width: 350px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-content label {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.form-content input {
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.submit-button {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #007bff;
   color: white;
+  font-weight: bold;
   border: none;
   border-radius: 4px;
-  font-size: 16px;
-  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s;
 }
 
-button:hover {
-  background-color: #45a049;
+.submit-button:hover {
+  background-color: #0056b3;
 }
 
-/* Message de confirmation */
-.success-message {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #e6ffed;
-  border: 1px solid #a2dfab;
-  border-radius: 4px;
-  color: #2f8a5f;
-  text-align: center;
-}
-
-.success-message p {
-  margin: 0;
-}
-
-.success-message strong {
+.message {
+  color: green;
   font-weight: bold;
+  margin-top: 15px;
+  text-align: center;
 }
 </style>
