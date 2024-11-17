@@ -99,5 +99,6 @@ module.exports = {
     places_concerts,
     panier_concert,
     coordonnees_bancaire,
-    artistes
+    artistes,
+    expo_oeuvres,
 }

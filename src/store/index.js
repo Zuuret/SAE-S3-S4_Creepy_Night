@@ -39,6 +39,15 @@ export default new Vuex.Store({
         console.log(response.data);
       }
     },
+    async getOeuvres({ commit }) {
+      console.log("Récupération des artistes");
+      let response = await ValidArtiste.getArtistes();
+      if (response.error === 0) {
+        commit('updateListeArtistes', response.data);
+      } else {
+        console.log(response.data);
+      }
+    },
   },
   modules: {
   }
