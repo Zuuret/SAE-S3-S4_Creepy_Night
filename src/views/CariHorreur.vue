@@ -3,38 +3,55 @@
     <div class="navbars">
       <NavBar />
     </div>
+    <h1>CariHorreur</h1>
     <div class="container">
       <div class="formulaire-signalement">
-        <h1>Effectuer un signalement</h1>
-        <!-- Formulaire de signalement -->
-        <label for="incidents-selection">Sélectionnez le type d'incident :</label>
-        <select v-model="incidentType" id="incidents-selection" required>
-          <option value="perdu">Objet perdu</option>
-          <option value="suspect">Comportement suspect</option>
-          <option value="medical">Urgence médicale</option>
-          <option value="inapproprié">Comportement inapproprié</option>
-          <option value="technique">Problème technique</option>
-          <option value="environnemental">Danger environnemental</option>
+        <h1>Réserver un carré VIP</h1>
+
+        <!-- Sélecteur de date -->
+        <label for="date-selection">Sélectionnez une date</label>
+        <input
+            type="date"
+            v-model="dateCarre"
+            id="date-selection"
+            :min="'2025-10-27'"
+            :max="'2025-11-02'"
+            required
+        />
+
+        <label for="carre-selection">Sélectionnez la formule</label>
+        <select v-model="carreType" id="carre-selection" required>
+          <option value="vip2">Carré VIP + 2 bouteilles</option>
+          <option value="vip3">Carré VIP + 3 bouteilles</option>
+          <option value="ultravip2">Carré ultra VIP + 2 bouteilles</option>
+          <option value="ultravip3">Carré ultra VIP + 3 bouteilles</option>
         </select>
 
-        <label for="description-incident">Description de l'incident</label>
-        <textarea v-model="incidentDescription" id="description-incident" name="description-incident" required></textarea>
-
-        <label for="zone-selection">Sélectionnez la zone de l'incident :</label>
-        <select v-model="incidentZone" id="zone-selection" required>
-          <option value="foreffroi">La Foreffroi</option>
-          <option value="cauchemanoir">Le Cauchemanoir</option>
-          <option value="bosquepouvante">Le Bosquépouvante</option>
-          <option value="maudile">La Maudîle</option>
-          <option value="malaispace">La Malaispace</option>
+        <label for="nbpersonne-selection">Sélectionnez le nombre de personnes</label>
+        <select v-model="nbPersonne" id="nbpersonne-selection" required>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
         </select>
 
-        <button @click="submitReport">Valider votre signalement</button>
+        <button @click="addReservation">Valider la réservation</button>
       </div>
 
-      <div class="carte-container" @click="addMarker">
-        <img src="@/assets/carte_creepy_night.png" alt="Carte du festival" class="carte-festival" />
-        <div v-if="markerPosition" class="marker" :style="{ top: markerPosition.top + 'px', left: markerPosition.left + 'px' }"></div>
+      <!-- Liste des réservations -->
+      <div class="reservation-list">
+        <h2>Mes Réservations</h2>
+        <ul>
+          <li v-for="(reservation, index) in reservations" :key="index">
+            <div>
+              <span>{{ reservation.date }} - {{ reservation.type }} ({{ reservation.personnes }} personnes)</span>
+              <button @click="confirmCancel(index)">Annuler</button>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -45,37 +62,50 @@
 import NavBar from "@/components/NavBar.vue";
 
 export default {
-  name: "SecuFlippe",
+  name: "CariHorreur",
   components: {
     NavBar,
   },
   data() {
     return {
-      incidentType: "",
-      incidentDescription: "",
-      incidentZone: "",
-      markerPosition: null,
+      dateCarre: "",
+      carreType: "",
+      nbPersonne: "",
+      reservations: [], // Liste des réservations
     };
   },
   methods: {
-    submitReport() {
-      if (this.incidentType && this.incidentDescription && this.markerPosition) {
-        console.log("Type d'incident :", this.incidentType);
-        console.log("Description :", this.incidentDescription);
-        console.log("Position du marqueur :", this.markerPosition);
-        alert("Votre signalement a été soumis !");
+    // Ajouter une réservation
+    addReservation() {
+      if (this.dateCarre && this.carreType && this.nbPersonne) {
+        // Ajouter la réservation dans la liste
+        this.reservations.push({
+          date: this.dateCarre,
+          type: this.carreType,
+          personnes: this.nbPersonne,
+        });
+        alert("Votre réservation a été ajoutée !");
+        this.resetForm();
       } else {
-        alert("Veuillez remplir tous les champs et définir la position.");
+        alert("Veuillez remplir tous les champs");
       }
     },
-    addMarker(event) {
-      const mapRect = event.target.getBoundingClientRect();
-      const x = event.clientX - mapRect.left;
-      const y = event.clientY - mapRect.top;
-
-      if (x >= 0 && x <= mapRect.width && y >= 0 && y <= mapRect.height) {
-        this.markerPosition = { top: y, left: x };
+    // Réinitialiser le formulaire après une réservation
+    resetForm() {
+      this.dateCarre = "";
+      this.carreType = "";
+      this.nbPersonne = "";
+    },
+    // Confirmer l'annulation
+    confirmCancel(index) {
+      if (confirm("Êtes-vous sûr de vouloir annuler cette réservation ?")) {
+        this.cancelReservation(index);
       }
+    },
+    // Annuler une réservation
+    cancelReservation(index) {
+      this.reservations.splice(index, 1);
+      alert("Votre réservation a été annulée.");
     },
   },
 };
@@ -139,38 +169,6 @@ button:active {
   background-color: #7f1d1d;
 }
 
-.carte-container {
-  position: relative;
-  margin: 10% 0;
-  max-width: 325px;
-  height: auto;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.carte-festival {
-  width: 100%;
-  border: 2px solid #000;
-  cursor: pointer;
-  border-radius: 8px;
-}
-
-.marker {
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  background-color: red;
-  border-radius: 50%;
-  cursor: pointer;
-  transform: translate(-50%, -50%);
-  border: 3px solid white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-.marker:hover {
-  background-color: #ff5722;
-}
-
 textarea {
   width: 95%;
   height: 150px;
@@ -190,6 +188,56 @@ textarea {
   gap: 20px;
   max-width: 1200px;
   margin: 2% 0 0 12%;
+}
+
+input[type="date"] {
+  width: 100%;
+  padding: 0.8em;
+  margin-bottom: 1.5em;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+.reservation-list {
+  margin-top: 20px;
+}
+
+.reservation-list h2 {
+  font-family: 'Creepster', cursive;
+  color: black;
+  text-align: center;
+}
+
+.reservation-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.reservation-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  padding: 10px;
+  background-color: rgba(177, 52, 52, 0.8);
+  border-radius: 8px;
+  color: white;
+  font-size: 1.2em;
+}
+
+.reservation-list button {
+  background-color: #d32f2f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.reservation-list button:hover {
+  background-color: #b71c1c;
 }
 </style>
 

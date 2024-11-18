@@ -6,12 +6,8 @@
 
     <h1 class="titre">TICKETS ET ABONNEMENTS</h1>
 
-    <!-- Carrousel -->
     <div class="carousel">
-      <!-- Bouton précédent -->
       <button @click="previousSlide" class="carousel-button left">❮</button>
-
-      <!-- Conteneur des affiches -->
       <div class="carousel-track" :style="{ transform: `translateX(-${currentIndex * (100 / visibleSlides)}%)` }">
         <div
             class="affiche"
@@ -29,7 +25,6 @@
         </div>
       </div>
 
-      <!-- Bouton suivant -->
       <button @click="nextSlide" class="carousel-button right">❯</button>
     </div>
   </div>
