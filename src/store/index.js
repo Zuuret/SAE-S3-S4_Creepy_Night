@@ -18,6 +18,7 @@ export default new Vuex.Store({
     concerts: [],
     places_concert: [],
     coordonneesBancaire: null,
+    transactions: [],
   },
   getters: {
   },
@@ -46,6 +47,9 @@ export default new Vuex.Store({
     updateArtiste(state, artiste){
       state.artiste = artiste;
     },
+    updateTransactions(state, transactions){
+        state.transactions = transactions;
+    }
   },
   actions: {
     async enregistrementUtilisateur({commit}, data){
@@ -123,6 +127,15 @@ export default new Vuex.Store({
         console.log(response.data);
       }
     },
+    async getTransactions({ commit }) {
+      console.log("Récupération des transactions");
+      let response = await controller.getTransactions();
+      if (response.error === 0) {
+        commit('updateTransactions', response.data);
+      } else {
+        console.log(response.data);
+      }
+    }
   },
   modules: {
   }

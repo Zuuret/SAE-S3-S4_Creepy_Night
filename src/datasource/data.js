@@ -1,5 +1,5 @@
 let utilisateurs = [
-    {"id":1, "prenom":"John", "nom":"Doe", "dateNaissance":"23-09-1998", "email":"johndoe@gmail.com", "motDePasse":"mdp123"},
+    {"id":1, "prenom":"John", "nom":"Doe", "dateNaissance":"23-09-1998", "email":"johndoe@gmail.com", "motDePasse":"mdp123", "solde": 100},
 ];
 let artistes = [
     {"id":1, "nomGroupe":"PINK", "nbMembres":5, "decision":"null"},
@@ -65,11 +65,19 @@ let coordonnees_bancaire = [
     {'nom': 'Doe', "numero_carte": "123456789ABCDEFG", 'date_expiration': "11/31", 'cvv': '484'}
 ]
 
+let transactions = [
+    {id: 1, date: "05 novembre 2024", heure: "15h30", operation: "Remboursement", montant: -10.00},
+    {id: 2, date: "31 octobre 2024", heure: "23h00", operation: "Paiement BAR", details: "1x Consigne Gobelet", montant: 2.00},
+    {id: 3, date: "31 octobre 2024", heure: "21h00", operation: "Paiement BAR", details: "1x Consigne Gobelet - 2.00 €\n1x Coca Cola - 4.00 €", montant: -6.00},
+    {id: 4, date: "31 octobre 2024", heure: "20h30", operation: "Paiement Burger&co", details: "1x Frites - 4.00 €\n1x Cheese Burger - 12.00 €", montant: -16.00}
+];
+
 module.exports = {
     utilisateurs,
     concerts,
     places_concerts,
     panier_concert,
     coordonnees_bancaire,
-    artistes
+    artistes,
+    transactions
 }

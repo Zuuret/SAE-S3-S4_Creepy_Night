@@ -1,4 +1,4 @@
-import {concerts, coordonnees_bancaire, places_concerts, utilisateurs, artistes} from './data.js';
+import {concerts, coordonnees_bancaire, places_concerts, utilisateurs, artistes, transactions} from './data.js';
 
 function ajoutUtilisateur(data) {
     if (!data.prenom) return { error: 1, status: 404, data: 'Aucun prénom fourni' };
@@ -54,8 +54,6 @@ function validerPaiement(data){
     return { error: 0, status: 200, data: nouvelleCoordonnees };
 }
 
-
-
 function getArtistes() {
     return {error: 0, data: artistes}
 }
@@ -73,6 +71,46 @@ function setDecision(cjs) {
     return {error: 0, status: 200, data: demande}
 }
 
+
+let userBalance = 0;
+
+export function getUserBalance() {
+    return userBalance.toFixed(2);
+}
+
+export function getTransactions() {
+    return transactions;
+}
+
+export function addFunds(amount) {
+    if (amount > 0) {
+        userBalance += amount;
+        transactions.push({
+            id: transactions.length + 1,
+            date: new Date().toLocaleDateString("fr-FR"),
+            heure: new Date().toLocaleTimeString("fr-FR", { hour: '2-digit', minute: '2-digit' }),
+            operation: "Ajout de fonds",
+            details: `Ajout de ${amount.toFixed(2)} €`,
+            montant: amount
+        });
+    }
+}
+
+export function refund(amount) {
+    if (amount > 0 && amount <= userBalance) {
+        userBalance -= amount;
+        transactions.push({
+            id: transactions.length + 1,
+            date: new Date().toLocaleDateString("fr-FR"),
+            heure: new Date().toLocaleTimeString("fr-FR", { hour: '2-digit', minute: '2-digit' }),
+            operation: "Remboursement",
+            details: `Remboursement de ${amount.toFixed(2)} €`,
+            montant: -amount
+        });
+    } else {
+        console.error("Montant de remboursement invalide ou solde insuffisant.");
+    }
+}
 
 export default {
     ajoutUtilisateur,

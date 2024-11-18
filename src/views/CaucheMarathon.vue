@@ -15,7 +15,7 @@
 
       <div class="content-right">
         <div class="presentation">
-          <p>
+          <p class="lft">
             Le Cauche'Marathon est une course d'horreur unique en son genre, se déroulant dans le festival. Les participants devront courir à travers des circuits effrayants, en évitant les monstres et les pièges, pour atteindre la ligne d'arrivée. Les trois premiers de chaque course recevront des récompenses en argent, des médailles et un trophée exclusif !<br><br>
             Il y a deux circuits disponibles : La FrayeuRoute et L'ÉpouvanTour.<br><br>
             Les marathons sur la FrayeuRoute débuteront à 20h, tandis que ceux sur l'ÉpouvanTour débuteront à 22h.
@@ -112,6 +112,10 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+
+.lft {
+  text-align: left;
+}
 
 .titre {
   text-align: center;
