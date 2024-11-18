@@ -4,192 +4,113 @@
       <NavBar />
     </div>
     <div class="container">
-      <div class="formulaire-signalement">
-        <h1>Effectuer un signalement</h1>
-        <!-- Formulaire de signalement -->
-        <label for="incidents-selection">Sélectionnez le type d'incident :</label>
-        <select v-model="incidentType" id="incidents-selection" required>
-          <option value="perdu">Objet perdu</option>
-          <option value="suspect">Comportement suspect</option>
-          <option value="medical">Urgence médicale</option>
-          <option value="inapproprié">Comportement inapproprié</option>
-          <option value="technique">Problème technique</option>
-          <option value="environnemental">Danger environnemental</option>
-        </select>
+      <h1>Bal'Trouille</h1>
+      <p>Venez profiter des soirées effrayantes du festival !</p>
 
-        <label for="description-incident">Description de l'incident</label>
-        <textarea v-model="incidentDescription" id="description-incident" name="description-incident" required></textarea>
-
-        <label for="zone-selection">Sélectionnez la zone de l'incident :</label>
-        <select v-model="incidentZone" id="zone-selection" required>
-          <option value="foreffroi">La Foreffroi</option>
-          <option value="cauchemanoir">Le Cauchemanoir</option>
-          <option value="bosquepouvante">Le Bosquépouvante</option>
-          <option value="maudile">La Maudîle</option>
-          <option value="malaispace">La Malaispace</option>
-        </select>
-
-        <button @click="submitReport">Valider votre signalement</button>
-      </div>
-
-      <div class="carte-container" @click="addMarker">
-        <img src="@/assets/carte_creepy_night.png" alt="Carte du festival" class="carte-festival" />
-        <div v-if="markerPosition" class="marker" :style="{ top: markerPosition.top + 'px', left: markerPosition.left + 'px' }"></div>
+      <div class="soirees-list">
+        <div
+            v-for="(soiree, index) in soirees"
+            :key="index"
+            class="soiree-card"
+        >
+          <h2>{{ soiree.date }}</h2>
+          <p>{{ soiree.description }}</p>
+          <button @click="acheterPlace(soiree)">Acheter ma place</button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
 import NavBar from "@/components/NavBar.vue";
 
 export default {
-  name: "SecuFlippe",
+  name: "BalTrouille",
   components: {
     NavBar,
   },
   data() {
     return {
-      incidentType: "",
-      incidentDescription: "",
-      incidentZone: "",
-      markerPosition: null,
+      soirees: [
+        { date: "27 octobre 2025", description: "Soirée d'ouverture terrifiante avec DJ Zombie." },
+        { date: "28 octobre 2025", description: "Soirée Disco'Horreur avec un décor ensanglanté." },
+        { date: "29 octobre 2025", description: "Soirée Masques et Mystères - Venez masqués !" },
+        { date: "30 octobre 2025", description: "Soirée spéciale Thriller avec surprises macabres." },
+        { date: "31 octobre 2025", description: "Grande Nuit d'Halloween avec un concours de costumes !" },
+        { date: "1 novembre 2025", description: "Soirée des âmes perdues avec ambiance gothique." },
+        { date: "2 novembre 2025", description: "Soirée de clôture - Dansez avec les esprits !" },
+      ],
     };
   },
   methods: {
-    submitReport() {
-      if (this.incidentType && this.incidentDescription && this.markerPosition) {
-        console.log("Type d'incident :", this.incidentType);
-        console.log("Description :", this.incidentDescription);
-        console.log("Position du marqueur :", this.markerPosition);
-        alert("Votre signalement a été soumis !");
-      } else {
-        alert("Veuillez remplir tous les champs et définir la position.");
-      }
-    },
-    addMarker(event) {
-      const mapRect = event.target.getBoundingClientRect();
-      const x = event.clientX - mapRect.left;
-      const y = event.clientY - mapRect.top;
-
-      if (x >= 0 && x <= mapRect.width && y >= 0 && y <= mapRect.height) {
-        this.markerPosition = { top: y, left: x };
-      }
+    acheterPlace(soiree) {
+      alert(`Votre place pour la soirée "${soiree.date}" a bien été achetée !`);
     },
   },
 };
 </script>
 
-<style scoped>
-h1 {
-  text-align: center;
-  font-family: 'Creepster', cursive;
-  font-size: 40px;
-  color: black;
-}
-
-.formulaire-signalement {
-  margin-top: 10%;
-  margin-left: 5%;
-  background-color: rgba(177, 52, 52, 0.8);
-  border-radius: 8px;
-  padding: 1px 30px 30px 30px;
-  max-width: 600px;
-  overflow: hidden;
-  flex: 1;
-}
-
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: 1.2em;
-  font-weight: bold;
-  color: #333;
-}
-
-select, input[type="text"] {
-  width: 100%;
-  padding: 0.8em;
-  margin-bottom: 1.5em;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  font-size: 1em;
-}
-
-button {
-  background-color: #d32f2f;
-  color: #fff;
-  padding: 1em 2em;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 1.2em;
-  font-weight: bold;
-  width: 100%;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #b71c1c;
-}
-
-button:active {
-  background-color: #7f1d1d;
-}
-
-.carte-container {
-  position: relative;
-  margin: 10% 0;
-  max-width: 325px;
-  height: auto;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.carte-festival {
-  width: 100%;
-  border: 2px solid #000;
-  cursor: pointer;
-  border-radius: 8px;
-}
-
-.marker {
-  position: absolute;
-  width: 25px;
-  height: 25px;
-  background-color: red;
-  border-radius: 50%;
-  cursor: pointer;
-  transform: translate(-50%, -50%);
-  border: 3px solid white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-.marker:hover {
-  background-color: #ff5722;
-}
-
-textarea {
-  width: 95%;
-  height: 150px;
-  padding: 0.8em;
-  margin-bottom: 1.5em;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  font-family: Arial;
-  outline: none;
-  resize: none;
-}
-
+<style>
 .container {
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  max-width: 1200px;
-  margin: 2% 0 0 12%;
+text-align: center;
+padding: 20px;
+}
+
+h1 {
+font-family: 'Creepster', cursive;
+color: black;
+font-size: 50px;
+margin-bottom: 10px;
+}
+
+p {
+font-size: 18px;
+color: #333;
+margin-bottom: 30px;
+}
+
+.soirees-list {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 20px;
+}
+
+.soiree-card {
+background-color: rgba(177, 52, 52, 0.8);
+color: white;
+padding: 20px;
+border-radius: 10px;
+text-align: center;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.soiree-card h2 {
+margin-bottom: 10px;
+font-size: 22px;
+}
+
+.soiree-card p {
+margin-bottom: 15px;
+font-size: 16px;
+}
+
+.soiree-card button {
+background-color: #d32f2f;
+color: white;
+border: none;
+border-radius: 5px;
+padding: 10px 15px;
+cursor: pointer;
+font-size: 16px;
+transition: background-color 0.3s ease;
+}
+
+.soiree-card button:hover {
+background-color: #b71c1c;
+}
+
+.soiree-card button:active {
+background-color: #7f1d1d;
 }
 </style>
-
