@@ -5,10 +5,12 @@
     <h1>Liste des expositions</h1>
     <div class="expo-dispo">
       <div v-for="oeuvre in oeuvres" :key="oeuvre.id" class="expo-card">
-        <img class="expo-img" :src="oeuvre.image" alt="Affiche du expo" />
-        <p>{{ oeuvre.createur }}</p>
-        <p>{{ oeuvre.dateCrea }} à {{ oeuvre.description }}</p>
-        <div v-if="oeuvre.createur == 'null'">
+        <div v-if="oeuvre.createur != 'null'">
+          <img class="expo-img" :src="oeuvre.image" alt="Affiche du expo" />
+          <p>{{ oeuvre.createur }} - {{ oeuvre.dateCrea }}</p>
+          <p>{{ oeuvre.description }}</p>
+        </div>
+        <div v-else>
           <router-link :to="`/expo/${oeuvre.id}`">
             <button>Réserver ma place</button>
           </router-link>
@@ -54,7 +56,7 @@ h1 {
 /* Disposition des cartes */
 .expo-dispo {
   display: grid;
-  grid-template-columns: auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto auto auto;
   gap: 20px;
   grid: auto auto auto auto;
 }
