@@ -68,10 +68,7 @@ export default {
   methods: {
     ...mapActions(['setOeuvre']),
     submitForm() {
-      this.injectionBdd();
-    },
-    injectionBdd() {
-      if ((this.form.createur != '') && (this.form.email != '') && (this.form.dateCrea != '') && (this.form.description != '') && (this.form.image != 'null')) {
+      if ((this.form.createur != '') && (this.form.email != '') && (this.form.dateCrea != '') && (this.form.description != '') && (this.form.image == 'null')) {
         if (this.form.email != this.form.confirmEmail) {
           this.message = "L'email n'est pas identique à l'email de confirmation";
         } else {
