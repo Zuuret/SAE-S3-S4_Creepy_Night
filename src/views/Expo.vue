@@ -58,6 +58,7 @@ h1 {
   display: grid;
   grid-template-columns: auto auto auto auto auto auto;
   gap: 20px;
+  grid: auto auto auto auto;
 }
 
 /* Carte de l'expo */
