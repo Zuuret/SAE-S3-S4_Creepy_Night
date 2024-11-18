@@ -56,14 +56,13 @@ h1 {
 /* Disposition des cartes */
 .expo-dispo {
   display: grid;
-  grid-template-columns: auto auto auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto;
   gap: 20px;
-  grid: auto auto auto auto;
 }
 
 /* Carte de l'expo */
 .expo-card {
-  max-width: 200px;
+  max-width: 300px;
   margin: 20px auto;
   padding: 20px;
   background-color: #222;
