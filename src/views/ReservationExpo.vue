@@ -1,5 +1,10 @@
 <template>
   <div class="form-container">
+    <div>
+      <router-link :to="`/expo`">
+        <button>Retour à l'expo</button>
+      </router-link>
+    </div>
 
     <div class="form-box">
 
