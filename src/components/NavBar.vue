@@ -21,6 +21,7 @@
       <router-link to="/cauchemarathon" @click="closeMenu">CaucheMarathon</router-link>
       <router-link to="/baltrouille" @click="closeMenu">Bal'trouille</router-link>
       <router-link to="/carihorreur" @click="closeMenu">CariHorreur</router-link>
+      <router-link to="/carte-interactive" @click="closeMenu">Carte Interactive</router-link>
       <router-link to="/cashless" @click="closeMenu">CashLess</router-link>
     </div>
   </div>

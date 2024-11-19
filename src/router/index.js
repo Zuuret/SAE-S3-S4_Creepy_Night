@@ -9,8 +9,9 @@ import ConcertPlanner from "@/views/ConcertPlanner.vue";
 import OrgaValidArtisteView from "@/views/OrgaValidArtisteView.vue";
 import BilletAchat from "@/views/BilletAchat.vue";
 import SecuFlippe from "@/views/SecuFlippe.vue";
-import CaucheMarathon from "@/views/CaucheMarathon.vue";
 import BalTrouille from "@/views/BalTrouille.vue";
+import CariHorreur from "@/views/CariHorreur.vue"
+import CarteInteractive from "@/views/CarteInteractive.vue";
 import CariHorreur from "@/views/CariHorreur.vue";
 import CashLess from "@/views/CashLess.vue";
 
@@ -30,6 +31,8 @@ const routes = [
   { path: '/baltrouille', name: 'baltrouille', component: BalTrouille},
   { path: '/carihorreur', name: 'carihorreur', component: CariHorreur},
   { path: '/cashless', name: 'cashless', component: CashLess}
+  { path: '/carihorreur', name: 'carihorreur', component: CariHorreur},
+  { path: '/carte-interactive', name: 'carte-interactive', component: CarteInteractive}
 ];
 
 const router = new VueRouter({
