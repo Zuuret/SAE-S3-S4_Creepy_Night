@@ -27,7 +27,7 @@ async function setOeuvre(oeuvre) {
         return response;
     }
     catch(err) {
-        response = {error: 1, status: 404, data: "erreur réseau, impossible de récupérer la decision concernant l'artiste"  }
+        response = {error: 1, status: 404, data: "erreur réseau, impossible d'injecter l'oeuvre"  }
     }
     return response
 }
