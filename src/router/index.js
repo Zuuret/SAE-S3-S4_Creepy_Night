@@ -12,7 +12,8 @@ import SecuFlippe from "@/views/SecuFlippe.vue";
 import BalTrouille from "@/views/BalTrouille.vue";
 import CariHorreur from "@/views/CariHorreur.vue"
 import CarteInteractive from "@/views/CarteInteractive.vue";
-import CariHorreur from "@/views/CariHorreur.vue";
+import CaucheMarathon from "@/views/CaucheMarathon.vue";
+
 import CashLess from "@/views/CashLess.vue";
 
 Vue.use(VueRouter);
@@ -29,8 +30,7 @@ const routes = [
   { path: '/secuflippe', name: 'secuFlippe', component: SecuFlippe},
   { path: '/cauchemarathon', name: 'caucheMarathon', component: CaucheMarathon},
   { path: '/baltrouille', name: 'baltrouille', component: BalTrouille},
-  { path: '/carihorreur', name: 'carihorreur', component: CariHorreur},
-  { path: '/cashless', name: 'cashless', component: CashLess}
+  { path: '/cashless', name: 'cashless', component: CashLess},
   { path: '/carihorreur', name: 'carihorreur', component: CariHorreur},
   { path: '/carte-interactive', name: 'carte-interactive', component: CarteInteractive}
 ];
