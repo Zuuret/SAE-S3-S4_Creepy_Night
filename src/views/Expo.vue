@@ -56,9 +56,9 @@ h1 {
 /* Disposition des cartes */
 .expo-dispo {
   display: grid;
-  width: 100%;
+  justify-content: center; /* Centrer la grille */
   gap: 20px;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(6, 300px);
 }
 
 /* Carte de l'expo */
