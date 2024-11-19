@@ -56,7 +56,7 @@ h1 {
 /* Disposition des cartes */
 .expo-dispo {
   display: grid;
-  grid-template-columns: auto auto auto auto auto auto;
+  grid-template-columns: auto;
   gap: 20px;
   grid: auto auto auto auto;
 }

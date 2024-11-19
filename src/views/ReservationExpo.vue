@@ -32,12 +32,10 @@
             <label>Confirmation de l'email :</label>
             <input type="email" placeholder="Confirmez votre email" v-model="form.confirmEmail" />
           </div>
-          <!--
           <div class="form-group">
             <label>Image :</label>
-            <input type="text" v-model="form.image" />
+            <input type="file" v-bind="form.image" name="filename" />
           </div>
-          -->
         </div>
 
         <button type="submit" class="submit-button" @click="submitForm">Confirmer l'inscription</button>
@@ -58,7 +56,7 @@ export default {
         createur: '',
         dateCrea: '',
         description: '',
-        image: 'null',
+        image: '',
         email: '',
         confirmEmail: '',
       },
@@ -68,7 +66,7 @@ export default {
   methods: {
     ...mapActions(['setOeuvre']),
     submitForm() {
-      if ((this.form.createur != '') && (this.form.email != '') && (this.form.dateCrea != '') && (this.form.description != '') && (this.form.image == 'null')) {
+      if ((this.form.createur != '') && (this.form.email != '') && (this.form.dateCrea != '') && (this.form.description != '') && (this.form.image != '')) {
         if (this.form.email != this.form.confirmEmail) {
           this.message = "L'email n'est pas identique à l'email de confirmation";
         } else {
