@@ -19,6 +19,8 @@ export default new Vuex.Store({
     places_concert: [],
     coordonneesBancaire: null,
     transactions: [],
+    oeuvres: [],
+    oeuvre: [],
   },
   getters: {
   },
@@ -49,7 +51,13 @@ export default new Vuex.Store({
     },
     updateTransactions(state, transactions){
         state.transactions = transactions;
-    }
+    },
+    updateListeOeuvres(state, oeuvres){
+      state.oeuvres = oeuvres;
+    },
+    updateOeuvre(state, oeuvre){
+      state.oeuvre = oeuvre;
+    },
   },
   actions: {
     async enregistrementUtilisateur({commit}, data){
@@ -135,7 +143,25 @@ export default new Vuex.Store({
       } else {
         console.log(response.data);
       }
-    }
+    },
+    async getOeuvres({ commit }) {
+      console.log("Récupération des oeuvres");
+      let response = await ExpoOeuvres.getOeuvres();
+      if (response.error === 0) {
+        commit('updateListeOeuvres', response.data);
+      } else {
+        console.log(response.data);
+      }
+    },
+    async setOeuvre({commit}, oeuvre) {
+      console.log("Demande d'emplacement envoyée");
+      let response = await ExpoOeuvres.setOeuvre(oeuvre);
+      if (response.error === 0) {
+        commit('updateOeuvre', response.data);
+      } else {
+        console.log(response.data);
+      }
+    },
   },
   modules: {
   }

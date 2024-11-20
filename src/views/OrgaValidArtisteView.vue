@@ -15,7 +15,7 @@
           </div>
         </div>
       </li>
-      <!-- p v-if="artiste.decision != 'null'">Aucune proposition d'artistep <p -->
+      <!-- p v-if="artiste.decision != 'null'">Aucune proposition d'artiste<p -->
     </div>
   </div>
 </template>

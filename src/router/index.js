@@ -1,18 +1,33 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+
 import HomeView from '../views/HomeView.vue';
 import CreationProfil from '../views/CreationProfil.vue';
+
 import ReservationConcertConfirmation from '../views/ReservationConcertConfirmation.vue';
 import ValidationReservation from '../views/ValidationReservation.vue';
 import CalendrierConcert from '../views/CalendrierConcert.vue';
 import ConcertPlanner from "@/views/ConcertPlanner.vue";
 import OrgaValidArtisteView from "@/views/OrgaValidArtisteView.vue";
+
 import BilletAchat from "@/views/BilletAchat.vue";
+
 import SecuFlippe from "@/views/SecuFlippe.vue";
+
 import BalTrouille from "@/views/BalTrouille.vue";
+
 import CariHorreur from "@/views/CariHorreur.vue"
+
 import CarteInteractive from "@/views/CarteInteractive.vue";
+
 import CaucheMarathon from "@/views/CaucheMarathon.vue";
+
+import PageExpo from "@/views/Expo.vue";
+import ReservationExpo from "@/views/ReservationExpo.vue";
+
+import ReservationCinepeurConfirmation from "@/views/ReservationCinepeurConfirmation.vue";
+import ReservationCinepeurValidation from "@/views/ReservationCinepeurValidation.vue";
+import ReservationCinepeur from "@/views/ReservationCinepeur.vue";
 
 import CashLess from "@/views/CashLess.vue";
 
@@ -32,7 +47,12 @@ const routes = [
   { path: '/baltrouille', name: 'baltrouille', component: BalTrouille},
   { path: '/cashless', name: 'cashless', component: CashLess},
   { path: '/carihorreur', name: 'carihorreur', component: CariHorreur},
-  { path: '/carte-interactive', name: 'carte-interactive', component: CarteInteractive}
+  { path: '/carte-interactive', name: 'carte-interactive', component: CarteInteractive},
+  { path: '/expo', name: 'expo', component: PageExpo },
+  { path: '/expo/:id', name: 'reservationExpo', component: ReservationExpo },
+  { path: '/cinepeur', name: 'cinepeur', component: ReservationCinepeur },
+  { path: '/cinepeur/:id', name: 'reservationCinepeur', component: ReservationCinepeurConfirmation },
+  { path: '/cinepeur/:id/validate', name: 'validationCinepeur', component: ReservationCinepeurValidation},
 ];
 
 const router = new VueRouter({
