@@ -7,6 +7,7 @@ Vue.use(Vuex)
 import ProfilService from '../services/profil.service'
 import ConcertService from "../services/concert.service";
 import ValidArtiste from '../services/validArtiste.service'
+import ExpoOeuvres from '../services/expoOeuvres.services'
 
 export default new Vuex.Store({
   state: {
