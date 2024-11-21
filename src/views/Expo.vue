@@ -2,6 +2,7 @@
 
   <!-- Faire des emplacements réservés ou non -> Si non reservé, est cliquable. -->
   <div>
+    <NavBar />
     <h1>Liste des expositions</h1>
     <div class="expo-dispo">
       <div v-for="oeuvre in oeuvres" :key="oeuvre.id" class="expo-card">
@@ -22,9 +23,11 @@
 
 <script>
 import {mapActions, mapState} from 'vuex';
+import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: 'PageExpo',
+  components: {NavBar},
   data() {
     return {};
   },
