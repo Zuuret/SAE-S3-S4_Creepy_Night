@@ -3,7 +3,7 @@
     <div class="navbar">
       <NavBar />
     </div>
-    <h1>Calendrier des concerts</h1>
+    <h1>Calendrier des films</h1>
     <div class="calendar">
       <div class="calendar-header">
         <div class="calendar-hour"></div>
@@ -13,13 +13,13 @@
         <div v-for="hour in hours" :key="hour" class="calendar-row">
           <div class="calendar-hour">{{ hour }}</div>
           <div v-for="day in days" :key="day" class="calendar-cell">
-            <div v-if="!concertsByDayAndHour[day][hour]" class="empty-cell">
+            <div v-if="!filmsByDayAndHour[day][hour]" class="empty-cell">
               <p class="placeholder-text">À venir</p>
             </div>
-            <div v-if="concertsByDayAndHour[day][hour]" class="concert-card">
-              <router-link :to="`/concert/${concertsByDayAndHour[day][hour].id}`">
-                <img class="concert-img" :src="concertsByDayAndHour[day][hour].image" alt="Affiche du concert" />
-                <p class="nomArtiste">{{ concertsByDayAndHour[day][hour].artiste }}</p>
+            <div v-if="filmsByDayAndHour[day][hour]" class="film-card">
+              <router-link :to="`/film/${filmsByDayAndHour[day][hour].id}`">
+                <img class="film-img" :src="filmsByDayAndHour[day][hour].image" alt="Affiche du film" />
+                <p class="nomArtiste">{{ filmsByDayAndHour[day][hour].artiste }}</p>
               </router-link>
             </div>
           </div>
@@ -43,30 +43,30 @@ export default {
     };
   },
   computed: {
-    ...mapState(['concerts']),
-    concertsByDayAndHour() {
-      const concertsByDayAndHour = {};
+    ...mapState(['films']),
+    filmsByDayAndHour() {
+      const filmsByDayAndHour = {};
       this.days.forEach(day => {
-        concertsByDayAndHour[day] = {};
+        filmsByDayAndHour[day] = {};
         this.hours.forEach(hour => {
-          concertsByDayAndHour[day][hour] = null;
+          filmsByDayAndHour[day][hour] = null;
         });
       });
-      this.concerts.forEach(concert => {
-        const concertDate = new Date(concert.date);
-        const concertDay = concertDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
-        const concertHour = concert.heure.split('h')[0] + ':00';
-        if (this.days.includes(concertDay)) {
-          concertsByDayAndHour[concertDay][concertHour] = concert;
+      this.films.forEach(film => {
+        const filmDate = new Date(film.date);
+        const filmDay = filmDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+        const filmHour = film.heure.split('h')[0] + ':00';
+        if (this.days.includes(filmDay)) {
+          filmsByDayAndHour[filmDay][filmHour] = film;
         }
       });
 
-      return concertsByDayAndHour;
+      return filmsByDayAndHour;
     }
   }
   ,
   methods: {
-    ...mapActions(['getAllConcert']),
+    ...mapActions(['getFilms']),
     getLastWeekOfOctober() {
       let year;
       if (new Date().getMonth() === 11 || new Date().getMonth() === 10) {
@@ -92,7 +92,7 @@ export default {
     }
   },
   mounted() {
-    this.getAllConcert();
+    this.getAllFilm();
   }
 };
 </script>
@@ -146,7 +146,7 @@ h1 {
   max-height: 200px;
 }
 
-.concert-card {
+.film-card {
   width: 100%;
   height: 100%;
   color: #fff;
@@ -155,7 +155,7 @@ h1 {
   box-sizing: border-box;
 }
 
-.concert-img {
+.film-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -177,11 +177,11 @@ h1 {
   pointer-events: none;
 }
 
-.concert-card:hover {
+.film-card:hover {
   box-shadow: 0 0 30px rgba(255, 0, 0, 0.7), 0 0 15px rgb(0, 0, 0);
 }
 
-.concert-img:hover {
+.film-img:hover {
   filter: grayscale(0%) brightness(100%);
 }
 

@@ -1,6 +1,7 @@
 import { artistes } from './data.js';
 import { expo_oeuvres } from './data.js';
 import { expo_oeuvres_demande } from './data.js';
+import { cine_films } from './data.js';
 
 function getArtistes() {
     return {error: 0, data: artistes}
@@ -41,6 +42,10 @@ function setOeuvre(data) {
 
     expo_oeuvres_demande.push(nouvelOeuvre);
     return { error: 0, status: 200, data: nouvelOeuvre };
+}
+
+function getFilms() {
+    return {error: 0, data: cine_films}
 }
 
 export default {

@@ -5,6 +5,7 @@ Vue.use(Vuex)
 
 import ValidArtiste from '../services/validArtiste.service'
 import ExpoOeuvres from '../services/expoOeuvres.services'
+import CineFilms form '../services/cineFilms.services'
 
 export default new Vuex.Store({
   state: {
@@ -12,6 +13,8 @@ export default new Vuex.Store({
     artiste: [],
     oeuvres: [],
     oeuvre: [],
+    films: [],
+    film: [],
   },
   getters: {
   },
@@ -27,6 +30,12 @@ export default new Vuex.Store({
     },
     updateOeuvre(state, oeuvre){
       state.oeuvre = oeuvre;
+    },
+    updateListeFilms(state, films){
+      state.films = films;
+    },
+    updateFilm(state, film){
+      state.film = film;
     },
   },
   actions: {
@@ -62,6 +71,24 @@ export default new Vuex.Store({
       let response = await ExpoOeuvres.setOeuvre(oeuvre);
       if (response.error === 0) {
         commit('updateOeuvre', response.data);
+      } else {
+        console.log(response.data);
+      }
+    },
+    async getFilms({ commit }) {
+      console.log("Récupération des films");
+      let response = await CineFilms.getFilms();
+      if (response.error === 0) {
+        commit('updateListeFilms', response.data);
+      } else {
+        console.log(response.data);
+      }
+    },
+    async setFilm({commit}, film) {
+      console.log("Demande de film envoyée");
+      let response = await CineFilms.setFilm(film);
+      if (response.error === 0) {
+        commit('updateFilm', response.data);
       } else {
         console.log(response.data);
       }
