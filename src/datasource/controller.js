@@ -52,5 +52,6 @@ export default {
     getArtistes,
     setDecision,
     getOeuvres,
-    setOeuvre
+    setOeuvre,
+    getFilms,
 };

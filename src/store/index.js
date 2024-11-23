@@ -5,7 +5,7 @@ Vue.use(Vuex)
 
 import ValidArtiste from '../services/validArtiste.service'
 import ExpoOeuvres from '../services/expoOeuvres.services'
-import CineFilms form '../services/cineFilms.services'
+import CineFilms from '../services/cineFilms.services'
 
 export default new Vuex.Store({
   state: {

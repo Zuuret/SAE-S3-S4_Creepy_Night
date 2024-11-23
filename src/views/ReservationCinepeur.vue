@@ -92,7 +92,7 @@ export default {
     }
   },
   mounted() {
-    this.getAllFilm();
+    this.getFilms();
   }
 };
 </script>
