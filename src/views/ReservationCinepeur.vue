@@ -146,7 +146,7 @@ h1 {
   max-height: 200px;
 }
 
-.film-card {
+.concert-card {
   width: 100%;
   height: 100%;
   color: #fff;
@@ -155,7 +155,7 @@ h1 {
   box-sizing: border-box;
 }
 
-.film-img {
+.concert-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -177,11 +177,11 @@ h1 {
   pointer-events: none;
 }
 
-.film-card:hover {
+.concert-card:hover {
   box-shadow: 0 0 30px rgba(255, 0, 0, 0.7), 0 0 15px rgb(0, 0, 0);
 }
 
-.film-img:hover {
+.concert-img:hover {
   filter: grayscale(0%) brightness(100%);
 }
 
