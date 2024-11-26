@@ -16,9 +16,9 @@
             <div v-if="!filmsByDayAndHour[day][hour]" class="empty-cell">
               <p class="placeholder-text">À venir</p>
             </div>
-            <div v-if="filmsByDayAndHour[day][hour]" class="film-card">
-              <router-link :to="`/film/${filmsByDayAndHour[day][hour].id}`">
-                <img class="film-img" :src="filmsByDayAndHour[day][hour].image" alt="Affiche du film" />
+            <div v-if="filmsByDayAndHour[day][hour]" class="concert-card">
+              <router-link :to="`/concert/${filmsByDayAndHour[day][hour].id}`">
+                <img class="concert-img" :src="filmsByDayAndHour[day][hour].image" alt="Affiche du concert" />
                 <p class="nomArtiste">{{ filmsByDayAndHour[day][hour].nomFilm }}</p>
               </router-link>
             </div>
@@ -116,6 +116,7 @@ h1 {
   display: grid;
   grid-template-columns: 100px repeat(7, 1fr);
   gap: 5px;
+  justify-content: center;
 }
 
 .calendar-header {
