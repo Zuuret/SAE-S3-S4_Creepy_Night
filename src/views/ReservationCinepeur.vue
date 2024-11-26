@@ -19,7 +19,7 @@
             <div v-if="filmsByDayAndHour[day][hour]" class="film-card">
               <router-link :to="`/film/${filmsByDayAndHour[day][hour].id}`">
                 <img class="film-img" :src="filmsByDayAndHour[day][hour].image" alt="Affiche du film" />
-                <p class="nomArtiste">{{ filmsByDayAndHour[day][hour].artiste }}</p>
+                <p class="nomArtiste">{{ filmsByDayAndHour[day][hour].nomFilm }}</p>
               </router-link>
             </div>
           </div>

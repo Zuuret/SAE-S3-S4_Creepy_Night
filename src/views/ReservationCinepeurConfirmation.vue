@@ -3,10 +3,10 @@
     <h1>Détails du film</h1>
     <div v-if="film">
       <img :src="film.image" alt="Affiche du film" />
-      <h2>{{ film.artiste }} - {{ film.categorie }}</h2>
+      <h2>{{ film.nomFilm }} - {{ film.categorie }}</h2>
       <p>Date : {{ film.date }}</p>
       <p>Heure : {{ film.heure }}</p>
-      <p>{{ film.scene }}</p>
+      <p>{{ film.salle }}</p>
     </div>
 
     <div v-if="places_film.length > 0">
