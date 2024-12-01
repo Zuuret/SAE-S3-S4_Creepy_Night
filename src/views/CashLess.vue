@@ -3,7 +3,38 @@
     <div class="navbar">
       <NavBar />
     </div>
-    <h1>CashLess</h1>
+    <div class="cashless-info">
+      <h2>CashLess</h2>
+      <div class="info-container">
+        <div class="text-section">
+          <p>Le paiement dématérialisé, l'unique moyen de paiement au Creepy Night Festival</p>
+          <p class="list">Mon espace me permet de :</p>
+          <ul>
+            <li>Consulter le solde de mon bracelet et l'historique de mes transactions</li>
+            <li>Enregistrer ma CB pour pouvoir re-créditer mon bracelet en quelques secondes</li>
+            <li>Obtenir le remboursement du solde de mon bracelet après l'événement</li>
+          </ul>
+        </div>
+        <div class="image-section">
+          <img src="@/assets/BraceletCashLess.png" alt="Bracelet CashLess" class="bracelet-image" />
+        </div>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <h3>1. Créditer votre compte CashLess</h3>
+          <p>Rendez-vous sur <a href="https://cashless.creepynight.fr" target="_blank">cashless.creepynight.fr</a> ou sur l’application mobile pour créditer votre bracelet. Puis le jour J, présentez votre billet à l'entrée pour récupérer votre bracelet préchargé</p>
+        </div>
+        <div class="step">
+          <h3>2. Le paiement simplifié</h3>
+          <p>Utilisez votre bracelet pour régler sur place vos achats (sauf exceptions).</p>
+        </div>
+        <div class="step">
+          <h3>3. Remboursement</h3>
+          <p>À la fin du festival, s'il vous reste du crédit, rendez-vous sur votre compte en ligne pour demander le remboursement du 2 au 15 Novembre inclus. Aucun remboursement accepté une fois cette date passée.</p>
+        </div>
+      </div>
+    </div>
+
     <div class="container">
       <div class="wallet">
         <h2>Votre porte-monnaie</h2>
@@ -53,10 +84,80 @@ export default {
 </script>
 
 <style scoped>
-.header h1 {
+.cashless-info {
+  padding: 20px;
+  margin-top: 100px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #ccc;
+  border-bottom: 3px solid #ff0000;
+}
+
+.info-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.text-section {
+  max-width: 60%;
+  margin-right: 20px;
+}
+
+.text-section p {
+  color: #ccc;
+  margin : 0;
+}
+
+.cashless-info h2 {
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   color: #ff0000;
+  margin-bottom: 10px;
+}
+
+.text-section ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.text-section .list {
+  margin-top: 25px;
+}
+
+.image-section {
+  max-width: 35%;
+}
+
+.bracelet-image {
+  max-width: 40%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.steps {
+  margin-inline: 30px;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.step {
+  padding: 10px;
+  border-left: 3px solid #ff0000;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 10px 0;
+}
+
+.step h3 {
+  margin: 0 0 5px 0;
+  color: #ff0000;
+}
+
+.step p {
+  margin: 0;
+  font-size: 1rem;
+  color: #ccc;
 }
 
 .container {
@@ -134,5 +235,4 @@ export default {
 .negative {
   color: #ff0000;
 }
-
 </style>
