@@ -68,10 +68,10 @@ let coordonnees_bancaire = [
 ]
 
 let transactions = [
-    {"id": 1, "date": "05 novembre 2024", "heure": "15h30", "operation": "Remboursement", "montant": "-10.00", "id_utilisateur": "1"},
-    {"id": 2, "date": "31 octobre 2024", "heure": "23h00", "operation": "Paiement BAR", "details": "1x Consigne Gobelet", "montant": "2.00", "id_utilisateur": "1"},
-    {"id": 3, "date": "31 octobre 2024", "heure": "21h00", "operation": "Paiement BAR", "details": "1x Consigne Gobelet - 2.00 €\n1x Coca Cola - 4.00 €", "montant": "-6.00", "id_utilisateur": "1"},
-    {"id": 4, "date": "31 octobre 2024", "heure": "20h30", "operation": "Paiement Burger&co", "details": "1x Frites - 4.00 €\n1x Cheese Burger - 12.00 €", "montant": "-16.00", "id_utilisateur": "2"}
+    {"id": 1, "date": "05 novembre 2024", "heure": "15h30", "operation": "Remboursement", "details": "Remboursement de 10.00 €", "amount": 10.00, "id_utilisateur": "1"},
+    {"id": 2, "date": "31 octobre 2024", "heure": "23h00", "operation": "Paiement BAR", "details": "1x Consigne Gobelet", "amount": 2.00, "id_utilisateur": "1"},
+    {"id": 3, "date": "31 octobre 2024", "heure": "21h00", "operation": "Paiement BAR", "details": "1x Consigne Gobelet - 2.00 €\n1x Coca Cola - 4.00 €", "amount": -6.00, "id_utilisateur": "1"},
+    {"id": 4, "date": "31 octobre 2024", "heure": "20h30", "operation": "Paiement Burger&co", "details": "1x Frites - 4.00 €\n1x Cheese Burger - 12.00 €", "amount": -16.00, "id_utilisateur": "2"}
 ];
 
 

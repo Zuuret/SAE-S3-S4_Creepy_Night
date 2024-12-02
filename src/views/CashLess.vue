@@ -39,8 +39,7 @@
       <div class="wallet">
         <h2>Votre porte-monnaie</h2>
         <div class="balance">
-          <p>Solde actuel :</p>
-          <span class="amount">{{ soldes.toFixed(2) }} €</span>
+          <p>Solde actuel : <span class="amount">{{ soldes.toFixed(2) }} €</span></p>
           <button class="refund-button">Remboursement</button>
         </div>
         <div class="ticket-info">
@@ -69,16 +68,25 @@
 
 <script>
 import NavBar from "@/components/NavBar.vue";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: 'CashLess',
   components: { NavBar },
+  computed: {
+    ...mapState(['transactions']),
+  },
+  methods: {
+    ...mapActions(['getAllTransactions'])
+  },
   data() {
     return {
       soldes: 0,
-      transactions: [],
       numBillet: 0
     }
+  },
+  mounted() {
+    this.getAllTransactions();
   },
 };
 </script>
@@ -171,8 +179,9 @@ export default {
   background: rgba(0, 0, 0, 0.7);
   border: 2px solid #ff0000;
   border-radius: 10px;
+  color: #ccc;
   padding: 20px;
-  width: 300px;
+  width: 450px;
 }
 
 .wallet h2, .transactions h2 {
@@ -183,16 +192,22 @@ export default {
 
 .balance {
   text-align: center;
-  margin: 20px 0;
+  margin: 40px 0;
 }
 
 .balance p {
   font-size: 1.2rem;
+  color: #ccc;
 }
 
 .amount {
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #ff0000;
+}
+
+.ticket-info p {
+  font-size: 1.2rem;
+  color: #ccc;
 }
 
 .refund-button, .view-ticket {
@@ -221,6 +236,7 @@ export default {
 }
 
 .transaction-item p {
+  color: #ccc;
   margin: 0;
 }
 
