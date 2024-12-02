@@ -106,6 +106,16 @@ let expo_oeuvres_demande = [
 
 ]
 
+let courses_cauchemarathon = [
+    {"id": 1, "nomCircuit": "La FrayeuRoute", "date": "Mercredi 29 octobre", "heure": "20h00", "nb_places": 150 },
+    {"id": 2, "nomCircuit": "La FrayeuRoute", "date": "Vendredi 31 octobre", "heure": "20h00", "nb_places": 150 },
+    {"id": 3, "nomCircuit": "La FrayeuRoute", "date": "Dimanche 2 novembre", "heure": "20h00", "nb_places": 150 },
+    {"id": 4, "nomCircuit": "L'ÉpouvanTour", "date": "Mercredi 29 octobre", "heure": "22h00", "nb_places": 100 },
+    {"id": 5, "nomCircuit": "L'ÉpouvanTour", "date": "Vendredi 31 octobre", "heure": "22h00", "nb_places": 100 },
+    {"id": 6, "nomCircuit": "L'ÉpouvanTour", "date": "Dimanche 2 novembre", "heure": "22h00", "nb_places": 100 }
+];
+
+
 module.exports = {
     utilisateurs,
     concerts,
@@ -115,5 +125,6 @@ module.exports = {
     artistes,
     transactions,
     expo_oeuvres,
-    expo_oeuvres_demande
+    expo_oeuvres_demande,
+    courses_cauchemarathon
 }
