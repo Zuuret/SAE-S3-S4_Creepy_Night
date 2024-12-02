@@ -1,12 +1,12 @@
 <template>
   <div>
     <h1>Détails du film</h1>
-    <div v-if="film">
-      <img :src="film.image" alt="Affiche du film" />
-      <h2>{{ film.nomFilm }} - {{ film.categorie }}</h2>
-      <p>Date : {{ film.date }}</p>
-      <p>Heure : {{ film.heure }}</p>
-      <p>{{ film.salle }}</p>
+    <div v-if="filmById">
+      <img :src="filmById.image" alt="Affiche du film" />
+      <h2>{{ filmById.nomFilm }} - {{ filmById.categorie }}</h2>
+      <p>Date : {{ filmById.date }}</p>
+      <p>Heure : {{ filmById.heure }}</p>
+      <p>{{ filmById.salle }}</p>
     </div>
 
     <div v-if="places_film.length > 0">

@@ -8,6 +8,10 @@ async function getPlacesFilmsFromLocalSource(places_film) {
     return LocalSource.getPlacesFilm(places_film);
 }
 
+async function getFilmByIdFromLocalSource(filmId) {
+    return LocalSource.getFilmById(filmId);
+}
+
 async function setFilmInLocalSource(film) {
     return LocalSource.setFilm(film);
 }
@@ -22,6 +26,16 @@ async function getFilms() {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des films'  }
     }
     return response
+}
+
+async function getFilmById(filmId) {
+    let response;
+    try {
+        response = await getFilmByIdFromLocalSource(filmId);
+    } catch (err) {
+        response = { error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des concerts' };
+    }
+    return response;
 }
 
 async function setFilm(film) {
@@ -48,6 +62,7 @@ async function getPlacesFilm(places_film) {
 
 export default {
     getFilms,
+    getFilmById,
     setFilm,
     getPlacesFilm
 }
