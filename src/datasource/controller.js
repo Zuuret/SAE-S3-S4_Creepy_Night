@@ -1,7 +1,4 @@
-import { artistes } from './data.js';
-import { expo_oeuvres } from './data.js';
-import { expo_oeuvres_demande } from './data.js';
-import { cine_films } from './data.js';
+import { artistes, expo_oeuvres, expo_oeuvres_demande, cine_films, places_films, coordonnees_bancaire } from './data.js';
 
 function getArtistes() {
     return {error: 0, data: artistes}
@@ -48,10 +45,38 @@ function getFilms() {
     return {error: 0, data: cine_films}
 }
 
+function setFilm(concertId){
+    let concert = concerts.find(c => c.id === parseInt(concertId))
+    return {error: 0, data: concert}
+}
+
+function getPlacesFilm(filmId) {
+    let placeFilm = places_films.filter(place => place.id_film === parseInt(filmId));
+    return { error: 0, data: placeFilm };
+}
+
+function validerPaiement(data){
+    if (!data.nom) return { error: 1, status: 404, data: 'Aucun nom de titulaire de la carte fourni' };
+    if (!data.numeroCarte) return { error: 1, status: 404, data: 'Aucun numero de carte fourni' };
+    if (!data.dateExpiration) return { error: 1, status: 404, data: "Aucune date d'expiration fourni" };
+    if (!data.cvv) return { error: 1, status: 404, data: 'Aucun cvv fourni' };
+
+    let nouvelleCoordonnees = {
+        nom: coordonnees_bancaire.nom,
+        numeroCarte: coordonnees_bancaire.numero_carte,
+        dateExpiration: coordonnees_bancaire.date_expiration,
+        cvv: coordonnees_bancaire.cvv,
+    }
+    return { error: 0, status: 200, data: nouvelleCoordonnees };
+}
+
 export default {
     getArtistes,
     setDecision,
     getOeuvres,
     setOeuvre,
     getFilms,
+    setFilm,
+    getPlacesFilm,
+    validerPaiement
 };

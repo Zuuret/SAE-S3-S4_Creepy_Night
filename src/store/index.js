@@ -6,6 +6,7 @@ Vue.use(Vuex)
 import ValidArtiste from '../services/validArtiste.service'
 import ExpoOeuvres from '../services/expoOeuvres.services'
 import CineFilms from '../services/cineFilms.services'
+import controller from "@/datasource/controller";
 
 export default new Vuex.Store({
   state: {
@@ -103,12 +104,22 @@ export default new Vuex.Store({
     },
     async getPlacesFilms({ commit }, concertId) {
       console.log("Récupération des places de concerts pour le concert ID : ", concertId);
-      let response = await ConcertService.getPlacesFilms(concertId);
+      let response = await CineFilms.getPlacesFilms(concertId);
       if (response.error === 0) {
         commit('updateListePlaceConcert', response.data);
       } else {
         console.log(response.data);
-      },
+      }
+    },
+    async validerPaiement({commit}, data){
+      console.log("enregistrement de nouvelles données bancaire")
+      let response = await controller.validerPaiement(data);
+      if(response.error === 0){
+        commit('updateCoordonneesBancaire', response.data);
+      } else {
+        console.log(response.data);
+      }
+    },
   },
   modules: {
   }
