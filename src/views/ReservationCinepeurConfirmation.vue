@@ -11,7 +11,7 @@
 
     <div v-if="places_film.length > 0">
       <h3>Places disponibles :</h3>
-      <div v-for="place in places_film" :key="place.id_film + '-' + place.type_place">
+      <div v-for="place in places_film" :key="place.id">
         <p>Type de place : {{ place.type_place }} - Nombre de places : {{ place.nb_places }} - Prix : {{ place.prix_place }} €</p>
         <label :for="`selection_quantite_${place.type_place}`">Quantité :</label>
         <select v-model.number="quantiteParType[place.type_place]">

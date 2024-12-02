@@ -1,27 +1,33 @@
 <template>
   <div>
-    <form @submit.prevent="validerPaiement({nom, numeroCarte, dateExpiration, cvv})">
-      <h3>Coordonnées bancaires</h3>
-      <div>
-        <label for="nom">Nom sur la carte :</label>
-        <input id="nom" name="nom" type="text" v-model="nom" required />
+    <div v-if="ok === false">
+      <label>Voulez-vous utiliser votre cashless ?</label>
+      <input type="button" :ok="true">
+    </div>
+    <div v-if="ok === true" >
+      <form @submit.prevent="validerPaiement({nom, numeroCarte, dateExpiration, cvv})">
+        <h3>Coordonnées bancaires</h3>
+        <div>
+          <label for="nom">Nom sur la carte :</label>
+          <input id="nom" name="nom" type="text" v-model="nom" required />
+        </div>
+        <div>
+          <label for="numeroCarte">Numéro de carte :</label>
+          <input id="numeroCarte" name="numeroCarte" type="text" v-model="numeroCarte" required />
+        </div>
+        <div>
+          <label for="dateExpiration">Date d'expiration :</label>
+          <input id="dateExpiration" name="dateExpiration" type="month" v-model="dateExpiration" required />
+        </div>
+        <div>
+          <label for="cvv">CVV :</label>
+          <input id="cvv" name="cvv" type="text" v-model="cvv" required />
+        </div>
+        <button type="submit">Confirmer le paiement</button>
+      </form>
+      <div v-if="coordonneesBancaire" class="success-message">
+        <p>Votre paiement a bien été pris en compte</p>
       </div>
-      <div>
-        <label for="numeroCarte">Numéro de carte :</label>
-        <input id="numeroCarte" name="numeroCarte" type="text" v-model="numeroCarte" required />
-      </div>
-      <div>
-        <label for="dateExpiration">Date d'expiration :</label>
-        <input id="dateExpiration" name="dateExpiration" type="month" v-model="dateExpiration" required />
-      </div>
-      <div>
-        <label for="cvv">CVV :</label>
-        <input id="cvv" name="cvv" type="text" v-model="cvv" required />
-      </div>
-      <button type="submit">Confirmer le paiement</button>
-    </form>
-    <div v-if="coordonneesBancaire" class="success-message">
-      <p>Votre paiement a bien été pris en compte</p>
     </div>
   </div>
 </template>
@@ -37,6 +43,7 @@ export default {
     numeroCarte: '',
     dateExpiration: '',
     cvv: '',
+    ok: false,
   }),
   computed: {
     ...mapState(['coordonneesBancaire']),
