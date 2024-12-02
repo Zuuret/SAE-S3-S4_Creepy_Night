@@ -63,6 +63,38 @@ let cine_films = [
     {"id": 22, "nomFilm": "Sinister", "date": "11-02-2025", "heure": "23h00", "duree": "1", "image": require("../assets/affiche_BobSinclar.jpg"), "categorie": "House", "salle": "Salle 3"},
 ];
 
+let places_films = [
+    { "id_concert": 1, "type_place": "Fosse", "nb_places": 300, "prix_place": 5 },
+    { "id_concert": 2, "type_place": "Fosse", "nb_places": 300, "prix_place": 25 },
+    { "id_concert": 3, "type_place": "Fosse", "nb_places": 300, "prix_place": 10 },
+    { "id_concert": 4, "type_place": "Fosse", "nb_places": 300, "prix_place": 10 },
+    { "id_concert": 5, "type_place": "Fosse", "nb_places": 300, "prix_place": 25 },
+    { "id_concert": 6, "type_place": "Fosse", "nb_places": 300, "prix_place": 8 },
+    { "id_concert": 7, "type_place": "Fosse", "nb_places": 300, "prix_place": 8 },
+    { "id_concert": 8, "type_place": "Fosse", "nb_places": 300, "prix_place": 15 },
+    { "id_concert": 9, "type_place": "Fosse", "nb_places": 300, "prix_place": 30 },
+    { "id_concert": 10, "type_place": "Fosse", "nb_places": 300, "prix_place": 15 },
+    { "id_concert": 11, "type_place": "Fosse", "nb_places": 300, "prix_place": 15 },
+    { "id_concert": 12, "type_place": "Fosse", "nb_places": 300, "prix_place": 10 },
+    { "id_concert": 13, "type_place": "Fosse", "nb_places": 300, "prix_place": 10 },
+    { "id_concert": 14, "type_place": "Fosse", "nb_places": 300, "prix_place": 15 },
+    { "id_concert": 15, "type_place": "Fosse", "nb_places": 300, "prix_place": 15 },
+    { "id_concert": 16, "type_place": "Fosse", "nb_places": 300, "prix_place": 20 },
+    { "id_concert": 17, "type_place": "Fosse", "nb_places": 300, "prix_place": 20 },
+    { "id_concert": 18, "type_place": "Fosse", "nb_places": 300, "prix_place": 3 },
+    { "id_concert": 19, "type_place": "Fosse", "nb_places": 300, "prix_place": 15 },
+    { "id_concert": 20, "type_place": "Fosse", "nb_places": 300, "prix_place": 10 },
+    { "id_concert": 21, "type_place": "Fosse", "nb_places": 300, "prix_place": 10 },
+    { "id_concert": 22, "type_place": "Fosse", "nb_places": 300, "prix_place": 15 },
+];
+
+let panier_film = [
+    {'nb_places_prises':'2', 'type_place_prises':'Fosse'}
+];
+
+let coordonnees_bancaire = [
+    {'nom': 'Doe', "numero_carte": "123456789ABCDEFG", 'date_expiration': "11/31", 'cvv': '484'}
+]
 
 module.exports = {
     utilisateurs,
@@ -70,4 +102,7 @@ module.exports = {
     expo_oeuvres,
     expo_oeuvres_demande,
     cine_films,
+    places_films,
+    panier_film,
+    coordonnees_bancaire
 }
