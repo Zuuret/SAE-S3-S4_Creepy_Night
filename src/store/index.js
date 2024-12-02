@@ -116,7 +116,7 @@ export default new Vuex.Store({
       }
     },
     async getPlacesFilms({ commit }, places_film) {
-      console.log("Récupération des places de concerts pour le concert ID : ", concertId);
+      console.log("Récupération des places de concerts pour le concert ID : ", places_film);
       let response = await CineFilms.getPlacesFilm(places_film);
       if (response.error === 0) {
         commit('updateListePlaceFilm', response.data);
