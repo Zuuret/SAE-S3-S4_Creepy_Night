@@ -51,8 +51,8 @@ function getFilmById(filmId){
 }
 
 function setFilm(film){
-    let film = cine_films.find(c => c.id === parseInt(film))
-    return {error: 0, data: film}
+    let filmMis = cine_films.find(c => c.id === parseInt(film))
+    return {error: 0, data: filmMis}
 }
 
 function getPlacesFilm(places_film) {
