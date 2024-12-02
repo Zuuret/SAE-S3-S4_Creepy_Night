@@ -27,33 +27,35 @@
           <button @click="selectCircuit('circuit1')" :disabled="selectedCircuit === 'circuit1'">La FrayeuRoute</button>
           <button @click="selectCircuit('circuit2')" :disabled="selectedCircuit === 'circuit2'">L'ÉpouvanTour</button>
         </div>
+        <div class="textes">
+          <div class="day-selection">
+            <h2>Choisissez votre jour</h2>
+            <select v-model="selectedDay" :disabled="selectedCircuit === 'both'">
+              <option value="mercredi">Mercredi 29 octobre</option>
+              <option value="vendredi">Vendredi 31 octobre</option>
+              <option value="dimanche">Dimanche 2 novembre</option>
+            </select>
+          </div>
+          <p>Vivez une expérience effrayante en participant à cette course d'horreur ! Le prix du billet est de 10€.</p>
+          <div class="ticket-purchase" v-if="selectedCircuit !== 'both'">
+            <h2>Participer au Cauche'Marathon</h2>
+            <p>Vous avez choisi : <strong>{{ selectedCircuitName }}</strong> le <strong>{{ selectedDayName }}</strong>.</p>
+            <button @click="buyTicket">Billet - 10€</button>
+          </div>
 
-        <div class="day-selection">
-          <h2>Choisissez votre jour</h2>
-          <select v-model="selectedDay" :disabled="selectedCircuit === 'both'">
-            <option value="mercredi">Mercredi 29 octobre</option>
-            <option value="vendredi">Vendredi 31 octobre</option>
-            <option value="dimanche">Dimanche 2 novembre</option>
-          </select>
-        </div>
-        <p>Vivez une expérience effrayante en participant à cette course d'horreur ! Le prix du billet est de 10€.</p>
-        <div class="ticket-purchase" v-if="selectedCircuit !== 'both'">
-          <h2>Participer au Cauche'Marathon</h2>
-          <p>Vous avez choisi : <strong>{{ selectedCircuitName }}</strong> le <strong>{{ selectedDayName }}</strong>.</p>
-          <button @click="buyTicket">Billet - 10€</button>
-        </div>
-
-        <div class="prizes">
-          <h2>Récompenses pour les Survivants</h2>
-          <p>Tous les participants qui terminent la course recevront le certificat de "Survivant du Cauche'Marathon" !</p>
-          <p>Les meilleurs coureurs de chaque circuit recevront des récompenses en argent, des médailles et possiblement un trophée exclusif :</p>
-          <ul>
-            <li><strong>1er place :</strong> 250€ + Médaille d'Or + Trophée exclusif</li>
-            <li><strong>2e place :</strong> 150€ + Médaille d'Argent</li>
-            <li><strong>3e place :</strong> 75€ + Médaille de Bronze</li>
-          </ul>
-          <p>Trophée exclusif du Cauche'Marathon décerné aux vainqueurs :</p>
-          <img src="@/assets/trophee_marathon.jpeg" alt="Trophée du Cauche'Marathon" class="trophy-image">
+          <div class="prizes">
+            <h2>Récompenses pour les Survivants</h2>
+            <p>Tous les participants qui terminent la course recevront le certificat de "Survivant du Cauche'Marathon" !</p>
+            <p>Les meilleurs coureurs de chaque circuit recevront des récompenses en argent, des médailles et possiblement un trophée exclusif :</p>
+            <ul>
+              <li><strong>1er place : </strong> 250€ + Médaille d'Or + Trophée exclusif</li>
+              <li><strong>2e place : </strong> 150€ + Médaille d'Argent</li>
+              <li><strong>3e place : </strong> 75€ + Médaille de Bronze</li>
+            </ul>
+            <br>
+            <p>Trophée exclusif du Cauche'Marathon décerné aux vainqueurs :</p>
+            <img src="@/assets/trophee_marathon.jpeg" alt="Trophée du Cauche'Marathon" class="trophy-image">
+          </div>
         </div>
       </div>
     </div>
@@ -112,74 +114,97 @@ export default {
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
 
-.lft {
-  text-align: left;
+body {
+  background-color: #121212;
+  color: #e0e0e0;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 .titre {
   text-align: center;
-  font-size: 2.5em;
+  font-size: 3em;
   font-family: 'Creepster', cursive;
   letter-spacing: 2px;
   color: #ff4444;
-  text-shadow: 0 0 8px rgba(255, 0, 0, 0.3), 0 0 20px rgba(255, 0, 0, 0.3);
-  margin-top: 130px;
+  text-shadow: 0 0 10px rgba(255, 68, 68, 0.6), 0 0 30px rgba(255, 0, 0, 0.4);
+  margin-top: 9%;
 }
 
 .container {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-top: 50px;
-}
-
-.circuit-selection,
-.ticket-purchase,
-.prizes,
-.day-selection {
-  text-align: left;
+  margin: 50px 10%;
 }
 
 .circuit-image {
-  padding-left: 10%;
-  width: 35%;
+  width: 40%;
+  position: relative;
+}
+
+.circuit-image img {
+  border-radius: 15px;
+  border: 2px solid #ff4444;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
 }
 
 .content-right {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-  padding-left: 10px;
+  justify-content: flex-start;
+  width: 55%;
+  background: rgba(34, 34, 34, 0.9);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+}
+
+.presentation p {
+  font-size: 1.2em;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: #cccccc;
+}
+
+.circuit-selection h2,
+.day-selection h2,
+.prizes h2,
+.ticket-purchase h2 {
+  font-family: 'Creepster', cursive;
+  font-size: 2em;
+  color: #ff4444;
+  text-shadow: 0 0 10px rgba(255, 68, 68, 0.4);
+  margin-bottom: 15px;
 }
 
 button {
-  font-size: 16px;
-  margin: 10px;
-  padding: 10px;
-  border: none;
+  font-size: 1em;
+  margin: 10px 5px;
+  padding: 10px 15px;
+  border: 2px solid #ff4444;
   border-radius: 5px;
-  background-color: #ff4444;
-  color: white;
+  background-color: #212121;
+  color: #ff4444;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-family: 'Creepster', cursive;
 }
 
 button:hover {
-  background-color: #ff1a1a;
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+  background-color: #ff4444;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 68, 68, 0.6);
 }
 
 button:disabled {
-  background-color: #ccc;
+  background-color: #444444;
+  border: 2px solid #666666;
+  color: #999999;
   cursor: not-allowed;
-}
-
-.prizes {
-  margin-top: 30px;
 }
 
 .prizes ul {
@@ -187,19 +212,56 @@ button:disabled {
   padding: 0;
 }
 
+.textes p {
+  color: #cccccc;
+}
+
 .prizes li {
-  font-size: 16px;
+  font-size: 1.1em;
+  padding-left: 20px;
   margin: 10px 0;
+  display: flex;
+  color: #cccccc;
+  align-items: center;
+}
+
+.prizes li:before {
+  content: '🩸';
+  margin-right: 10px;
+  color: #ff4444;
 }
 
 .trophy-image {
+  display: block;
+  margin: 20px auto;
   width: 200px;
-  margin-top: 20px;
-  margin-left: 35%;
+  border-radius: 10px;
+  border: 2px solid #ff4444;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
 }
 
-img {
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+select {
+  background-color: #212121;
+  color: #ff4444;
+  border: 2px solid #ff4444;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 1em;
+  margin: 10px 0;
 }
+
+select:focus {
+  outline: none;
+  box-shadow: 0 0 10px rgba(255, 68, 68, 0.8);
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #111111;
+  color: #ff4444;
+  font-family: 'Creepster', cursive;
+  letter-spacing: 2px;
+}
+
 </style>
