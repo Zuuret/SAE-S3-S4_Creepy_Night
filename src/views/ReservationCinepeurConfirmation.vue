@@ -42,7 +42,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['film', 'places_film']),
+    ...mapState(['filmById', 'places_film']),
     prixTotal() {
       let total = 0;
       for (const place of this.places_film) {
@@ -53,7 +53,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['setFilm', 'getPlacesFilms']),
+    ...mapActions(['getFilmById', 'getPlacesFilms']),
   },
   mounted() {
     const filmId = parseInt(this.$route.params.id);

@@ -45,14 +45,14 @@ function getFilms() {
     return {error: 0, data: cine_films}
 }
 
-function setFilm(concertId){
-    let concert = concerts.find(c => c.id === parseInt(concertId))
-    return {error: 0, data: concert}
+function setFilm(filmId){
+    let film = cine_films.find(c => c.id === parseInt(filmId))
+    return {error: 0, data: film}
 }
 
-function getPlacesFilm(filmId) {
-    let placeFilm = places_films.filter(place => place.id_film === parseInt(filmId));
-    return { error: 0, data: placeFilm };
+function getPlacesFilm(places_film) {
+    let placesFilm = places_films.filter(place => place.id_film === parseInt(places_film));
+    return { error: 0, data: places_film };
 }
 
 function validerPaiement(data){
