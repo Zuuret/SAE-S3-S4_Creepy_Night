@@ -49,7 +49,7 @@
         </div>
       </div>
       <div class="transactions">
-        <h2>Mes dernières activités :</h2>
+        <h2>Mes dernières transactions :</h2>
         <ul>
           <li v-for="transaction in filteredTransactions" :key="transaction.id" class="transaction-item">
             <p>{{ transaction.date }}</p>
