@@ -50,11 +50,14 @@ function getFilmById(filmId){
     return {error: 0, data: film}
 }
 
-
+function setFilm(film){
+    let film = cine_films.find(c => c.id === parseInt(film))
+    return {error: 0, data: film}
+}
 
 function getPlacesFilm(places_film) {
     let placesFilm = places_films.filter(place => place.id_film === parseInt(places_film));
-    return { error: 0, data: places_film };
+    return { error: 0, data: placesFilm };
 }
 
 function validerPaiement(data){
