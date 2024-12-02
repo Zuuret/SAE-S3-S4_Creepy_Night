@@ -10,17 +10,25 @@
     </div>
     <div class="section1">
       <h1>Que voulez-vous faire ?</h1>
-        <ul>
-          <li>Faire un signalement</li>
+      <ul>
+        <li>
+          <h2>Faire un signalement</h2>
           <p>Avez-vous rencontré un problème ? Notre équipe est là pour vous aider rapidement.</p>
-          <button><router-link to="/secuflippe/signalement" style="text-decoration: none">Accéder au formulaire de signalement</router-link></button>
-          <li>Suivre un signalement</li>
+          <router-link to="/secuflippe/signalement" style="text-decoration: none; color: white;">
+            <button>Accéder au formulaire de signalement</button>
+          </router-link>
+        </li>
+        <li>
+          <h2>Suivre un signalement</h2>
           <p>Déjà signalé un problème ? Consultez le statut de votre requête.</p>
-          <button>Suivre un signalement</button>
-        </ul>
+          <router-link to="/secuflippe/suivre" style="text-decoration: none; color: white;">
+            <button>Suivre un signalement</button>
+          </router-link>
+        </li>
+      </ul>
     </div>
     <div class="section2">
-      <p>Un festival d'horreur peut être effrayant… mais pas dangereux si vous suivez ces conseils !</p>
+      <h2>Un festival d'horreur peut être effrayant… mais pas dangereux si vous suivez ces conseils !</h2>
       <li>Déplacez-vous en groupe : Ne restez pas seul dans les zones sombres ou isolées.</li>
       <li>Localisez les points de secours : Familiarisez-vous avec les postes de secours et les issues de secours sur la carte.</li>
       <li>Gardez vos affaires près de vous : Les monstres ne voleront pas vos sacs, mais on ne sait jamais avec les autres festivaliers !</li>
@@ -31,6 +39,7 @@
       <h1>A propos de l'équipe de SécuFlippe</h1>
       <p>Nos équipes de sécurité sont composées de professionnels et de bénévoles passionnés qui veillent à ce que tout le monde profite du festival sans inquiétude.
       N’hésitez pas à demander de l’aide ou des renseignements si nécessaire.</p>
+      <img src="@/assets/EquipeSécuflippe.jpg" alt="Sécuflippe" class="equipe_secuflippe"/>
     </div>
     <div class="section4">
       <h1>Plan du site et postes de secours</h1>
@@ -78,6 +87,7 @@ div {
   margin: 10px 0;
   font-size: 16px;
   line-height: 1.6;
+  font-size: 23px;
 }
 
 /* Section 1: Actions */
@@ -88,7 +98,7 @@ div {
   max-width: 800px;
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgb(0, 0, 0);
 }
 
 .section1 h1 {
@@ -112,6 +122,7 @@ div {
   margin: 5px 0 15px;
   font-size: 14px;
   color: #555;
+  font-size: 20px;
 }
 
 .section1 button {
@@ -124,6 +135,7 @@ div {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 20px;
 }
 
 .section1 button:hover {
@@ -138,7 +150,7 @@ div {
   max-width: 800px;
   background-color: #f9f9f9;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgb(0, 0, 0);
 }
 
 .section2 p {
@@ -152,6 +164,7 @@ div {
   margin: 10px 0;
   font-size: 14px;
   color: #555;
+  font-size: 20px;
 }
 
 /* Section 3: À propos */
@@ -162,7 +175,7 @@ div {
   max-width: 800px;
   background-color: #fff;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgb(0, 0, 0);
 }
 
 .section3 h1 {
@@ -175,6 +188,11 @@ div {
   font-size: 14px;
   line-height: 1.6;
   color: #555;
+  font-size: 20px;
+}
+
+.section3 img {
+  width: 760px;
 }
 
 /* Section 4: Carte */
@@ -186,7 +204,7 @@ div {
   text-align: center;
   background-color: #f9f9f9;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgb(0, 0, 0);
 }
 
 .section4 h1 {
@@ -195,7 +213,7 @@ div {
 }
 
 .section4 img {
-  max-width: 100%;
+  width: 755px;
   height: auto;
   border: 2px solid #d32f2f;
   border-radius: 8px;
