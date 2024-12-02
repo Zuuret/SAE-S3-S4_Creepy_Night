@@ -7,7 +7,6 @@ import ValidArtiste from '../services/validArtiste.service'
 import ExpoOeuvres from '../services/expoOeuvres.services'
 import CineFilms from '../services/cineFilms.services'
 import controller from "@/datasource/controller";
-import {places_films} from "@/datasource/data";
 
 export default new Vuex.Store({
   state: {
@@ -39,7 +38,7 @@ export default new Vuex.Store({
     updateListeFilms(state, films){
       state.films = films;
     },
-    updateFilm(state, filmById){
+    updateFilmById(state, filmById){
       state.filmById = filmById;
     },
     updateFilm(state, film){
@@ -94,6 +93,15 @@ export default new Vuex.Store({
       let response = await CineFilms.getFilms();
       if (response.error === 0) {
         commit('updateListeFilms', response.data);
+      } else {
+        console.log(response.data);
+      }
+    },
+    async getFilmById({commit}, filmById){
+      console.log("Récupération du concert ID : ", filmById);
+      let response = await CineFilms.getFilmById(filmById);
+      if (response.error === 0) {
+        commit('updateFilmById', response.data);
       } else {
         console.log(response.data);
       }

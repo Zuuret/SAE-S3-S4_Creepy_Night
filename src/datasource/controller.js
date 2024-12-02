@@ -45,7 +45,7 @@ function getFilms() {
     return {error: 0, data: cine_films}
 }
 
-function setFilm(filmId){
+function getFilmById(filmId){
     let film = cine_films.find(c => c.id === parseInt(filmId))
     return {error: 0, data: film}
 }

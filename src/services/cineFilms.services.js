@@ -41,7 +41,7 @@ async function getPlacesFilm(places_film) {
     try {
         response = await getPlacesFilmsFromLocalSource(places_film);
     } catch (err) {
-        response = { error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des places de concerts' };
+        response = { error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des places de film' };
     }
     return response;
 }
