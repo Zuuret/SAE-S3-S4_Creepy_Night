@@ -44,14 +44,14 @@
         </div>
         <div class="ticket-info">
           <img src="@/assets/qr.png" alt="QR Code" class="qr-code-image" />
-          <p>N° de billet : {{ numBillet }}</p>
+          <p>N° de billet : {{ numCashless }}</p>
           <button class="view-ticket">Voir mon billet</button>
         </div>
       </div>
       <div class="transactions">
         <h2>Mes dernières activités :</h2>
         <ul>
-          <li v-for="transaction in transactions" :key="transaction.id" class="transaction-item">
+          <li v-for="transaction in filteredTransactions" :key="transaction.id" class="transaction-item">
             <p>{{ transaction.date }}</p>
             <div class="transaction-details">
               <span>{{ transaction.operation }}</span>
@@ -74,7 +74,10 @@ export default {
   name: 'CashLess',
   components: { NavBar },
   computed: {
-    ...mapState(['transactions']),
+    ...mapState(['transactions', 'utilisateur']),
+    filteredTransactions() {
+      return this.transactions.filter((transaction) => transaction.id_utilisateur === this.utilisateur.id);
+    }
   },
   methods: {
     ...mapActions(['getAllTransactions'])
@@ -82,11 +85,15 @@ export default {
   data() {
     return {
       soldes: 0,
-      numBillet: 0
+      numCashless: 0
     }
   },
   mounted() {
     this.getAllTransactions();
+
+    this.soldes = this.utilisateur.solde;
+    this.numCashless = this.utilisateur.numCashless;
+
   },
 };
 </script>
