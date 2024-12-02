@@ -1,12 +1,12 @@
 <template>
   <div>
     <h1>Détails du film</h1>
-    <div v-if="filmById">
-      <img :src="filmById.image" alt="Affiche du film" />
-      <h2>{{ filmById.nomFilm }} - {{ filmById.categorie }}</h2>
-      <p>Date : {{ filmById.date }}</p>
-      <p>Heure : {{ filmById.heure }}</p>
-      <p>{{ filmById.salle }}</p>
+    <div v-if="filmId">
+      <img :src="filmId.image" alt="Affiche du film" />
+      <h2>{{ filmId.nomFilm }} - {{ filmId.categorie }}</h2>
+      <p>Date : {{ filmId.date }}</p>
+      <p>Heure : {{ filmId.heure }}</p>
+      <p>{{ filmId.salle }}</p>
     </div>
 
     <div v-if="places_film.length > 0">
@@ -58,7 +58,7 @@ export default {
   mounted() {
     const filmId = parseInt(this.$route.params.id);
     console.log("ID du film : ", filmId);
-    this.getFilmbyId(filmId);
+    this.getFilmById(filmId);
     this.getPlacesFilms(filmId).then(() => {
       this.places_film.forEach(place => {
         this.$set(this.quantiteParType, place.type_place, 0);
