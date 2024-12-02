@@ -53,7 +53,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['getFilmbyId', 'getPlacesFilms']),
+    ...mapActions(['setFilm', 'getPlacesFilms']),
   },
   mounted() {
     const filmId = parseInt(this.$route.params.id);

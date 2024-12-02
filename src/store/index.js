@@ -15,6 +15,8 @@ export default new Vuex.Store({
     oeuvre: [],
     films: [],
     film: [],
+    places_concert: [],
+    coordonneesBancaire: null,
   },
   getters: {
   },
@@ -36,6 +38,12 @@ export default new Vuex.Store({
     },
     updateFilm(state, film){
       state.film = film;
+    },
+    updateListePlaceFilm(state, places_film){
+      state.places_film = places_film;
+    },
+    updateCoordonneesBancaire(state, coordonneesBancaire){
+      state.coordonneesBancaire = coordonneesBancaire;
     },
   },
   actions: {
@@ -93,6 +101,14 @@ export default new Vuex.Store({
         console.log(response.data);
       }
     },
+    async getPlacesFilms({ commit }, concertId) {
+      console.log("Récupération des places de concerts pour le concert ID : ", concertId);
+      let response = await ConcertService.getPlacesFilms(concertId);
+      if (response.error === 0) {
+        commit('updateListePlaceConcert', response.data);
+      } else {
+        console.log(response.data);
+      },
   },
   modules: {
   }
