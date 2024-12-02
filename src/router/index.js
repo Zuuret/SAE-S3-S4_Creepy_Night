@@ -13,6 +13,7 @@ import OrgaValidArtisteView from "@/views/OrgaValidArtisteView.vue";
 import BilletAchat from "@/views/BilletAchat.vue";
 
 import Secuflippe from "@/views/Secuflippe.vue";
+import SecuflippeSignalement from "@/views/SecuflippeSignalement.vue";
 
 import BalTrouille from "@/views/BalTrouille.vue";
 
@@ -43,6 +44,7 @@ const routes = [
   { path: "/organisateur/validartiste", name: "validArtiste", component: OrgaValidArtisteView},
   { path: '/billet', name: 'billet', component: BilletAchat },
   { path: '/secuflippe', name: 'secuflippe', component: Secuflippe},
+  {path: '/secuflippe/signalement', name: 'secuflippeSignalement', component: SecuflippeSignalement},
   { path: '/cauchemarathon', name: 'caucheMarathon', component: CaucheMarathon},
   { path: '/baltrouille', name: 'baltrouille', component: BalTrouille},
   { path: '/cashless', name: 'cashless', component: CashLess},

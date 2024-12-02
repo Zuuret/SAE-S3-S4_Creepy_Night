@@ -13,7 +13,7 @@
         <ul>
           <li>Faire un signalement</li>
           <p>Avez-vous rencontré un problème ? Notre équipe est là pour vous aider rapidement.</p>
-          <button>Accéder au formulaire de signalement</button>
+          <button><router-link to="/secuflippe/signalement" style="text-decoration: none">Accéder au formulaire de signalement</router-link></button>
           <li>Suivre un signalement</li>
           <p>Déjà signalé un problème ? Consultez le statut de votre requête.</p>
           <button>Suivre un signalement</button>
