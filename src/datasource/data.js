@@ -1,5 +1,6 @@
 let utilisateurs = [
-    {"id":1, "prenom":"John", "nom":"Doe", "dateNaissance":"23-09-1998", "email":"johndoe@gmail.com", "motDePasse":"mdp123", "solde": 100},
+    {"id":1, "prenom":"John", "nom":"Doe", "dateNaissance":"23-09-1998", "email":"johndoe@gmail.com", "motDePasse":"mdp123", "solde": 100, "numCashless": 123456789},
+    {"id":2, "prenom":"Jane", "nom":"Doe", "dateNaissance":"03-07-1998", "email":"janedoe@outlook.fr", "motDePasse":"mdp456", "solde": 80, "numCashless": 5430},
 ];
 
 let artistes = [
@@ -67,10 +68,10 @@ let coordonnees_bancaire = [
 ]
 
 let transactions = [
-    {id: 1, date: "05 novembre 2024", heure: "15h30", operation: "Remboursement", montant: -10.00},
-    {id: 2, date: "31 octobre 2024", heure: "23h00", operation: "Paiement BAR", details: "1x Consigne Gobelet", montant: 2.00},
-    {id: 3, date: "31 octobre 2024", heure: "21h00", operation: "Paiement BAR", details: "1x Consigne Gobelet - 2.00 €\n1x Coca Cola - 4.00 €", montant: -6.00},
-    {id: 4, date: "31 octobre 2024", heure: "20h30", operation: "Paiement Burger&co", details: "1x Frites - 4.00 €\n1x Cheese Burger - 12.00 €", montant: -16.00}
+    {"id": 1, "date": "05 novembre 2024", "heure": "15h30", "operation": "Remboursement", "montant": "-10.00", "id_utilisateur": "1"},
+    {"id": 2, "date": "31 octobre 2024", "heure": "23h00", "operation": "Paiement BAR", "details": "1x Consigne Gobelet", "montant": "2.00", "id_utilisateur": "1"},
+    {"id": 3, "date": "31 octobre 2024", "heure": "21h00", "operation": "Paiement BAR", "details": "1x Consigne Gobelet - 2.00 €\n1x Coca Cola - 4.00 €", "montant": "-6.00", "id_utilisateur": "1"},
+    {"id": 4, "date": "31 octobre 2024", "heure": "20h30", "operation": "Paiement Burger&co", "details": "1x Frites - 4.00 €\n1x Cheese Burger - 12.00 €", "montant": "-16.00", "id_utilisateur": "2"}
 ];
 
 

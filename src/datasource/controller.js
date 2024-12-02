@@ -1,3 +1,4 @@
+
 import {concerts, coordonnees_bancaire, places_concerts, utilisateurs, artistes, transactions, expo_oeuvres, expo_oeuvres_demande} from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -98,15 +99,15 @@ function setOeuvre(data) {
 
 let userBalance = 0;
 
-export function getUserBalance() {
+function getUserBalance() {
     return userBalance.toFixed(2);
 }
 
-export function getTransactions() {
-    return transactions;
+function getAllTransactions() {
+    return { error: 0, data: transactions };
 }
 
-export function addFunds(amount) {
+function addFunds(amount) {
     if (amount > 0) {
         userBalance += amount;
         transactions.push({
@@ -120,7 +121,7 @@ export function addFunds(amount) {
     }
 }
 
-export function refund(amount) {
+function refund(amount) {
     if (amount > 0 && amount <= userBalance) {
         userBalance -= amount;
         transactions.push({
@@ -146,5 +147,9 @@ export default {
     getArtistes,
     setDecision,
     getOeuvres,
-    setOeuvre
+    setOeuvre,
+    getUserBalance,
+    getAllTransactions,
+    addFunds,
+    refund
 };

@@ -8,6 +8,7 @@ import ProfilService from '../services/profil.service'
 import ConcertService from "../services/concert.service";
 import ValidArtiste from '../services/validArtiste.service'
 import ExpoOeuvres from '../services/expoOeuvres.services'
+import CashLessService from '../services/cashless.service';
 
 export default new Vuex.Store({
   state: {
@@ -50,8 +51,8 @@ export default new Vuex.Store({
     updateArtiste(state, artiste){
       state.artiste = artiste;
     },
-    updateTransactions(state, transactions){
-        state.transactions = transactions;
+    updateAllTransactions(state, transactions){
+      state.transactions = transactions;
     },
     updateListeOeuvres(state, oeuvres){
       state.oeuvres = oeuvres;
@@ -136,11 +137,11 @@ export default new Vuex.Store({
         console.log(response.data);
       }
     },
-    async getTransactions({ commit }) {
+    async getAllTransactions({ commit }) {
       console.log("Récupération des transactions");
-      let response = await controller.getTransactions();
+      let response = await CashLessService.getAllTransactions();
       if (response.error === 0) {
-        commit('updateTransactions', response.data);
+        commit('updateAllTransactions', response.data);
       } else {
         console.log(response.data);
       }
