@@ -15,7 +15,7 @@ export default new Vuex.Store({
     oeuvres: [],
     oeuvre: [],
     films: [],
-    filmById: [],
+    filmById: null,
     film: [],
     places_film: [],
     coordonneesBancaire: null,

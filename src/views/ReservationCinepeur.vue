@@ -17,7 +17,7 @@
               <p class="placeholder-text">À venir</p>
             </div>
             <div v-if="filmsByDayAndHour[day][hour]" class="concert-card">
-              <router-link :to="`/concert/${filmsByDayAndHour[day][hour].id}`">
+              <router-link :to="`/cinepeur/${filmsByDayAndHour[day][hour].id}`">
                 <img class="concert-img" :src="filmsByDayAndHour[day][hour].image" alt="Affiche du concert" />
                 <p class="nomArtiste">{{ filmsByDayAndHour[day][hour].nomFilm }}</p>
               </router-link>

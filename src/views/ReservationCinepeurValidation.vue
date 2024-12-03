@@ -1,10 +1,11 @@
 <template>
   <div>
-    <div v-if="ok === false">
-      <label>Voulez-vous utiliser votre cashless ?</label>
-      <input type="button" :ok="true">
+    <div v-if="ok === null">
+      <p>Voulez-vous utiliser votre cashless ?</p>
+      <button @click="isOk()" id="buttonFalse1">Non</button>
+      <button @click="isOk()" id="buttonFalse1">Non</button>
     </div>
-    <div v-if="ok === true" >
+    <div v-if="ok === false" >
       <form @submit.prevent="validerPaiement({nom, numeroCarte, dateExpiration, cvv})">
         <h3>Coordonnées bancaires</h3>
         <div>
@@ -43,13 +44,17 @@ export default {
     numeroCarte: '',
     dateExpiration: '',
     cvv: '',
-    ok: false,
+    ok: null,
   }),
   computed: {
     ...mapState(['coordonneesBancaire']),
   },
   methods: {
     ...mapActions(['validerPaiement']),
+    isOk(){
+      this.ok = false;
+      return false;
+    }
   },
   mounted() {
   }
