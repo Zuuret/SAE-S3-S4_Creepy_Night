@@ -3,7 +3,7 @@
     <h1>Détails du film</h1>
     <div v-if="filmById">
       <img :src="filmById.image" alt="Affiche du film" />
-      <h2>{{ filmById.nomFilm }} - {{ filmById.categorie }}</h2>
+      <h2>{{ filmById.nomFilm }}</h2>
       <p>Date : {{ filmById.date }}</p>
       <p>Heure : {{ filmById.heure }}</p>
       <p>{{ filmById.salle }}</p>
@@ -25,7 +25,7 @@
     <div>
       <p>Total : {{ prixTotal }}€</p>
     </div>
-    <router-link v-if="filmById" :to="`/cinepeur/${filmById.id}/validate`">
+    <router-link v-if="prixTotal != 0" :to="`/cinepeur/${filmById.id}/validate`">
       <button>Obtenir ma place</button>
     </router-link>
   </div>

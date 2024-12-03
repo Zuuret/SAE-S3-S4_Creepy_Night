@@ -2,8 +2,8 @@
   <div>
     <div v-if="ok === null">
       <p>Voulez-vous utiliser votre cashless ?</p>
-      <button @click="isOk()" id="buttonFalse1">Non</button>
-      <button @click="isOk()" id="buttonFalse1">Non</button>
+      <button @click="ok = true">Oui</button>
+      <button @click="ok = false">Non</button>
     </div>
     <div v-if="ok === false" >
       <form @submit.prevent="validerPaiement({nom, numeroCarte, dateExpiration, cvv})">
@@ -51,10 +51,6 @@ export default {
   },
   methods: {
     ...mapActions(['validerPaiement']),
-    isOk(){
-      this.ok = false;
-      return false;
-    }
   },
   mounted() {
   }
