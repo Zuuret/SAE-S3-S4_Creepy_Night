@@ -212,6 +212,10 @@ export default {
   color: #ff0000;
 }
 
+.ticket-info {
+  text-align: center;
+}
+
 .ticket-info p {
   font-size: 1.2rem;
   color: #ccc;
