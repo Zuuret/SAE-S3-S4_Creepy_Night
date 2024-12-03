@@ -15,7 +15,7 @@
         <div>
           <div class="form-group">
             <label>Nom/Prénom :</label>
-            <input type="text" placeholder="Entrez votre nom et prénom" v-model="form.createur" />
+            <input type="text" placeholder="Entrez votre nom de créateur" v-model="form.createur" />
           </div>
 
           <div class="form-group">

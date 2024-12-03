@@ -1,4 +1,3 @@
-
 import {concerts, coordonnees_bancaire, places_concerts, utilisateurs, artistes, transactions, expo_oeuvres, expo_oeuvres_demande} from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -137,6 +136,25 @@ function refund(amount) {
     }
 }
 
+function getFilms() {
+    return {error: 0, data: cine_films}
+}
+
+function getFilmById(filmId){
+    let film = cine_films.find(c => c.id === parseInt(filmId))
+    return {error: 0, data: film}
+}
+
+function setFilm(film){
+    let filmMis = cine_films.find(c => c.id === parseInt(film))
+    return {error: 0, data: filmMis}
+}
+
+function getPlacesFilm(places_film) {
+    let placesFilm = places_films.filter(place => place.id_film === parseInt(places_film));
+    return { error: 0, data: placesFilm };
+}
+
 export default {
     ajoutUtilisateur,
     getAllUsers,
@@ -151,5 +169,9 @@ export default {
     getUserBalance,
     getAllTransactions,
     addFunds,
-    refund
+    refund,
+    getFilms,
+    getFilmById,
+    setFilm,
+    getPlacesFilm,
 };

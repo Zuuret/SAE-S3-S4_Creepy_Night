@@ -1,17 +1,17 @@
 <template>
   <div>
     <h1>Détails du film</h1>
-    <div v-if="film">
-      <img :src="film.image" alt="Affiche du film" />
-      <h2>{{ film.artiste }} - {{ film.categorie }}</h2>
-      <p>Date : {{ film.date }}</p>
-      <p>Heure : {{ film.heure }}</p>
-      <p>{{ film.scene }}</p>
+    <div v-if="filmById">
+      <img :src="filmById.image" alt="Affiche du film" />
+      <h2>{{ filmById.nomFilm }}</h2>
+      <p>Date : {{ filmById.date }}</p>
+      <p>Heure : {{ filmById.heure }}</p>
+      <p>{{ filmById.salle }}</p>
     </div>
 
     <div v-if="places_film.length > 0">
       <h3>Places disponibles :</h3>
-      <div v-for="place in places_film" :key="place.id_film + '-' + place.type_place">
+      <div v-for="place in places_film" :key="place.id">
         <p>Type de place : {{ place.type_place }} - Nombre de places : {{ place.nb_places }} - Prix : {{ place.prix_place }} €</p>
         <label :for="`selection_quantite_${place.type_place}`">Quantité :</label>
         <select v-model.number="quantiteParType[place.type_place]">
@@ -25,9 +25,11 @@
     <div>
       <p>Total : {{ prixTotal }}€</p>
     </div>
-    <router-link v-if="film" :to="`/film/${film.id}/validate`">
-      <button>Obtenir ma place</button>
-    </router-link>
+    <div>
+      <router-link v-if="prixTotal != 0" :to="`/cinepeur/${filmById.id}/validate`">
+        <button>Obtenir ma place</button>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -42,7 +44,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['film', 'places_film']),
+    ...mapState(['filmById', 'places_film']),
     prixTotal() {
       let total = 0;
       for (const place of this.places_film) {
@@ -53,12 +55,12 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['getFilmbyId', 'getPlacesFilms']),
+    ...mapActions(['getFilmById', 'getPlacesFilms']),
   },
   mounted() {
     const filmId = parseInt(this.$route.params.id);
     console.log("ID du film : ", filmId);
-    this.getFilmbyId(filmId);
+    this.getFilmById(filmId);
     this.getPlacesFilms(filmId).then(() => {
       this.places_film.forEach(place => {
         this.$set(this.quantiteParType, place.type_place, 0);

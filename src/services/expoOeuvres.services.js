@@ -5,7 +5,7 @@ async function getOeuvresFromLocalSource() {
 }
 
 async function setOeuvreInLocalSource(oeuvre) {
-    return LocalSource.setDecision(oeuvre);
+    return LocalSource.setOeuvre(oeuvre);
 }
 
 async function getOeuvres() {

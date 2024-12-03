@@ -1,157 +1,208 @@
 <template>
   <div>
-    <h1>Liste des films</h1>
-    <div v-for="film in films" :key="film.id" class="concert-card">
-      <img class="concert-img" :src="film.image" alt="Affiche du concert" />
-      <p>{{ film.artiste }}</p>
-      <p>{{ film.date }} à {{ film.heure }}</p>
-      <router-link :to="`/cinepeur/${cinepeur.id}`">
-        <button>Réserver ma place</button>
-      </router-link>
+    <div class="navbar">
+      <NavBar />
+    </div>
+    <h1>Calendrier des films</h1>
+    <div class="calendar">
+      <div class="calendar-header">
+        <div class="calendar-hour"></div>
+        <div v-for="day in days" :key="day" class="calendar-day">{{ day }}</div>
+      </div>
+      <div class="calendar-body">
+        <div v-for="hour in hours" :key="hour" class="calendar-row">
+          <div class="calendar-hour">{{ hour }}</div>
+          <div v-for="day in days" :key="day" class="calendar-cell">
+            <div v-if="!filmsByDayAndHour[day][hour]" class="empty-cell">
+              <p class="placeholder-text">À venir</p>
+            </div>
+            <div v-if="filmsByDayAndHour[day][hour]" class="concert-card">
+              <router-link :to="`/cinepeur/${filmsByDayAndHour[day][hour].id}`">
+                <img class="concert-img" :src="filmsByDayAndHour[day][hour].image" alt="Affiche du concert" />
+                <p class="nomArtiste">{{ filmsByDayAndHour[day][hour].nomFilm }}</p>
+              </router-link>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import {mapActions, mapState} from 'vuex';
+import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: 'ReservationCinepeur',
+  components: {NavBar},
   data() {
-    return {};
+    return {
+      days: this.getLastWeekOfOctober(),
+      hours: ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '00:00', '01:00'],
+    };
   },
   computed: {
-    ...mapState(['films'])
-  },
+    ...mapState(['films']),
+    filmsByDayAndHour() {
+      const filmsByDayAndHour = {};
+      this.days.forEach(day => {
+        filmsByDayAndHour[day] = {};
+        this.hours.forEach(hour => {
+          filmsByDayAndHour[day][hour] = null;
+        });
+      });
+      this.films.forEach(film => {
+        const filmDate = new Date(film.date);
+        const filmDay = filmDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+        const filmHour = film.heure.split('h')[0] + ':00';
+        if (this.days.includes(filmDay)) {
+          filmsByDayAndHour[filmDay][filmHour] = film;
+        }
+      });
+
+      return filmsByDayAndHour;
+    }
+  }
+  ,
   methods: {
-    ...mapActions(['getAllFilms']),
+    ...mapActions(['getFilms']),
+    getLastWeekOfOctober() {
+      let year;
+      if (new Date().getMonth() === 11 || new Date().getMonth() === 10) {
+        year = new Date().getFullYear() + 1;
+      } else {
+        year = new Date().getFullYear();
+      }
+      const lastDayOfOctober = new Date(year, 9, 31);
+      const lastWeek = [];
+
+      // Find the Monday of the week that includes October 31st
+      while (lastDayOfOctober.getDay() !== 1) {
+        lastDayOfOctober.setDate(lastDayOfOctober.getDate() - 1);
+      }
+
+      // Add days from Monday to Sunday
+      for (let i = 0; i < 7; i++) {
+        lastWeek.push(lastDayOfOctober.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }));
+        lastDayOfOctober.setDate(lastDayOfOctober.getDate() + 1);
+      }
+
+      return lastWeek;
+    }
   },
   mounted() {
-    this.getAllFilms();
+    this.getFilms();
   }
 };
 </script>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
-/* Titre principal */
+
 h1 {
   text-align: center;
   font-size: 2.5em;
   font-family: 'Creepster', cursive;
   letter-spacing: 2px;
   color: #ff4444;
-  text-shadow: 0 0 8px rgba(255, 0, 0, 0.8), 0 0 20px rgba(255, 0, 0, 0.5);
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.3), 0 0 20px rgba(255, 0, 0, 0.3);
   margin-bottom: 20px;
 }
 
-/* Carte de concert */
-.concert-card {
-  max-width: 400px;
-  margin: 20px auto;
-  padding: 20px;
-  background-color: #222;
-  border: 2px solid #ff4444;
+.calendar {
+  margin-right: 35px;
+  margin-top: 65px;
+  display: grid;
+  grid-template-columns: 100px repeat(7, 1fr);
+  gap: 5px;
+  justify-content: center;
+}
+
+.calendar-header {
+  display: contents;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.calendar-hour {
+  text-align: right;
+  font-weight: bold;
+  font-size: 20px;
+  padding-right: 20px;
+}
+
+.calendar-body {
+  display: contents;
+}
+
+.calendar-row {
+  display: contents;
+}
+
+.calendar-cell {
+  border: 2px solid black;
   border-radius: 8px;
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  max-height: 200px;
 }
 
-/* Effet de survol pour un aspect dynamique */
-.concert-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 30px rgba(255, 0, 0, 0.7), 0 0 15px rgba(255, 255, 255, 0.2);
+.concert-card {
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  border: 1px solid #ff4444;
+  border-radius: 7px;
+  box-sizing: border-box;
 }
 
-/* Image du concert */
 .concert-img {
   width: 100%;
-  border-radius: 4px;
-  filter: grayscale(80%) brightness(80%);
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(60%) brightness(80%);
+  margin-bottom: 5px;
+  border-radius: 6px;
   transition: filter 0.3s;
+}
+
+.nomArtiste {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 25px;
+  font-family: 'Creepster', cursive;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0 0 6px rgba(255, 0, 0, 0.7);
+  pointer-events: none;
+}
+
+.concert-card:hover {
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.7), 0 0 15px rgb(0, 0, 0);
 }
 
 .concert-img:hover {
   filter: grayscale(0%) brightness(100%);
 }
 
-/* Texte de la carte */
-.concert-card p {
-  font-size: 1.2em;
-  font-family: 'Creepster', cursive;
-  margin: 10px 0;
-  color: #f2f2f2;
-  text-shadow: 0 0 6px rgba(0, 0, 0, 0.7);
+.empty-cell {
+  background-color: #e66666;
+  background-size: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+  box-sizing: border-box;
 }
 
-/* Prix en rouge sang */
-.concert-card p:last-of-type {
-  font-family: 'Creepster', cursive;
-  color: #ff4444;
-  font-weight: bold;
-  font-size: 1.4em;
-}
-
-.concert-card:hover {
-  animation: glow 1.5s infinite alternate;
-}
-
-button {
-  padding: 15px 30px;
-  font-size: 1.2em;
-  font-weight: bold;
-  font-family: 'Creepster', cursive;
-  letter-spacing: 3px;
-  color: #fff;
-  background-color: #ff4444;
-  border: 2px solid #ff4444;
-  border-radius: 8px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Effet de survol */
-button:hover {
-  color: #111;
-  background-color: #ff0000;
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.8), 0 0 10px rgba(0, 0, 0, 0.5);
-  transform: scale(1.05);
-}
-
-/* Effet d’animation de sang en fond */
-button::before {
-  content: "";
+.placeholder-text {
   position: absolute;
-  top: 50%;
+  font-family: 'Creepster', cursive;
+  color: rgb(0, 0, 0);
+  text-shadow: 0 0 20px rgb(0, 0, 0);
+  font-size: 25px;
+  top: 40%;
   left: 50%;
-  width: 300%;
-  height: 300%;
-  background: radial-gradient(circle, transparent 20%, #ff0000);
-  border-radius: 50%;
-  transition: width 0.3s ease, height 0.3s ease, top 0.3s ease, left 0.3s ease;
   transform: translate(-50%, -50%);
-  z-index: 0;
-}
-
-/* Agrandit l'effet sanglant au survol */
-button:hover::before {
-  width: 0;
-  height: 0;
-  top: 50%;
-  left: 50%;
-}
-
-button:focus {
-  outline: none;
-}
-
-/* Texte du bouton au-dessus de l’effet sang */
-button span {
-  position: relative;
-  z-index: 1;
 }
 </style>
