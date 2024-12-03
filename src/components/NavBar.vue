@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav v-if="!isMenuOpen" class="navbar">
+    <nav class="navbar">
       <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo">
       <div class="selection-language">
         <SelecteurLanguage />
@@ -8,9 +8,8 @@
       <img src="@/assets/menu-burger.png" alt="menu-burger" class="menu-burger" @click="toggleMenu">
     </nav>
 
-    <div v-if="isMenuOpen" class="overlay" @click="toggleMenu"></div>
 
-    <div v-if="isMenuOpen" class="burger-menu">
+    <div v-if="isMenuOpen" class="burger-menu" @click="toggleMenu">
       <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo-burger">
       <router-link to="/profil" @click="closeMenu">Créer profil</router-link>
       <router-link to="/concert-schedule" @click="closeMenu">Programmation des concerts</router-link>

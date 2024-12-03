@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <nav>
-      <CompteRebours />
-      <router-link to="/about">Créer profil</router-link>
+      <NavBar />
     </nav>
     <router-view/>
   </div>
@@ -10,11 +9,12 @@
 </template>
 
 <script>
-import CompteRebours from './components/CompteRebours.vue';
+
+import NavBar from "@/components/NavBar.vue";
 
 export default {
   components: {
-    CompteRebours,
+    NavBar
   },
 };
 </script>
