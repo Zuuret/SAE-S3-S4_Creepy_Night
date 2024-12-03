@@ -1,4 +1,4 @@
-import {concerts, coordonnees_bancaire, places_concerts, utilisateurs, artistes, transactions, expo_oeuvres, expo_oeuvres_demande} from './data.js';
+import {concerts, coordonnees_bancaire, places_concerts, utilisateurs, artistes, transactions, expo_oeuvres, expo_oeuvres_demande, cine_films, places_films } from './data.js';
 
 function ajoutUtilisateur(data) {
     if (!data.prenom) return { error: 1, status: 404, data: 'Aucun prénom fourni' };

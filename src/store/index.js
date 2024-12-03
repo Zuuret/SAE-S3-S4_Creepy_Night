@@ -4,11 +4,13 @@ import controller from "@/datasource/controller";
 
 Vue.use(Vuex)
 
-import ProfilService from '../services/profil.service'
+import ProfilService from '../services/profil.service';
 import ConcertService from "../services/concert.service";
-import ValidArtiste from '../services/validArtiste.service'
-import ExpoOeuvres from '../services/expoOeuvres.services'
+import ValidArtiste from '../services/validArtiste.service';
+import ExpoOeuvres from '../services/expoOeuvres.services';
 import CashLessService from '../services/cashless.service';
+import CineFilms from '../services/cineFilms.services';
+
 
 export default new Vuex.Store({
   state: {
