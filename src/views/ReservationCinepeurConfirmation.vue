@@ -25,9 +25,11 @@
     <div>
       <p>Total : {{ prixTotal }}€</p>
     </div>
-    <router-link v-if="prixTotal != 0" :to="`/cinepeur/${filmById.id}/validate`">
-      <button>Obtenir ma place</button>
-    </router-link>
+    <div>
+      <router-link v-if="prixTotal != 0" :to="`/cinepeur/${filmById.id}/validate`">
+        <button>Obtenir ma place</button>
+      </router-link>
+    </div>
   </div>
 </template>
 
