@@ -23,6 +23,8 @@
       <router-link to="/carihorreur" @click="closeMenu">CariHorreur</router-link>
       <router-link to="/carte-interactive" @click="closeMenu">Carte Interactive</router-link>
       <router-link to="/cashless" @click="closeMenu">CashLess</router-link>
+      <router-link to="/expo" @click="closeMenu">Exposition</router-link>
+      <router-link to="/cinepeur" @click="closeMenu">Cinepeur</router-link>
     </div>
   </div>
 </template>
