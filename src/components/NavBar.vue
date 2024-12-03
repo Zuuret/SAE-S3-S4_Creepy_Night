@@ -20,6 +20,8 @@
       <router-link to="/secuflippe" @click="closeMenu">Secuflippe</router-link>
       <router-link to="/baltrouille" @click="closeMenu">Bal'trouille</router-link>
       <router-link to="/carihorreur" @click="closeMenu">CariHorreur</router-link>
+      <router-link to="/expo" @click="closeMenu">Exposition</router-link>
+      <router-link to="/cinepeur" @click="closeMenu">Cinepeur</router-link>
     </div>
   </div>
 </template>
