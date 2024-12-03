@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div class="navbar">
+      <NavBar />
+    </div>
     <h1>Détails du film</h1>
     <div v-if="filmById">
       <img :src="filmById.image" alt="Affiche du film" />
@@ -35,9 +38,11 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: 'ReservationCinepeurConfirmation',
+  components: {NavBar},
   data() {
     return {
       quantiteParType: {},
