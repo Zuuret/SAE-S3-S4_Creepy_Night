@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar">
+    <nav :class="{ 'navbar': true, 'hidden': isNavbarHidden }">
       <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo">
       <div class="selection-language">
         <SelecteurLanguage />
@@ -8,17 +8,18 @@
       <img src="@/assets/menu-burger.png" alt="menu-burger" class="menu-burger" @click="toggleMenu">
     </nav>
 
-
-    <div v-if="isMenuOpen" class="burger-menu" @click="toggleMenu">
-      <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo-burger">
+    <div v-if="isMenuOpen" class="burger-menu">
       <router-link to="/profil" @click="closeMenu">Créer profil</router-link>
       <router-link to="/concert-schedule" @click="closeMenu">Programmation des concerts</router-link>
       <router-link to="/planning" @click="closeMenu">Placer concert</router-link>
       <router-link to="/organisateur/validartiste" @click="closeMenu">Valider concert</router-link>
       <router-link to="/billet" @click="closeMenu">Tickets et abonnements</router-link>
-      <router-link to="/secuflippe" @click="closeMenu">Secuflippe</router-link>
+      <router-link to="/secuflippe" @click="closeMenu">SecuFlippe</router-link>
+      <router-link to="/cauchemarathon" @click="closeMenu">CaucheMarathon</router-link>
       <router-link to="/baltrouille" @click="closeMenu">Bal'trouille</router-link>
       <router-link to="/carihorreur" @click="closeMenu">CariHorreur</router-link>
+      <router-link to="/carte-interactive" @click="closeMenu">Carte Interactive</router-link>
+      <router-link to="/cashless" @click="closeMenu">CashLess</router-link>
       <router-link to="/expo" @click="closeMenu">Exposition</router-link>
       <router-link to="/cinepeur" @click="closeMenu">Cinepeur</router-link>
     </div>
@@ -35,6 +36,8 @@ export default {
   data() {
     return {
       isMenuOpen: false,
+      lastScrollY: 0,
+      isNavbarHidden: false,
     };
   },
   methods: {
@@ -50,6 +53,21 @@ export default {
       this.isMenuOpen = false;
       document.body.style.overflow = 'auto';
     },
+    handleScroll() {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > this.lastScrollY && currentScrollY > 100) {
+        this.isNavbarHidden = true;
+      } else {
+        this.isNavbarHidden = false;
+      }
+      this.lastScrollY = currentScrollY;
+    },
+  },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
 };
 </script>
@@ -70,9 +88,15 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
   border-bottom: 1px solid white;
   z-index: 100;
+  transform: translateY(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.navbar.hidden {
+  transform: translateY(-100%);
 }
 
 .navbar .logo {
