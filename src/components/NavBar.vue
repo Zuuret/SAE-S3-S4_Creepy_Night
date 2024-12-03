@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav v-if="!isMenuOpen" class="navbar">
+    <nav :class="{ 'navbar': true, 'hidden': isNavbarHidden }">
       <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo">
       <div class="selection-language">
         <SelecteurLanguage />
@@ -39,6 +39,8 @@ export default {
   data() {
     return {
       isMenuOpen: false,
+      lastScrollY: 0,
+      isNavbarHidden: false,
     };
   },
   methods: {
@@ -54,6 +56,21 @@ export default {
       this.isMenuOpen = false;
       document.body.style.overflow = 'auto';
     },
+    handleScroll() {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > this.lastScrollY && currentScrollY > 100) {
+        this.isNavbarHidden = true;
+      } else {
+        this.isNavbarHidden = false;
+      }
+      this.lastScrollY = currentScrollY;
+    },
+  },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
 };
 </script>
@@ -74,9 +91,15 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 10px;
   border-bottom: 1px solid white;
   z-index: 100;
+  transform: translateY(0);
+  transition: transform 0.3s ease-in-out;
+}
+
+.navbar.hidden {
+  transform: translateY(-100%);
 }
 
 .navbar .logo {
