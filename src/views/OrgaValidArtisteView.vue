@@ -1,9 +1,12 @@
 <template>
   <div class="orga">
+    <div class="navbar">
+      <NavBar />
+    </div>
     <h1>Validation de concert</h1>
     <p>Liste des artistes</p>
     <div>
-      <!--p v-if="artistes == []">Aucune proposition d'artistep <p-->
+      <p v-if="nbDecision()">Aucune proposition d'artiste.</p>
       <div v-for="(artiste) in artistes" :key="artiste.id">
         <li v-if="artiste.decision == 'null'">
           <div>
@@ -24,9 +27,12 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import NavBar from "@/components/NavBar.vue";
+import {artistes} from "@/datasource/data";
 
 export default {
   name: 'OrgaValidArtisteView',
+  components: {NavBar},
   data: () => ({
   }),
   computed: {
@@ -34,6 +40,13 @@ export default {
   },
   methods: {
     ...mapActions(['setDecision', 'getArtistes']),
+    nbDecision(){
+      let nbdecis = 0;
+      for (let i in artistes) {
+        if (artistes[i].decision === 'null') nbdecis++;
+      }
+      return nbdecis < 1;
+    }
   },
   mounted() {
     this.getArtistes();

@@ -9,17 +9,7 @@
     </nav>
 
     <div v-if="isMenuOpen" class="burger-menu">
-      <router-link to="/profil" @click="closeMenu">Créer profil</router-link>
-      <router-link to="/concert-schedule" @click="closeMenu">Programmation des concerts</router-link>
-      <router-link to="/planning" @click="closeMenu">Placer concert</router-link>
       <router-link to="/organisateur/validartiste" @click="closeMenu">Valider concert</router-link>
-      <router-link to="/billet" @click="closeMenu">Tickets et abonnements</router-link>
-      <router-link to="/secuflippe" @click="closeMenu">SecuFlippe</router-link>
-      <router-link to="/cauchemarathon" @click="closeMenu">CaucheMarathon</router-link>
-      <router-link to="/baltrouille" @click="closeMenu">Bal'trouille</router-link>
-      <router-link to="/carihorreur" @click="closeMenu">CariHorreur</router-link>
-      <router-link to="/carte-interactive" @click="closeMenu">Carte Interactive</router-link>
-      <router-link to="/cashless" @click="closeMenu">CashLess</router-link>
       <router-link to="/expo" @click="closeMenu">Exposition</router-link>
       <router-link to="/cinepeur" @click="closeMenu">Cinepeur</router-link>
     </div>
