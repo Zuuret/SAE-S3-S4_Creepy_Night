@@ -1,13 +1,13 @@
 <template>
-  <div class="body item flex-column ">
+  <div class="body item flex-column">
     <div><NavBar /></div>
     <h1 class="item">Calendrier des films</h1>
     <div class="item flex-row">
-      <div class="item flex-column"><div v-for="hour in hours" :key="hour" class="item heures"><p>{{ hour }}</p></div></div>
-      <div class="grille bordure">
+      <div class="item flex-column" style="margin-top: 50px"><div v-for="hour in hours" :key="hour" class="item heures bordure"><p>{{ hour }}</p></div></div>
+      <div class="grille ">
         <div v-for="day in days" :key="day" class=""><p class="item">{{ day }}</p>
           <div v-for="hour in hours" :key="hour" class="flex-row bordure">
-            <div v-if="!filmsByDayAndHour[day][hour]" class="">
+            <div v-if="!filmsByDayAndHour[day][hour]" class="case ">
               <p>À venir</p>
             </div>
             <div v-if="filmsByDayAndHour[day][hour]" class="item">
@@ -95,6 +95,7 @@ export default {
 
 .body {
   align-items: center;
+  font-weight: bold;
   font-family: Arial, sans-serif;
   background-color: black;
   border: 5px solid lightgray;
@@ -107,10 +108,9 @@ export default {
 .item {display: flex; padding: 10px; text-align: center}
 .grille {
   display: grid;
-  grid-template-columns: repeat(7, 10fr);
+  grid-template-columns: repeat(7, 1fr);
   gap: 20px;
   padding: 10px;
-  grid: auto auto auto auto;
 }
 .flex-row {flex-direction: row;}
 .flex-column {flex-direction: column;}
@@ -129,10 +129,11 @@ export default {
   background-color: black;
   color: white;
   border-radius: 10px;
+  border: 1px solid white;
 }
 
 .item a:hover {
-  background-color: #0F0F0F;
+  background-color: #0C0C0C;
   border: 1px solid red;
 }
 
@@ -141,7 +142,7 @@ export default {
 }
 
 .heures {
-  margin-bottom: 200px;
+  margin-bottom: 220px;
 }
 
 .case {
