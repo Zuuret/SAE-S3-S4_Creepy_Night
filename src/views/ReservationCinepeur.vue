@@ -3,11 +3,11 @@
     <div><NavBar /></div>
     <h1 class="item">Calendrier des films</h1>
     <div class="item flex-row">
-      <div class="item flex-column" style="margin-bottom: 20px;"><div v-for="hour in hours" :key="hour" class="item heures"><p>{{ hour }}</p></div></div>
+      <div class="item flex-column"><div v-for="hour in hours" :key="hour" class="item heures"><p>{{ hour }}</p></div></div>
       <div class="grille bordure">
         <div v-for="day in days" :key="day" class=""><p class="item">{{ day }}</p>
-          <div v-for="hour in hours" :key="hour" class="item flex-row bordure">
-            <div v-if="!filmsByDayAndHour[day][hour]" class="case">
+          <div v-for="hour in hours" :key="hour" class="flex-row bordure">
+            <div v-if="!filmsByDayAndHour[day][hour]" class="">
               <p>À venir</p>
             </div>
             <div v-if="filmsByDayAndHour[day][hour]" class="item">
@@ -107,7 +107,7 @@ export default {
 .item {display: flex; padding: 10px; text-align: center}
 .grille {
   display: grid;
-  grid-template-columns: 128px 128px 128px  auto auto auto auto;
+  grid-template-columns: repeat(7, 10fr);
   gap: 20px;
   padding: 10px;
   grid: auto auto auto auto;
@@ -141,11 +141,11 @@ export default {
 }
 
 .heures {
-  margin-top: 80px;
+  margin-bottom: 200px;
 }
 
 .case {
-  padding-block : 100px;
+  padding-block : 120px;
 }
 
 .filtre {
@@ -165,6 +165,7 @@ export default {
 }
 
 h1,h2,h3,h4,h5,h6,p {
+  text-align: center;
   color: red;
 }
 
