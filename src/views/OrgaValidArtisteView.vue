@@ -55,7 +55,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .orga {
   background-color: #F0F0F0;
 }

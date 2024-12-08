@@ -1,25 +1,19 @@
 <template>
-  <div>
-    <div class="navbar">
-      <NavBar />
-    </div>
-    <h1>Calendrier des films</h1>
-    <div class="calendar">
-      <div class="calendar-header">
-        <div class="calendar-hour"></div>
-        <div v-for="day in days" :key="day" class="calendar-day">{{ day }}</div>
-      </div>
-      <div class="calendar-body">
-        <div v-for="hour in hours" :key="hour" class="calendar-row">
-          <div class="calendar-hour">{{ hour }}</div>
-          <div v-for="day in days" :key="day" class="calendar-cell">
-            <div v-if="!filmsByDayAndHour[day][hour]" class="empty-cell">
-              <p class="placeholder-text">À venir</p>
+  <div class="body item flex-column ">
+    <div><NavBar /></div>
+    <h1 class="item">Calendrier des films</h1>
+    <div class="item flex-row">
+      <div class="item flex-column" style="margin-bottom: 20px;"><div v-for="hour in hours" :key="hour" class="item heures"><p>{{ hour }}</p></div></div>
+      <div class="grille bordure">
+        <div v-for="day in days" :key="day" class=""><p class="item">{{ day }}</p>
+          <div v-for="hour in hours" :key="hour" class="item flex-row bordure">
+            <div v-if="!filmsByDayAndHour[day][hour]" class="case">
+              <p>À venir</p>
             </div>
-            <div v-if="filmsByDayAndHour[day][hour]" class="concert-card">
+            <div v-if="filmsByDayAndHour[day][hour]" class="item">
               <router-link :to="`/cinepeur/${filmsByDayAndHour[day][hour].id}`">
-                <img class="concert-img" :src="filmsByDayAndHour[day][hour].image" alt="Affiche du concert" />
-                <p class="nomArtiste">{{ filmsByDayAndHour[day][hour].nomFilm }}</p>
+                <img :src="filmsByDayAndHour[day][hour].image" alt="Affiche du concert" />
+                <p>{{ filmsByDayAndHour[day][hour].nomFilm }}</p>
               </router-link>
             </div>
           </div>
@@ -98,111 +92,149 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Creepster&display=swap');
 
-h1 {
-  text-align: center;
-  font-size: 2.5em;
-  font-family: 'Creepster', cursive;
-  letter-spacing: 2px;
-  color: #ff4444;
-  text-shadow: 0 0 8px rgba(255, 0, 0, 0.3), 0 0 20px rgba(255, 0, 0, 0.3);
-  margin-bottom: 20px;
+.body {
+  align-items: center;
+  font-family: Arial, sans-serif;
+  background-color: black;
+  border: 5px solid lightgray;
 }
 
-.calendar {
-  margin-right: 35px;
-  margin-top: 65px;
+.bordure {border: 1px solid white;}
+
+.nav {display: flex; align-items: center;}
+
+.item {display: flex; padding: 10px; text-align: center}
+.grille {
   display: grid;
-  grid-template-columns: 100px repeat(7, 1fr);
-  gap: 5px;
-  justify-content: center;
+  grid-template-columns: 128px 128px 128px  auto auto auto auto;
+  gap: 20px;
+  padding: 10px;
+  grid: auto auto auto auto;
+}
+.flex-row {flex-direction: row;}
+.flex-column {flex-direction: column;}
+.margin-inline{margin-inline: 40%;}
+.between{justify-content: space-between;}
+.center{justify-content: center;}
+.around{justify-content: space-around;}
+.evenly{justify-content: space-evenly;}
+
+.item a {
+  text-decoration: none;
+  text-align: center;
+  vertical-align: middle;
+  margin: 5px;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border-radius: 10px;
 }
 
-.calendar-header {
-  display: contents;
-  font-weight: bold;
-  font-size: 20px;
+.item a:hover {
+  background-color: #0F0F0F;
+  border: 1px solid red;
 }
 
-.calendar-hour {
-  text-align: right;
-  font-weight: bold;
-  font-size: 20px;
-  padding-right: 20px;
-}
-
-.calendar-body {
-  display: contents;
-}
-
-.calendar-row {
-  display: contents;
-}
-
-.calendar-cell {
-  border: 2px solid black;
-  border-radius: 8px;
-  position: relative;
-  max-height: 200px;
-}
-
-.concert-card {
+.item img {
   width: 100%;
-  height: 100%;
-  color: #fff;
-  border: 1px solid #ff4444;
-  border-radius: 7px;
-  box-sizing: border-box;
 }
 
-.concert-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: grayscale(60%) brightness(80%);
-  margin-bottom: 5px;
-  border-radius: 6px;
-  transition: filter 0.3s;
+.heures {
+  margin-top: 80px;
 }
 
-.nomArtiste {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 25px;
-  font-family: 'Creepster', cursive;
-  color: rgba(255, 255, 255, 0.7);
-  text-shadow: 0 0 6px rgba(255, 0, 0, 0.7);
-  pointer-events: none;
+.case {
+  padding-block : 100px;
 }
 
-.concert-card:hover {
-  box-shadow: 0 0 30px rgba(255, 0, 0, 0.7), 0 0 15px rgb(0, 0, 0);
+.filtre {
+  text-align: center;
+  vertical-align: middle;
+  margin: 5px;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border-radius: 10px;
 }
 
-.concert-img:hover {
-  filter: grayscale(0%) brightness(100%);
+.filtre:hover {
+  background-color: grey;
+  color: white;
+  border: 1px solid grey;
 }
 
-.empty-cell {
-  background-color: #e66666;
-  background-size: cover;
-  width: 100%;
-  height: 100%;
-  border-radius: 7px;
-  box-sizing: border-box;
+h1,h2,h3,h4,h5,h6,p {
+  color: red;
 }
 
-.placeholder-text {
-  position: absolute;
-  font-family: 'Creepster', cursive;
-  color: rgb(0, 0, 0);
-  text-shadow: 0 0 20px rgb(0, 0, 0);
-  font-size: 25px;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+@media (min-width: 1025px) {
+  .body {
+    margin: 0% 0% 0% 0%;
+    orientation: landscape;
+  }
+
+  .main {
+    margin: 80px 20% 0% 20%;
+  }
+
+  .nav-item{margin-left: 14%;}
+
+  .flex-row{flex-direction: row;}
+  .flex-column{flex-direction: column;}
+
+  .justify-content-center{justify-content: center;}
+  .justify-content-space-between{justify-content: space-between;}
+  .justify-content-space-around{justify-content: space-around;}
+  .justify-content-space-evenly{justify-content: space-evenly;}
+
+  .load {border: 1px solid black; padding-inline: 100px;}
+  .align-right {margin-left: 70%;}
+  .image-width{width: 100px;}
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .body {
+    margin: 0% 0% 0% 0%;
+    orientation: landscape;
+  }
+
+  .main{
+    margin: 80px 0% 0% 0%;
+  }
+
+  .nav-item{margin-inline: 14%;}
+
+  .flex-row{flex-direction: row;}
+  .flex-column{flex-direction: column;}
+
+  .justify-content-center{justify-content: center;}
+  .justify-content-space-between{justify-content: space-between;}
+  .justify-content-space-around{justify-content: space-around;}
+  .justify-content-space-evenly{justify-content: space-evenly;}
+
+  .load {border: 1px solid black; padding-inline: 100px;}
+  .align-right {margin-left: 70%;}
+  .image-width{width: 100%}
+}
+
+@media (max-width: 768px) {
+  .body {
+    margin: 0% 0% 0% 0%;
+    orientation: portrait;
+  }
+
+  main {margin: 80px 0% 0% 0%;}
+
+  .nav-item{margin-inline: 50%;}
+
+  .flex-row{flex-direction: column;}
+  .flex-column{flex-direction: row;}
+
+  .load {border: 1px solid black; margin-inline: 40%;}
+  .center {justify-content: center;}
+  .center-bot {margin-inline: 30%;}
+  .align-right {margin-inline: 30%;}
+  .image-width {width: 100%}
 }
 </style>
