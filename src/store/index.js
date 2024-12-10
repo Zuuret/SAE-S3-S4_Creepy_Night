@@ -11,7 +11,6 @@ import ExpoOeuvres from '../services/expoOeuvres.services';
 import CashLessService from '../services/cashless.service';
 import CineFilms from '../services/cineFilms.services';
 
-
 export default new Vuex.Store({
   state: {
     //utilisateur: null,
@@ -30,6 +29,8 @@ export default new Vuex.Store({
     filmById: null,
     film: [],
     places_film: [],
+    positionUtilisateur: null,
+    signalement: [],
   },
   getters: {
   },
@@ -79,6 +80,15 @@ export default new Vuex.Store({
     updateListePlaceFilm(state, places_film){
       state.places_film = places_film;
     },
+    updatePositionUtilisateur(state, positionUtilisateur){
+      state.positionUtilisateur = positionUtilisateur;
+    },
+    updateSignalement(state, nouveauSignalement) {
+      if (!state.signalement) {
+        state.signalement = [];
+      }
+      state.signalement.push(nouveauSignalement);
+    },
   },
   actions: {
     async enregistrementUtilisateur({commit}, data){
@@ -100,6 +110,26 @@ export default new Vuex.Store({
       } else {
         console.log(response.data);
       }
+    },
+    async addPositionGeographique({ commit }) {
+      console.log("Enregistrement de la localisation de l'utilisateur");
+      let response = await controller.addPositionGeographique();
+      if (response.error === 0) {
+        commit("updatePositionUtilisateur", response.data);
+        return response;
+      } else {
+        console.log(response.data)
+        return response;
+      }
+    },
+    async addSignalement({ commit }, data) {
+      console.log("Ajout d'un signalement :", data);
+      let response = await controller.addSignalement(data);
+      if (response.error === 0) {
+        commit("updateSignalement", response.data);
+      }
+      console.log(response.data)
+      return response;
     },
     async getAllConcert({commit}){
       console.log("Récupération des concerts");

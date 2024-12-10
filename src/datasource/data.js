@@ -169,6 +169,8 @@ let panier_film = [
     {'nb_places_prises':'2', 'type_place_prises':'Fosse'}
 ];
 
+let signalement = []
+
 
 module.exports = {
     utilisateurs,
@@ -184,4 +186,5 @@ module.exports = {
     cine_films,
     places_films,
     panier_film,
+    signalement
 }

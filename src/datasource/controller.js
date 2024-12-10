@@ -1,4 +1,16 @@
-import {concerts, coordonnees_bancaire, places_concerts, utilisateurs, artistes, transactions, expo_oeuvres, expo_oeuvres_demande, cine_films, places_films } from './data.js';
+import {
+    concerts,
+    coordonnees_bancaire,
+    places_concerts,
+    utilisateurs,
+    artistes,
+    transactions,
+    expo_oeuvres,
+    expo_oeuvres_demande,
+    cine_films,
+    places_films,
+    signalement
+} from './data.js';
 
 function ajoutUtilisateur(data) {
     if (!data.prenom) return { error: 1, status: 404, data: 'Aucun prénom fourni' };
@@ -20,9 +32,64 @@ function ajoutUtilisateur(data) {
     return { error: 0, status: 200, data: nouvelUtilisateur };
 }
 
-
 function getAllUsers() {
     return {error: 0, data: utilisateurs}
+}
+
+function addPositionGeographique() {
+    return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+                    const newPosition = { latitude, longitude, timestamp: new Date() };
+                    signalement.push(newPosition);
+                    resolve({error: 0, status: 200, data: { latitude, longitude, timestamp: new Date() },});
+                },
+                (error) => {
+                    let errorMessage = "Erreur inconnue";
+                    switch (error.code) {
+                        case error.PERMISSION_DENIED:
+                            errorMessage = "Vous avez refusé la demande de géolocalisation. Activez-la dans les paramètres de votre navigateur.";
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            errorMessage = "Les informations de localisation ne sont pas disponibles.";
+                            break;
+                        case error.TIMEOUT:
+                            errorMessage = "La demande de géolocalisation a expiré. Veuillez réessayer.";
+                            break;
+                    }
+                    reject({error: 1, status: 404, data: errorMessage || "Erreur inconnue lors de la géolocalisation",});
+                }
+            );
+        } else {
+            reject({error: 1, status: 404, data: "La géolocalisation n'est pas supportée par ce navigateur.",});
+        }
+    });
+}
+
+function addSignalement(data) {
+    if (!data.typeIncident) return { error: 1, status: 404, data: "Aucun type d'incident fourni" };
+    if (!data.descriptionIncident) return { error: 1, status: 404, data: "Aucune description pour l'incident fourni" };
+    if (!data.zoneIncident) return { error: 1, status: 404, data: "Aucune zone sélectionnée pour l'incident" };
+    if (!data.positionUtilisateur) return { error: 1, status: 404, data: "Aucune position utilisateur fournie" };
+
+    const nouveauSignalement = {
+        typeIncident: data.typeIncident,
+        descriptionIncident: data.descriptionIncident,
+        zoneIncident: data.zoneIncident,
+        positionUtilisateur: data.positionUtilisateur,
+        timestamp: new Date(),
+    };
+
+    signalement.push(nouveauSignalement);
+    return { error: 0, status: 200, data: nouveauSignalement };
+}
+
+function getAllSignalements(){
+    return {error: 0, data: signalement}
 }
 
 function getAllConcerts(){
@@ -158,6 +225,9 @@ function getPlacesFilm(places_film) {
 export default {
     ajoutUtilisateur,
     getAllUsers,
+    addPositionGeographique,
+    addSignalement,
+    getAllSignalements,
     getAllConcerts,
     getConcertbyId,
     getPlaceConcert,
