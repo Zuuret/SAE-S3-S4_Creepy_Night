@@ -21,7 +21,7 @@
         <li>
           <h2>Suivre un signalement</h2>
           <p>Déjà signalé un problème ? Consultez le statut de votre requête.</p>
-          <router-link to="/secuflippe/suivre" style="text-decoration: none; color: white;">
+          <router-link to="/secuflippe/mesSignalements" style="text-decoration: none; color: white;">
             <button>Suivre un signalement</button>
           </router-link>
         </li>

@@ -10,6 +10,7 @@ import ValidArtiste from '../services/validArtiste.service';
 import ExpoOeuvres from '../services/expoOeuvres.services';
 import CashLessService from '../services/cashless.service';
 import CineFilms from '../services/cineFilms.services';
+import SignalementService from "@/services/signalement.service";
 
 export default new Vuex.Store({
   state: {
@@ -31,8 +32,7 @@ export default new Vuex.Store({
     places_film: [],
     positionUtilisateur: null,
     signalement: [],
-  },
-  getters: {
+    signalements: []
   },
   mutations: {
     updateUtilisateur(state, utilisateur){
@@ -83,12 +83,15 @@ export default new Vuex.Store({
     updatePositionUtilisateur(state, positionUtilisateur){
       state.positionUtilisateur = positionUtilisateur;
     },
-    updateSignalement(state, nouveauSignalement) {
+    addSignalement(state, nouveauSignalement) {
       if (!state.signalement) {
         state.signalement = [];
       }
       state.signalement.push(nouveauSignalement);
     },
+    updateListeSignalement(state, signalements){
+      state.signalements = signalements;
+    }
   },
   actions: {
     async enregistrementUtilisateur({commit}, data){
@@ -126,10 +129,19 @@ export default new Vuex.Store({
       console.log("Ajout d'un signalement :", data);
       let response = await controller.addSignalement(data);
       if (response.error === 0) {
-        commit("updateSignalement", response.data);
+        commit("addSignalement", response.data);
       }
       console.log(response.data)
       return response;
+    },
+    async getAllSignalements({commit}){
+      console.log("Récupération des signalements")
+      let response = await SignalementService.getAllSignalements();
+      if (response.error === 0){
+        commit("updateListeSignalement", response.data);
+      } else {
+        console.log(response.data)
+      }
     },
     async getAllConcert({commit}){
       console.log("Récupération des concerts");

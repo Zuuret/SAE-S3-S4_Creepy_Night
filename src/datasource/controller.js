@@ -39,36 +39,61 @@ function getAllUsers() {
 function addPositionGeographique() {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
+            const watchId = navigator.geolocation.watchPosition(
                 (position) => {
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
-                    console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-                    const newPosition = { latitude, longitude, timestamp: new Date() };
-                    signalement.push(newPosition);
-                    resolve({error: 0, status: 200, data: { latitude, longitude, timestamp: new Date() },});
+                    const accuracy = position.coords.accuracy; // Précision en mètres
+                    console.log(`Latitude: ${latitude}, Longitude: ${longitude}, Précision: ${accuracy}m`);
+
+                    // Arrête le suivi une fois qu'une précision acceptable est atteinte
+                    if (accuracy < 10) { // Par exemple, précision < 20 mètres
+                        navigator.geolocation.clearWatch(watchId);
+                        const newPosition = { latitude, longitude, accuracy, timestamp: new Date() };
+                        signalement.push(newPosition);
+                        resolve({
+                            error: 0,
+                            status: 200,
+                            data: newPosition,
+                        });
+                    }
                 },
                 (error) => {
                     let errorMessage = "Erreur inconnue";
                     switch (error.code) {
                         case error.PERMISSION_DENIED:
-                            errorMessage = "Vous avez refusé la demande de géolocalisation. Activez-la dans les paramètres de votre navigateur.";
+                            errorMessage = "L'utilisateur a refusé la demande de géolocalisation.";
                             break;
                         case error.POSITION_UNAVAILABLE:
-                            errorMessage = "Les informations de localisation ne sont pas disponibles.";
+                            errorMessage = "Les informations de localisation sont indisponibles.";
                             break;
                         case error.TIMEOUT:
-                            errorMessage = "La demande de géolocalisation a expiré. Veuillez réessayer.";
+                            errorMessage = "La demande de géolocalisation a expiré.";
                             break;
                     }
-                    reject({error: 1, status: 404, data: errorMessage || "Erreur inconnue lors de la géolocalisation",});
+                    console.error("Erreur lors de la géolocalisation :", errorMessage);
+                    reject({
+                        error: 1,
+                        status: 404,
+                        data: errorMessage,
+                    });
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0,
                 }
             );
         } else {
-            reject({error: 1, status: 404, data: "La géolocalisation n'est pas supportée par ce navigateur.",});
+            reject({
+                error: 1,
+                status: 404,
+                data: "La géolocalisation n'est pas supportée par ce navigateur.",
+            });
         }
     });
 }
+
 
 function addSignalement(data) {
     if (!data.typeIncident) return { error: 1, status: 404, data: "Aucun type d'incident fourni" };

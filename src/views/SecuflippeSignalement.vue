@@ -10,11 +10,11 @@
         <h1>Effectuer un signalement</h1>
         <label for="incidents-selection">Sélectionnez le type d'incident :</label>
         <select v-model="typeIncident" id="incidents-selection" required>
-          <option value="perdu">Objet perdu</option>
-          <option value="suspect">Comportement suspect</option>
-          <option value="inapproprié">Comportement inapproprié</option>
-          <option value="technique">Problème technique</option>
-          <option value="environnemental">Danger environnemental</option>
+          <option value="Objet perdu">Objet perdu</option>
+          <option value="Comportement suspect">Comportement suspect</option>
+          <option value="Comportement inapproprié">Comportement inapproprié</option>
+          <option value="Problème technique">Problème technique</option>
+          <option value="Danger environnemental">Danger environnemental</option>
         </select>
 
         <label for="description-incident">Description de l'incident</label>
@@ -22,14 +22,16 @@
 
         <label for="zone-selection">Sélectionnez la zone de l'incident :</label>
         <select v-model="zoneIncident" id="zone-selection" required>
-          <option value="foreffroi">La Foreffroi</option>
-          <option value="cauchemanoir">Le Cauchemanoir</option>
-          <option value="bosquepouvante">Le Bosquépouvante</option>
-          <option value="maudile">La Maudîle</option>
-          <option value="malaispace">La Malaispace</option>
+          <option value="Foreffroi">La Foreffroi</option>
+          <option value="Cauchemanoir">Le Cauchemanoir</option>
+          <option value="Bosquepouvante">Le Bosquépouvante</option>
+          <option value="Maudile">La Maudîle</option>
+          <option value="Malaispace">La Malaispace</option>
         </select>
 
-        <button @click="soumissionSignalement">Valider votre signalement</button>
+        <router-link to="/secuflippe/signalement">
+          <button @click="soumissionSignalement">Valider votre signalement</button>
+        </router-link>
       </div>
     </div>
   </div>
@@ -86,6 +88,7 @@ export default {
             background: '#570000',
             color: '#fff',
           });
+          this.$router.push("/secuflippe");
         } else {
           await Swal.fire({
             title: 'Erreur',
