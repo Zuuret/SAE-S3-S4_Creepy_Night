@@ -4,9 +4,10 @@
       <NavBar />
     </div>
     <div class="introduction">
-      <p>Bienvenue dans SécuFlippe, votre guide pour un festival CreepyNight terrifiant mais sécurisé !</p>
+      <h1>Bienvenue dans SécuFlippe, votre guide pour un festival CreepyNight terrifiant mais sécurisé !</h1>
       <p>Que vous soyez ici pour signaler un problème, suivre un incident ou simplement découvrir comment rester en sécurité tout au long de l’événement, cette rubrique est
       là pour vous accompagner. Le festival est intense, l’ambiance est sombre, mais votre sécurité reste notre priorité absolue.</p>
+      <img src="@/assets/Secuflippe_intro.png" alt="Image introduction" class="image_intro"/>
     </div>
     <div class="section1">
       <h1>Que voulez-vous faire ?</h1>
@@ -58,7 +59,6 @@ export default {
 </script>
 
 <style scoped>
-/* Styles globaux pour la page */
 div {
   font-family: Arial, sans-serif;
   color: #333;
@@ -66,28 +66,29 @@ div {
   padding: 0;
   box-sizing: border-box;
 }
-
 .navbars {
-  margin-bottom: 20px;
+  margin-bottom: 5%;
 }
-
-/* Introduction */
 .introduction {
-  background-color: #b5a7a7;
   color: #f8f8f8;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  margin: 7% auto 20px;
-  width: 90%;
-  max-width: 800px;
+  width: 100%;
+  position: relative;
+}
+.introduction h1{
+  position: absolute;
+  margin: 2% 0 0 2%;
+}
+.introduction p {
+  margin: 5% 0 0 2%;
+  font-size: 25px;
+  line-height: 1.6;
+  position: absolute;
 }
 
-.introduction p {
-  margin: 10px 0;
-  font-size: 16px;
-  line-height: 1.6;
-  font-size: 23px;
+.introduction .image_intro {
+  width: 100%;
+  height: 800px;
+  object-fit: cover;
 }
 
 /* Section 1: Actions */
