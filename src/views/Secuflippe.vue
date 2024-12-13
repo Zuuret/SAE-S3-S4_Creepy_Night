@@ -9,16 +9,16 @@
         <h1>Bienvenue dans SécuFlippe, votre guide pour un festival CreepyNight terrifiant mais sécurisé !</h1>
         <p>
           Que vous soyez ici pour signaler un problème, suivre un incident ou simplement découvrir comment rester en sécurité tout au long de l’événement,
-          cette rubrique est là pour vous accompagner. Le festival est intense, l’ambiance est sombre, mais votre sécurité reste notre priorité absolue.
+          cette rubrique est là pour vous accompagner.
         </p>
       </div>
       <img src="@/assets/Secuflippe_intro.png" alt="Image introduction" class="image_intro" />
     </div>
     <div class="section">
-      <div class="section1">
+      <div class="section1" data-aos="zoom-in" data-aos-duration="1000">
         <h1>Que voulez-vous faire ?</h1>
         <ul>
-          <li>
+          <li data-aos="flip-left" data-aos-delay="200">
             <img src="@/assets/signalement_icone.png" alt="Icône signalement" class="signalement_icon"/>
             <h2>Faire un signalement</h2>
             <p>Avez-vous rencontré un problème ? Notre équipe est là pour vous aider rapidement.</p>
@@ -26,7 +26,7 @@
               <button>Accéder au formulaire de signalement</button>
             </router-link>
           </li>
-          <li>
+          <li data-aos="flip-right" data-aos-delay="400">
             <img src="@/assets/suivi_signalement_icone.png" alt="Icône suivi signalement" class="suivi_signalement_icon"/>
             <h2>Suivre un signalement</h2>
             <p>Déjà signalé un problème ? Consultez le statut de votre requête.</p>
@@ -36,7 +36,7 @@
           </li>
         </ul>
       </div>
-      <div class="section2">
+      <div class="section2" data-aos="fade-right" data-aos-duration="1000">
         <h2>Un festival d'horreur peut être effrayant… mais pas dangereux si vous suivez ces conseils !</h2>
         <ul>
           <li>
@@ -64,14 +64,14 @@
             Respectez les limites : Certaines zones sont interdites pour votre propre sécurité, ne vous aventurez pas au-delà.</li>
         </ul>
       </div>
-      <div class="section3">
+      <div class="section3" data-aos="fade-up" data-aos-duration="1000">
         <h1>A propos de l'équipe de SécuFlippe</h1>
         <p>Nos équipes de sécurité sont composées de professionnels et de bénévoles passionnés qui veillent à ce que tout le monde profite du festival sans inquiétude.
         N’hésitez pas à demander de l’aide ou des renseignements si nécessaire.</p>
       </div>
-      <div class="section4">
+      <div class="section4" data-aos="fade-up" data-aos-duration="1000">
         <h1>Plan du site et postes de secours</h1>
-        <img src="@/assets/carte_creepy_night.png" alt="Carte du festival" class="carte-festival" />
+        <img src="@/assets/carte_creepy_night.png" alt="Carte du festival" class="carte-festival" data-aos="zoom-in" data-aos-duration="1200">
       </div>
     </div>
   </div>
@@ -79,10 +79,15 @@
 
 <script>
 import NavBar from "@/components/NavBar.vue";
+import 'aos/dist/aos.css';
+import AOS from 'aos';
 
 export default {
   name: "SecuFlippe",
   components: {NavBar},
+  mounted() {
+    AOS.init();
+  }
 }
 </script>
 
@@ -312,6 +317,7 @@ div {
   color: #f6c700;
   margin-bottom: 20px;
   text-shadow: 0 0 10px #f6c700, 0 0 20px #ff0000;
+  cursor: context-menu;
 }
 .section4 .carte-festival {
   width: 100%;

@@ -1,7 +1,5 @@
 <template>
   <div>
-    <div class="fog"></div>
-    <div class="light-effect"></div>
     <div class="navbars">
       <NavBar />
     </div>
@@ -117,106 +115,68 @@ export default {
 
 
 <style scoped>
-/* Styles généraux */
 body {
-  background: radial-gradient(circle at center, #000000, #0d0d0d, #1a1a1a);
   color: #eaeaea;
-  font-family: 'Creepster', cursive, Arial, sans-serif;
+  font-family: 'Kanit', sans-serif;
   margin: 0;
   padding: 0;
   overflow-x: hidden;
 }
 
-h1 {
-  text-align: center;
-  font-size: 50px;
-  color: #e52d27;
-  text-shadow: 0 0 10px #e52d27, 0 0 20px #ff0000;
-  margin-bottom: 20px;
-}
-
-/* Container principal */
+/* Conteneur principal */
 .container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   padding: 20px;
-  margin-top: 50px;
+  background: linear-gradient(145deg, #3a0000, #570000);
 }
 
 /* Formulaire */
 .formulaire-signalement {
   background: linear-gradient(145deg, #3a0000, #570000);
-  border: 2px solid #b71c1c;
-  border-radius: 10px;
-  padding: 20px 40px;
+  border: 3px solid #b71c1c;
+  border-radius: 20px;
+  padding: 40px;
+  width: 100%;
   max-width: 700px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
   position: relative;
+  animation: fadeIn 1s ease-out;
 }
 
-/* Bordures sanglantes */
-.formulaire-signalement::before,
-.formulaire-signalement::after {
-  content: '';
-  position: absolute;
-  width: 5px;
-  height: 100%;
-  background: repeating-linear-gradient(
-      to bottom,
-      #b71c1c 0%,
-      #900c0c 50%,
-      #570000 100%
-  );
-  top: 0;
-  animation: dripping 3s infinite ease-in-out;
-}
-
-.formulaire-signalement::before {
-  left: -10px;
-}
-
-.formulaire-signalement::after {
-  right: -10px;
-}
-
-/* Gouttes sanglantes */
-@keyframes dripping {
-  0% {
-    transform: translateY(-10%);
-  }
-  50% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-10%);
-  }
-}
-
-/* Labels */
-label {
-  font-size: 1.2em;
-  font-weight: bold;
+/* Titre du formulaire */
+.formulaire-signalement h1 {
+  text-align: center;
+  font-family: 'Creepster', cursive;
+  font-size: 50px;
   color: #f6c700;
+  text-shadow: 0 0 10px #f6c700, 0 0 20px #ff0000;
+  margin-bottom: 30px;
+}
+
+/* Champs de formulaire */
+label {
   display: block;
   margin-bottom: 10px;
-  text-shadow: 1px 1px 2px #000000;
+  font-size: 20px;
+  font-weight: bold;
+  color: #f6c700;
+  text-shadow: 0 1px 2px #000000;
 }
 
-/* Inputs et Selects */
-select,
-input[type="text"],
-textarea {
+select, textarea {
   width: 100%;
-  padding: 12px 15px;
+  padding: 10px;
   margin-bottom: 20px;
+  font-size: 18px;
   border: 2px solid #900c0c;
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: #1a1a1a;
   color: #eaeaea;
-  font-size: 16px;
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease-in-out;
 }
 
 textarea {
@@ -224,64 +184,64 @@ textarea {
   height: 150px;
 }
 
-select:hover,
-input[type="text"]:hover,
-textarea:hover {
+select:hover, textarea:hover {
   border-color: #e52d27;
 }
 
-select:focus,
-input[type="text"]:focus,
-textarea:focus {
+select:focus, textarea:focus {
   outline: none;
   border-color: #f6c700;
 }
 
-/* Boutons */
+/* Bouton */
 button {
-  background: linear-gradient(145deg, #e52d27, #900c0c);
-  color: #eaeaea;
-  padding: 15px 30px;
-  border: none;
-  border-radius: 8px;
-  font-size: 18px;
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 20px;
   font-weight: bold;
-  text-transform: uppercase;
+  color: #1a1a1a;
+  background: #f6c700;
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
+  text-transform: uppercase;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   transition: all 0.3s ease-in-out;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
 }
 
 button:hover {
-  background: #f6c700;
-  color: #1a1a1a;
-  transform: scale(1.1);
-  box-shadow: 0 0 20px #f6c700;
+  background: #b71c1c;
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.8), 0 0 10px #f6c700;
 }
 
 button:active {
-  background: #570000;
-  box-shadow: 0 0 10px #900c0c;
+  transform: translateY(0);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
 }
 
-/* Effet de texte */
-button::before {
-  content: '';
-  position: absolute;
-  top: -5px;
-  left: -5px;
-  right: -5px;
-  bottom: -5px;
-  background: rgba(0, 0, 0, 0.1);
-  z-index: -1;
-  border-radius: 8px;
-  transition: opacity 0.3s ease-in-out;
-}
+/* Responsive */
+@media (max-width: 768px) {
+  .formulaire-signalement {
+    padding: 20px;
+  }
 
-/* Ombres fantomatiques */
-.formulaire-signalement:hover {
-  box-shadow: 0 0 30px rgba(255, 0, 0, 0.5), 0 0 60px rgba(0, 0, 0, 0.7);
-}
+  .formulaire-signalement h1 {
+    font-size: 40px;
+  }
 
+  label {
+    font-size: 18px;
+  }
+
+  select, textarea {
+    font-size: 16px;
+  }
+
+  button {
+    font-size: 18px;
+  }
+}
 </style>
 
