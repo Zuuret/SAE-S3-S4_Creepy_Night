@@ -4,6 +4,10 @@ async function getAllTransactionsFromLocalSource(){
     return LocalSource.getAllTransactions();
 }
 
+async function updateFundsToLocalSource(idUser, amount){
+    return LocalSource.updateFunds(idUser, amount);
+}
+
 async function getAllTransactions() {
     let response;
     try {
@@ -14,6 +18,17 @@ async function getAllTransactions() {
     return response;
 }
 
+async function updateFunds(idUser, amount) {
+    let response;
+    try {
+        response = await updateFundsToLocalSource(idUser, amount);
+    } catch (err) {
+        response = { error: 1, status: 404, data: 'erreur réseau, impossible de mettre à jour le solde' };
+    }
+    return response;
+}
+
 export default {
-    getAllTransactions
+    getAllTransactions,
+    updateFunds
 }

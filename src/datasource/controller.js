@@ -152,45 +152,15 @@ function setOeuvre(data) {
     return { error: 0, status: 200, data: nouvelOeuvre };
 }
 
-
-let userBalance = 0;
-
-function getUserBalance() {
-    return userBalance.toFixed(2);
-}
-
 function getAllTransactions() {
     return { error: 0, data: transactions };
 }
 
-function addFunds(amount) {
-    if (amount > 0) {
-        userBalance += amount;
-        transactions.push({
-            id: transactions.length + 1,
-            date: new Date().toLocaleDateString("fr-FR"),
-            heure: new Date().toLocaleTimeString("fr-FR", { hour: '2-digit', minute: '2-digit' }),
-            operation: "Ajout de fonds",
-            details: `Ajout de ${amount.toFixed(2)} €`,
-            montant: amount
-        });
-    }
-}
-
-function refund(amount) {
-    if (amount > 0 && amount <= userBalance) {
-        userBalance -= amount;
-        transactions.push({
-            id: transactions.length + 1,
-            date: new Date().toLocaleDateString("fr-FR"),
-            heure: new Date().toLocaleTimeString("fr-FR", { hour: '2-digit', minute: '2-digit' }),
-            operation: "Remboursement",
-            details: `Remboursement de ${amount.toFixed(2)} €`,
-            montant: -amount
-        });
-    } else {
-        console.error("Montant de remboursement invalide ou solde insuffisant.");
-    }
+function updateFunds(idUser, amount) {
+    let user = utilisateurs.find(u => u.id === parseInt(idUser));
+    if (!user) return { error: 1, status: 404, data: 'Utilisateur non trouvé' };
+    user.solde = amount;
+    return { error: 0, status: 200, data: user };
 }
 
 function getFilms() {
@@ -226,10 +196,8 @@ export default {
     setDecision,
     getOeuvres,
     setOeuvre,
-    getUserBalance,
     getAllTransactions,
-    addFunds,
-    refund,
+    updateFunds,
     getFilms,
     getFilmById,
     setFilm,

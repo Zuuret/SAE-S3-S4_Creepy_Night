@@ -39,12 +39,13 @@
       <div class="wallet">
         <h2>Votre porte-monnaie</h2>
         <div class="balance">
-          <p>Solde actuel : <span class="amount">{{ soldes.toFixed(2) }} €</span></p>
-          <button class="refund-button">Remboursement</button>
+          <p>Solde actuel : <span class="amount">{{ utilisateur.solde.toFixed(2) }} €</span></p>
+          <button class="recharge-button" @click="recharge">Recharger</button>
+          <button class="refund-button" @click="refund">Remboursement</button>
         </div>
         <div class="ticket-info">
           <img src="@/assets/qr.png" alt="QR Code" class="qr-code-image" />
-          <p>N° de billet : {{ numCashless }}</p>
+          <p>N° de billet : {{ utilisateur.numCashless }}</p>
           <button class="view-ticket">Voir mon billet</button>
         </div>
       </div>
@@ -80,7 +81,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getAllTransactions'])
+    ...mapActions(['getAllTransactions', 'updateFunds']),
+    recharge() {
+      alert('Fonctionnalité non disponible pour le moment');
+    },
+    refund() {
+      alert('Fonctionnalité non disponible pour le moment');
+    }
   },
   data() {
     return {
@@ -90,10 +97,6 @@ export default {
   },
   mounted() {
     this.getAllTransactions();
-
-    this.soldes = this.utilisateur.solde;
-    this.numCashless = this.utilisateur.numCashless;
-
   },
 };
 </script>
@@ -221,7 +224,7 @@ export default {
   color: #ccc;
 }
 
-.refund-button, .view-ticket {
+.recharge-button, .refund-button, .view-ticket {
   background: #ff0000;
   color: #ffffff;
   border: none;

@@ -261,6 +261,17 @@ export default new Vuex.Store({
         console.log(response.data);
       }
     },
+    async updateFunds({commit}, data){
+      console.log("Mise à jour du solde de l'utilisateur")
+      let response = await CashLessService.updateFunds(data);
+      if(response.error === 0){
+        commit('updateUtilisateur', response.data);
+        return true;
+      } else {
+        console.log(response.data);
+        return false;
+      }
+    }
   },
   modules: {
   }
