@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h1>Détails du concert</h1>
     <div v-if="concert">
-      <img :src="concert.image" alt="Affiche du concert" />
-      <h2>{{ concert.artiste }} - {{ concert.categorie }}</h2>
+      <p class="nom_artiste">{{ concert.artiste }}</p>
+      <p class="categorie_artiste">{{ concert.categorie }}</p>
+      <img :src="concert.image" alt="Affiche du concert" class="affiche_concert"/>
       <p>Date : {{ concert.date }}</p>
       <p>Heure : {{ concert.heure }}</p>
       <p>{{ concert.scene }}</p>
@@ -69,78 +69,25 @@ export default {
 </script>
 
 <style scoped>
-/* Style principal du conteneur */
-div {
-  color: #ff4444;
-  background-color: #111;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 600px;
-  margin: 0 auto;
-  text-align: center;
-  box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
-}
-/* Titre principal */
-h1 {
-  color: #ff0000;
-  font-size: 2.5rem;
-  font-family: 'Creepster', cursive;
-  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
-  margin-bottom: 20px;
-}
-/* Titre du concert */
-h2 {
-  color: #ffaaaa;
-  font-size: 2rem;
-  margin-bottom: 10px;
-}
-/* Image du concert */
-img {
-  width: 100%;
-  border: 2px solid #ff4444;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-}
-/* Détails du concert */
 p {
-  font-size: 1.2rem;
-  color: #eeeeee;
-  margin: 5px 0;
+  position: absolute;
 }
-/* Select pour la quantité */
-select {
-  background-color: #222;
-  color: #ffaaaa;
-  padding: 8px;
-  font-size: 1.1rem;
-  border: 1px solid #ff4444;
-  border-radius: 4px;
-  margin-top: 10px;
+.nom_artiste {
+  margin: 35px 0 0 35px;
+  font-size: 80px;
+  text-transform: uppercase;
+  font-family: Blippo, fantasy;
 }
-select:focus {
-  outline: none;
-  box-shadow: 0 0 5px #ff4444;
-}
-/* Effet de bouton */
-button {
-  background-color: #ff0000;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  font-size: 1.2rem;
+.categorie_artiste {
+  margin: 125px 0 0 38px;
+  font-size: 50px;
+  text-transform: uppercase;
+  font-family: Blippo;
   font-weight: bold;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
 }
-button:hover {
-  background-color: #cc0000;
-  transform: scale(1.05);
-}
-button:active {
-  background-color: #990000;
-  transform: scale(0.95);
+.affiche_concert {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>
