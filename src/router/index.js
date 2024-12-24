@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 
 import HomeView from '../views/HomeView.vue';
 import CreationProfil from '../views/CreationProfil.vue';
+import ConnectionProfil from '../views/Login.vue'
 
 import ReservationConcertConfirmation from '../views/ReservationConcertConfirmation.vue';
 import ValidationReservation from '../views/ValidationReservation.vue';
@@ -38,6 +39,7 @@ Vue.use(VueRouter);
 const routes = [
   { path: '/', name: 'home', component: HomeView },
   { path: '/profil', name: 'profil', component: CreationProfil },
+  { path: '/login', name: 'login', component: ConnectionProfil},
   { path: '/concert/:id', name: 'reservationConcert', component: ReservationConcertConfirmation },
   { path: '/concert/:id/validate', name: 'validationConcert', component: ValidationReservation },
   { path: '/planning', name: 'Planning', component: ConcertPlanner},

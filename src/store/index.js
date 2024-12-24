@@ -11,12 +11,14 @@ import ExpoOeuvres from '../services/expoOeuvres.services';
 import CashLessService from '../services/cashless.service';
 import CineFilms from '../services/cineFilms.services';
 import SignalementService from "@/services/signalement.service";
+import profilService from "../services/profil.service";
 
 export default new Vuex.Store({
   state: {
     //utilisateur: null,
     utilisateur: {"id":1, "prenom":"John", "nom":"Doe", "dateNaissance":"23-09-1998", "email":"johndoe@gmail.com", "motDePasse":"mdp123", "solde": 100, "numCashless": 123456789},
     utilisateurs: [],
+    errorMessage: '',
     artistes: [],
     artiste: [],
     concert: null,
@@ -40,6 +42,9 @@ export default new Vuex.Store({
     },
     updateListeUtilisateur(state, utilisateurs){
       state.utilisateurs = utilisateurs;
+    },
+    updateErrorMessage(state, errorMessage){
+      state.errorMessage = errorMessage;
     },
     updateConcertById(state, concert){
       state.concert = concert;
@@ -112,6 +117,17 @@ export default new Vuex.Store({
         commit('updateListeUtilisateur', response.data);
       } else {
         console.log(response.data);
+      }
+    },
+    async loginSite({commit}, data) {
+      const response = await profilService.loginSite(data);
+      if (response.error === 0) {
+        commit('updateUtilisateur', response.data);
+        commit('updateErrorMessage', '');
+        return {success: true};
+      } else {
+        commit('updateErrorMessage', response.data);
+        return {success: false};
       }
     },
     async addPositionGeographique({ commit }) {

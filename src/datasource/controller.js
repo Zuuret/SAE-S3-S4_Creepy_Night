@@ -27,9 +27,26 @@ function ajoutUtilisateur(data) {
         email: data.email,
         motDePasse: data.motDePasse
     };
-
     utilisateurs.push(nouvelUtilisateur);
     return { error: 0, status: 200, data: nouvelUtilisateur };
+}
+
+function loginSite(data) {
+    if ((!data.prenom) || (!data.motDePasse)) return {error: 1, status: 404, data: 'aucun prenom/password fourni'}
+    // pour simplifier : test uniquement le login
+    let user = utilisateurs.find(e => e.prenom === data.prenom)
+    if (!user) return {error: 1, status: 404, data: 'login incorrect'}
+    let userPassword = utilisateurs.find(e => e.motDePasse === data.motDePasse)
+    if (!userPassword) {
+        return { error: 1, status: 404, data: 'password incorrect' };
+    }
+    let u = {
+        id: user.id,
+        nom: user.nom,
+        prenom: user.prenom,
+        email: user.email,
+    }
+    return {error: 0, status: 200, data: u}
 }
 
 function getAllUsers() {
@@ -183,6 +200,7 @@ function getPlacesFilm(places_film) {
 }
 
 export default {
+    loginSite,
     ajoutUtilisateur,
     getAllUsers,
     addPositionGeographique,
