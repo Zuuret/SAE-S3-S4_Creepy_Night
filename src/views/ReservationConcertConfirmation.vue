@@ -2,11 +2,10 @@
   <div>
     <div v-if="concert">
       <p class="nom_artiste">{{ concert.artiste }}</p>
-      <p class="categorie_artiste">{{ concert.categorie }}</p>
+      <p class="categorie_artiste">{{ concert.categorie }} - {{concert.nationalite}}</p>
+      <p class="info_concert">{{ concert.date }} - {{ concert.heure }}</p>
+      <p class="scene_concert">{{ concert.scene }}</p>
       <img :src="concert.image" alt="Affiche du concert" class="affiche_concert"/>
-      <p>Date : {{ concert.date }}</p>
-      <p>Heure : {{ concert.heure }}</p>
-      <p>{{ concert.scene }}</p>
     </div>
 
     <div v-if="places_concert.length > 0">
@@ -79,15 +78,87 @@ p {
   font-family: Blippo, fantasy;
 }
 .categorie_artiste {
-  margin: 125px 0 0 38px;
+  margin: 125px 0 0 35px;
   font-size: 50px;
   text-transform: uppercase;
-  font-family: Blippo;
-  font-weight: bold;
+  font-family: Stencil Std, fantasy;
+}
+.info_concert {
+  margin: 185px 0 0 35px;
+  font-size: 35px;
+  text-transform: uppercase;
+  font-family: Stencil Std, fantasy;
+}
+.scene_concert {
+  margin: 230px 0 0 35px;
+  font-size: 35px;
+  text-transform: uppercase;
+  font-family: Stencil Std, fantasy;
 }
 .affiche_concert {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+h3 {
+  margin: 35px 50px 0 0;
+  font-size: 24px;
+  color: #e63946;
+  margin: 20px 0;
+  text-align: center;
+  position: absolute;
+}
+
+.place-info {
+  margin: 20px 35px 10px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+label {
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+select {
+  padding: 5px;
+  font-size: 14px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+/* Section Total */
+.total {
+  margin: 30px 35px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #e63946;
+}
+
+/* Bouton */
+button {
+  background-color: #1d3557;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  text-transform: uppercase;
+  border-radius: 5px;
+  margin-top: 15px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #457b9d;
+}
+
+/* Centrer le bouton */
+.router-link {
+  text-align: center;
+  display: block;
+  margin-top: 20px;
 }
 </style>
