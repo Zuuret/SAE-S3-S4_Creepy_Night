@@ -47,10 +47,10 @@ export default {
     ok: null,
   }),
   computed: {
-    ...mapState(['coordonneesBancaire']),
+    ...mapState('CinemaStore',['coordonneesBancaire']),
   },
   methods: {
-    ...mapActions(['validerPaiement']),
+    ...mapActions('CinemaStore',['validerPaiement']),
   },
   mounted() {
   }

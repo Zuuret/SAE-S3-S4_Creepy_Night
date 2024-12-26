@@ -39,10 +39,10 @@ export default {
     cvv: '',
   }),
   computed: {
-    ...mapState(['coordonneesBancaire']),
+    ...mapState('ConcertStore',['coordonneesBancaire']),
   },
   methods: {
-    ...mapActions(['validerPaiement']),
+    ...mapActions('ConcertStore',['validerPaiement']),
   },
   mounted() {
   }

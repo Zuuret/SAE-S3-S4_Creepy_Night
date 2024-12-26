@@ -109,10 +109,10 @@ export default {
     message: ''
   }),
   computed: {
-    ...mapState(['utilisateurs']),
+    ...mapState('ProfilStore',['utilisateurs']),
   },
   methods: {
-    ...mapActions(['enregistrementUtilisateur']),
+    ...mapActions('ProfilStore',['enregistrementUtilisateur']),
     setUserType(type) {
       this.userType = type;
       this.resetFields();

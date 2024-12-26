@@ -8,14 +8,12 @@
       <p>Venez profiter des soirées effrayantes du festival !</p>
 
       <div class="soirees-list">
-        <div
-            v-for="(soiree, index) in soirees"
-            :key="index"
-            class="soiree-card"
-        >
+        <div v-for="(soiree, index) in soirees" :key="index" class="soiree-card">
           <h2>{{ soiree.date }}</h2>
           <p>{{ soiree.description }}</p>
-          <button @click="acheterPlace(soiree)">Acheter ma place</button>
+          <router-link v-if="soiree" :to="`/baltrouille/deguisement`">
+            <button @click="acheterPlace(soiree)">Acheter ma place</button>
+          </router-link>
         </div>
       </div>
     </div>

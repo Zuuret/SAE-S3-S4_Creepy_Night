@@ -53,7 +53,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["addPositionGeographique", "addSignalement"]),
+    ...mapActions('SecuFlippeStore',["addPositionGeographique", "addSignalement"]),
     async soumissionSignalement() {
       try {
         const positionUtilisateur = await this.addPositionGeographique();

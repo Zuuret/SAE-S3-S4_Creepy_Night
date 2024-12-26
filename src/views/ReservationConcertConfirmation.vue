@@ -52,7 +52,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['concert', 'places_concert']),
+    ...mapState('ConcertStore',['concert', 'places_concert']),
     prixTotal() {
       let total = 0;
       for (const place of this.places_concert) {
@@ -63,7 +63,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(['getConcertbyId', 'getPlacesConcerts']),
+    ...mapActions('ConcertStore',['getConcertbyId', 'getPlacesConcerts']),
   },
   mounted() {
     const concertId = parseInt(this.$route.params.id);

@@ -21,10 +21,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(['utilisateur', 'errorMessage']),
+    ...mapState('ProfilStore',['utilisateur', 'errorMessage']),
   },
   methods: {
-    ...mapActions(['loginSite']),
+    ...mapActions('ProfilStore',['loginSite']),
     async redirectionSite() {
       const result = await this.loginSite({ prenom: this.prenom, motDePasse: this.motDePasse });
       if (result.success) {

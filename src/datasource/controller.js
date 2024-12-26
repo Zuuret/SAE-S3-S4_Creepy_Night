@@ -9,7 +9,8 @@ import {
     expo_oeuvres_demande,
     cine_films,
     places_films,
-    signalement
+    signalement,
+    deguisements
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -199,6 +200,10 @@ function getPlacesFilm(places_film) {
     return { error: 0, data: placesFilm };
 }
 
+function getAllDeguisement(){
+    return {error:0, data: deguisements};
+}
+
 export default {
     loginSite,
     ajoutUtilisateur,
@@ -220,4 +225,5 @@ export default {
     getFilmById,
     setFilm,
     getPlacesFilm,
+    getAllDeguisement
 };

@@ -75,13 +75,13 @@ export default {
   name: 'CashLess',
   components: { NavBar },
   computed: {
-    ...mapState(['transactions', 'utilisateur']),
+    ...mapState('CashLessStore',['transactions', 'utilisateur']),
     filteredTransactions() {
       return this.transactions.filter((transaction) => transaction.id_utilisateur === this.utilisateur.id);
     }
   },
   methods: {
-    ...mapActions(['getAllTransactions', 'updateFunds']),
+    ...mapActions('CashLessStore',['getAllTransactions', 'updateFunds']),
     recharge() {
       alert('Fonctionnalité non disponible pour le moment');
     },

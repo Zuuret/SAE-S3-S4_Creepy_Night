@@ -33,10 +33,10 @@ export default {
   name: "SecuflippeMesSignalements",
   components: {NavBar},
   computed: {
-    ...mapState(['signalement'])
+    ...mapState('SecuFlippeStore',['signalement'])
   },
   methods: {
-    ...mapActions(['getAllSignalements'])
+    ...mapActions('SecuFlippeStore',['getAllSignalements'])
   },
   mounted() {
     this.getAllSignalements()

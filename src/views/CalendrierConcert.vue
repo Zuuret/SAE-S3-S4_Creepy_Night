@@ -43,7 +43,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['concerts']),
+    ...mapState('ConcertStore', ['concerts']),
     concertsByDayAndHour() {
       const concertsByDayAndHour = {};
       this.days.forEach(day => {
@@ -66,7 +66,7 @@ export default {
   }
 ,
   methods: {
-    ...mapActions(['getAllConcert']),
+    ...mapActions('ConcertStore',['getAllConcert']),
     getLastWeekOfOctober() {
       let year;
       if (new Date().getMonth() === 11 || new Date().getMonth() === 10) {

@@ -172,6 +172,12 @@ let panier_film = [
 
 let signalement = []
 
+let deguisements = [
+    {'id_costume':1, 'nom_costume':'Le Diable', 'prix':9.99, 'taille':'S','image':require("../assets/costume_diable.jpg")},
+    {'id_costume':2, 'nom_costume':'Le Fantome', 'prix':9.99, 'taille':'S','image':require("../assets/costume_fantome.jpeg")},
+    {'id_costume':3, 'nom_costume':'La Sorcière', 'prix':9.99, 'taille':'S','image':require("../assets/costume_sorciere.jpeg")}
+]
+
 
 module.exports = {
     utilisateurs,
@@ -187,5 +193,6 @@ module.exports = {
     cine_films,
     places_films,
     panier_film,
-    signalement
+    signalement,
+    deguisements
 }
