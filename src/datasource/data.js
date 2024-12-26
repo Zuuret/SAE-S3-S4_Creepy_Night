@@ -17,7 +17,7 @@ let concerts = [
     {"id": 5, "artiste": "David Guetta", "nationalite": "FR", "date": "10-29-2025", "heure": "00h00", "duree": "1", "image": require("../assets/affiche_DavidGuetta.jpg"), "categorie": "Électro", "scene": "Grande Scène"},
     {"id": 6, "artiste": "Kungs", "nationalite": "FR", "date": "10-30-2025", "heure": "21h00", "duree": "1", "image": require("../assets/affiche_Kungs.jpg"), "categorie": "House", "scene": "Grande Scène"},
     {"id": 7, "artiste": "Vladimir Cauchemar", "nationalite": "FR", "date": "10-30-2025", "heure": "23h00", "duree": "1", "image": require("../assets/affiche_VladimirCauchemard.jpg"), "categorie": "Électro", "scene": "Grande Scène"},
-    {"id": 8, "artiste": "Maitre Gims", "nationalite": "FR", "date": "10-31-2025", "heure": "18h00", "duree": "1", "image": require("../assets/affiche_Gims.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
+    {"id": 8, "artiste": "Gims", "nationalite": "FR", "date": "10-31-2025", "heure": "18h00", "duree": "1", "image": require("../assets/affiche_Gims.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
     {"id": 9, "artiste": "Daft Punk", "nationalite": "FR", "date": "10-31-2025", "heure": "21h00", "duree": "1", "image": require("../assets/affiche_DaftPunk.jpg"), "categorie": "Électro", "scene": "Grande Scène"},
     {"id": 10, "artiste": "Kendrick Lamar", "nationalite": "USA", "date": "10-31-2025", "heure": "22h00", "duree": "1", "image": require("../assets/affiche_KendrickLamar.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
     {"id": 11, "artiste": "The Rolling Stones", "nationalite": "UK", "date": "10-31-2025", "heure": "23h00", "duree": "1", "image": require("../assets/affiche_RollingStones.jpg"), "categorie": "Rock", "scene": "Grande Scène"},
@@ -28,10 +28,11 @@ let concerts = [
     {"id": 16, "artiste": "Snoop Dogg", "nationalite": "USA", "date": "11-01-2025", "heure": "23h00", "duree": "1", "image": require("../assets/affiche_SnoopDogg.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
     {"id": 17, "artiste": "DJ Snake", "nationalite": "FR", "date": "11-01-2025", "heure": "01h00", "duree": "1", "image": require("../assets/affiche_DJSnake.jpg"), "categorie": "Électro", "scene": "Grande Scène"},
     {"id": 18, "artiste": "Khali", "nationalite": "FR", "date": "11-02-2025", "heure": "18h00", "duree": "1", "image": require("../assets/affiche_Khali.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
-    {"id": 19, "artiste": "Linkin Park", "nationalite": "USA", "date": "11-02-2025", "heure": "20h00", "duree": "1", "image": require("../assets/affiche_LinkinPark.jpg"), "categorie": "Rock", "scene": "Grande Scène"},
-    {"id": 20, "artiste": "Damso", "nationalite": "FR", "date": "11-02-2025", "heure": "21h00", "duree": "1", "image": require("../assets/affiche_Damso.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
-    {"id": 21, "artiste": "Macklemore", "nationalite": "USA", "date": "11-02-2025", "heure": "22h00", "duree": "1", "image": require("../assets/affiche_Macklemore.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
-    {"id": 22, "artiste": "Bob Sinclar", "nationalite": "FR", "date": "11-02-2025", "heure": "23h00", "duree": "1", "image": require("../assets/affiche_BobSinclar.jpg"), "categorie": "House", "scene": "Grande Scène"},
+    {"id": 19, "artiste": "Naps", "nationalite": "FR", "date": "11-02-2025", "heure": "19h00", "duree": "1", "image": require("../assets/affiche_Naps.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
+    {"id": 20, "artiste": "Linkin Park", "nationalite": "USA", "date": "11-02-2025", "heure": "20h00", "duree": "1", "image": require("../assets/affiche_LinkinPark.jpg"), "categorie": "Rock", "scene": "Grande Scène"},
+    {"id": 21, "artiste": "Damso", "nationalite": "FR", "date": "11-02-2025", "heure": "21h00", "duree": "1", "image": require("../assets/affiche_Damso.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
+    {"id": 22, "artiste": "Macklemore", "nationalite": "USA", "date": "11-02-2025", "heure": "22h00", "duree": "1", "image": require("../assets/affiche_Macklemore.jpg"), "categorie": "Rap", "scene": "Grande Scène"},
+    {"id": 23, "artiste": "Bob Sinclar", "nationalite": "FR", "date": "11-02-2025", "heure": "23h00", "duree": "1", "image": require("../assets/affiche_BobSinclar.jpg"), "categorie": "House", "scene": "Grande Scène"},
 ];
 
 let places_concerts = [
