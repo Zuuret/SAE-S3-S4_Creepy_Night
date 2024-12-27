@@ -87,13 +87,18 @@
       </form>
 
       <div v-if="message" class="message">{{ message }}</div>
+
+      <div class="login-link">
+        <span>Déjà un compte ? <router-link to="/connexion">Se connecter</router-link></span>
+      </div>
     </div>
   </div>
 </template>
 
-
 <script>
 import { mapState, mapActions } from 'vuex';
+import { utilisateurs } from '@/datasource/data.js';
+
 export default {
   name: "CreationProfil",
   data: () => ({
@@ -128,10 +133,22 @@ export default {
       this.adresse = '';
     },
     submitForm() {
-      if (this.email != this.confirmEmail) {
-        this.message = "L'email n'est pas identique à l'email de confirmation"
+      if (this.email !== this.confirmEmail) {
+        this.message = "L'email n'est pas identique à l'email de confirmation";
       } else {
+        const newUser = {
+          id: utilisateurs.length + 1,
+          prenom: this.prenom,
+          nom: this.nom,
+          dateNaissance: this.dateNaissance,
+          email: this.email,
+          motDePasse: this.motDePasse,
+          solde: 0,
+          numCashless: Math.floor(Math.random() * 1000000000)
+        };
+        utilisateurs.push(newUser);
         this.message = `Nouvel utilisateur ajouté : ${this.prenom} ${this.nom}`;
+        this.resetFields();
       }
     }
   }
@@ -139,7 +156,6 @@ export default {
 </script>
 
 <style scoped>
-
 input {
   width: 100%;
   padding: 10px;
@@ -220,5 +236,15 @@ input {
   font-weight: bold;
   margin-top: 15px;
   text-align: center;
+}
+
+.login-link {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.login-link span {
+  color: blue;
+  cursor: pointer;
 }
 </style>

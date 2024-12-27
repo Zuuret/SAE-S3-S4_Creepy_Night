@@ -35,6 +35,9 @@ import ReservationCinepeurValidation from "@/views/ReservationCinepeurValidation
 import ReservationCinepeur from "@/views/ReservationCinepeur.vue";
 
 import CashLess from "@/views/CashLess.vue";
+import PaymentForm from '@/views/PaymentForm.vue';
+import PaymentHistory from '@/views/PaymentHistory.vue';
+import PageConnexion from '@/views/Connexion.vue';
 
 Vue.use(VueRouter);
 
@@ -63,6 +66,9 @@ const routes = [
   { path: '/cinepeur', name: 'cinepeur', component: ReservationCinepeur },
   { path: '/cinepeur/:id', name: 'reservationCinepeur', component: ReservationCinepeurConfirmation },
   { path: '/cinepeur/:id/validate', name: 'validationCinepeur', component: ReservationCinepeurValidation},
+  { path: '/payment/:ticketId', name: 'PaymentForm', component: PaymentForm },
+  { path: '/payment-history', name: 'PaymentHistory', component: PaymentHistory },
+  { path: '/connexion', name: 'PageConnexion', component: PageConnexion },
 ];
 
 const router = new VueRouter({

@@ -68,6 +68,10 @@
           inédites et de rencontres avec des créateurs et talents du
           genre horrifique.</p>
       </div>
+
+      <div v-if="utilisateurConnecte" class="welcome-message">
+        Bonjour {{ utilisateurConnecte.prenom }} {{ utilisateurConnecte.nom }}
+      </div>
     </div>
     <footer class="footer">
       <div class="footer-content">
@@ -111,6 +115,7 @@ export default {
   },
   data() {
     return {
+      utilisateurConnecte: null,
       activites: [
         {
           titre: "Carihorreur",
@@ -145,6 +150,12 @@ export default {
       ],
     };
   },
+  mounted() {
+    const utilisateur = localStorage.getItem('utilisateurConnecte');
+    if (utilisateur) {
+      this.utilisateurConnecte = JSON.parse(utilisateur);
+    }
+  }
 };
 </script>
 
@@ -450,6 +461,13 @@ export default {
 
 .contact-info a:hover {
   text-decoration: underline;
+}
+
+.welcome-message {
+  font-size: 24px;
+  color: black;
+  text-align: center;
+  margin-top: 20px;
 }
 
 </style>

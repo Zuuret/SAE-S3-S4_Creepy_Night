@@ -12,7 +12,13 @@
 
     <div v-if="isMenuOpen" class="burger-menu">
       <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo-burger">
-      <router-link to="/profil" @click="closeMenu">Créer profil</router-link>
+      <div v-if="!utilisateurConnecte">
+        <router-link to="/connexion" @click="closeMenu">Connexion</router-link>
+        <router-link to="/profil" @click="closeMenu">Créer profil</router-link>
+      </div>
+      <div v-else>
+        <router-link to="/" @click.native="logout">Déconnexion</router-link>
+      </div>
       <router-link to="/concert-schedule" @click="closeMenu">Programmation des concerts</router-link>
       <router-link to="/planning" @click="closeMenu">Placer concert</router-link>
       <router-link to="/organisateur/validartiste" @click="closeMenu">Valider concert</router-link>
@@ -25,6 +31,7 @@
       <router-link to="/cashless" @click="closeMenu">CashLess</router-link>
       <router-link to="/expo" @click="closeMenu">Exposition</router-link>
       <router-link to="/cinepeur" @click="closeMenu">Cinepeur</router-link>
+      <router-link to="/payment-history">historique de paiement</router-link>
     </div>
   </div>
 </template>
@@ -41,6 +48,7 @@ export default {
       isMenuOpen: false,
       lastScrollY: 0,
       isNavbarHidden: false,
+      utilisateurConnecte: null
     };
   },
   methods: {
@@ -65,9 +73,20 @@ export default {
       }
       this.lastScrollY = currentScrollY;
     },
+    logout() {
+      localStorage.removeItem('utilisateurConnecte');
+      this.utilisateurConnecte = null;
+      if (this.$route.path !== '/') {
+        this.$router.push({ path: '/' });
+      }
+    }
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
+    const utilisateur = localStorage.getItem('utilisateurConnecte');
+    if (utilisateur) {
+      this.utilisateurConnecte = JSON.parse(utilisateur);
+    }
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.handleScroll);
