@@ -8,7 +8,7 @@ import CashLessService from '../services/cashless.service';
 export default ({
     namespaced: true,
     state: {
-        utilisateur: null,
+        utilisateur: {"id":1, "prenom":"John", "nom":"Doe", "dateNaissance":"23-09-1998", "email":"johndoe@gmail.com", "motDePasse":"mdp123", "solde": 100, "numCashless": 123456789},
         transactions: [],
     },
     mutations: {

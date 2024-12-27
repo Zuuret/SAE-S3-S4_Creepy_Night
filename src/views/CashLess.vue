@@ -22,7 +22,7 @@
       <div class="steps">
         <div class="step">
           <h3>1. Créditer votre compte CashLess</h3>
-          <p>Rendez-vous sur <a href="https://cashless.creepynight.fr" target="_blank">cashless.creepynight.fr</a> ou sur l’application mobile pour créditer votre bracelet. Puis le jour J, présentez votre billet à l'entrée pour récupérer votre bracelet préchargé</p>
+          <p>Rendez-vous sur cette page ou sur l’application mobile pour créditer votre bracelet. Puis le jour J, présentez votre billet à l'entrée pour récupérer votre bracelet préchargé</p>
         </div>
         <div class="step">
           <h3>2. Le paiement simplifié</h3>
