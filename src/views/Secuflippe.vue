@@ -42,26 +42,31 @@
           <li>
             <img src="@/assets/ensemble.png" alt="Ensemble" class="regle1">
             <div class="trait"></div>
-            Déplacez-vous en groupe : Ne restez pas seul dans les zones sombres ou isolées.
+            Déplacez-vous en groupe : <br>
+            Ne restez pas seul dans les zones sombres ou isolées.
           </li>
           <li>
             <img src="@/assets/croix_secours.png" alt="Croix rouge" class="regle2">
             <div class="trait"></div>
-            Localisez les points de secours : Familiarisez-vous avec les postes de secours et les issues de secours sur la carte.</li>
+            Localisez les points de secours : <br>
+            Familiarisez-vous avec les postes de secours et les issues de secours sur la carte.</li>
           <li>
             <img src="@/assets/perturbateur.png" alt="Mauvaise personne" class="regle3">
             <div class="trait"></div>
-            Gardez vos affaires près de vous : Les monstres ne voleront pas vos sacs, mais on ne sait jamais avec les autres festivaliers !
+            Gardez vos affaires près de vous : <br>
+            Les monstres ne voleront pas vos sacs, mais on ne sait jamais avec les autres festivaliers !
           </li>
           <li>
             <img src="@/assets/appel.png" alt="Téléphone" class="regle4">
             <div class="trait"></div>
-            Restez vigilant(e) : Si quelque chose semble louche, signalez-le immédiatement via SécuFlippe.
+            Restez vigilant(e) : <br>
+            Si quelque chose semble louche, signalez-le immédiatement via SécuFlippe.
           </li>
           <li>
             <img src="@/assets/map.png" alt="Carte" class="regle5">
             <div class="trait"></div>
-            Respectez les limites : Certaines zones sont interdites pour votre propre sécurité, ne vous aventurez pas au-delà.</li>
+            Respectez les limites : <br>
+            Certaines zones sont interdites pour votre propre sécurité, ne vous aventurez pas au-delà.</li>
         </ul>
       </div>
       <div class="section3" data-aos="fade-up" data-aos-duration="1000">
@@ -208,22 +213,24 @@ div {
   margin-top: 10px;
 }
 .section1 h2 {
+  padding: 5px;
   margin: 0 0 10px 0;
-  font-size: 38px;
+  font-size: 35px;
   color: #f6c700;
 }
 .section1 p {
   margin: 0;
   padding: 0 20px 25px 20px;
-  font-size: 30px;
+  font-size: 25px;
   line-height: 1.6;
   color: #eaeaea;
 }
 .section1 button {
+  width: 75%;
   background: #EA3323;
   color: #000000;
   margin: 0 0 25px;
-  padding: 10px 20px;
+  padding: 10px;
   border: none;
   border-radius: 10px;
   font-size: 23px;
@@ -243,6 +250,7 @@ div {
   font-size: 50px;
   font-family: 'Kanit', sans-serif;
   color: #f6c700;
+  padding: 0 50px 0 50px;
   text-align: center;
   margin-bottom: 3%;
   text-shadow: 0 0 10px #f6c700, 0 0 20px #ff0000;
@@ -276,7 +284,7 @@ div {
   border-radius: 20px;
   padding: 20px;
   font-family: 'Kanit', sans-serif;
-  font-size: 30px;
+  font-size: 19px;
   line-height: 1.8;
   color: #ffffff;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
@@ -302,7 +310,8 @@ div {
   text-shadow: 0 0 10px #f6c700, 0 0 20px #ff0000; /* Effet lumineux */
 }
 .section3 p {
-  font-size: 30px;
+  font-size: 27px;
+  padding: 0 15px 0 15px;
   line-height: 1.8;
   color: #ffffff;
   left: 0;

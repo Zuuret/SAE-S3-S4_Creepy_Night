@@ -60,9 +60,7 @@ let places_concerts = [
     { "id_concert": 22, "type_place": "Fosse", "nb_places": 300, "prix_place": 15 },
 ];
 
-let panier_concert = [
-    {'nb_places_prises':'2', 'type_place_prises':'Fosse'}
-];
+let panier_concert = [];
 
 let coordonnees_bancaire = [
     {'nom': 'Doe', "numero_carte": "123456789ABCDEFG", 'date_expiration': "11/31", 'cvv': '484'}
@@ -173,9 +171,25 @@ let panier_film = [
 let signalement = []
 
 let deguisements = [
-    {'id_costume':1, 'nom_costume':'Le Diable', 'prix':9.99, 'taille':'S','image':require("../assets/costume_diable.jpg")},
-    {'id_costume':2, 'nom_costume':'Le Fantome', 'prix':9.99, 'taille':'S','image':require("../assets/costume_fantome.jpeg")},
-    {'id_costume':3, 'nom_costume':'La Sorcière', 'prix':9.99, 'taille':'S','image':require("../assets/costume_sorciere.jpeg")}
+    {'id_costume':1, 'nom_costume':'Le Diable', 'prix':9.99,'image':require("../assets/costume_diable.jpg")},
+    {'id_costume':2, 'nom_costume':'Le Fantome', 'prix':9.99,'image':require("../assets/costume_fantome.jpeg")},
+    {'id_costume':3, 'nom_costume':'La Sorcière', 'prix':9.99,'image':require("../assets/costume_sorciere.jpeg")}
+]
+
+let taille_deguisements = [
+    {'id_deguisement':1, 'taille':'XS','quantite':1},
+    {'id_deguisement':1, 'taille':'S','quantite':2},
+    {'id_deguisement':1, 'taille':'M','quantite':1},
+    {'id_deguisement':1, 'taille':'L','quantite':1},
+    {'id_deguisement':1, 'taille':'XL','quantite':1},
+    {'id_deguisement':2, 'taille':'XS','quantite':1},
+    {'id_deguisement':2, 'taille':'S','quantite':2},
+    {'id_deguisement':2, 'taille':'M','quantite':1},
+    {'id_deguisement':2, 'taille':'L','quantite':1},
+    {'id_deguisement':2, 'taille':'XL','quantite':1},
+    {'id_deguisement':3, 'taille':'XS','quantite':1},
+    {'id_deguisement':3, 'taille':'S','quantite':2},
+    {'id_deguisement':3, 'taille':'M','quantite':1},
 ]
 
 
@@ -194,5 +208,6 @@ module.exports = {
     places_films,
     panier_film,
     signalement,
-    deguisements
+    deguisements,
+    taille_deguisements
 }

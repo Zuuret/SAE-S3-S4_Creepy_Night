@@ -15,67 +15,71 @@
       <div class="ticket">
         <h3>Places disponibles :</h3>
         <div v-if="places_concert.length > 0">
-          <div v-for="place in places_concert" :key="place.id_concert + '-' + place.type_place" class="ticket-item">
-            <p>
-              <strong>Type :</strong> {{ place.type_place }}<br />
-              <strong>Prix :</strong> {{ place.prix_place }} €<br />
-              <strong>Disponibles :</strong> {{ place.nb_places }}
-            </p>
-            <label :for="`selection_quantite_${place.type_place}`">QUANTITÉ</label>
-            <input type="number" v-model.number="quantiteParType[place.type_place]" :id="`selection_quantite_${place.type_place}`" min="0" :max="7" step="1"/>
-          </div>
+          <p>
+            <strong>Type :</strong> {{ places_concert[0].type_place }} <br/>
+            <strong>Prix :</strong> {{ places_concert[0].prix_place }} €<br/>
+            <strong>Disponibles :</strong> {{ places_concert[0].nb_places }}
+          </p>
+          <label for="selection_quantite">QUANTITÉ</label>
+          <input type="number" v-model.number="quantite" id="selection_quantite" min="0" :max="7" step="1"/>
         </div>
         <div v-else>
           <p>Aucune place disponible pour ce concert.</p>
         </div>
         <div class="ticket-total">
           <p><strong>TOTAL :</strong> {{ prixTotal }} €</p>
-          <router-link v-if="concert" :to="`/concert/${concert.id}/validate`">
-            <button>OBTENIR MA PLACE</button>
-          </router-link>
+          <button @click="ajouterAuPanier">AJOUTER AU PANIER</button>
         </div>
       </div>
-
+      <PanierConcert></PanierConcert>
     </div>
   </div>
 </template>
 
-
 <script>
 import { mapActions, mapState } from 'vuex';
+import PanierConcert from "@/components/PanierConcert.vue";
 
 export default {
   name: 'ReservationConcertConfirmation',
+  components: {PanierConcert},
   data() {
     return {
-      quantiteParType: {},
+      quantite: 0,
     };
   },
   computed: {
-    ...mapState('ConcertStore',['concert', 'places_concert']),
+    ...mapState('ConcertStore', ['concert', 'places_concert']),
     prixTotal() {
-      let total = 0;
-      for (const place of this.places_concert) {
-        const quantite = this.quantiteParType[place.type_place] || 0;
-        total += place.prix_place * quantite;
-      }
-      return total;
+      return this.places_concert[0] ? this.places_concert[0].prix_place * this.quantite : 0;
     },
   },
   methods: {
-    ...mapActions('ConcertStore',['getConcertbyId', 'getPlacesConcerts']),
+    ...mapActions('ConcertStore', ['getConcertbyId', 'getPlacesConcerts', 'addAuPanier']),
+    ajouterAuPanier() {
+      if (this.quantite <= 0) {
+        alert('Veuillez sélectionner une quantité valide.');
+      } else {
+        this.addAuPanier({
+          concertId: this.concert.id,
+          placeType: this.places_concert[0],
+          quantite: this.quantite
+        }).then(() => {
+          alert(`${this.quantite} place(s) ajoutée(s) au panier.`);
+          this.quantite = 0;
+        }).catch(error => {
+          alert("Erreur lors de l'ajout au panier.");
+          console.error(error);
+        });
+      }
+    },
   },
   mounted() {
     const concertId = parseInt(this.$route.params.id);
-    console.log("ID du concert : ", concertId);
     this.getConcertbyId(concertId);
-    this.getPlacesConcerts(concertId).then(() => {
-      this.places_concert.forEach(place => {
-        this.$set(this.quantiteParType, place.type_place, 0);
-      });
-    });
+    this.getPlacesConcerts(concertId);
   },
-}
+};
 </script>
 
 <style scoped>
@@ -195,10 +199,6 @@ export default {
   outline: none;
   border-color: #880e0e;
   box-shadow: 0 0 8px rgba(183, 28, 28, 0.5);
-}
-.ticket .ticket-item {
-  border-bottom: 1px dashed #000000;
-  padding-bottom: 17px;
 }
 .ticket .ticket-total {
   font-size: 18px;

@@ -10,7 +10,7 @@ import {
     cine_films,
     places_films,
     signalement,
-    deguisements
+    deguisements, taille_deguisements, panier_concert
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -114,6 +114,37 @@ function getPlaceConcert(concertId) {
     return { error: 0, data: placeConcert };
 }
 
+function getPanier(){
+    return {error: 0, data: panier_concert}
+}
+
+function addAuPanier(concertId, placeType, quantite) {
+    const place = places_concerts.find(
+        p => p.id_concert === parseInt(concertId) && p.type_place === placeType
+    );
+    if (!place) {
+        return { error: 1, data: 'Place non trouvée.' };
+    }
+    if (place.nb_places < quantite) {
+        return { error: 1, data: 'Quantité demandée supérieure aux places disponibles.' };
+    }
+
+    // Réduction du nombre de places disponibles
+    place.nb_places -= quantite;
+
+    // Vérification d'élément existant dans le panier
+    const existingItem = panier_concert.find(
+        item => item.concertId === parseInt(concertId) && item.placeType === placeType
+    );
+
+    if (existingItem) {
+        existingItem.quantite += quantite;
+    } else {
+        panier_concert.push({ concertId, placeType, quantite });
+    }
+
+    return { error: 0, data: 'Ajout au panier réussi.' };
+}
 function validerPaiement(data){
     if (!data.nom) return { error: 1, status: 404, data: 'Aucun nom de titulaire de la carte fourni' };
     if (!data.numeroCarte) return { error: 1, status: 404, data: 'Aucun numero de carte fourni' };
@@ -204,6 +235,17 @@ function getAllDeguisement(){
     return {error:0, data: deguisements};
 }
 
+function getDeguisementById(deguisementId){
+    let deguisement = deguisements.find(d => d.id_costume === parseInt(deguisementId))
+    return {error: 0, data: deguisement}
+}
+
+function getTailleDeguisement(deguisementId) {
+    let tailleDeguisement = taille_deguisements.filter(taille => taille.id_deguisement === parseInt(deguisementId));
+    return { error: 0, data: tailleDeguisement };
+}
+
+
 export default {
     loginSite,
     ajoutUtilisateur,
@@ -214,6 +256,8 @@ export default {
     getAllConcerts,
     getConcertbyId,
     getPlaceConcert,
+    getPanier,
+    addAuPanier,
     validerPaiement,
     getArtistes,
     setDecision,
@@ -225,5 +269,7 @@ export default {
     getFilmById,
     setFilm,
     getPlacesFilm,
-    getAllDeguisement
+    getAllDeguisement,
+    getDeguisementById,
+    getTailleDeguisement
 };
