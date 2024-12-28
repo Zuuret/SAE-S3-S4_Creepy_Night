@@ -114,37 +114,49 @@ function getPlaceConcert(concertId) {
     return { error: 0, data: placeConcert };
 }
 
-function getPanier(){
-    return {error: 0, data: panier_concert}
-}
-
-function addAuPanier(concertId, placeType, quantite) {
-    const place = places_concerts.find(
-        p => p.id_concert === parseInt(concertId) && p.type_place === placeType
-    );
-    if (!place) {
-        return { error: 1, data: 'Place non trouvée.' };
+// Panier concert
+function ajouterAuPanier(concertId, nbPlaces) {
+    const concert = concerts.find(c => c.id === concertId);
+    if (!concert) {
+        console.log("Concert non trouvé");
+        return;
     }
-    if (place.nb_places < quantite) {
-        return { error: 1, data: 'Quantité demandée supérieure aux places disponibles.' };
+    const placeConcert = places_concerts.find(p => p.id_concert === concertId);
+    if (!placeConcert) {
+        console.log("Place non trouvée");
+        return;
     }
-
-    // Réduction du nombre de places disponibles
-    place.nb_places -= quantite;
-
-    // Vérification d'élément existant dans le panier
-    const existingItem = panier_concert.find(
-        item => item.concertId === parseInt(concertId) && item.placeType === placeType
-    );
-
-    if (existingItem) {
-        existingItem.quantite += quantite;
+    const placeDansPanier = panier_concert.find(item => item.concertId === concertId);
+    if (placeDansPanier) {
+        placeDansPanier.nbPlaces += nbPlaces;
+        placeDansPanier.prixTotal = placeDansPanier.nbPlaces * placeConcert.prix_place;
     } else {
-        panier_concert.push({ concertId, placeType, quantite });
+        panier_concert.push({
+            concertId: concertId,
+            nbPlaces: nbPlaces,
+            prixTotal: nbPlaces * placeConcert.prix_place,
+            concert: concert,
+            place: placeConcert
+        });
     }
-
-    return { error: 0, data: 'Ajout au panier réussi.' };
 }
+function retirerDuPanier(concertId, nbPlaces) {
+    const index = panier_concert.findIndex(item => item.concertId === concertId);
+    if (index !== -1) {
+        panier_concert[index].nbPlaces -= nbPlaces;
+        if (panier_concert[index].nbPlaces <= 0) {
+            panier_concert.splice(index, 1);
+        } else {
+            panier_concert[index].prixTotal = panier_concert[index].nbPlaces * panier_concert[index].place.prix_place;
+
+        }
+    }
+}
+
+function calculerTotal() {
+    return panier_concert.reduce((total, item) => total + item.prixTotal, 0);
+}
+
 function validerPaiement(data){
     if (!data.nom) return { error: 1, status: 404, data: 'Aucun nom de titulaire de la carte fourni' };
     if (!data.numeroCarte) return { error: 1, status: 404, data: 'Aucun numero de carte fourni' };
@@ -256,8 +268,9 @@ export default {
     getAllConcerts,
     getConcertbyId,
     getPlaceConcert,
-    getPanier,
-    addAuPanier,
+    ajouterAuPanier,
+    retirerDuPanier,
+    calculerTotal,
     validerPaiement,
     getArtistes,
     setDecision,

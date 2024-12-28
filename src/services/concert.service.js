@@ -42,30 +42,44 @@ async function getPlacesConcerts(concertId) {
     return response;
 }
 
-async function getPanierFromLocalSource(){
-    return LocalSource.getPanier();
+async function ajouterAuPanierFromLocalSource(concertId, nbPlaces){
+    return LocalSource.ajouterAuPanier(concertId, nbPlaces)
 }
 
-async function getPanier(){
+async function ajouterAuPanier(concertId, nbPlaces) {
     let response;
     try {
-        response = await getPanierFromLocalSource();
+        response = await ajouterAuPanierFromLocalSource(concertId, nbPlaces);
     } catch (err) {
-        response = { error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des places de concerts' };
+        response = { error: 1, data: 'Erreur lors de l’ajout au panier.' };
     }
     return response;
 }
 
-async function addAuPanierFromLocalSource(concertId, placeType, quantite){
-    return LocalSource.addAuPanier(concertId, placeType, quantite)
+async function retirerDuPanierFromLocalSource(concertId, nbPlaces){
+    return LocalSource.retirerDuPanier(concertId, nbPlaces)
 }
 
-async function addAuPanier(concertId, placeType, quantite) {
+async function retirerDuPanier(concertId, nbPlaces) {
     let response;
     try {
-        response = await addAuPanierFromLocalSource(concertId, placeType, quantite);
+        response = await retirerDuPanierFromLocalSource(concertId, nbPlaces);
     } catch (err) {
-        response = { error: 1, data: 'Erreur lors de l’ajout au panier.' };
+        response = { error: 1, data: 'Erreur lors de la supression au panier.' };
+    }
+    return response;
+}
+
+async function calculerTotalFromLocalSource(){
+    return LocalSource.calculerTotal();
+}
+
+async function calculerTotal() {
+    let response;
+    try {
+        response = await calculerTotalFromLocalSource();
+    } catch (err) {
+        response = { error: 1, data: 'Erreur lors du calcul du total' };
     }
     return response;
 }
@@ -74,8 +88,7 @@ export default {
     getAllConcerts,
     getConcertbyId,
     getPlacesConcerts,
-    getPanier,
-    addAuPanier
+    ajouterAuPanier,
+    retirerDuPanier,
+    calculerTotal
 };
-
-/* eslint-disable */

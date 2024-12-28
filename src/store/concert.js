@@ -31,14 +31,29 @@ export default ({
         updatePanier(state, panier) {
             state.panier = panier;
         },
-        addPanier(state, { concert, place, quantite }) {
-            const existingItem = state.panier.find(
-                item => item.concert.id === concert.id && item.place.type_place === place.type_place
-            );
-            if (existingItem) {
-                existingItem.quantite += quantite;
+        ajouterAuPanier(state, { concertId, nbPlaces, concert, place }) {
+            const placeDansPanier = state.panier.find(item => item.concertId === concertId);
+            if (placeDansPanier) {
+                placeDansPanier.nbPlaces += nbPlaces;
+                placeDansPanier.prixTotal = placeDansPanier.nbPlaces * place.prix_place;
             } else {
-                state.panier.push({ concert, place, quantite });
+                state.panier.push({
+                    concertId: concertId,
+                    nbPlaces: nbPlaces,
+                    prixTotal: nbPlaces * place.prix_place,
+                    concert: concert,
+                    place: place,
+                });
+            }
+        },
+        retirerDuPanier(state, { concertId, nbPlaces }) {
+            const index = state.panier.findIndex(item => item.concertId === concertId);
+            if (index !== -1) {
+                state.panier[index].nbPlaces -= nbPlaces;
+                state.panier[index].prixTotal = state.panier[index].nbPlaces * state.panier[index].place.prix_place;
+                if (state.panier[index].nbPlaces <= 0) {
+                    state.panier.splice(index, 1);
+                }
             }
         },
         updateListeArtistes(state, artistes){
@@ -79,29 +94,29 @@ export default ({
                 console.log(response.data);
             }
         },
-        async getPanier({commit}){
-            console.log("Récupération du panier");
-            let response = await ConcertService.getPanier();
-            if (response.error === 0) {
-                commit('updatePanier', response.data);
+        async ajouterAuPanier({ commit }, { concertId, nbPlaces }) {
+            console.log("Ajout dans le panier")
+            let responseConcert = await ConcertService.getConcertbyId(concertId);
+            let responsePlaceConcert = await ConcertService.getPlacesConcerts(concertId);
+            if (responseConcert.error === 0 || responsePlaceConcert.error === 0) {
+                commit("ajouterAuPanier", {
+                    concertId,
+                    nbPlaces,
+                    prixTotal: nbPlaces * responsePlaceConcert.prix_place,
+                    concert: responseConcert.data,
+                    place: responsePlaceConcert.data
+                });
             } else {
-                console.log(response.data);
+                console.log(responseConcert.data);
+                console.log(responsePlaceConcert.data)
             }
         },
-        async addAuPanier({ commit }, { concertId, placeType, quantite }) {
-            console.log("Ajout au panier en cours...");
-            let response;
-            response = await ConcertService.addAuPanier(concertId, placeType, quantite);
-            if (response.error === 0) {
-                commit('addPanier', { concertId, placeType, quantite });
-                console.log("Ajout au panier réussi.");
-            } else {
-                console.error(response.data);
-            }
-            if (!concertId || !placeType) {
-                console.error("Concert ou place introuvable.");
-                return;
-            }
+        async retirerDuPanier({ commit }, { concertId, nbPlaces }) {
+            console.log("Retrait dans le panier");
+            commit("retirerDuPanier", { concertId, nbPlaces });
+        },
+        async calculerTotal() {
+            return ConcertService.calculerTotal();
         },
         async getArtistes({ commit }) {
             console.log("Récupération des artistes");
