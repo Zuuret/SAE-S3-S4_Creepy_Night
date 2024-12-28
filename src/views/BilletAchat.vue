@@ -19,8 +19,8 @@
           <ul>
             <li v-for="(feature, i) in ticket.features" :key="i">{{ feature }}</li>
           </ul>
-          <button class="buy-button">
-            <router-link :to="{ name: 'PaymentForm', params: { ticketId: ticket.id, price: ticket.price } }">Acheter</router-link>
+          <button class="buy-button" @click="buyTicket(ticket.id, ticket.price)">
+            Acheter
           </button>
         </div>
       </div>
@@ -35,7 +35,7 @@ import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: "PageWithBackground",
-  components: {NavBar},
+  components: { NavBar },
   data() {
     return {
       tickets: [
@@ -68,6 +68,16 @@ export default {
     },
     previousSlide() {
       this.currentIndex = (this.currentIndex - 1 + this.tickets.length) % this.tickets.length;
+    },
+    buyTicket(ticketId, price) {
+      const utilisateurConnecte = JSON.parse(localStorage.getItem('utilisateurConnecte'));
+      if (!utilisateurConnecte) {
+        // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
+        this.$router.push({ path: '/connexion' });
+      } else {
+        // Redirige vers le formulaire de paiement si l'utilisateur est connecté
+        this.$router.push({ name: 'PaymentForm', params: { ticketId, price } });
+      }
     },
   },
 };

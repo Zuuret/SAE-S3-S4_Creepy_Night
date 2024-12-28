@@ -12,6 +12,9 @@ import ConcertPlanner from "@/views/ConcertPlanner.vue";
 import OrgaValidArtisteView from "@/views/OrgaValidArtisteView.vue";
 
 import BilletAchat from "@/views/BilletAchat.vue";
+import PaymentForm from '@/views/PaymentForm.vue';
+import PageConnexion from '@/views/Connexion.vue';
+import HomeOrganisateur from '../views/HomeOrganisateur.vue';
 
 import Secuflippe from "@/views/Secuflippe.vue";
 import SecuflippeSignalement from "@/views/SecuflippeSignalement.vue";
@@ -35,10 +38,6 @@ import ReservationCinepeurValidation from "@/views/ReservationCinepeurValidation
 import ReservationCinepeur from "@/views/ReservationCinepeur.vue";
 
 import CashLess from "@/views/CashLess.vue";
-//import PaymentForm from '@/views/PaymentForm.vue';
-//import PaymentHistory from '@/views/PaymentHistory.vue';
-import PageConnexion from '@/views/Connexion.vue';
-import HomeOrganisateur from '../views/HomeOrganisateur.vue';
 
 Vue.use(VueRouter);
 
@@ -52,6 +51,7 @@ const routes = [
   { path: '/concert-schedule', name: 'calendrierConcert', component: CalendrierConcert },
   { path: "/organisateur/validartiste", name: "validArtiste", component: OrgaValidArtisteView},
   { path: '/billet', name: 'billet', component: BilletAchat },
+  { path: '/payment/:ticketId', name: 'PaymentForm', component: PaymentForm },
   { path: '/secuflippe', name: 'secuflippe', component: Secuflippe},
   {path: '/secuflippe/signalement', name: 'secuflippeSignalement', component: SecuflippeSignalement},
   {path: '/secuflippe/mesSignalements', name: "secuflippeMesSignalements", component: SecuflippeMesSignalements},
@@ -67,8 +67,6 @@ const routes = [
   { path: '/cinepeur', name: 'cinepeur', component: ReservationCinepeur },
   { path: '/cinepeur/:id', name: 'reservationCinepeur', component: ReservationCinepeurConfirmation },
   { path: '/cinepeur/:id/validate', name: 'validationCinepeur', component: ReservationCinepeurValidation},
-  //{ path: '/payment/:ticketId', name: 'PaymentForm', component: PaymentForm },
-  //{ path: '/payment-history', name: 'PaymentHistory', component: PaymentHistory },
   { path: '/connexion', name: 'PageConnexion', component: PageConnexion },
   { path: '/home-organisateur', name: 'HomeOrganisateur', component: HomeOrganisateur, meta: { requiresOrganisateur: true } },
 ];
