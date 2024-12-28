@@ -39,7 +39,11 @@
 
         <div v-if="userType === 'organisateur'">
           <div class="form-group">
-            <label for="nom">Nom de l'organisateur :</label>
+            <label for="prenom">Prénom :</label>
+            <input type="text" v-model="prenom" id="prenom" placeholder="Entrez le prénom de l'organisateur" required>
+          </div>
+          <div class="form-group">
+            <label for="nom">Nom :</label>
             <input type="text" v-model="nom" id="nom" placeholder="Entrez le nom de l'organisateur" required>
           </div>
           <div class="form-group">
@@ -128,6 +132,15 @@ export default {
       this.adresse = '';
     },
     submitForm() {
+      // Vérification de l'email existant
+      const emailExistsAsUser = utilisateurs.some(user => user.email === this.email);
+      const emailExistsAsOrganizer = organisateurs.some(org => org.email === this.email);
+
+      if (emailExistsAsUser || emailExistsAsOrganizer) {
+        this.message = `L'adresse email possède déjà un compte ${emailExistsAsOrganizer ? 'organisateur' : 'utilisateur'}.`;
+        return; // Sortir de la fonction si l'email existe déjà
+      }
+
       if (this.userType === 'utilisateur') {
         if (this.email !== this.confirmEmail) {
           this.message = "L'email n'est pas identique à l'email de confirmation";
@@ -152,13 +165,14 @@ export default {
         } else {
           const newOrganisateur = {
             id: organisateurs.length + 1,
+            prenom: this.prenom,
             nom: this.nom,
             email: this.email,
             motDePasse: this.motDePasse,
             numeroTelephone: this.numeroTelephone
           };
           organisateurs.push(newOrganisateur);
-          this.message = `Nouvel organisateur ajouté : ${this.nom}`;
+          this.message = `Nouvel organisateur ajouté : ${this.prenom} ${this.nom}`;
           this.resetFields();
         }
       }
