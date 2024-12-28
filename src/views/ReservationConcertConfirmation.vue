@@ -55,15 +55,14 @@ export default {
     },
   },
   methods: {
-    ...mapActions('ConcertStore', ['getConcertbyId', 'getPlacesConcerts', 'addAuPanier']),
+    ...mapActions('ConcertStore', ['getConcertbyId', 'getPlacesConcerts', 'ajouterAuPanier']),
     ajouterAuPanier() {
       if (this.quantite <= 0) {
         alert('Veuillez sélectionner une quantité valide.');
       } else {
-        this.addAuPanier({
+        this.ajouterAuPanier({  // Utilisation de "ajouterAuPanier"
           concertId: this.concert.id,
-          placeType: this.places_concert[0],
-          quantite: this.quantite
+          nbPlaces: this.quantite
         }).then(() => {
           alert(`${this.quantite} place(s) ajoutée(s) au panier.`);
           this.quantite = 0;
