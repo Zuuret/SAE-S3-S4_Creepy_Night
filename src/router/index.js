@@ -38,6 +38,7 @@ import CashLess from "@/views/CashLess.vue";
 import PaymentForm from '@/views/PaymentForm.vue';
 import PaymentHistory from '@/views/PaymentHistory.vue';
 import PageConnexion from '@/views/Connexion.vue';
+import HomeOrganisateur from '../views/HomeOrganisateur.vue';
 
 Vue.use(VueRouter);
 
@@ -69,6 +70,7 @@ const routes = [
   { path: '/payment/:ticketId', name: 'PaymentForm', component: PaymentForm },
   { path: '/payment-history', name: 'PaymentHistory', component: PaymentHistory },
   { path: '/connexion', name: 'PageConnexion', component: PageConnexion },
+  { path: '/home-organisateur', name: 'HomeOrganisateur', component: HomeOrganisateur, meta: { requiresOrganisateur: true } },
 ];
 
 const router = new VueRouter({
@@ -79,7 +81,21 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   document.body.style.overflow = 'auto';
-  next();
+  const utilisateurConnecte = JSON.parse(localStorage.getItem('utilisateurConnecte'));
+  
+  if (to.matched.some(record => record.meta.requiresOrganisateur)) {
+    if (!utilisateurConnecte || !isOrganisateur(utilisateurConnecte)) {
+      next({ path: '/' });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
+
+function isOrganisateur(utilisateur) {
+  return utilisateur && utilisateur.numTelephone !== undefined;
+}
 
 export default router

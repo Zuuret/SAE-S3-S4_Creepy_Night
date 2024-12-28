@@ -15,12 +15,12 @@
             :key="index"
         >
           <h2 class="sous-titre">{{ ticket.title }}</h2>
-          <h3>{{ ticket.price }}</h3>
+          <h3>{{ ticket.price }} €</h3>
           <ul>
             <li v-for="(feature, i) in ticket.features" :key="i">{{ feature }}</li>
           </ul>
           <button class="buy-button">
-            <router-link to="`//${concertsByDayAndHour[day][hour].id}`">Acheter</router-link>
+            <router-link :to="{ name: 'PaymentForm', params: { ticketId: ticket.id, price: ticket.price } }">Acheter</router-link>
           </button>
         </div>
       </div>
@@ -40,18 +40,21 @@ export default {
     return {
       tickets: [
         {
+          id: 1,
           title: "ticket standard - pass 1 jour",
-          price: "pour seulement 19,99 €",
+          price: 19.99,
           features: ["accès à toutes les activités", "accès au baltrouille"],
         },
         {
+          id: 2,
           title: "ticket premium - pass 2 jours",
-          price: "pour seulement 29,99 €",
+          price: 29.99,
           features: ["accès à toutes les activités", "accès VIP", "cadeau surprise"],
         },
         {
+          id: 3,
           title: "ticket VIP - pass 3 jours",
-          price: "pour seulement 49,99 €",
+          price: 49.99,
           features: ["accès à toutes les activités", "accès VIP exclusif", "cadeau premium"],
         },
       ],

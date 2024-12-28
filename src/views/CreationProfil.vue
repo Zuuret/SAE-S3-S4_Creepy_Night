@@ -56,7 +56,7 @@
           </div>
           <div class="form-group">
             <label for="motDePasseOrganisateur">Mot de passe :</label>
-            <input type="password" v-model="motDePasse" id="motDePasse" placeholder="Entrez votre mot de passe" required>
+            <input type="password" v-model="motDePasse" id="motDePasseOrganisateur" placeholder="Entrez votre mot de passe" required>
           </div>
         </div>
 
@@ -96,8 +96,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
-import { utilisateurs } from '@/datasource/data.js';
+import { utilisateurs, organisateurs } from '@/datasource/data.js';
 
 export default {
   name: "CreationProfil",
@@ -113,11 +112,7 @@ export default {
     adresse: '',
     message: ''
   }),
-  computed: {
-    ...mapState('ProfilStore',['utilisateurs']),
-  },
   methods: {
-    ...mapActions('ProfilStore',['enregistrementUtilisateur']),
     setUserType(type) {
       this.userType = type;
       this.resetFields();
@@ -133,22 +128,39 @@ export default {
       this.adresse = '';
     },
     submitForm() {
-      if (this.email !== this.confirmEmail) {
-        this.message = "L'email n'est pas identique à l'email de confirmation";
-      } else {
-        const newUser = {
-          id: utilisateurs.length + 1,
-          prenom: this.prenom,
-          nom: this.nom,
-          dateNaissance: this.dateNaissance,
-          email: this.email,
-          motDePasse: this.motDePasse,
-          solde: 0,
-          numCashless: Math.floor(Math.random() * 1000000000)
-        };
-        utilisateurs.push(newUser);
-        this.message = `Nouvel utilisateur ajouté : ${this.prenom} ${this.nom}`;
-        this.resetFields();
+      if (this.userType === 'utilisateur') {
+        if (this.email !== this.confirmEmail) {
+          this.message = "L'email n'est pas identique à l'email de confirmation";
+        } else {
+          const newUser = {
+            id: utilisateurs.length + 1,
+            prenom: this.prenom,
+            nom: this.nom,
+            dateNaissance: this.dateNaissance,
+            email: this.email,
+            motDePasse: this.motDePasse,
+            solde: 0,
+            numCashless: Math.floor(Math.random() * 1000000000)
+          };
+          utilisateurs.push(newUser);
+          this.message = `Nouvel utilisateur ajouté : ${this.prenom} ${this.nom}`;
+          this.resetFields();
+        }
+      } else if (this.userType === 'organisateur') {
+        if (this.email !== this.confirmEmail) {
+          this.message = "L'email n'est pas identique à l'email de confirmation";
+        } else {
+          const newOrganisateur = {
+            id: organisateurs.length + 1,
+            nom: this.nom,
+            email: this.email,
+            motDePasse: this.motDePasse,
+            numeroTelephone: this.numeroTelephone
+          };
+          organisateurs.push(newOrganisateur);
+          this.message = `Nouvel organisateur ajouté : ${this.nom}`;
+          this.resetFields();
+        }
       }
     }
   }

@@ -3,6 +3,11 @@ let utilisateurs = [
     {"id":2, "prenom":"Jane", "nom":"Doe", "dateNaissance":"03-07-1998", "email":"janedoe@outlook.fr", "motDePasse":"mdp456", "solde": 80, "numCashless": 546865430},
 ];
 
+let organisateurs = [
+    {"id":1, "prenom":"Jean", "nom":"Kherza", "email":"jeankherza@gmail.com", "motDePasse":"mdp123",  "numTelephone": 123456789},
+    {"id":2, "prenom":"Luc", "nom":"Balta", "email":"lucbalta@outlook.fr", "motDePasse":"mdp456", "numTelephone": 546865430},
+];
+
 let artistes = [
     {"id":1, "nomGroupe":"PINK", "nbMembres":5, "decision":"null"},
     {"id":2, "nomGroupe":"KISS", "nbMembres":4, "decision":"null"},
@@ -195,6 +200,7 @@ let taille_deguisements = [
 
 module.exports = {
     utilisateurs,
+    organisateurs,
     concerts,
     places_concerts,
     panier_concert,
