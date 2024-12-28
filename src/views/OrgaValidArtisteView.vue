@@ -1,30 +1,38 @@
 <template>
   <div class="orga">
+    <div class="navbar">
+      <NavBar />
+    </div>
     <h1>Validation de concert</h1>
     <p>Liste des artistes</p>
-    <div v-for="(artiste) in artistes" :key="artiste.id">
-      <li v-if="artiste.decision == 'null'">
-        <div>
-          <div>{{ artiste.nomGroupe }}</div>
-          <div>{{ artiste.nbMembres }}</div>
+    <div>
+      <p v-if="nbDecision()">Aucune proposition d'artiste.</p>
+      <div v-for="(artiste) in artistes" :key="artiste.id">
+        <li v-if="artiste.decision == 'null'">
           <div>
-            <div class="button-box">
-              <button @click="setDecision(['true', artiste.id])">Accepter</button>
-              <button @click="setDecision(['false', artiste.id])">Refuser</button>
+            <div>{{ artiste.nomGroupe }}</div>
+            <div>{{ artiste.nbMembres }}</div>
+            <div>
+              <div class="button-box">
+                <button @click="setDecision(['true', artiste.id])">Accepter</button>
+                <button @click="setDecision(['false', artiste.id])">Refuser</button>
+              </div>
             </div>
           </div>
-        </div>
-      </li>
-      <!-- p v-if="artiste.decision != 'null'">Aucune proposition d'artiste<p -->
+        </li>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import NavBar from "@/components/NavBar.vue";
+import {artistes} from "@/datasource/data";
 
 export default {
   name: 'OrgaValidArtisteView',
+  components: {NavBar},
   data: () => ({
   }),
   computed: {
@@ -32,6 +40,13 @@ export default {
   },
   methods: {
     ...mapActions(['setDecision', 'getArtistes']),
+    nbDecision(){
+      let nbdecis = 0;
+      for (let i in artistes) {
+        if (artistes[i].decision === 'null') nbdecis++;
+      }
+      return nbdecis < 1;
+    }
   },
   mounted() {
     this.getArtistes();
