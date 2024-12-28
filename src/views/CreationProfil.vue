@@ -100,7 +100,7 @@
 </template>
 
 <script>
-import { utilisateurs, organisateurs } from '@/datasource/data.js';
+import { utilisateurs, organisateurs, prestataires } from '@/datasource/data.js';
 
 export default {
   name: "CreationProfil",
@@ -135,9 +135,10 @@ export default {
       // Vérification de l'email existant
       const emailExistsAsUser = utilisateurs.some(user => user.email === this.email);
       const emailExistsAsOrganizer = organisateurs.some(org => org.email === this.email);
+      const emailExistsAsPrestataire = prestataires.some(p => p.email === this.email);
 
-      if (emailExistsAsUser || emailExistsAsOrganizer) {
-        this.message = `L'adresse email possède déjà un compte ${emailExistsAsOrganizer ? 'organisateur' : 'utilisateur'}.`;
+      if (emailExistsAsUser || emailExistsAsOrganizer || emailExistsAsPrestataire) {
+        this.message = `L'adresse email possède déjà un compte ${emailExistsAsOrganizer ? 'organisateur' : emailExistsAsUser ? 'utilisateur' : 'prestataire'}.`;
         return; // Sortir de la fonction si l'email existe déjà
       }
 
@@ -173,6 +174,21 @@ export default {
           };
           organisateurs.push(newOrganisateur);
           this.message = `Nouvel organisateur ajouté : ${this.prenom} ${this.nom}`;
+          this.resetFields();
+        }
+      } else if (this.userType === 'prestataire') {
+        if (this.email !== this.confirmEmail) {
+          this.message = "L'email n'est pas identique à l'email de confirmation";
+        } else {
+          const newPrestataire = {
+            id: prestataires.length + 1,
+            société: this.nom,
+            adresse: this.adresse,
+            email: this.email,
+            motDePasse: this.motDePasse
+          };
+          prestataires.push(newPrestataire);
+          this.message = `Nouveau prestataire ajouté : ${this.nom}`;
           this.resetFields();
         }
       }
