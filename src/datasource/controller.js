@@ -10,7 +10,8 @@ import {
     cine_films,
     places_films,
     signalement,
-    deguisements, taille_deguisements, panier_concert
+    deguisements,
+    taille_deguisements,
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -114,48 +115,6 @@ function getPlaceConcert(concertId) {
     return { error: 0, data: placeConcert };
 }
 
-// Panier concert
-function ajouterAuPanier(concertId, nbPlaces) {
-    const concert = concerts.find(c => c.id === concertId);
-    if (!concert) {
-        console.log("Concert non trouvé");
-        return;
-    }
-    const placeConcert = places_concerts.find(p => p.id_concert === concertId);
-    if (!placeConcert) {
-        console.log("Place non trouvée");
-        return;
-    }
-    const placeDansPanier = panier_concert.find(item => item.concertId === concertId);
-    if (placeDansPanier) {
-        placeDansPanier.nbPlaces += nbPlaces;
-        placeDansPanier.prixTotal = placeDansPanier.nbPlaces * placeConcert.prix_place;
-    } else {
-        panier_concert.push({
-            concertId: concertId,
-            nbPlaces: nbPlaces,
-            prixTotal: nbPlaces * placeConcert.prix_place,
-            concert: concert,
-            place: placeConcert
-        });
-    }
-}
-function retirerDuPanier(concertId, nbPlaces) {
-    const index = panier_concert.findIndex(item => item.concertId === concertId);
-    if (index !== -1) {
-        panier_concert[index].nbPlaces -= nbPlaces;
-        if (panier_concert[index].nbPlaces <= 0) {
-            panier_concert.splice(index, 1);
-        } else {
-            panier_concert[index].prixTotal = panier_concert[index].nbPlaces * panier_concert[index].place.prix_place;
-
-        }
-    }
-}
-
-function calculerTotal() {
-    return panier_concert.reduce((total, item) => total + item.prixTotal, 0);
-}
 
 function validerPaiement(data){
     if (!data.nom) return { error: 1, status: 404, data: 'Aucun nom de titulaire de la carte fourni' };
@@ -268,9 +227,6 @@ export default {
     getAllConcerts,
     getConcertbyId,
     getPlaceConcert,
-    ajouterAuPanier,
-    retirerDuPanier,
-    calculerTotal,
     validerPaiement,
     getArtistes,
     setDecision,

@@ -21,14 +21,14 @@
             <strong>Disponibles :</strong> {{ places_concert[0].nb_places }}
           </p>
           <label for="selection_quantite">QUANTITÉ</label>
-          <input type="number" v-model.number="quantite" id="selection_quantite" min="0" :max="7" step="1"/>
+          <input type="number" v-model.number="quantite" id="selection_quantite" min="0" step="1"/>
         </div>
         <div v-else>
           <p>Aucune place disponible pour ce concert.</p>
         </div>
         <div class="ticket-total">
           <p><strong>TOTAL :</strong> {{ prixTotal }} €</p>
-          <button @click="ajouterAuPanier">AJOUTER AU PANIER</button>
+          <button @click="ajoutAuPanier">AJOUTER AU PANIER</button>
         </div>
       </div>
       <PanierConcert></PanierConcert>
@@ -56,15 +56,15 @@ export default {
   },
   methods: {
     ...mapActions('ConcertStore', ['getConcertbyId', 'getPlacesConcerts', 'ajouterAuPanier']),
-    ajouterAuPanier() {
+    ajoutAuPanier() {
       if (this.quantite <= 0) {
         alert('Veuillez sélectionner une quantité valide.');
       } else {
-        this.ajouterAuPanier({  // Utilisation de "ajouterAuPanier"
+        this.ajouterAuPanier({
           concertId: this.concert.id,
           nbPlaces: this.quantite
         }).then(() => {
-          alert(`${this.quantite} place(s) ajoutée(s) au panier.`);
+          this.places_concert[0].nb_places -= this.quantite;
           this.quantite = 0;
         }).catch(error => {
           alert("Erreur lors de l'ajout au panier.");

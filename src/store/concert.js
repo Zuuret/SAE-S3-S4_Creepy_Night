@@ -32,28 +32,55 @@ export default ({
             state.panier = panier;
         },
         ajouterAuPanier(state, { concertId, nbPlaces, concert, place }) {
+            const prixPlace = Array.isArray(place) ? place[0]?.prix_place : place.prix_place;
+            if (typeof prixPlace !== "number") {
+                console.log("Prix place invalide :", prixPlace);
+                return;
+            }
             const placeDansPanier = state.panier.find(item => item.concertId === concertId);
             if (placeDansPanier) {
                 placeDansPanier.nbPlaces += nbPlaces;
-                placeDansPanier.prixTotal = placeDansPanier.nbPlaces * place.prix_place;
+                placeDansPanier.prixTotal = placeDansPanier.nbPlaces * prixPlace;
             } else {
                 state.panier.push({
                     concertId: concertId,
                     nbPlaces: nbPlaces,
-                    prixTotal: nbPlaces * place.prix_place,
+                    prixTotal: nbPlaces * prixPlace,
                     concert: concert,
                     place: place,
                 });
             }
         },
-        retirerDuPanier(state, { concertId, nbPlaces }) {
-            const index = state.panier.findIndex(item => item.concertId === concertId);
-            if (index !== -1) {
-                state.panier[index].nbPlaces -= nbPlaces;
-                state.panier[index].prixTotal = state.panier[index].nbPlaces * state.panier[index].place.prix_place;
-                if (state.panier[index].nbPlaces <= 0) {
-                    state.panier.splice(index, 1);
+        retirerDuPanier(state, { concertId }) {
+            const placeDansPanier = state.panier.find(item => item.concertId === concertId);
+            const concert = state.concert;
+            console.log(concert)
+            if (placeDansPanier && concert) {
+                placeDansPanier.nbPlaces -= 1;
+                concert.nb_places += 1;
+
+                if (Array.isArray(placeDansPanier.place) && placeDansPanier.place[0]) {
+                    placeDansPanier.prixTotal = placeDansPanier.nbPlaces * placeDansPanier.place[0].prix_place;
+                } else {
+                    console.error("Format inattendu pour 'placeDansPanier.place':", placeDansPanier.place);
                 }
+
+                if (placeDansPanier.nbPlaces <= 0) {
+                    state.panier = state.panier.filter(item => item.concertId !== concertId);
+                }
+            } else {
+                console.log("Concert non trouvé dans le panier ou dans la liste des concerts.");
+            }
+        },
+        viderPlace(state, { concertId }) {
+            const placeDansPanier = state.panier.find(item => item.concertId === concertId);
+
+            if (placeDansPanier) {
+                placeDansPanier.nbPlaces = 0;
+                placeDansPanier.prixTotal = 0;
+                state.panier = state.panier.filter(item => item.concertId !== concertId);
+            } else {
+                console.log("Concert non trouvé dans le panier.");
             }
         },
         updateListeArtistes(state, artistes){
@@ -111,12 +138,13 @@ export default ({
                 console.log(responsePlaceConcert.data)
             }
         },
-        async retirerDuPanier({ commit }, { concertId, nbPlaces }) {
+        async retirerDuPanier({ commit }, { concertId }) {
             console.log("Retrait dans le panier");
-            commit("retirerDuPanier", { concertId, nbPlaces });
+            commit("retirerDuPanier", { concertId });
         },
-        async calculerTotal() {
-            return ConcertService.calculerTotal();
+        async viderPlace({ commit }, { concertId }) {
+            console.log("Supression dans le panier");
+            commit("viderPlace", { concertId });
         },
         async getArtistes({ commit }) {
             console.log("Récupération des artistes");
