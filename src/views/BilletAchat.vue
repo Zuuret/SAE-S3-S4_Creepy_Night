@@ -15,12 +15,12 @@
             :key="index"
         >
           <h2 class="sous-titre">{{ ticket.title }}</h2>
-          <h3>{{ ticket.price }}</h3>
+          <h3>{{ ticket.price }} €</h3>
           <ul>
             <li v-for="(feature, i) in ticket.features" :key="i">{{ feature }}</li>
           </ul>
-          <button class="buy-button">
-            <router-link to="`//${concertsByDayAndHour[day][hour].id}`">Acheter</router-link>
+          <button class="buy-button" @click="buyTicket(ticket.id, ticket.price)">
+            Acheter
           </button>
         </div>
       </div>
@@ -35,23 +35,26 @@ import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: "PageWithBackground",
-  components: {NavBar},
+  components: { NavBar },
   data() {
     return {
       tickets: [
         {
+          id: 1,
           title: "ticket standard - pass 1 jour",
-          price: "pour seulement 19,99 €",
+          price: 19.99,
           features: ["accès à toutes les activités", "accès au baltrouille"],
         },
         {
+          id: 2,
           title: "ticket premium - pass 2 jours",
-          price: "pour seulement 29,99 €",
+          price: 29.99,
           features: ["accès à toutes les activités", "accès VIP", "cadeau surprise"],
         },
         {
+          id: 3,
           title: "ticket VIP - pass 3 jours",
-          price: "pour seulement 49,99 €",
+          price: 49.99,
           features: ["accès à toutes les activités", "accès VIP exclusif", "cadeau premium"],
         },
       ],
@@ -65,6 +68,16 @@ export default {
     },
     previousSlide() {
       this.currentIndex = (this.currentIndex - 1 + this.tickets.length) % this.tickets.length;
+    },
+    buyTicket(ticketId, price) {
+      const utilisateurConnecte = JSON.parse(localStorage.getItem('utilisateurConnecte'));
+      if (!utilisateurConnecte) {
+        // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
+        this.$router.push({ path: '/connexion' });
+      } else {
+        // Redirige vers le formulaire de paiement si l'utilisateur est connecté
+        this.$router.push({ name: 'PaymentForm', params: { ticketId, price } });
+      }
     },
   },
 };

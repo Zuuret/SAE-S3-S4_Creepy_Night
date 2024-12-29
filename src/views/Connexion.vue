@@ -22,7 +22,7 @@
   </template>
   
   <script>
-  import { utilisateurs } from '@/datasource/data.js';
+  import { utilisateurs, organisateurs } from '@/datasource/data.js';
   
   export default {
     name: "PageConnexion",
@@ -33,15 +33,23 @@
     }),
     methods: {
       submitLogin() {
-        const user = utilisateurs.find(user => user.email === this.email);
-        if (!user) {
-          this.message = "Connexion impossible : le mail renseigné n'appartient à aucun compte creepy-night";
-        } else if (user.motDePasse !== this.motDePasse) {
-          this.message = "Mot de passe incorrect";
-        } else {
-          this.message = "Connexion réussie !";
+        const user = utilisateurs.find(user => user.email === this.email && user.motDePasse === this.motDePasse);
+        const organisateur = organisateurs.find(org => org.email === this.email && org.motDePasse === this.motDePasse);
+
+        if (user) {
+          this.message = "Connexion réussie en tant qu'utilisateur !";
           localStorage.setItem('utilisateurConnecte', JSON.stringify(user));
-          this.$router.push({ path: '/' });
+          if (this.$route.path !== '/') {
+            this.$router.push({ path: '/' });
+          }
+        } else if (organisateur) {
+          this.message = "Connexion réussie en tant qu'organisateur !";
+          localStorage.setItem('utilisateurConnecte', JSON.stringify(organisateur));
+          if (this.$route.path !== '/home-organisateur') {
+            this.$router.push({ path: '/home-organisateur' });
+          }
+        } else {
+          this.message = "Connexion impossible : l'email ou le mot de passe est incorrect.";
         }
       }
     }
