@@ -27,7 +27,9 @@
       </table>
       <p><strong>Total du panier : {{ totalPanier }} €</strong></p>
       <div v-if="panier.length > 0">
-        <button @click="validerPaiement">Valider la commande</button>
+        <router-link to="/cashless">
+          <button @click="validerPaiement">Valider la commande</button>
+        </router-link>
       </div>
     </div>
     <div v-else>

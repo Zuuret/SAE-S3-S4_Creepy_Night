@@ -10,23 +10,27 @@ import ValidArtiste from "../services/validArtiste.service";
 export default ({
     namespaced: true,
     state: {
+        concerts: [],
+        concert: null,
         artistes: [],
         artiste: [],
-        concert: null,
-        concerts: [],
+        place_concert: null,
         places_concert: [],
         panier: [],
         coordonneesBancaire: null,
     },
     mutations: {
-        updateConcertById(state, concert){
-            state.concert = concert;
-        },
         updateListeConcert(state, concerts){
             state.concerts = concerts;
         },
+        updateConcertById(state, concert){
+            state.concert = concert;
+        },
         updateListePlaceConcert(state, places_concert){
             state.places_concert = places_concert;
+        },
+        updatePlaceConcertById(state, place_concert){
+            state.place_concert = place_concert
         },
         updatePanier(state, panier) {
             state.panier = panier;
@@ -53,18 +57,12 @@ export default ({
         },
         retirerDuPanier(state, { concertId }) {
             const placeDansPanier = state.panier.find(item => item.concertId === concertId);
-            const concert = state.concert;
-            console.log(concert)
-            if (placeDansPanier && concert) {
+            const placesConcert = state.place_concert.find(place => place.id_concert === concertId);
+            console.log(placesConcert)
+            if (placeDansPanier && placesConcert) {
                 placeDansPanier.nbPlaces -= 1;
-                concert.nb_places += 1;
-
-                if (Array.isArray(placeDansPanier.place) && placeDansPanier.place[0]) {
-                    placeDansPanier.prixTotal = placeDansPanier.nbPlaces * placeDansPanier.place[0].prix_place;
-                } else {
-                    console.error("Format inattendu pour 'placeDansPanier.place':", placeDansPanier.place);
-                }
-
+                placesConcert.nb_places += 1;
+                placeDansPanier.prixTotal = placeDansPanier.nbPlaces * placeDansPanier.place[0].prix_place;
                 if (placeDansPanier.nbPlaces <= 0) {
                     state.panier = state.panier.filter(item => item.concertId !== concertId);
                 }
@@ -74,8 +72,9 @@ export default ({
         },
         viderPlace(state, { concertId }) {
             const placeDansPanier = state.panier.find(item => item.concertId === concertId);
-
-            if (placeDansPanier) {
+            const placesConcert = state.place_concert.find(place => place.id_concert === concertId);
+            if (placeDansPanier && placesConcert) {
+                placesConcert.nb_places += placeDansPanier.nbPlaces;
                 placeDansPanier.nbPlaces = 0;
                 placeDansPanier.prixTotal = 0;
                 state.panier = state.panier.filter(item => item.concertId !== concertId);
@@ -112,11 +111,20 @@ export default ({
                 console.log(response.data);
             }
         },
-        async getPlacesConcerts({ commit }, concertId) {
-            console.log("Récupération des places de concerts pour le concert ID : ", concertId);
-            let response = await ConcertService.getPlacesConcerts(concertId);
+        async getAllPlacesConcert({commit}){
+            console.log("Récupération des places de concert");
+            let response = await ConcertService.getAllPlaceConcert();
             if (response.error === 0) {
                 commit('updateListePlaceConcert', response.data);
+            } else {
+                console.log(response.data);
+            }
+        },
+        async getPlacesConcertsbyId({ commit }, concertId) {
+            console.log("Récupération des places de concerts pour le concert ID : ", concertId);
+            let response = await ConcertService.getPlacesConcertsbyId(concertId);
+            if (response.error === 0) {
+                commit('updatePlaceConcertById', response.data);
             } else {
                 console.log(response.data);
             }
@@ -124,7 +132,7 @@ export default ({
         async ajouterAuPanier({ commit }, { concertId, nbPlaces }) {
             console.log("Ajout dans le panier")
             let responseConcert = await ConcertService.getConcertbyId(concertId);
-            let responsePlaceConcert = await ConcertService.getPlacesConcerts(concertId);
+            let responsePlaceConcert = await ConcertService.getPlacesConcertsbyId(concertId);
             if (responseConcert.error === 0 || responsePlaceConcert.error === 0) {
                 commit("ajouterAuPanier", {
                     concertId,
@@ -139,12 +147,18 @@ export default ({
             }
         },
         async retirerDuPanier({ commit }, { concertId }) {
-            console.log("Retrait dans le panier");
-            commit("retirerDuPanier", { concertId });
+            let responseConcert = await ConcertService.getPlacesConcertsbyId(concertId);
+            if (responseConcert.error === 0){
+                console.log("Retrait dans le panier");
+                commit("retirerDuPanier", { concertId });
+            }
         },
         async viderPlace({ commit }, { concertId }) {
-            console.log("Supression dans le panier");
-            commit("viderPlace", { concertId });
+            let responseConcert = await ConcertService.getPlacesConcertsbyId(concertId);
+            if (responseConcert.error === 0) {
+                console.log("Supression dans le panier");
+                commit("viderPlace", {concertId});
+            }
         },
         async getArtistes({ commit }) {
             console.log("Récupération des artistes");

@@ -28,14 +28,28 @@ async function getConcertbyId(concertId) {
     return response;
 }
 
-async function getPlacesConcertsFromLocalSource(concertId) {
-    return LocalSource.getPlaceConcert(concertId);
+async function getAllPlaceConcertFromLocalSource(){
+    return LocalSource.getAllPlaceConcert();
 }
 
-async function getPlacesConcerts(concertId) {
+async function getAllPlaceConcert() {
     let response;
     try {
-        response = await getPlacesConcertsFromLocalSource(concertId);
+        response = await getAllPlaceConcertFromLocalSource();
+    } catch (err) {
+        response = { error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des concerts' };
+    }
+    return response;
+}
+
+async function getPlacesConcertsbyIdFromLocalSource(concertId) {
+    return LocalSource.getPlaceConcertbyId(concertId);
+}
+
+async function getPlacesConcertsbyId(concertId) {
+    let response;
+    try {
+        response = await getPlacesConcertsbyIdFromLocalSource(concertId);
     } catch (err) {
         response = { error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des places de concerts' };
     }
@@ -45,5 +59,6 @@ async function getPlacesConcerts(concertId) {
 export default {
     getAllConcerts,
     getConcertbyId,
-    getPlacesConcerts,
+    getAllPlaceConcert,
+    getPlacesConcertsbyId,
 };

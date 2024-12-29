@@ -14,11 +14,11 @@
 
       <div class="ticket">
         <h3>Places disponibles :</h3>
-        <div v-if="places_concert.length > 0">
+        <div v-if="place_concert">
           <p>
-            <strong>Type :</strong> {{ places_concert[0].type_place }} <br/>
-            <strong>Prix :</strong> {{ places_concert[0].prix_place }} €<br/>
-            <strong>Disponibles :</strong> {{ places_concert[0].nb_places }}
+            <strong>Type :</strong> {{ place_concert[0].type_place }} <br/>
+            <strong>Prix :</strong> {{ place_concert[0].prix_place }} €<br/>
+            <strong>Disponibles :</strong> {{ place_concert[0].nb_places }}
           </p>
           <label for="selection_quantite">QUANTITÉ</label>
           <input type="number" v-model.number="quantite" id="selection_quantite" min="0" step="1"/>
@@ -49,13 +49,13 @@ export default {
     };
   },
   computed: {
-    ...mapState('ConcertStore', ['concert', 'places_concert']),
+    ...mapState('ConcertStore', ['concert', 'place_concert']),
     prixTotal() {
-      return this.places_concert[0] ? this.places_concert[0].prix_place * this.quantite : 0;
+      return this.place_concert[0] ? this.place_concert[0].prix_place * this.quantite : 0;
     },
   },
   methods: {
-    ...mapActions('ConcertStore', ['getConcertbyId', 'getPlacesConcerts', 'ajouterAuPanier']),
+    ...mapActions('ConcertStore', ['getConcertbyId', 'getPlacesConcertsbyId', 'ajouterAuPanier']),
     ajoutAuPanier() {
       if (this.quantite <= 0) {
         alert('Veuillez sélectionner une quantité valide.');
@@ -64,7 +64,7 @@ export default {
           concertId: this.concert.id,
           nbPlaces: this.quantite
         }).then(() => {
-          this.places_concert[0].nb_places -= this.quantite;
+          this.place_concert[0].nb_places -= this.quantite;
           this.quantite = 0;
         }).catch(error => {
           alert("Erreur lors de l'ajout au panier.");
@@ -76,7 +76,7 @@ export default {
   mounted() {
     const concertId = parseInt(this.$route.params.id);
     this.getConcertbyId(concertId);
-    this.getPlacesConcerts(concertId);
+    this.getPlacesConcertsbyId(concertId);
   },
 };
 </script>

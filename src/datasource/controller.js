@@ -110,11 +110,14 @@ function getConcertbyId(concertId){
     return {error: 0, data: concert}
 }
 
-function getPlaceConcert(concertId) {
-    let placeConcert = places_concerts.filter(place => place.id_concert === parseInt(concertId));
-    return { error: 0, data: placeConcert };
+function getAllPlaceConcert(){
+    return {error: 0, data: places_concerts}
 }
 
+function getPlaceConcertbyId(concertId) {
+    let place_concert = places_concerts.filter(place => place.id_concert === parseInt(concertId));
+    return { error: 0, data: place_concert };
+}
 
 function validerPaiement(data){
     if (!data.nom) return { error: 1, status: 404, data: 'Aucun nom de titulaire de la carte fourni' };
@@ -226,7 +229,8 @@ export default {
     getAllSignalements,
     getAllConcerts,
     getConcertbyId,
-    getPlaceConcert,
+    getAllPlaceConcert,
+    getPlaceConcertbyId,
     validerPaiement,
     getArtistes,
     setDecision,
