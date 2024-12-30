@@ -198,95 +198,140 @@ export default {
 </script>
 
 <style scoped>
-input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.form-container {
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.user-type-tabs {
-  display: flex;
-  gap: 20px;
   justify-content: center;
-  font-weight: bold;
-  margin-bottom: 15px;
+  align-items: center;
+  min-height: 100vh;
 }
 
-.user-type-tabs span {
-  cursor: pointer;
-}
-
-.user-type-tabs .active {
-  color: blue;
-  text-decoration: underline;
+/* Container for the form */
+.form-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .form-box {
-  width: 350px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
   padding: 20px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #f9f9f9;
 }
 
+h2 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Tabs for user type */
+.user-type-tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.user-type-tabs span {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  color: #666;
+  transition: all 0.3s ease;
+}
+
+.user-type-tabs span.active {
+  color: #007BFF;
+  border-bottom: 2px solid #007BFF;
+}
+
+/* Form styles */
 .form-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
   display: flex;
   flex-direction: column;
 }
 
-.form-content label {
-  font-weight: bold;
-  margin-top: 10px;
+label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #333;
 }
 
-.form-content input {
-  padding: 8px;
-  margin-top: 5px;
+input {
+  padding: 10px;
+  font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  transition: all 0.3s ease;
 }
 
+input:focus {
+  border-color: #007BFF;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.2);
+}
+
+/* Submit Button */
 .submit-button {
-  margin-top: 15px;
-  padding: 10px;
-  background-color: #007bff;
-  color: white;
-  font-weight: bold;
+  padding: 12px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007BFF;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .submit-button:hover {
   background-color: #0056b3;
 }
 
+/* Message */
 .message {
-  color: green;
-  font-weight: bold;
-  margin-top: 15px;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 14px;
   text-align: center;
+  background-color: #e7f3ff;
+  color: #007BFF;
+  border: 1px solid #b3d7ff;
+  border-radius: 4px;
 }
 
+/* Login link */
 .login-link {
-  margin-top: 15px;
+  margin-top: 20px;
   text-align: center;
+  font-size: 14px;
 }
 
 .login-link span {
-  color: blue;
-  cursor: pointer;
+  color: #666;
+}
+
+.login-link a {
+  color: #007BFF;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
 }
 </style>
