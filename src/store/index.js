@@ -10,6 +10,7 @@ import ExpositionStore from '../store/exposition'
 import CinemaStore from "../store/cinema";
 import SecuFlippeStore from '../store/secuflippe'
 import BaltrouilleStore from "../store/baltrouille";
+import CarihorreurStore from "@/store/carihorreur";
 
 export default new Vuex.Store({
   modules: {
@@ -19,6 +20,7 @@ export default new Vuex.Store({
     ExpositionStore,
     CinemaStore,
     SecuFlippeStore,
-    BaltrouilleStore
+    BaltrouilleStore,
+    CarihorreurStore
   }
 })

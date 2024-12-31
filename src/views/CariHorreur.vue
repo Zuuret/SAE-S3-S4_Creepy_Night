@@ -8,47 +8,63 @@
       <div class="formulaire-signalement">
         <h1>Réserver un carré VIP</h1>
 
-        <!-- Sélecteur de date -->
         <label for="date-selection">Sélectionnez une date</label>
-        <input
-            type="date"
-            v-model="dateCarre"
-            id="date-selection"
-            :min="'2025-10-27'"
-            :max="'2025-11-02'"
-            required
-        />
+        <input type="date" v-model="dateCarre" id="date-selection" :min="'2025-10-27'" :max="'2025-11-02'" required/>
 
         <label for="carre-selection">Sélectionnez la formule</label>
         <select v-model="carreType" id="carre-selection" required>
-          <option value="vip2">Carré VIP + 2 bouteilles</option>
-          <option value="vip3">Carré VIP + 3 bouteilles</option>
-          <option value="ultravip2">Carré ultra VIP + 2 bouteilles</option>
-          <option value="ultravip3">Carré ultra VIP + 3 bouteilles</option>
+          <option value="Carré VIP">Carré VIP</option>
+          <option value="Carré Ultra VIP">Carré Ultra VIP</option>
         </select>
 
         <label for="nbpersonne-selection">Sélectionnez le nombre de personnes</label>
         <select v-model="nbPersonne" id="nbpersonne-selection" required>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
           <option value="4">4</option>
           <option value="5">5</option>
           <option value="6">6</option>
           <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
+        </select>
+
+        <label for="bouteille-type">Type de bouteille</label>
+        <select v-model="bouteilleType" id="bouteille-type" required>
+          <option value="Champagne">Champagne</option>
+          <option value="Vodka">Vodka</option>
+          <option value="Whisky">Whisky</option>
+          <option value="Tequila">Tequila</option>
+          <option value="Rhum">Rhum</option>
+        </select>
+
+        <label for="bouteille-quantite">Quantité de bouteilles</label>
+        <select v-model="bouteilleQuantite" id="bouteille-quantite" required>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
         </select>
 
         <button @click="addReservation">Valider la réservation</button>
       </div>
 
-      <!-- Liste des réservations -->
       <div class="reservation-list">
         <h2>Mes Réservations</h2>
         <ul>
-          <li v-for="(reservation, index) in reservations" :key="index">
+          <!-- Parcours des réservations -->
+          <li v-for="(reservation, index) in reservations" :key="reservation.id_reservation">
             <div>
-              <span>{{ reservation.date }} - {{ reservation.type }} ({{ reservation.personnes }} personnes)</span>
-              <button @click="confirmCancel(index)">Annuler</button>
+              <!-- Affichage des détails de la réservation -->
+              <span>
+          {{ reservation.dateCarre }} - {{ reservation.carreType }}
+          ({{ reservation.nbPersonne }} personnes)
+        </span>
+              <ul v-if="reservation.bouteilles && reservation.bouteilles.length">
+                <li v-for="bouteille in reservation.bouteilles" :key="bouteille.id_bouteille">
+                  {{ bouteille.type }} x {{ bouteille.quantite }}
+                </li>
+              </ul>
+              <button @click="confirmCancel(index)">Annuler la réservation</button>
             </div>
           </li>
         </ul>
@@ -57,9 +73,9 @@
   </div>
 </template>
 
-
 <script>
 import NavBar from "@/components/NavBar.vue";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "CariHorreur",
@@ -71,18 +87,27 @@ export default {
       dateCarre: "",
       carreType: "",
       nbPersonne: "",
-      reservations: [], // Liste des réservations
+      bouteilleType: "",
+      bouteilleQuantite: "",
     };
   },
+  computed: {
+    ...mapState("CarihorreurStore", ["reservations"]),
+  },
   methods: {
-    // Ajouter une réservation
+    ...mapActions("CarihorreurStore", ["getReservationCarihorreur", "addReservationToStore"]),
     addReservation() {
-      if (this.dateCarre && this.carreType && this.nbPersonne) {
-        // Ajouter la réservation dans la liste
-        this.reservations.push({
-          date: this.dateCarre,
-          type: this.carreType,
-          personnes: this.nbPersonne,
+      if (this.dateCarre && this.carreType && this.nbPersonne && this.bouteilleQuantite && this.bouteilleType) {
+        this.addReservationToStore({
+          dateCarre: this.dateCarre,
+          carreType: this.carreType,
+          nbPersonne: this.nbPersonne,
+          bouteilles: [
+            {
+              type: this.bouteilleType,
+              quantite: this.bouteilleQuantite,
+            },
+          ],
         });
         alert("Votre réservation a été ajoutée !");
         this.resetForm();
@@ -90,23 +115,24 @@ export default {
         alert("Veuillez remplir tous les champs");
       }
     },
-    // Réinitialiser le formulaire après une réservation
     resetForm() {
       this.dateCarre = "";
       this.carreType = "";
       this.nbPersonne = "";
+      this.bouteilleQuantite = "";
     },
-    // Confirmer l'annulation
     confirmCancel(index) {
       if (confirm("Êtes-vous sûr de vouloir annuler cette réservation ?")) {
         this.cancelReservation(index);
       }
     },
-    // Annuler une réservation
     cancelReservation(index) {
       this.reservations.splice(index, 1);
       alert("Votre réservation a été annulée.");
     },
+  },
+  mounted() {
+    this.getReservationCarihorreur(1);
   },
 };
 </script>
@@ -177,7 +203,7 @@ textarea {
   border: 2px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
-  font-family: Arial;
+  font-family: Arial, serif;
   outline: none;
   resize: none;
 }

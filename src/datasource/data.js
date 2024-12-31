@@ -202,6 +202,13 @@ let taille_deguisements = [
     {'id_deguisement':3, 'taille':'M','quantite':1},
 ]
 
+let carihorreur = [
+    {"id_reservation":1, "id_utilisateur": 1, "dateCarre":"2025-10-27", "carreType":"Carré VIP", "nbPersonne": 5}
+]
+let bouteilles = [
+    {"id_bouteille": 1, "id_reservation": 1, "type": "Champagne", "quantite": 2}
+];
+
 
 module.exports = {
     utilisateurs,
@@ -221,5 +228,7 @@ module.exports = {
     panier_film,
     signalement,
     deguisements,
-    taille_deguisements
+    taille_deguisements,
+    carihorreur,
+    bouteilles
 }

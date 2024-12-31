@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { utilisateurs, organisateurs } from "@/datasource/data.js";
+import { utilisateurs, organisateurs, prestataires } from "@/datasource/data.js";
 
 export default {
   name: "PageConnexion",
@@ -55,7 +55,10 @@ export default {
           (org) =>
               org.email === this.email && org.motDePasse === this.motDePasse
       );
-
+      const prestataire = prestataires.find(
+          (prest) =>
+              prest.email === this.email && prest.motDePasse === this.motDePasse
+      )
       if (user) {
         this.message = "Connexion réussie en tant qu'utilisateur !";
         localStorage.setItem("utilisateurConnecte", JSON.stringify(user));
@@ -70,6 +73,15 @@ export default {
         );
         if (this.$route.path !== "/home-organisateur") {
           this.$router.push({ path: "/home-organisateur" });
+        }
+      } else if (prestataire) {
+        this.message = "Connexion réussie en tant que prestataire !";
+        localStorage.setItem(
+            "utilisateurConnecte",
+            JSON.stringify(prestataire)
+        );
+        if (this.$route.path !== "/") {
+          this.$router.push({ path: "/" });
         }
       } else {
         this.message =
@@ -188,6 +200,6 @@ input:focus {
   margin-top: 15px;
   font-size: 14px;
   color: #28a745;
-  font-family: Creepster;
+  font-family: Creepster, serif;
 }
 </style>

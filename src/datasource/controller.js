@@ -11,7 +11,7 @@ import {
     places_films,
     signalement,
     deguisements,
-    taille_deguisements,
+    taille_deguisements, carihorreur, bouteilles,
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -219,6 +219,24 @@ function getTailleDeguisement(deguisementId) {
     return { error: 0, data: tailleDeguisement };
 }
 
+function getReservationCarihorreur(id){
+    console.log("Recherche des réservations pour l'utilisateur ID :", id);
+    const user = utilisateurs.find(u => u.id === id);
+    if (!user) {
+        console.error("Utilisateur non trouvé :", id);
+        return {error: 1, data: 'Aucun utilisateur trouvé'};
+    }
+    const userReservations = carihorreur.filter(reservation => reservation.id_utilisateur === id);
+    const detailsReservations = userReservations.map(reservation => {
+        const reservationBouteilles = bouteilles.filter(bouteille => bouteille.id_reservation === reservation.id_reservation);
+        return {
+            ...reservation,
+            bouteilles: reservationBouteilles
+        };
+    });
+    return {error: 0, data:detailsReservations};
+}
+
 
 export default {
     loginSite,
@@ -244,5 +262,6 @@ export default {
     getPlacesFilm,
     getAllDeguisement,
     getDeguisementById,
-    getTailleDeguisement
+    getTailleDeguisement,
+    getReservationCarihorreur
 };
