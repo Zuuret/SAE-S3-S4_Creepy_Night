@@ -47,7 +47,7 @@ const routes = [
   { path: '/concert/:id/validate', name: 'validationConcert', component: ValidationReservation },
   { path: '/planning', name: 'Planning', component: ConcertPlanner},
   { path: '/concert-schedule', name: 'calendrierConcert', component: CalendrierConcert },
-  { path: "/organisateur/validartiste", name: "validArtiste", component: OrgaValidArtisteView},
+  { path: '/organisateur/validartiste', name: 'validArtiste', component: OrgaValidArtisteView, meta: { requiresOrganisateur: true } },
   { path: '/billet', name: 'billet', component: BilletAchat },
   { path: '/payment/:ticketId', name: 'PaymentForm', component: PaymentForm },
   { path: '/secuflippe', name: 'secuflippe', component: Secuflippe},
