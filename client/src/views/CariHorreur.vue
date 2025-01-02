@@ -144,7 +144,7 @@ export default {
   async mounted() {
     await this.getAllBouteilles();
     await this.getAllCarres();
-    await this.getReservationCarihorreur(1); // ID utilisateur simulé
+    await this.getReservationCarihorreur();
   },
 };
 </script>
