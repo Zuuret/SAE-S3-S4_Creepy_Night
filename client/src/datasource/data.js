@@ -9,8 +9,8 @@ let organisateurs = [
 ];
 
 let prestataires = [
-    {"id":1, "société":"baltrouille","adresse": "3 rue de japy", "email":"baltrouille@gmail.com", "motDePasse":"mdp123"},
-    {"id":2, "société":"carihorreur","adresse": "5 rue de belfort", "email":"carihorreur@gmail.com", "motDePasse":"mdp123"},
+    {"id":1, "societe":"baltrouille","adresse": "3 rue de japy", "email":"baltrouille@gmail.com", "motDePasse":"mdp123"},
+    {"id":2, "societe":"carihorreur","adresse": "5 rue de belfort", "email":"carihorreur@gmail.com", "motDePasse":"mdp123"},
 ];
 
 let artistes = [
@@ -202,13 +202,21 @@ let taille_deguisements = [
     {'id_deguisement':3, 'taille':'M','quantite':1},
 ]
 
-let carihorreur = [
-    {"id_reservation":1, "id_utilisateur": 1, "dateCarre":"2025-10-27", "carreType":"Carré VIP", "nbPersonne": 5}
+let carres = [
+    {"id_carre":1, "type":"Carré VIP", "prix":100, "prixPersonne":20},
+    {"id_carre":2, "type":"Carré Ultra VIP", "prix":150, "prixPersonne":30}
 ]
+
 let bouteilles = [
-    {"id_bouteille": 1, "id_reservation": 1, "type": "Champagne", "quantite": 2}
+    {"id_bouteille": 1, "type": "Champagne", "prix": 50},
+    {"id_bouteille": 2, "type": "Vodka", "prix": 40},
+    {"id_bouteille": 3, "type": "Whisky", "prix": 60},
+    {"id_bouteille": 4, "type": "Tequila", "prix": 45},
 ];
 
+let reservation_carihorreur = [
+    {"id_reservation":1, "id_utilisateur": 1, "dateCarre":"2025-10-27", "id_carre": 1, "nbPersonne": 5, "bouteilles": [{"id_bouteille": 2, "quantite": 2}]}
+]
 
 module.exports = {
     utilisateurs,
@@ -229,6 +237,7 @@ module.exports = {
     signalement,
     deguisements,
     taille_deguisements,
-    carihorreur,
-    bouteilles
+    carres,
+    bouteilles,
+    reservation_carihorreur
 }

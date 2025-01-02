@@ -9,40 +9,30 @@
         <h1>Réserver un carré VIP</h1>
 
         <label for="date-selection">Sélectionnez une date</label>
-        <input type="date" v-model="dateCarre" id="date-selection" :min="'2025-10-27'" :max="'2025-11-02'" required/>
+        <input type="date" v-model="dateCarre" id="date-selection" :min="'2025-10-27'" :max="'2025-11-02'" required />
 
         <label for="carre-selection">Sélectionnez la formule</label>
-        <select v-model="carreType" id="carre-selection" required>
-          <option value="Carré VIP">Carré VIP</option>
-          <option value="Carré Ultra VIP">Carré Ultra VIP</option>
+        <select v-model="idCarre" id="carre-selection" required>
+          <option v-for="carre in carres" :value="carre.id_carre" :key="carre.id_carre">
+            {{ carre.type }}
+          </option>
         </select>
 
         <label for="nbpersonne-selection">Sélectionnez le nombre de personnes</label>
         <select v-model="nbPersonne" id="nbpersonne-selection" required>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
+          <option v-for="n in 7" :value="n" :key="n">{{ n }}</option>
         </select>
 
         <label for="bouteille-type">Type de bouteille</label>
-        <select v-model="bouteilleType" id="bouteille-type" required>
-          <option value="Champagne">Champagne</option>
-          <option value="Vodka">Vodka</option>
-          <option value="Whisky">Whisky</option>
-          <option value="Tequila">Tequila</option>
-          <option value="Rhum">Rhum</option>
+        <select v-model="idBouteille" id="bouteille-type" required>
+          <option v-for="bouteille in bouteilles" :value="bouteille.id_bouteille" :key="bouteille.id_bouteille">
+            {{ bouteille.type }}
+          </option>
         </select>
 
         <label for="bouteille-quantite">Quantité de bouteilles</label>
         <select v-model="bouteilleQuantite" id="bouteille-quantite" required>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
+          <option v-for="n in 4" :value="n" :key="n">{{ n }}</option>
         </select>
 
         <button @click="addReservation">Valider la réservation</button>
@@ -51,23 +41,22 @@
       <div class="reservation-list">
         <h2>Mes Réservations</h2>
         <ul>
-          <!-- Parcours des réservations -->
           <li v-for="(reservation, index) in reservations" :key="reservation.id_reservation">
             <div>
-              <!-- Affichage des détails de la réservation -->
-              <span>
-          {{ reservation.dateCarre }} - {{ reservation.carreType }}
-          ({{ reservation.nbPersonne }} personnes)
-        </span>
+      <span v-if="reservation.carre && carres.length">
+        {{ reservation.dateCarre }} - {{ reservation.carre.type || 'Type non défini' }}
+        ({{ reservation.nbPersonne }} personnes) - Total : {{ reservation.prixTotal || 'Inconnu' }} €
+      </span>
               <ul v-if="reservation.bouteilles && reservation.bouteilles.length">
                 <li v-for="bouteille in reservation.bouteilles" :key="bouteille.id_bouteille">
-                  {{ bouteille.type }} x {{ bouteille.quantite }}
+                  {{ bouteille.type }} x {{ bouteille.quantite }} ({{ bouteille.totalPrix }} €)
                 </li>
               </ul>
               <button @click="confirmCancel(index)">Annuler la réservation</button>
             </div>
           </li>
         </ul>
+
       </div>
     </div>
   </div>
@@ -85,40 +74,61 @@ export default {
   data() {
     return {
       dateCarre: "",
-      carreType: "",
+      idCarre: "",
       nbPersonne: "",
-      bouteilleType: "",
+      idBouteille: "",
       bouteilleQuantite: "",
     };
   },
   computed: {
-    ...mapState("CarihorreurStore", ["reservations"]),
+    ...mapState("CarihorreurStore", ["bouteilles","bouteille", "carres", "carre", "reservations"]),
   },
   methods: {
-    ...mapActions("CarihorreurStore", ["getReservationCarihorreur", "addReservationToStore"]),
-    addReservation() {
-      if (this.dateCarre && this.carreType && this.nbPersonne && this.bouteilleQuantite && this.bouteilleType) {
-        this.addReservationToStore({
+    ...mapActions("CarihorreurStore", ["getAllBouteilles", "getBouteillebyId", "getAllCarres","getCarrebyId","getReservationCarihorreur", "addReservationToStore"]),
+    async addReservation() {
+      if (this.dateCarre && this.idCarre && this.nbPersonne && this.bouteilleQuantite && this.idBouteille) {
+        await this.getBouteillebyId(this.idBouteille);
+        await this.getCarrebyId(this.idCarre);
+        const bouteille = this.bouteille;
+        const carre = this.carre;
+        if (!bouteille || !carre) {
+          alert("Erreur : Impossible de récupérer les informations sélectionnées.");
+          return;
+        }
+        const bouteillePrixTotal = parseInt(this.bouteilleQuantite) * bouteille.prix;
+        const prixCarre = (carre.prix || 0) + (carre.prixPersonne || 0) * this.nbPersonne;
+        const prixTotal = bouteillePrixTotal + prixCarre;
+        await this.addReservationToStore({
           dateCarre: this.dateCarre,
-          carreType: this.carreType,
-          nbPersonne: this.nbPersonne,
+          carre: {
+            id_carre: carre.id_carre,
+            type: carre.type,
+            prix: prixCarre,
+          },
+          nbPersonne: parseInt(this.nbPersonne),
           bouteilles: [
             {
-              type: this.bouteilleType,
-              quantite: this.bouteilleQuantite,
+              id_bouteille: bouteille.id_bouteille,
+              type: bouteille.type,
+              prix: bouteille.prix,
+              quantite: parseInt(this.bouteilleQuantite),
+              totalPrix: bouteillePrixTotal,
             },
           ],
+          prixTotal,
         });
         alert("Votre réservation a été ajoutée !");
         this.resetForm();
       } else {
-        alert("Veuillez remplir tous les champs");
+        alert("Veuillez remplir tous les champs.");
       }
-    },
+    }
+    ,
     resetForm() {
       this.dateCarre = "";
-      this.carreType = "";
+      this.idCarre = "";
       this.nbPersonne = "";
+      this.idBouteille = "";
       this.bouteilleQuantite = "";
     },
     confirmCancel(index) {
@@ -127,15 +137,18 @@ export default {
       }
     },
     cancelReservation(index) {
-      this.reservations.splice(index, 1);
+      this.reservations.splice(index, 1); // Suppression locale
       alert("Votre réservation a été annulée.");
     },
   },
-  mounted() {
-    this.getReservationCarihorreur(1);
+  async mounted() {
+    await this.getAllBouteilles();
+    await this.getAllCarres();
+    await this.getReservationCarihorreur();
   },
 };
 </script>
+
 
 <style scoped>
 h1 {
