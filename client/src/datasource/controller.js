@@ -11,7 +11,10 @@ import {
     places_films,
     signalement,
     deguisements,
-    taille_deguisements, carihorreur, bouteilles,
+    taille_deguisements,
+    carres,
+    bouteilles,
+    reservation_carihorreur
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -219,6 +222,24 @@ function getTailleDeguisement(deguisementId) {
     return { error: 0, data: tailleDeguisement };
 }
 
+function getAllBouteilles(){
+    return {error: 0, data:bouteilles}
+}
+
+function getBouteillebyId(bouteilleId){
+    let bouteille= bouteilles.find(b => b.id_bouteille === parseInt(bouteilleId))
+    return {error: 0, data: bouteille}
+}
+
+function getAllCarres(){
+    return {error: 0, data:carres}
+}
+
+function getCarrebyId(carreId){
+    let carre = carres.find(c => c.id_carre === parseInt(carreId))
+    return {error: 0, data: carre}
+}
+
 function getReservationCarihorreur(id){
     console.log("Recherche des réservations pour l'utilisateur ID :", id);
     const user = utilisateurs.find(u => u.id === id);
@@ -226,15 +247,35 @@ function getReservationCarihorreur(id){
         console.error("Utilisateur non trouvé :", id);
         return {error: 1, data: 'Aucun utilisateur trouvé'};
     }
-    const userReservations = carihorreur.filter(reservation => reservation.id_utilisateur === id);
+    const userReservations = reservation_carihorreur.filter(reservation => reservation.id_utilisateur === id);
     const detailsReservations = userReservations.map(reservation => {
-        const reservationBouteilles = bouteilles.filter(bouteille => bouteille.id_reservation === reservation.id_reservation);
+        const carreDetails = carres.find(c => c.id_carre === reservation.id_carre);
+        const reservationBouteilles = reservation.bouteilles.map(b => {
+            const bouteilleDetails = bouteilles.find(bouteille => bouteille.id_bouteille === b.id_bouteille);
+            return {
+                type: bouteilleDetails?.type || "Inconnu",
+                prix: bouteilleDetails?.prix || 0,
+                quantite: b.quantite,
+                totalPrix: (bouteilleDetails?.prix || 0) * b.quantite,
+            };
+        });
+        const totalPrixBouteilles = reservationBouteilles.reduce((sum, b) => sum + b.totalPrix, 0);
+        const prixCarre = carreDetails ? carreDetails.prix + (carreDetails.prixPersonne * reservation.nbPersonne) : 0;
+        const prixTotal = totalPrixBouteilles + prixCarre;
         return {
-            ...reservation,
-            bouteilles: reservationBouteilles
+            id_reservation: reservation.id_reservation,
+            dateCarre: reservation.dateCarre,
+            nbPersonne: reservation.nbPersonne,
+            carre: carreDetails ? { type: carreDetails.type, prix: prixCarre } : null,
+            bouteilles: reservationBouteilles,
+            prixTotal,
         };
     });
-    return {error: 0, data:detailsReservations};
+    if (detailsReservations.length === 0) {
+        console.warn("Aucune réservation trouvée pour l'utilisateur ID :", id);
+        return { error: 1, message: "Aucune réservation trouvée", data: null };
+    }
+    return { error: 0, message: "Réservations trouvées avec succès", data: detailsReservations };
 }
 
 
@@ -263,5 +304,9 @@ export default {
     getAllDeguisement,
     getDeguisementById,
     getTailleDeguisement,
+    getAllBouteilles,
+    getBouteillebyId,
+    getAllCarres,
+    getCarrebyId,
     getReservationCarihorreur
 };
