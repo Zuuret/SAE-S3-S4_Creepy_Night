@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS organise;
 DROP TABLE IF EXISTS gere;
+DROP TABLE IF EXISTS Signalement;
 DROP TABLE IF EXISTS Bouteille;
 DROP TABLE IF EXISTS Carre;
 DROP TABLE IF EXISTS Taille_deguisement;
@@ -191,6 +192,15 @@ CREATE TABLE Bouteille (
     prix INT NOT NULL,
 );
 
+CREATE TABLE Signalement (
+    id SERIAL PRIMARY KEY,
+    typeIncident VARCHAR(50) NOT NULL,
+    description TEXT NOT NULL,
+    zone INT REFERENCES Zone(id) ON DELETE CASCADE,
+    position VARCHAR(100) NOT NULL,
+    date TIMESTAMP NOT NULL
+)
+
 CREATE TABLE organise (
     activite_id INT REFERENCES Activite(id) ON DELETE CASCADE,
     organisateur_id INT REFERENCES Organisateur(id) ON DELETE CASCADE,
@@ -364,6 +374,14 @@ VALUES
 ('Vodka', 40),
 ('Whisky', 60),
 ('Tequila', 45);
+
+INSERT INTO Signalement (typeIncident, description, zone, position, date)
+VALUES
+('Aggression', 'Un homme a été agressé par un autre homme', 1, '45.0000, 5.0000', '2024-10-25 20:00:00'),
+('Vol', 'Un homme a volé le sac d`une femme', 2, '45.0000, 5.0000', '2024-10-26 21:00:00'),
+('Bagarre', 'Deux hommes se sont battus', 3, '45.0000, 5.0000', '2024-10-27 22:00:00'),
+('Incendie', 'Un stand a pris feu', 4, '45.0000, 5.0000', '2024-10-28 23:00:00'),
+('Blessure', 'Un homme est tombé et s`est blessé', 5, '45.0000, 5.0000', '2024-10-29 00:00:00');"
  
 INSERT INTO organise (activite_id, organisateur_id)
 VALUES 
