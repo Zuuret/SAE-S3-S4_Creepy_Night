@@ -1,26 +1,26 @@
-DROP TABLE IF EXISTS organise;
-DROP TABLE IF EXISTS gere;
-DROP TABLE IF EXISTS Signalement;
-DROP TABLE IF EXISTS Bouteille;
-DROP TABLE IF EXISTS Carre;
-DROP TABLE IF EXISTS Taille_deguisement;
-DROP TABLE IF EXISTS Deguisement;
-DROP TABLE IF EXISTS Films;
-DROP TABLE IF EXISTS Course_cauchemarathon;
-DROP TABLE IF EXISTS Expo_oeuvre;
-DROP TABLE IF EXISTS PlaceConcert;
-DROP TABLE IF EXISTS Concert;
-DROP TABLE IF EXISTS Reservation_prestation;
-DROP TABLE IF EXISTS Billet_festival;
-DROP TABLE IF EXISTS Billet_activite;
-DROP TABLE IF EXISTS Prestation;
-DROP TABLE IF EXISTS Activite;
-DROP TABLE IF EXISTS Zone;
-DROP TABLE IF EXISTS Evenement;
-DROP TABLE IF EXISTS Transaction;
-DROP TABLE IF EXISTS Organisateur;
-DROP TABLE IF EXISTS Prestataire;
-DROP TABLE IF EXISTS Utilisateur;
+DROP TABLE IF EXISTS gere CASCADE;
+DROP TABLE IF EXISTS organise CASCADE;
+DROP TABLE IF EXISTS Signalement CASCADE;
+DROP TABLE IF EXISTS Bouteille CASCADE;
+DROP TABLE IF EXISTS Carre CASCADE;
+DROP TABLE IF EXISTS Taille_deguisement CASCADE;
+DROP TABLE IF EXISTS Deguisement CASCADE;
+DROP TABLE IF EXISTS Films CASCADE;
+DROP TABLE IF EXISTS Course_cauchemarathon CASCADE;
+DROP TABLE IF EXISTS Expo_oeuvre CASCADE;
+DROP TABLE IF EXISTS Place_concert CASCADE;
+DROP TABLE IF EXISTS Concert CASCADE;
+DROP TABLE IF EXISTS Reservation_prestation CASCADE;
+DROP TABLE IF EXISTS Prestation CASCADE;
+DROP TABLE IF EXISTS Billet_festival CASCADE;
+DROP TABLE IF EXISTS Evenement CASCADE;
+DROP TABLE IF EXISTS Billet_activite CASCADE;
+DROP TABLE IF EXISTS Activite CASCADE;
+DROP TABLE IF EXISTS Zone CASCADE;
+DROP TABLE IF EXISTS Transaction CASCADE;
+DROP TABLE IF EXISTS Organisateur CASCADE;
+DROP TABLE IF EXISTS Prestataire CASCADE;
+DROP TABLE IF EXISTS Utilisateur CASCADE;
 
 
 CREATE TABLE Utilisateur (
@@ -29,7 +29,6 @@ CREATE TABLE Utilisateur (
     prenom VARCHAR(50) NOT NULL,
     date_naissance TIMESTAMP NOT NULL,
     mail VARCHAR(50) UNIQUE NOT NULL,
-    login VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(150) NOT NULL,
     solde DECIMAL NOT NULL,
     num_cashless BIGINT NOT NULL,
@@ -51,7 +50,7 @@ CREATE TABLE Organisateur (
     prenom VARCHAR(50) NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(150) NOT NULL,
-    tel VARCHAR(15),
+    tel VARCHAR(15)
 );
 
 CREATE TABLE Transaction (
@@ -142,7 +141,7 @@ CREATE TABLE Expo_oeuvre (
     email VARCHAR(50),
     date_crea TIMESTAMP,
     description TEXT,
-    image VARCHAR(50),
+    image VARCHAR(50)
 );
 
 CREATE TABLE Course_cauchemarathon (
@@ -150,7 +149,7 @@ CREATE TABLE Course_cauchemarathon (
     nom VARCHAR(50) NOT NULL,
     date TIMESTAMP NOT NULL,
     nb_places INT NOT NULL,
-    prix DECIMAL NOT NULL,
+    prix DECIMAL NOT NULL
 );
 
 CREATE TABLE Films (
@@ -162,14 +161,14 @@ CREATE TABLE Films (
     categorie VARCHAR(50),
     salle VARCHAR(50),
     nb_places INT NOT NULL,
-    prix DECIMAL NOT NULL,
+    prix DECIMAL NOT NULL
 );
 
 CREATE TABLE Deguisement (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
     prix INT NOT NULL,
-    image VARCHAR(50),
+    image VARCHAR(50)
 );
 
 CREATE TABLE Taille_deguisement (
@@ -183,13 +182,13 @@ CREATE TABLE Carre (
     id SERIAL PRIMARY KEY,
     type VARCHAR(50) NOT NULL,
     prix INT NOT NULL,
-    prixPersonne INT NOT NULL,
+    prixPersonne INT NOT NULL
 );
 
 CREATE TABLE Bouteille (
     id SERIAL PRIMARY KEY,
     type VARCHAR(50) NOT NULL,
-    prix INT NOT NULL,
+    prix INT NOT NULL
 );
 
 CREATE TABLE Signalement (
@@ -199,7 +198,7 @@ CREATE TABLE Signalement (
     zone INT REFERENCES Zone(id) ON DELETE CASCADE,
     position VARCHAR(100) NOT NULL,
     date TIMESTAMP NOT NULL
-)
+);
 
 CREATE TABLE organise (
     activite_id INT REFERENCES Activite(id) ON DELETE CASCADE,
@@ -214,13 +213,13 @@ CREATE TABLE gere (
 );
 
 
-INSERT INTO utilisateur (nom, prenom, date_naissance, mail, login, password, solde, num_cashless, qr_code, est_festivalier)
+INSERT INTO utilisateur (nom, prenom, date_naissance, mail, password, solde, num_cashless, qr_code, est_festivalier)
 VALUES 
-('lahasbaaa', 'yahia', '1998-09-20', 'yahia.lahasbaa@example.com', 'jdupont', 'password123', 500, 123456789, 'QR1234', TRUE),
-('lafrime', 'tim', '1999-10-15', 'tim.lafrime@example.com', 'lmartin', 'password1', 0, 234567890, 'QR5678', TRUE),
-('letueur', 'enzo', '1997-05-12', 'enzo.letueur@example.com', 'mlemoine', 'password2', 1000, 345678901, 'QR9101', TRUE),
-('lemalfrat', 'harry', '1996-03-07', 'harry.lemalfrat@example.com', 'pdurand', 'password3', 600, 456789012, 'QR1121', TRUE),
-('lamenace', 'mathéo', '2000-12-25', 'matheo.lamenace@example.com', 'spetit', 'password', 800, 567890123, 'QR3141', TRUE);
+('lahasbaaa', 'yahia', '1998-09-20', 'yahia.lahasbaa@example.com', 'password123', 500, 123456789, 'QR1234', TRUE),
+('lafrime', 'tim', '1999-10-15', 'tim.lafrime@example.com', 'password1', 0, 234567890, 'QR5678', TRUE),
+('letueur', 'enzo', '1997-05-12', 'enzo.letueur@example.com', 'password2', 1000, 345678901, 'QR9101', TRUE),
+('lemalfrat', 'harry', '1996-03-07', 'harry.lemalfrat@example.com', 'password3', 600, 456789012, 'QR1121', FALSE),
+('lamenace', 'mathéo', '2000-12-25', 'matheo.lamenace@example.com', 'password', 800, 567890123, 'QR3141', TRUE);
 
 INSERT INTO prestataire (societe, adresse, email, password)
 VALUES
@@ -320,15 +319,15 @@ VALUES
 ('La FrayeuRoute', '2025-10-29 20:00:00', 150, 10),
 ('La FrayeuRoute', '2025-10-31 20:00:00', 150, 10),
 ('La FrayeuRoute', '2025-11-02 20:00:00', 150, 10),
-("L'ÉpouvanTour", '2025-10-29 22:00:00', 100, 15),
-("L'ÉpouvanTour", '2025-10-31 22:00:00', 100, 15),
-("L'ÉpouvanTour", '2025-11-02 22:00:00', 100, 15);
+('L''ÉpouvanTour', '2025-10-29 22:00:00', 100, 15),
+('L''ÉpouvanTour', '2025-10-31 22:00:00', 100, 15),
+('L''ÉpouvanTour', '2025-11-02 22:00:00', 100, 15);
 
 INSERT INTO Films (nom, date, duree, image, categorie, salle, nb_places, prix)
 VALUES
 ('Shining', '2025-10-27 22:00:00', 1, 'affiche_BigAli.jpg', 'House', 'Salle 1', 100, 10),
 ('Halloween', '2025-10-28 19:00:00', 1, 'affiche_TravisScott.jpg', 'Rap', 'Salle 2', 100, 10),
-("l'Exorciste", '2025-10-29 21:00:00', 1, 'affiche_Muse.jpg', 'Rock', 'Salle 3', 100, 10),
+('l''Exorciste', '2025-10-29 21:00:00', 1, 'affiche_Muse.jpg', 'Rock', 'Salle 3', 100, 10),
 ('Alien', '2025-10-29 22:00:00', 1, 'affiche_Vald.jpg', 'Rap', 'Salle 4', 100, 10),
 ('Psychose', '2025-10-29 00:00:00', 1, 'affiche_DavidGuetta.jpg', 'Électro', 'Salle 1', 100, 10),
 ('Massacre à la tronçonneuse', '2025-10-30 21:00:00', 1, 'affiche_Kungs.jpg', 'House', 'Salle 2', 100, 10),
@@ -337,7 +336,7 @@ VALUES
 ('[REC]', '2025-10-31 21:00:00', 1, 'affiche_DaftPunk.jpg', 'Électro', 'Salle 1', 100, 10),
 ('Suspiria', '2025-10-31 22:00:00', 1, 'affiche_KendrickLamar.jpg', 'Rap', 'Salle 2', 100, 10),
 ('Le Projet Blair Witch', '2025-10-31 23:00:00', 1, 'affiche_RollingStones.jpg', 'Rock', 'Salle 3', 100, 10),
-("Rosemary's Baby", '2025-11-01 18:00:00', 1, 'affiche_Guy2Bezbar.jpg', 'Rap', 'Salle 4', 100, 10);
+('Rosemary''s Baby', '2025-11-01 18:00:00', 1, 'affiche_Guy2Bezbar.jpg', 'Rap', 'Salle 4', 100, 10);
 
 INSERT INTO Deguisement (nom, prix, image)
 VALUES
@@ -381,7 +380,7 @@ VALUES
 ('Vol', 'Un homme a volé le sac d`une femme', 2, '45.0000, 5.0000', '2024-10-26 21:00:00'),
 ('Bagarre', 'Deux hommes se sont battus', 3, '45.0000, 5.0000', '2024-10-27 22:00:00'),
 ('Incendie', 'Un stand a pris feu', 4, '45.0000, 5.0000', '2024-10-28 23:00:00'),
-('Blessure', 'Un homme est tombé et s`est blessé', 5, '45.0000, 5.0000', '2024-10-29 00:00:00');"
+('Blessure', 'Un homme est tombé et s`est blessé', 5, '45.0000, 5.0000', '2024-10-29 00:00:00');
  
 INSERT INTO organise (activite_id, organisateur_id)
 VALUES 
