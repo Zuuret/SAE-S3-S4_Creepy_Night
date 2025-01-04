@@ -214,7 +214,7 @@ CREATE TABLE gere (
 
 
 INSERT INTO utilisateur (id, nom, prenom, date_naissance, mail, password, solde, num_cashless, qr_code, est_festivalier)
-VALUES 
+VALUES
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 'lahasbaaa', 'yahia', '1998-09-20', 'yahia.lahasbaa@example.com', 'password123', 500, '8b975371-9be6-47cc-a121-9861430bb266', 'QR1234', TRUE),
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7', 'lafrime', 'tim', '1999-10-15', 'tim.lafrime@example.com', 'password1', 0, '8b975371-9be6-47cc-a121-9861430bb267', 'QR5678', TRUE),
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f8', 'letueur', 'enzo', '1997-05-12', 'enzo.letueur@example.com', 'password2', 1000, '8b975371-9be6-47cc-a121-9861430bb268', 'QR9101', TRUE),
@@ -232,14 +232,14 @@ VALUES
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4', 'Balta', 'Luc', 'lucbalta@gmail.com', 'mpd456', '0600000000');
 
 INSERT INTO transaction (date, operation, details, montant, utilisateur_id)
-VALUES 
+VALUES
 ('2024-11-05 15:30:00', 'Remboursement', 'Remboursement de 10.00 €', 10.00, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6'),
 ('2024-10-31 23:00:00', 'Paiement BAR', '1x Consigne Gobelet', 2.00, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6'),
 ('2024-10-31 21:00:00', 'Paiement BAR', '1x Consigne Gobelet - 2.00 €\n1x Coca Cola - 4.00 €', -6.00, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6'),
 ('2024-10-31 20:30:00', 'Paiement Burger&co', '1x Frites - 4.00 €\n1x Cheese Burger - 12.00 €', -16.00, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7');
 
 INSERT INTO zone (nom)
-VALUES 
+VALUES
 ('Foréffroi'),
 ('Cauchemanoir'),
 ('Bosquépouvante'),
@@ -247,7 +247,7 @@ VALUES
 ('Maudîle');
 
 INSERT INTO activite (nom, description, date, prix, places_disponibles, zone_id)
-VALUES 
+VALUES
 ('Baltrouille', 'le bal de la trouille', '2024-10-25 19:00:00', 50, 100, 1),
 ('Concert', 'le concert de traitre gims', '2024-10-26 20:00:00', 30, 50, 2),
 ('Cauchemarathon', 'la course de la peur', '2024-10-27 21:00:00', 70, 30, 3),
@@ -255,7 +255,7 @@ VALUES
 ('Cinépeur', 'le cinéma qui fout la frousse', '2024-10-29 18:00:00', 60, 20, 5);
 
 INSERT INTO billet_activite (date_achat, utilisateur_id, activite_id)
-VALUES 
+VALUES
 ('2024-10-15 12:00:00', '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 1),
 ('2024-10-15 12:10:00', '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7', 2),
 ('2024-10-16 13:30:00', '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f8', 3),
@@ -263,11 +263,11 @@ VALUES
 ('2024-10-17 15:20:00', '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f0', 5);
 
 INSERT INTO evenement (nom, description, date_debut, date_fin, lieu)
-VALUES 
+VALUES
 ('Festival Creepy Night', 'Le festival d’horreur annuel.', '2024-10-25 18:00:00', '2024-10-31 23:59:00', 'Audincourt');
 
 INSERT INTO billet_festival (date_achat, evenement_id, utilisateur_id)
-VALUES 
+VALUES
 ('2024-10-01', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6'),
 ('2024-10-02', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7'),
 ('2024-10-03', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f8'),
@@ -275,13 +275,13 @@ VALUES
 ('2024-10-05', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f0');
 
 INSERT INTO prestation (nom, prix, description, image, zone_id)
-VALUES 
+VALUES
 ('Objets trouvés', 30, 'récupère tes objets perdus au combat', 'objets-trouves.png', 2),
 ('Secuflippe', 0, 'si la frayeur est trop grosse, appelle secuflippe pour te proteger', 'secuflippe.png', 2),
 ('Navette', 10, 'elle est pas spatiale, elle t`emmène juste au festival', 'navette.png', 2);
 
 INSERT INTO reservation_prestation (date, utilisateur_id, prestation_id)
-VALUES 
+VALUES
 ('2024-10-25 12:00:00', '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 1),
 ('2024-10-25 12:10:00', '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7', 2);
 
@@ -381,9 +381,9 @@ VALUES
 ('Bagarre', 'Deux hommes se sont battus', 3, '45.0000, 5.0000', '2024-10-27 22:00:00'),
 ('Incendie', 'Un stand a pris feu', 4, '45.0000, 5.0000', '2024-10-28 23:00:00'),
 ('Blessure', 'Un homme est tombé et s`est blessé', 5, '45.0000, 5.0000', '2024-10-29 00:00:00');
- 
+
 INSERT INTO organise (activite_id, organisateur_id)
-VALUES 
+VALUES
 (1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f3'),
 (2, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f3'),
 (3, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4'),
@@ -391,6 +391,6 @@ VALUES
 (5, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f3');
 
 INSERT INTO gere (evenement_id, organisateur_id)
-VALUES 
+VALUES
 (1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f3'),
 (1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4');

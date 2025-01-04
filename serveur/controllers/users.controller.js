@@ -10,7 +10,7 @@ exports.saveUser = async (req,res) => {
     const email = req.body.email;
     const password = bcrypt.hashSync(req.body.password);
     const solde = 0;
-    const num_cashless = new uuidv4();
+    const num_cashless = uuidv4();
     const qr_code = 'null';
     const est_festivalier = false;
     const resultat = await userService.insertUser(id,name,firstname,birthdate,email,password,solde,num_cashless,qr_code,est_festivalier);
