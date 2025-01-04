@@ -6,90 +6,66 @@
       <h2>Connexion</h2>
       <form @submit.prevent="submitLogin" class="login-form">
         <div class="form-group">
-          <input
-              type="email"
-              v-model="email"
-              id="email"
-              placeholder="Entrez votre email"
-              required
-          />
+          <input type="email" v-model="email" id="email" placeholder="Entrez votre email" required/>
         </div>
         <div class="form-group">
-          <input
-              type="password"
-              v-model="motDePasse"
-              id="motDePasse"
-              placeholder="Entrez votre mot de passe"
-              required
-          />
+          <input type="password" v-model="motDePasse" id="motDePasse" placeholder="Entrez votre mot de passe" required/>
         </div>
         <button type="submit" class="submit-button">Se connecter</button>
       </form>
       <div class="signup-link">
         <span>
           Pas de compte ?
-          <router-link to="/profil">S'inscrire</router-link>
+          <router-link to="/creation-profil">S'inscrire</router-link>
         </span>
       </div>
-      <div v-if="message" class="message">{{ message }}</div>
+      <p v-if="errorMessage" class="message">{{ errorMessage }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import { utilisateurs, organisateurs, prestataires } from "@/datasource/data.js";
 
+import {mapState, mapActions} from "vuex";
 export default {
   name: "PageConnexion",
   data: () => ({
     email: "",
     motDePasse: "",
-    message: "",
   }),
-  methods: {
-    submitLogin() {
-      const user = utilisateurs.find(
-          (user) => user.email === this.email && user.motDePasse === this.motDePasse
-      );
-      const organisateur = organisateurs.find(
-          (org) =>
-              org.email === this.email && org.motDePasse === this.motDePasse
-      );
-      const prestataire = prestataires.find(
-          (prest) =>
-              prest.email === this.email && prest.motDePasse === this.motDePasse
-      )
-      if (user) {
-        this.message = "Connexion réussie en tant qu'utilisateur !";
-        localStorage.setItem("utilisateurConnecte", JSON.stringify(user));
-        if (this.$route.path !== "/") {
-          this.$router.push({ path: "/" });
-        }
-      } else if (organisateur) {
-        this.message = "Connexion réussie en tant qu'organisateur !";
-        localStorage.setItem(
-            "utilisateurConnecte",
-            JSON.stringify(organisateur)
-        );
-        if (this.$route.path !== "/home-organisateur") {
-          this.$router.push({ path: "/home-organisateur" });
-        }
-      } else if (prestataire) {
-        this.message = "Connexion réussie en tant que prestataire !";
-        localStorage.setItem(
-            "utilisateurConnecte",
-            JSON.stringify(prestataire)
-        );
-        if (this.$route.path !== "/") {
-          this.$router.push({ path: "/" });
-        }
-      } else {
-        this.message =
-            "Connexion impossible : l'email ou le mot de passe est incorrect.";
-      }
-    },
+  computed: {
+    ...mapState('ProfilStore', ['errorMessage'])
   },
-};
+  methods: {
+    ...mapActions('ProfilStore', ['loginUser']),
+
+    async submitLogin() {
+      let userLogged = await this.loginUser({
+        data: { email: this.email, motDePasse: this.motDePasse },
+        userType: 'utilisateur',
+      });
+      if (userLogged.success) {
+        this.$router.push('/');
+        return;
+      }
+      let orgLogged = await this.loginUser({
+        data: { email: this.email, motDePasse: this.motDePasse },
+        userType: 'organisateur',
+      });
+      if (orgLogged.success) {
+        this.$router.push('/home-organisateur');
+        return;
+      }
+      let prestLogged = await this.loginUser({
+        data: { email: this.email, motDePasse: this.motDePasse },
+        userType: 'prestataire',
+      });
+      if (prestLogged.success) {
+        this.$router.push('/home-prestataire');
+      }
+    }
+  }
+}
 </script>
 
 <style scoped>

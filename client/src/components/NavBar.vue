@@ -12,13 +12,17 @@
 
     <div v-if="isMenuOpen" class="burger-menu">
       <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo-burger">
+
       <div v-if="!utilisateurConnecte">
         <router-link to="/connexion" @click="closeMenu">Connexion</router-link>
-        <router-link to="/profil" @click="closeMenu">Créer profil</router-link>
+        <router-link to="/creation-profil" @click="closeMenu">Créer profil</router-link>
       </div>
+
       <div v-else>
         <router-link to="/" @click.native="logout">Déconnexion</router-link>
+        <router-link to="/profil" @click="closeMenu">Mon Profil</router-link>
       </div>
+
       <router-link to="/concert-schedule" @click="closeMenu">Programmation des concerts</router-link>
       <router-link to="/planning" @click="closeMenu">Placer concert</router-link>
       <router-link to="/organisateur/validartiste" @click="closeMenu">Valider concert</router-link>
@@ -31,12 +35,14 @@
       <router-link to="/cashless" @click="closeMenu">CashLess</router-link>
       <router-link to="/expo" @click="closeMenu">Exposition</router-link>
       <router-link to="/cinepeur" @click="closeMenu">Cinepeur</router-link>
-      <router-link to="/payment-history">historique de paiement</router-link>
+      <router-link to="/payment-history" @click="closeMenu">Historique de paiement</router-link>
     </div>
   </div>
 </template>
 
+
 <script>
+import { mapState, mapActions } from 'vuex';
 import SelecteurLanguage from "@/components/SelecteurLanguage.vue";
 
 export default {
@@ -48,10 +54,13 @@ export default {
       isMenuOpen: false,
       lastScrollY: 0,
       isNavbarHidden: false,
-      utilisateurConnecte: null
     };
   },
+  computed: {
+    ...mapState('ProfilStore', ['utilisateurConnecte']),
+  },
   methods: {
+    ...mapActions('ProfilStore', ['logoutUser']),
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
       if (this.isMenuOpen) {
@@ -66,16 +75,11 @@ export default {
     },
     handleScroll() {
       const currentScrollY = window.scrollY;
-      if (currentScrollY > this.lastScrollY && currentScrollY > 100) {
-        this.isNavbarHidden = true;
-      } else {
-        this.isNavbarHidden = false;
-      }
+      this.isNavbarHidden = currentScrollY > this.lastScrollY && currentScrollY > 100;
       this.lastScrollY = currentScrollY;
     },
     logout() {
-      localStorage.removeItem('utilisateurConnecte');
-      this.utilisateurConnecte = null;
+      this.logoutUser();
       if (this.$route.path !== '/') {
         this.$router.push({ path: '/' });
       }
@@ -83,16 +87,13 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
-    const utilisateur = localStorage.getItem('utilisateurConnecte');
-    if (utilisateur) {
-      this.utilisateurConnecte = JSON.parse(utilisateur);
-    }
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.handleScroll);
   },
 };
 </script>
+
 
 <style scoped>
 * {
