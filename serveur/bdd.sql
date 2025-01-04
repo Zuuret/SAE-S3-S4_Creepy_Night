@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS Utilisateur CASCADE;
 
 
 CREATE TABLE Utilisateur (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
     prenom VARCHAR(50) NOT NULL,
     date_naissance TIMESTAMP NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE Utilisateur (
 );
 
 CREATE TABLE Prestataire (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY,
     societe VARCHAR(50) NOT NULL,
     adresse VARCHAR(150),
     email VARCHAR(50) UNIQUE NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE Prestataire (
 );
 
 CREATE TABLE Organisateur (
-    id SERIAL PRIMARY KEY,
+    id UUID PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
     prenom VARCHAR(50) NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
@@ -213,25 +213,25 @@ CREATE TABLE gere (
 );
 
 
-INSERT INTO utilisateur (nom, prenom, date_naissance, mail, password, solde, num_cashless, qr_code, est_festivalier)
+INSERT INTO utilisateur (id, nom, prenom, date_naissance, mail, password, solde, num_cashless, qr_code, est_festivalier)
 VALUES 
-('lahasbaaa', 'yahia', '1998-09-20', 'yahia.lahasbaa@example.com', 'password123', 500, 123456789, 'QR1234', TRUE),
-('lafrime', 'tim', '1999-10-15', 'tim.lafrime@example.com', 'password1', 0, 234567890, 'QR5678', TRUE),
-('letueur', 'enzo', '1997-05-12', 'enzo.letueur@example.com', 'password2', 1000, 345678901, 'QR9101', TRUE),
-('lemalfrat', 'harry', '1996-03-07', 'harry.lemalfrat@example.com', 'password3', 600, 456789012, 'QR1121', FALSE),
-('lamenace', 'mathéo', '2000-12-25', 'matheo.lamenace@example.com', 'password', 800, 567890123, 'QR3141', TRUE);
+('1', 'lahasbaaa', 'yahia', '1998-09-20', 'yahia.lahasbaa@example.com', 'password123', 500, 123456789, 'QR1234', TRUE),
+('2', 'lafrime', 'tim', '1999-10-15', 'tim.lafrime@example.com', 'password1', 0, 234567890, 'QR5678', TRUE),
+('3', 'letueur', 'enzo', '1997-05-12', 'enzo.letueur@example.com', 'password2', 1000, 345678901, 'QR9101', TRUE),
+('4', 'lemalfrat', 'harry', '1996-03-07', 'harry.lemalfrat@example.com', 'password3', 600, 456789012, 'QR1121', FALSE),
+('5', 'lamenace', 'mathéo', '2000-12-25', 'matheo.lamenace@example.com', 'password', 800, 567890123, 'QR3141', TRUE);
 
-INSERT INTO prestataire (societe, adresse, email, password)
+INSERT INTO prestataire (id, societe, adresse, email, password)
 VALUES
-('UberFlippe', '1 rue de la peur', 'uberflippe@outlook.fr', 'mpd123'),
-('Burger&co', '2 rue de la frite', 'burgerandco@gmail.com', 'mpd456');
+('1', 'UberFlippe', '1 rue de la peur', 'uberflippe@outlook.fr', 'mpd123'),
+('2', 'Burger&co', '2 rue de la frite', 'burgerandco@gmail.com', 'mpd456');
 
-INSERT INTO organisateur (nom, prenom, email, password, tel)
+INSERT INTO organisateur (id ,nom, prenom, email, password, tel)
 VALUES
-('Kherza', 'Jean', 'jeankherza@gmail.com', 'mpd123', '0612345678'),
-('Balta', 'Luc', 'lucbalta@gmail.com', 'mpd456', '0600000000');
+('1', 'Kherza', 'Jean', 'jeankherza@gmail.com', 'mpd123', '0612345678'),
+('2', 'Balta', 'Luc', 'lucbalta@gmail.com', 'mpd456', '0600000000');
 
-INSERT INTO transaction (date, operation, details, montant, utilisateur_id)
+INSERT INTO transaction (id, date, operation, details, montant, utilisateur_id)
 VALUES 
 ('2024-11-05 15:30:00', 'Remboursement', 'Remboursement de 10.00 €', 10.00, 1),
 ('2024-10-31 23:00:00', 'Paiement BAR', '1x Consigne Gobelet', 2.00, 1),

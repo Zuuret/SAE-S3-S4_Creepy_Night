@@ -1,10 +1,19 @@
+import {v4 as uuidv4} from 'uuid'
+import bcrypt from 'bcryptjs'
+
 const userService = require("../services/users.services.pg");
 exports.saveUser = async (req,res) => {
+    const id = uuidv4();
     const name = req.body.name;
+    const firstname = req.body.firstname;
+    const birthdate = req.body.birthdate;
     const email = req.body.email;
-    const phone = req.body.phone;
-    const password = req.body.password;
-    const resultat = await userService.insertUser(name, email, phone, password);
+    const password = bcrypt.hashSync(req.body.password);
+    const solde = req.body.solde || 0;
+    const num_cashless = new uuidv4();
+    const qr_code = req.body.qr_code || 'null';
+    const est_festivalier = req.body.est_festivalier || false;
+    const resultat = await userService.insertUser(id,name,firstname,birthdate,email,password,solde,num_cashless,qr_code,est_festivalier);
     if (resultat) {
         return res.status(500).send("ERREUR INTERNE");
     }

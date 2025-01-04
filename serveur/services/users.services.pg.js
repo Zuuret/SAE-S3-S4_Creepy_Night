@@ -1,13 +1,13 @@
 const pool = require('../database/db');
 
-async function insertUser(name, email, phone, password) {
+async function insertUser(id,name,firstname,birthdate,email,password,solde,num_cashless,qr_code,est_festivalier) {
     const client = await pool.connect();
     is_error = false;
     try {
         const data = [
-            [name, email, phone, password]
+            [id, name, firstname, birthdate, email, password, solde, num_cashless, qr_code, est_festivalier]
         ]
-        const query = format('INSERT INTO users (name, email, phone, password) VALUES %L', data);
+        const query = format('INSERT INTO utilisateur (id,name,firstname,birthdate,email,password,solde,num_cashless,qr_code,est_festivalier) VALUES %L', data);
         await client.query(query);
         console.log('INSERTIONS AVEC SUCCES');
     } catch (error) {
