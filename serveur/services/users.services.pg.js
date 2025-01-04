@@ -20,6 +20,20 @@ async function insertUser(id,name,firstname,birthdate,email,password,solde,num_c
     return is_error;
 }
 
+async function getUsers() {
+    const client = await pool.connect();
+    try {
+        const res = await client.query('SELECT * FROM Utilisateur');
+        return res.rows;
+    } catch (error) {
+        console.error('Erreur lors de la récupération des utilisateurs :', error);
+        throw error;
+    } finally {
+        client.release();
+    }
+}
+
 module.exports = {
-    insertUser
+    insertUser,
+    getUsers
 }
