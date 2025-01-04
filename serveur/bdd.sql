@@ -59,7 +59,7 @@ CREATE TABLE Transaction (
     operation VARCHAR(30) NOT NULL,
     details VARCHAR(75),
     montant DECIMAL NOT NULL,
-    utilisateur_id INT REFERENCES Utilisateur(id) ON DELETE CASCADE
+    utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Zone (
@@ -80,7 +80,7 @@ CREATE TABLE Activite (
 CREATE TABLE Billet_activite (
     id SERIAL PRIMARY KEY,
     date_achat TIMESTAMP NOT NULL,
-    utilisateur_id INT REFERENCES Utilisateur(id) ON DELETE CASCADE,
+    utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE,
     activite_id INT REFERENCES Activite(id) ON DELETE CASCADE
 );
 
@@ -97,7 +97,7 @@ CREATE TABLE Billet_festival (
     id SERIAL PRIMARY KEY,
     date_achat TIMESTAMP NOT NULL,
     evenement_id INT REFERENCES Evenement(id) ON DELETE CASCADE,
-    utilisateur_id INT REFERENCES Utilisateur(id) ON DELETE CASCADE
+    utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Prestation (
@@ -112,7 +112,7 @@ CREATE TABLE Prestation (
 CREATE TABLE Reservation_prestation (
     id SERIAL PRIMARY KEY,
     date TIMESTAMP NOT NULL,
-    utilisateur_id INT REFERENCES Utilisateur(id) ON DELETE CASCADE,
+    utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE,
     prestation_id INT REFERENCES Prestation(id) ON DELETE CASCADE
 );
 
@@ -202,41 +202,41 @@ CREATE TABLE Signalement (
 
 CREATE TABLE organise (
     activite_id INT REFERENCES Activite(id) ON DELETE CASCADE,
-    organisateur_id INT REFERENCES Organisateur(id) ON DELETE CASCADE,
+    organisateur_id UUID REFERENCES Organisateur(id) ON DELETE CASCADE,
     PRIMARY KEY (activite_id, organisateur_id)
 );
 
 CREATE TABLE gere (
     evenement_id INT REFERENCES Evenement(id) ON DELETE CASCADE,
-    organisateur_id INT REFERENCES Organisateur(id) ON DELETE CASCADE,
+    organisateur_id UUID REFERENCES Organisateur(id) ON DELETE CASCADE,
     PRIMARY KEY (evenement_id, organisateur_id)
 );
 
 
 INSERT INTO utilisateur (id, nom, prenom, date_naissance, mail, password, solde, num_cashless, qr_code, est_festivalier)
 VALUES 
-('1', 'lahasbaaa', 'yahia', '1998-09-20', 'yahia.lahasbaa@example.com', 'password123', 500, 123456789, 'QR1234', TRUE),
-('2', 'lafrime', 'tim', '1999-10-15', 'tim.lafrime@example.com', 'password1', 0, 234567890, 'QR5678', TRUE),
-('3', 'letueur', 'enzo', '1997-05-12', 'enzo.letueur@example.com', 'password2', 1000, 345678901, 'QR9101', TRUE),
-('4', 'lemalfrat', 'harry', '1996-03-07', 'harry.lemalfrat@example.com', 'password3', 600, 456789012, 'QR1121', FALSE),
-('5', 'lamenace', 'mathéo', '2000-12-25', 'matheo.lamenace@example.com', 'password', 800, 567890123, 'QR3141', TRUE);
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 'lahasbaaa', 'yahia', '1998-09-20', 'yahia.lahasbaa@example.com', 'password123', 500, '8b975371-9be6-47cc-a121-9861430bb266', 'QR1234', TRUE),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7', 'lafrime', 'tim', '1999-10-15', 'tim.lafrime@example.com', 'password1', 0, '8b975371-9be6-47cc-a121-9861430bb267', 'QR5678', TRUE),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f8', 'letueur', 'enzo', '1997-05-12', 'enzo.letueur@example.com', 'password2', 1000, '8b975371-9be6-47cc-a121-9861430bb268', 'QR9101', TRUE),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f9', 'lemalfrat', 'harry', '1996-03-07', 'harry.lemalfrat@example.com', 'password3', 600, '8b975371-9be6-47cc-a121-9861430bb269', 'QR1121', FALSE),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f0', 'lamenace', 'mathéo', '2000-12-25', 'matheo.lamenace@example.com', 'password', 800, '8b975371-9be6-47cc-a121-9861430bb260', 'QR3141', TRUE);
 
 INSERT INTO prestataire (id, societe, adresse, email, password)
 VALUES
-('1', 'UberFlippe', '1 rue de la peur', 'uberflippe@outlook.fr', 'mpd123'),
-('2', 'Burger&co', '2 rue de la frite', 'burgerandco@gmail.com', 'mpd456');
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f1', 'UberFlippe', '1 rue de la peur', 'uberflippe@outlook.fr', 'mpd123'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f2', 'Burger&co', '2 rue de la frite', 'burgerandco@gmail.com', 'mpd456');
 
 INSERT INTO organisateur (id ,nom, prenom, email, password, tel)
 VALUES
-('1', 'Kherza', 'Jean', 'jeankherza@gmail.com', 'mpd123', '0612345678'),
-('2', 'Balta', 'Luc', 'lucbalta@gmail.com', 'mpd456', '0600000000');
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f3', 'Kherza', 'Jean', 'jeankherza@gmail.com', 'mpd123', '0612345678'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4', 'Balta', 'Luc', 'lucbalta@gmail.com', 'mpd456', '0600000000');
 
-INSERT INTO transaction (id, date, operation, details, montant, utilisateur_id)
+INSERT INTO transaction (date, operation, details, montant, utilisateur_id)
 VALUES 
-('2024-11-05 15:30:00', 'Remboursement', 'Remboursement de 10.00 €', 10.00, 1),
-('2024-10-31 23:00:00', 'Paiement BAR', '1x Consigne Gobelet', 2.00, 1),
-('2024-10-31 21:00:00', 'Paiement BAR', '1x Consigne Gobelet - 2.00 €\n1x Coca Cola - 4.00 €', -6.00, 1),
-('2024-10-31 20:30:00', 'Paiement Burger&co', '1x Frites - 4.00 €\n1x Cheese Burger - 12.00 €', -16.00, 2);
+('2024-11-05 15:30:00', 'Remboursement', 'Remboursement de 10.00 €', 10.00, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6'),
+('2024-10-31 23:00:00', 'Paiement BAR', '1x Consigne Gobelet', 2.00, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6'),
+('2024-10-31 21:00:00', 'Paiement BAR', '1x Consigne Gobelet - 2.00 €\n1x Coca Cola - 4.00 €', -6.00, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6'),
+('2024-10-31 20:30:00', 'Paiement Burger&co', '1x Frites - 4.00 €\n1x Cheese Burger - 12.00 €', -16.00, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7');
 
 INSERT INTO zone (nom)
 VALUES 
@@ -256,11 +256,11 @@ VALUES
 
 INSERT INTO billet_activite (date_achat, utilisateur_id, activite_id)
 VALUES 
-('2024-10-15 12:00:00', 1, 1),
-('2024-10-15 12:10:00', 2, 2),
-('2024-10-16 13:30:00', 3, 3),
-('2024-10-16 14:00:00', 4, 4),
-('2024-10-17 15:20:00', 5, 5);
+('2024-10-15 12:00:00', '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 1),
+('2024-10-15 12:10:00', '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7', 2),
+('2024-10-16 13:30:00', '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f8', 3),
+('2024-10-16 14:00:00', '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f9', 4),
+('2024-10-17 15:20:00', '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f0', 5);
 
 INSERT INTO evenement (nom, description, date_debut, date_fin, lieu)
 VALUES 
@@ -268,11 +268,11 @@ VALUES
 
 INSERT INTO billet_festival (date_achat, evenement_id, utilisateur_id)
 VALUES 
-('2024-10-01', 1, 1),
-('2024-10-02', 1, 2),
-('2024-10-03', 1, 3),
-('2024-10-04', 1, 4),
-('2024-10-05', 1, 5);
+('2024-10-01', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6'),
+('2024-10-02', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7'),
+('2024-10-03', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f8'),
+('2024-10-04', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f9'),
+('2024-10-05', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f0');
 
 INSERT INTO prestation (nom, prix, description, image, zone_id)
 VALUES 
@@ -282,8 +282,8 @@ VALUES
 
 INSERT INTO reservation_prestation (date, utilisateur_id, prestation_id)
 VALUES 
-('2024-10-25 12:00:00', 1, 1),
-('2024-10-25 12:10:00', 2, 2);
+('2024-10-25 12:00:00', '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 1),
+('2024-10-25 12:10:00', '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7', 2);
 
 INSERT INTO Concert (artiste, nationalite, date, heure, duree, categorie, scene)
 VALUES
@@ -384,13 +384,13 @@ VALUES
  
 INSERT INTO organise (activite_id, organisateur_id)
 VALUES 
-(1, 1),
-(2, 1),
-(3, 2),
-(4, 2),
-(5, 1);
+(1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f3'),
+(2, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f3'),
+(3, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4'),
+(4, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4'),
+(5, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f3');
 
 INSERT INTO gere (evenement_id, organisateur_id)
 VALUES 
-(1, 1),
-(1, 2);
+(1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f3'),
+(1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4');
