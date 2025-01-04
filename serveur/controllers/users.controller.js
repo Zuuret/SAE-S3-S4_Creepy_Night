@@ -2,6 +2,8 @@ const { v4 : uuidv4 } = require('uuid');
 const bcrypt = require('bcryptjs');
 
 const userService = require("../services/users.services.pg");
+const {FALSE} = require("pg-format/lib/reserved");
+
 exports.saveUser = async (req,res) => {
     const id = uuidv4();
     const name = req.body.name;
@@ -12,7 +14,7 @@ exports.saveUser = async (req,res) => {
     const solde = 0;
     const num_cashless = uuidv4();
     const qr_code = 'null';
-    const est_festivalier = false;
+    const est_festivalier = FALSE;
     const resultat = await userService.insertUser(id,name,firstname,birthdate,email,password,solde,num_cashless,qr_code,est_festivalier);
     if (resultat) {
         return res.status(500).send("ERREUR INTERNE");
@@ -20,7 +22,7 @@ exports.saveUser = async (req,res) => {
     return res.status(200).send("INSERTION AVEC SUCCES");
 }
 
-/*
+
 exports.getUsers = async(req,res) => {
     userService.getUsers((error,data)=>{
         if(error){
@@ -59,14 +61,19 @@ exports.updateUser = async (req,res) => {
         return res.status(200).send(data);      
     })
 }
-exports.getUserById = async (req,res)=> {
+exports.getUserById = async (req, res) => {
     const uuid = req.params.uuid;
-    userService.getUsers((error,data)=>{
-        if(error){
-            return res.status(500).send("Erreur Interne");
+    try {
+        const users = await userService.getUsers();
+        const user = users.find(user => user.id === uuid);
+        if (!user) {
+            return res.status(404).json({ error: 'Utilisateur non trouvé' });
         }
-        const user = data.find(user => user.id == uuid);
-        return res.status(200).json({data:user});
-    })
-}
-*/
+        return res.status(200).json({ data: user });
+    } catch (error) {
+        console.error('Erreur lors de la récupération de l\'utilisateur :', error);
+        return res.status(500).json({ error: 'Erreur interne du serveur' });
+    }
+};
+
+

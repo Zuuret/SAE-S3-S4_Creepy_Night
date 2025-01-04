@@ -8,7 +8,7 @@ const app = express();
 
 // Middleware traitement JSON 
 app.use(express.json());
-app.use("/api/users",userRouter);
+app.use("/users",userRouter);
 
 /** Swagger Initialization - START */
 const swaggerOption = {
