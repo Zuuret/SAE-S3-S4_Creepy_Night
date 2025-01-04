@@ -31,7 +31,7 @@ CREATE TABLE Utilisateur (
     mail VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(150) NOT NULL,
     solde DECIMAL NOT NULL,
-    num_cashless BIGINT NOT NULL,
+    num_cashless UUID NOT NULL,
     qr_code VARCHAR(50),
     est_festivalier BOOLEAN NOT NULL
 );

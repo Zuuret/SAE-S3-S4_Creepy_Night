@@ -9,10 +9,10 @@ exports.saveUser = async (req,res) => {
     const birthdate = req.body.birthdate;
     const email = req.body.email;
     const password = bcrypt.hashSync(req.body.password);
-    const solde = req.body.solde || 0;
+    const solde = 0;
     const num_cashless = new uuidv4();
-    const qr_code = req.body.qr_code || 'null';
-    const est_festivalier = req.body.est_festivalier || false;
+    const qr_code = 'null';
+    const est_festivalier = false;
     const resultat = await userService.insertUser(id,name,firstname,birthdate,email,password,solde,num_cashless,qr_code,est_festivalier);
     if (resultat) {
         return res.status(500).send("ERREUR INTERNE");

@@ -21,30 +21,45 @@ router.post("/",userController.saveUser);
  *           type: object
  *           required:
  *             - name
+ *             - firstname
+ *             - birthdate
  *             - email
- *             - phone
  *             - password
  *           properties:
  *             name:
  *               type: string
- *               minLength: 5
+ *               minLength: 2
  *               maxLength: 50
- *               example: John Doe
+ *               example: Doe
+ *               description: Nom
+ *               required: true
+ *             firstname:
+ *               type: string
+ *               minLength: 2
+ *               maxLength: 50
+ *               example: John
+ *               description: Prénom
+ *               required: true
+ *             birthdate:
+ *               type: string
+ *               format: date
+ *               example: 2000-01-01
+ *               description: Date de naissance
+ *               required: true
  *             email:
  *               type: string
  *               minLength: 5
- *               maxLength: 45
+ *               maxLength: 55
  *               example: johndoe@example.com
- *             phone:
- *               type: string
- *               minLength: 7
- *               maxLength: 10
- *               example: -337777777
+ *               description: Adresse mail
+ *               required: true
  *             password:
  *               type: string
  *               minLength: 1
  *               maxLength: 45
  *               example: mdp
+ *               description: Mot de passe
+ *               required: true
  *     responses:
  *       '200':
  *         description: User created successfully
