@@ -2,6 +2,8 @@ const { v4 : uuidv4 } = require('uuid');
 const bcrypt = require('bcryptjs');
 
 const userService = require("../services/users.services.pg");
+const {FALSE} = require("pg-format/lib/reserved");
+
 exports.saveUser = async (req,res) => {
     const id = uuidv4();
     const name = req.body.name;
@@ -12,7 +14,7 @@ exports.saveUser = async (req,res) => {
     const solde = 0;
     const num_cashless = uuidv4();
     const qr_code = 'null';
-    const est_festivalier = false;
+    const est_festivalier = FALSE;
     const resultat = await userService.insertUser(id,name,firstname,birthdate,email,password,solde,num_cashless,qr_code,est_festivalier);
     if (resultat) {
         return res.status(500).send("ERREUR INTERNE");

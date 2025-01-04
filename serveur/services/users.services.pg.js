@@ -3,7 +3,7 @@ const format = require('pg-format');
 
 async function insertUser(id,name,firstname,birthdate,email,password,solde,num_cashless,qr_code,est_festivalier) {
     const client = await pool.connect();
-    is_error = false;
+    let is_error = false;
     try {
         const data = [
             [id, name, firstname, birthdate, email, password, solde, num_cashless, qr_code, est_festivalier]
@@ -13,8 +13,8 @@ async function insertUser(id,name,firstname,birthdate,email,password,solde,num_c
         console.log('INSERTIONS AVEC SUCCES');
     } catch (error) {
         console.error('Erreur : ', error);
-    } finally {
         is_error = true;
+    } finally {
         client.release();
     }
     return is_error;
