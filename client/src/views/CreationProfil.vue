@@ -1,201 +1,205 @@
 <template>
   <div class="form-container">
-    <div class="form-box">
-      <h2>Inscription</h2>
-
-      <div class="user-type-tabs">
-        <span @click="setUserType('utilisateur')" :class="{ active: userType === 'utilisateur' }">Utilisateur</span>
-        <span @click="setUserType('organisateur')" :class="{ active: userType === 'organisateur' }">Organisateur</span>
-        <span @click="setUserType('prestataire')" :class="{ active: userType === 'prestataire' }">Prestataire</span>
+    <!-- Sélecteur de type d'utilisateur avec boutons radio -->
+    <div class="user-type-selector">
+      <h3>Choisissez votre rôle :</h3>
+      <div class="radio-buttons">
+        <label class="custom-radio" :class="{ selected: userType === 'utilisateur' }">
+          <input type="radio" name="userType" value="utilisateur" v-model="userType" @change="resetForm">
+          <span>👤 Utilisateur</span>
+        </label>
+        <label class="custom-radio" :class="{ selected: userType === 'organisateur' }">
+          <input type="radio" name="userType" value="organisateur" v-model="userType" @change="resetForm">
+          <span>🎤 Organisateur</span>
+        </label>
+        <label class="custom-radio" :class="{ selected: userType === 'prestataire' }">
+          <input type="radio" name="userType" value="prestataire" v-model="userType" @change="resetForm">
+          <span>💼 Prestataire</span>
+        </label>
       </div>
+    </div>
 
-      <form @submit.prevent="submitForm" class="form-content">
-        <div v-if="userType === 'utilisateur'">
-          <div class="form-group">
-            <label for="prenom">Prénom :</label>
-            <input type="text" v-model="prenom" id="prenom" placeholder="Entrez votre prénom" required>
-          </div>
-          <div class="form-group">
-            <label for="nom">Nom :</label>
-            <input type="text" v-model="nom" id="nom" placeholder="Entrez votre nom" required>
-          </div>
-          <div class="form-group">
-            <label for="dateNaissance">Date de naissance :</label>
-            <input type="date" v-model="dateNaissance" id="dateNaissance" required>
-          </div>
-          <div class="form-group">
-            <label for="email">Email :</label>
-            <input type="email" v-model="email" id="email" placeholder="Entrez votre email" required>
-          </div>
-          <div class="form-group">
-            <label for="confirmEmail">Confirmation de l'email :</label>
-            <input type="email" v-model="confirmEmail" id="confirmEmail" placeholder="Confirmez votre email" required>
-          </div>
-          <div class="form-group">
-            <label for="motDePasse">Mot de passe :</label>
-            <input type="password"  v-model="motDePasse" id="motDePasse" placeholder="Entrez votre mot de passe" required>
-          </div>
+    <div v-if="userType === 'utilisateur'" class="form-box">
+      <h2>Inscription - Utilisateur</h2>
+      <form @submit.prevent="submitFormUtilisateur" class="form-content">
+        <div class="form-group">
+          <label for="prenomUtilisateur">Prénom :</label>
+          <input type="text" v-model="utilisateur.prenom" id="prenomUtilisateur" placeholder="Entrez votre prénom" required>
         </div>
-
-        <div v-if="userType === 'organisateur'">
-          <div class="form-group">
-            <label for="prenom">Prénom :</label>
-            <input type="text" v-model="prenom" id="prenom" placeholder="Entrez le prénom de l'organisateur" required>
-          </div>
-          <div class="form-group">
-            <label for="nom">Nom :</label>
-            <input type="text" v-model="nom" id="nom" placeholder="Entrez le nom de l'organisateur" required>
-          </div>
-          <div class="form-group">
-            <label for="numeroTelephone">Numéro de téléphone :</label>
-            <input type="text" v-model="numeroTelephone" id="numeroTelephone" placeholder="Entrez votre numéro de téléphone" required>
-          </div>
-          <div class="form-group">
-            <label for="email">Email :</label>
-            <input type="email" v-model="email" id="email" placeholder="Entrez le mail de l'organisateur" required>
-          </div>
-          <div class="form-group">
-            <label for="confirmEmail">Confirmation de l'email :</label>
-            <input type="email" v-model="confirmEmail" id="confirmEmail" placeholder="Confirmez votre email" required>
-          </div>
-          <div class="form-group">
-            <label for="motDePasseOrganisateur">Mot de passe :</label>
-            <input type="password" v-model="motDePasse" id="motDePasseOrganisateur" placeholder="Entrez votre mot de passe" required>
-          </div>
+        <div class="form-group">
+          <label for="nomUtilisateur">Nom :</label>
+          <input type="text" v-model="utilisateur.nom" id="nomUtilisateur" placeholder="Entrez votre nom" required>
         </div>
-
-        <div v-if="userType === 'prestataire'">
-          <div class="form-group">
-            <label for="nom">Nom de la société :</label>
-            <input type="text" v-model="nom" id="nom" placeholder="Entrez votre nom de société" required>
-          </div>
-          <div class="form-group">
-            <label for="adresse">Adresse de la société :</label>
-            <input type="text" v-model="adresse" id="adresse" placeholder="Entrez l'adresse de la société" required>
-          </div>
-          <div class="form-group">
-            <label for="email">Email :</label>
-            <input type="email" v-model="email" id="email" placeholder="Entrez votre email" required>
-          </div>
-          <div class="form-group">
-            <label for="confirmEmail">Confirmation de l'email :</label>
-            <input type="email" v-model="confirmEmail" id="confirmEmail" placeholder="Confirmez votre email" required>
-          </div>
-          <div class="form-group">
-            <label for="motDePasse">Mot de passe :</label>
-            <input type="password" v-model="motDePasse" id="motDePasse" placeholder="Entrez votre mot de passe" required>
-          </div>
+        <div class="form-group">
+          <label for="dateNaissanceUtilisateur">Date de naissance :</label>
+          <input type="date" v-model="utilisateur.dateNaissance" id="dateNaissanceUtilisateur" required>
         </div>
-
+        <div class="form-group">
+          <label for="emailUtilisateur">Email :</label>
+          <input type="email" v-model="utilisateur.email" id="emailUtilisateur" placeholder="Entrez votre email" required>
+        </div>
+        <div class="form-group">
+          <label for="confirmEmailUtilisateur">Confirmation de l'email :</label>
+          <input type="email" v-model="utilisateur.confirmEmail" id="confirmEmailUtilisateur" placeholder="Confirmez votre email" required>
+        </div>
+        <div class="form-group">
+          <label for="motDePasseUtilisateur">Mot de passe :</label>
+          <input type="password" v-model="utilisateur.motDePasse" id="motDePasseUtilisateur" placeholder="Entrez votre mot de passe" required>
+        </div>
         <button type="submit" class="submit-button">Confirmer l'inscription</button>
       </form>
+      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+    </div>
 
-      <div v-if="message" class="message">{{ message }}</div>
+    <div v-if="userType === 'organisateur'" class="form-box">
+      <h2>Inscription - Organisateur</h2>
+      <form @submit.prevent="submitFormOrganisateur" class="form-content">
+        <div class="form-group">
+          <label for="prenomOrganisateur">Prénom :</label>
+          <input type="text" v-model="organisateur.prenom" id="prenomOrganisateur" placeholder="Entrez votre prénom" required>
+        </div>
+        <div class="form-group">
+          <label for="nomOrganisateur">Nom :</label>
+          <input type="text" v-model="organisateur.nom" id="nomOrganisateur" placeholder="Entrez votre nom" required>
+        </div>
+        <div class="form-group">
+          <label for="numeroTelephoneOrganisateur">Numéro de téléphone :</label>
+          <input type="text" v-model="organisateur.numTelephone" id="numeroTelephoneOrganisateur" placeholder="Entrez votre numéro de téléphone" required>
+        </div>
+        <div class="form-group">
+          <label for="emailOrganisateur">Email :</label>
+          <input type="email" v-model="organisateur.email" id="emailOrganisateur" placeholder="Entrez votre email" required>
+        </div>
+        <div class="form-group">
+          <label for="confirmEmailOrganisateur">Confirmation de l'email :</label>
+          <input type="email" v-model="organisateur.confirmEmail" id="confirmEmailOrganisateur" placeholder="Confirmez votre email" required>
+        </div>
+        <div class="form-group">
+          <label for="motDePasseOrganisateur">Mot de passe :</label>
+          <input type="password" v-model="organisateur.motDePasse" id="motDePasseOrganisateur" placeholder="Entrez votre mot de passe" required>
+        </div>
+        <button type="submit" class="submit-button">Confirmer l'inscription</button>
+      </form>
+      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+    </div>
 
-      <div class="login-link">
-        <span>Déjà un compte ? <router-link to="/connexion">Se connecter</router-link></span>
-      </div>
+    <div v-if="userType === 'prestataire'" class="form-box">
+      <h2>Inscription - Prestataire</h2>
+      <form @submit.prevent="submitFormPrestataire" class="form-content">
+        <div class="form-group">
+          <label for="societePrestataire">Nom de la société :</label>
+          <input type="text" v-model="prestataire.societe" id="societePrestataire" placeholder="Entrez votre société" required>
+        </div>
+        <div class="form-group">
+          <label for="adressePrestataire">Adresse de la société :</label>
+          <input type="text" v-model="prestataire.adresse" id="adressePrestataire" placeholder="Entrez l'adresse de la société" required>
+        </div>
+        <div class="form-group">
+          <label for="emailPrestataire">Email :</label>
+          <input type="email" v-model="prestataire.email" id="emailPrestataire" placeholder="Entrez votre email" required>
+        </div>
+        <div class="form-group">
+          <label for="confirmEmailPrestataire">Confirmation de l'email :</label>
+          <input type="email" v-model="prestataire.confirmEmail" id="confirmEmailPrestataire" placeholder="Confirmez votre email" required>
+        </div>
+        <div class="form-group">
+          <label for="motDePassePrestataire">Mot de passe :</label>
+          <input type="password" v-model="prestataire.motDePasse" id="motDePassePrestataire" placeholder="Entrez votre mot de passe" required>
+        </div>
+        <button type="submit" class="submit-button">Confirmer l'inscription</button>
+      </form>
+      <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
     </div>
   </div>
 </template>
 
+
 <script>
-import { utilisateurs, organisateurs, prestataires } from '@/datasource/data.js';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: "CreationProfil",
   data: () => ({
     userType: 'utilisateur',
-    prenom: '',
-    nom: '',
-    dateNaissance: '',
-    email: '',
-    confirmEmail: '',
-    motDePasse: '',
-    numeroTelephone: '',
-    adresse: '',
-    message: ''
+    utilisateur: {
+      prenom: '',
+      nom: '',
+      dateNaissance: '',
+      email: '',
+      confirmEmail: '',
+      motDePasse: '',
+    },
+    organisateur: {
+      prenom: '',
+      nom: '',
+      numTelephone: '',
+      email: '',
+      confirmEmail: '',
+      motDePasse: '',
+    },
+    prestataire: {
+      societe: '',
+      adresse: '',
+      email: '',
+      confirmEmail: '',
+      motDePasse: '',
+    },
   }),
+  computed: {
+    ...mapState('ProfilStore', ['errorMessage']),
+  },
   methods: {
-    setUserType(type) {
-      this.userType = type;
-      this.resetFields();
-    },
-    resetFields() {
-      this.prenom = '';
-      this.nom = '';
-      this.dateNaissance = '';
-      this.email = '';
-      this.confirmEmail = '';
-      this.motDePasse = '';
-      this.numeroTelephone = '';
-      this.adresse = '';
-    },
-    submitForm() {
-      // Vérification de l'email existant
-      const emailExistsAsUser = utilisateurs.some(user => user.email === this.email);
-      const emailExistsAsOrganizer = organisateurs.some(org => org.email === this.email);
-      const emailExistsAsPrestataire = prestataires.some(p => p.email === this.email);
-
-      if (emailExistsAsUser || emailExistsAsOrganizer || emailExistsAsPrestataire) {
-        this.message = `L'adresse email possède déjà un compte ${emailExistsAsOrganizer ? 'organisateur' : emailExistsAsUser ? 'utilisateur' : 'prestataire'}.`;
-        return; // Sortir de la fonction si l'email existe déjà
+    ...mapActions('ProfilStore', ['enregistrementUtilisateur', 'enregistrementOrganisateur', 'enregistrementPrestataire', 'updateErrorMessage']),
+    resetForm(type) {
+      this.updateErrorMessage('');
+      if (type === 'utilisateur') {
+        this.utilisateur = { prenom: '', nom: '', dateNaissance: '', email: '', confirmEmail: '', motDePasse: '' };
+      } else if (type === 'organisateur') {
+        this.organisateur = { prenom: '', nom: '', numTelephone: '', email: '', confirmEmail: '', motDePasse: '' };
+      } else if (type === 'prestataire') {
+        this.prestataire = { societe: '', adresse: '', email: '', confirmEmail: '', motDePasse: '' };
       }
-
-      if (this.userType === 'utilisateur') {
-        if (this.email !== this.confirmEmail) {
-          this.message = "L'email n'est pas identique à l'email de confirmation";
-        } else {
-          const newUser = {
-            id: utilisateurs.length + 1,
-            prenom: this.prenom,
-            nom: this.nom,
-            dateNaissance: this.dateNaissance,
-            email: this.email,
-            motDePasse: this.motDePasse,
-            solde: 0,
-            numCashless: Math.floor(Math.random() * 1000000000)
-          };
-          utilisateurs.push(newUser);
-          this.message = `Nouvel utilisateur ajouté : ${this.prenom} ${this.nom}`;
-          this.resetFields();
-        }
-      } else if (this.userType === 'organisateur') {
-        if (this.email !== this.confirmEmail) {
-          this.message = "L'email n'est pas identique à l'email de confirmation";
-        } else {
-          const newOrganisateur = {
-            id: organisateurs.length + 1,
-            prenom: this.prenom,
-            nom: this.nom,
-            email: this.email,
-            motDePasse: this.motDePasse,
-            numeroTelephone: this.numeroTelephone
-          };
-          organisateurs.push(newOrganisateur);
-          this.message = `Nouvel organisateur ajouté : ${this.prenom} ${this.nom}`;
-          this.resetFields();
-        }
-      } else if (this.userType === 'prestataire') {
-        if (this.email !== this.confirmEmail) {
-          this.message = "L'email n'est pas identique à l'email de confirmation";
-        } else {
-          const newPrestataire = {
-            id: prestataires.length + 1,
-            société: this.nom,
-            adresse: this.adresse,
-            email: this.email,
-            motDePasse: this.motDePasse
-          };
-          prestataires.push(newPrestataire);
-          this.message = `Nouveau prestataire ajouté : ${this.nom}`;
-          this.resetFields();
-        }
+    },
+    async submitFormUtilisateur() {
+      const { prenom, nom, dateNaissance, email, confirmEmail, motDePasse } = this.utilisateur;
+      if (email !== confirmEmail) {
+        this.updateErrorMessage('Les adresses email ne correspondent pas');
+        return;
       }
-    }
-  }
+      const result = await this.enregistrementUtilisateur({ nom, prenom, dateNaissance, email, motDePasse });
+      if (result.success) {
+        alert("Votre compte utilisateur est créé");
+        await this.$router.push('/connexion');
+      }
+    },
+    async submitFormOrganisateur() {
+      const { prenom, nom, numTelephone, email, confirmEmail, motDePasse } = this.organisateur;
+      if (email !== confirmEmail) {
+        this.updateErrorMessage('Les adresses email ne correspondent pas');
+        return;
+      }
+      const result = await this.enregistrementOrganisateur({ nom, prenom, numTelephone, email, motDePasse });
+      if (result.success) {
+        alert("Votre compte organisateur est créé");
+        await this.$router.push('/connexion');
+      }
+    },
+    async submitFormPrestataire() {
+      const { societe, adresse, email, confirmEmail, motDePasse } = this.prestataire;
+      if (email !== confirmEmail) {
+        this.updateErrorMessage('Les adresses email ne correspondent pas');
+        return;
+      }
+      const result = await this.enregistrementPrestataire({ societe, adresse, email, motDePasse });
+      if (result.success) {
+        alert("Votre compte prestataire est créé");
+        await this.$router.push('/connexion');
+      }
+    },
+  },
 };
 </script>
+
 
 <style scoped>
 /* Global Styles */
@@ -232,13 +236,6 @@ h2 {
   color: #333;
 }
 
-/* Tabs for user type */
-.user-type-tabs {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-
 .user-type-tabs span {
   flex: 1;
   text-align: center;
@@ -249,7 +246,7 @@ h2 {
   transition: all 0.3s ease;
 }
 
-.user-type-tabs span.active {
+.user-type-tabs span {
   color: #007BFF;
   border-bottom: 2px solid #007BFF;
 }
@@ -300,25 +297,6 @@ input:focus {
 
 .submit-button:hover {
   background-color: #0056b3;
-}
-
-/* Message */
-.message {
-  margin-top: 10px;
-  padding: 10px;
-  font-size: 14px;
-  text-align: center;
-  background-color: #e7f3ff;
-  color: #007BFF;
-  border: 1px solid #b3d7ff;
-  border-radius: 4px;
-}
-
-/* Login link */
-.login-link {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 14px;
 }
 
 .login-link span {

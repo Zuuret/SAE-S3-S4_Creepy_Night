@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 
 import HomeView from '../views/HomeView.vue';
 import CreationProfil from '../views/CreationProfil.vue';
+import MonProfil from '../views/MonProfil.vue'
 
 import ReservationConcertConfirmation from '../views/ReservationConcertConfirmation.vue';
 import ValidationReservation from '../views/ValidationReservation.vue';
@@ -38,11 +39,14 @@ import ReservationCinepeur from "@/views/ReservationCinepeur.vue";
 
 import CashLess from "@/views/CashLess.vue";
 
+import HomePrestataire from "@/views/HomePrestataire.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
-  { path: '/profil', name: 'profil', component: CreationProfil },
+  { path: '/creation-profil', name: 'creationProfil', component: CreationProfil },
+  { path: '/profil', name: 'profil', component: MonProfil },
   { path: '/concert/:id', name: 'reservationConcert', component: ReservationConcertConfirmation },
   { path: '/concert/:id/validate', name: 'validationConcert', component: ValidationReservation },
   { path: '/planning', name: 'Planning', component: ConcertPlanner},
@@ -66,7 +70,8 @@ const routes = [
   { path: '/cinepeur/:id', name: 'reservationCinepeur', component: ReservationCinepeurConfirmation },
   { path: '/cinepeur/:id/validate', name: 'validationCinepeur', component: ReservationCinepeurValidation},
   { path: '/connexion', name: 'PageConnexion', component: PageConnexion },
-  { path: '/home-organisateur', name: 'HomeOrganisateur', component: HomeOrganisateur, meta: { requiresOrganisateur: true } },
+  { path: '/home-organisateur', name: 'HomeOrganisateur', component: HomeOrganisateur },
+  { path: '/home-prestataire', name: 'HomePrestataire', component: HomePrestataire, meta: { requiresPrestataire: true } }
 ];
 
 const router = new VueRouter({
@@ -74,24 +79,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
-router.beforeEach((to, from, next) => {
-  document.body.style.overflow = 'auto';
-  const utilisateurConnecte = JSON.parse(localStorage.getItem('utilisateurConnecte'));
-  
-  if (to.matched.some(record => record.meta.requiresOrganisateur)) {
-    if (!utilisateurConnecte || !isOrganisateur(utilisateurConnecte)) {
-      next({ path: '/' });
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
-});
-
-function isOrganisateur(utilisateur) {
-  return utilisateur && utilisateur.numTelephone !== undefined;
-}
 
 export default router

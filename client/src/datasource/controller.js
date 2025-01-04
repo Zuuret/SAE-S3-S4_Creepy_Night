@@ -14,7 +14,7 @@ import {
     taille_deguisements,
     carres,
     bouteilles,
-    reservation_carihorreur
+    reservation_carihorreur, organisateurs, prestataires
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -24,38 +24,131 @@ function ajoutUtilisateur(data) {
     if (!data.email) return { error: 1, status: 404, data: 'Aucun email fourni' };
     if (!data.motDePasse) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
 
+    const emailExiste = utilisateurs.some(user => user.email === data.email);
+    if (emailExiste) {
+        return { error: 1, status: 409, data: 'Cet email est déjà utilisé' };
+    }
+
     let nouvelUtilisateur = {
         id: utilisateurs.length + 1,
         prenom: data.prenom,
         nom: data.nom,
         dateNaissance: data.dateNaissance,
         email: data.email,
-        motDePasse: data.motDePasse
+        motDePasse: data.motDePasse,
+        solde: 0,
+        numCashless: Math.floor(Math.random() * 1000000000)
     };
+
     utilisateurs.push(nouvelUtilisateur);
     return { error: 0, status: 200, data: nouvelUtilisateur };
 }
+function ajoutOrganisateur(data){
+    if (!data.prenom) return { error: 1, status: 404, data: 'Aucun prénom fourni' };
+    if (!data.nom) return { error: 1, status: 404, data: 'Aucun nom fourni' };
+    if (!data.numTelephone) return { error: 1, status: 404, data: 'Aucune numéro de téléphone fournie' };
+    if (!data.email) return { error: 1, status: 404, data: 'Aucun email fourni' };
+    if (!data.motDePasse) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
 
-function loginSite(data) {
-    if ((!data.prenom) || (!data.motDePasse)) return {error: 1, status: 404, data: 'aucun prenom/password fourni'}
-    // pour simplifier : test uniquement le login
-    let user = utilisateurs.find(e => e.prenom === data.prenom)
-    if (!user) return {error: 1, status: 404, data: 'login incorrect'}
-    let userPassword = utilisateurs.find(e => e.motDePasse === data.motDePasse)
-    if (!userPassword) {
-        return { error: 1, status: 404, data: 'password incorrect' };
+    const emailExiste = organisateurs.some(organisateur => organisateur.email === data.email);
+    if (emailExiste) {
+        return { error: 1, status: 409, data: 'Cet email est déjà utilisé' };
     }
-    let u = {
-        id: user.id,
-        nom: user.nom,
-        prenom: user.prenom,
-        email: user.email,
-    }
-    return {error: 0, status: 200, data: u}
+
+    let nouvelOrganisateur = {
+        id: organisateurs.length + 1,
+        prenom: data.prenom,
+        nom: data.nom,
+        numTelephone: data.numTelephone,
+        email: data.email,
+        motDePasse: data.motDePasse,
+    };
+
+    organisateurs.push(nouvelOrganisateur);
+    return { error: 0, status: 200, data: nouvelOrganisateur };
 }
+function ajoutPrestataire(data){
+    if (!data.societe) return { error: 1, status: 404, data: 'Aucune société fourni' };
+    if (!data.adresse) return { error: 1, status: 404, data: 'Aucune adresse fourni' };
+    if (!data.email) return { error: 1, status: 404, data: 'Aucun email fourni' };
+    if (!data.motDePasse) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
 
-function getAllUsers() {
+    const emailExiste = prestataires.some(prestataire => prestataire.email === data.email);
+    if (emailExiste) {
+        return { error: 1, status: 409, data: 'Cet email est déjà utilisé' };
+    }
+
+    let nouveauPrestataire = {
+        id: prestataires.length + 1,
+        societe: data.societe,
+        adresse: data.adresse,
+        email: data.email,
+        motDePasse: data.motDePasse,
+    };
+
+    prestataires.push(nouveauPrestataire);
+    return { error: 0, status: 200, data: nouveauPrestataire };
+}
+function loginUser(data, userList, userType) {
+    if (!data.email || !data.motDePasse) {
+        return { error: 1, status: 404, data: 'Email ou mot de passe non fourni.' };
+    }
+    const user = userList.find(u => u.email === data.email && u.motDePasse === data.motDePasse);
+    if (!user) {
+        return { error: 1, status: 404, data: 'Email ou mot de passe incorrect.' };
+    }
+    let userData = { ...user, role: userType };
+    if (userType === "utilisateur") {
+        userData = {
+            id: user.id,
+            nom: user.nom,
+            prenom: user.prenom,
+            email: user.email,
+            solde: user.solde,
+            numCashless: user.numCashless,
+            role: userType
+        };
+    } else if (userType === "organisateur") {
+        userData = {
+            id: user.id,
+            nom: user.nom,
+            prenom: user.prenom,
+            email: user.email,
+            numTelephone: user.numTelephone,
+            role: userType
+        };
+    } else if (userType === "prestataire") {
+        userData = {
+            id: user.id,
+            societe: user.societe,
+            adresse: user.adresse,
+            email: user.email,
+            role: userType
+        };
+    }
+    return { error: 0, status: 200, data: userData };
+}
+function loginSiteUtilisateur(data) {
+    return loginUser(data, utilisateurs, "utilisateur");
+}
+function loginSiteOrganisateur(data) {
+    return loginUser(data, organisateurs, "organisateur");
+}
+function loginSitePrestataire(data) {
+    return loginUser(data, prestataires, "prestataire");
+}
+function getAllUtilisateur() {
     return {error: 0, data: utilisateurs}
+}
+function getAllOrganisateur() {
+    return {error: 0, data: organisateurs}
+}
+function getAllPrestataire() {
+    return {error: 0, data: prestataires}
+}
+function getUserById(idUser){
+    let user = utilisateurs.find(u => u.id === parseInt(idUser))
+    return {error: 0, data:user}
 }
 
 function addPositionGeographique() {
@@ -280,9 +373,16 @@ function getReservationCarihorreur(id){
 
 
 export default {
-    loginSite,
     ajoutUtilisateur,
-    getAllUsers,
+    ajoutOrganisateur,
+    ajoutPrestataire,
+    loginSiteUtilisateur,
+    loginSiteOrganisateur,
+    loginSitePrestataire,
+    getAllUtilisateur,
+    getAllOrganisateur,
+    getAllPrestataire,
+    getUserById,
     addPositionGeographique,
     addSignalement,
     getAllSignalements,
