@@ -180,6 +180,16 @@ let panier_film = [
 
 let signalement = []
 
+let soireeBaltrouille = [
+    { "id_soiree": 1, "date": "2025-10-27", "description": "Soirée d'ouverture terrifiante avec DJ Zombie.", "deguisementsIds": [1, 2] },
+    { "id_soiree": 2, "date": "2025-10-28", "description": "Soirée Disco'Horreur avec un décor ensanglanté.", "deguisementsIds": [1] },
+    { "id_soiree": 3, "date": "2025-10-29", "description": "Soirée Masques et Mystères - Venez masqués !", "deguisementsIds": [1, 3] },
+    { "id_soiree": 4, "date": "2025-10-30", "description": "Soirée spéciale Thriller avec surprises macabres.", "deguisementsIds": [2, 3] },
+    { "id_soiree": 5, "date": "2025-10-31", "description": "Grande Nuit d'Halloween avec un concours de costumes !", "deguisementsIds": [3] },
+    { "id_soiree": 6, "date": "2025-11-01", "description": "Soirée des âmes perdues avec ambiance gothique.", "deguisementsIds": [2] },
+    { "id_soiree": 7, "date": "2025-11-02", "description": "Soirée de clôture - Dansez avec les esprits !", "deguisementsIds": [1] },
+]
+
 let deguisements = [
     {'id_costume':1, 'nom_costume':'Le Diable', 'prix':9.99,'image':require("../assets/costume_diable.jpg")},
     {'id_costume':2, 'nom_costume':'Le Fantome', 'prix':9.99,'image':require("../assets/costume_fantome.jpeg")},
@@ -201,6 +211,8 @@ let taille_deguisements = [
     {'id_deguisement':3, 'taille':'S','quantite':2},
     {'id_deguisement':3, 'taille':'M','quantite':1},
 ]
+
+let panier_deguisement = []
 
 let carres = [
     {"id_carre":1, "type":"Carré VIP", "prix":100, "prixPersonne":20},
@@ -235,8 +247,10 @@ module.exports = {
     places_films,
     panier_film,
     signalement,
+    soireeBaltrouille,
     deguisements,
     taille_deguisements,
+    panier_deguisement,
     carres,
     bouteilles,
     reservation_carihorreur

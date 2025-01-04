@@ -1,89 +1,147 @@
 <template>
-  <div class="container">
-    <h1>Choisissez un déguisement</h1>
-    <div class="deguisement-container">
-      <div v-for="(deguisement, index) in deguisements" :key="index" class="deguisement">
-        <router-link :to="`/baltrouille/deguisement/${deguisement.id_costume}`">
-          <div class="deguisement_spe">
-            <img :src="deguisement.image" alt="Affiche du déguisement" class="affiche_deguisement" />
-            <h2>{{ deguisement.nom_costume }}</h2>
-            <p>{{ deguisement.prix }} €</p>
-          </div>
-        </router-link>
+  <div>
+    <NavBar />
+    <div class="container">
+      <h1 v-if="soiree">Déguisements pour la soirée du {{ soiree.date }}</h1>
+      <p v-if="soiree">{{ soiree.description }}</p>
+
+      <div class="costume-list" v-if="deguisements && deguisements.length">
+        <div v-for="costume in deguisements" :key="costume.id_costume" class="costume-card">
+          <img :src="costume.image" alt="Affiche du déguisement" class="affiche-deguisement" />
+          <h2>{{ costume.nom_costume }}</h2>
+          <p>{{ costume.description }}</p>
+          <p>Prix : {{ costume.prix }} €</p>
+          <router-link :to="`/baltrouille/${soiree.id_soiree}/deguisements/${costume.id_costume}`">
+            <button>Louer ce costume</button>
+          </router-link>
+        </div>
       </div>
+
+      <p v-else>Aucun costume disponible pour cette soirée.</p>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import NavBar from "@/components/NavBar.vue";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "BaltrouilleDeguisement",
+  components: {
+    NavBar,
+  },
   computed: {
-    ...mapState('BaltrouilleStore', ['deguisements']),
+    ...mapState("BaltrouilleStore", ["soiree", 'deguisements']),
   },
   methods: {
-    ...mapActions('BaltrouilleStore', ["getAllDeguisement"]),
+    ...mapActions("BaltrouilleStore", ["getSoireeBaltrouilleById", "getDeguisementBySoiree"]),
   },
   mounted() {
-    this.getAllDeguisement();
-  },
+    const soireeId = this.$route.params.soireeId;
+    if (soireeId) {
+      this.getSoireeBaltrouilleById(soireeId).then(() => {
+        if (this.soiree) {
+          this.getDeguisementBySoiree(soireeId);
+        } else {
+          console.error("Soirée introuvable.");
+        }
+      }).catch(error => {
+        console.error("Erreur lors de la récupération de la soirée :", error);
+      });
+    } else {
+      console.error("ID de la soirée manquant.");
+    }
+  }
 };
 </script>
 
 <style scoped>
 .container {
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 20px;
   text-align: center;
 }
 
 h1 {
-  font-size: 2em;
+  font-family: "Creepster", cursive;
+  color: #ff4d4d;
+  font-size: 48px;
   margin-bottom: 20px;
-  color: #333;
-}
-
-.deguisement-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-}
-
-.deguisement {
-  background-color: #f9f9f9;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 280px;
-  overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.deguisement:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-}
-
-.deguisement_spe {
-  padding: 15px;
-  text-align: center;
-}
-
-.affiche_deguisement {
-  width: 100%;
-  height: auto;
-  border-bottom: 1px solid #ddd;
-}
-
-h2 {
-  font-size: 1.5em;
-  margin: 10px 0;
-  color: #444;
 }
 
 p {
-  font-size: 1.2em;
+  font-size: 18px;
+  color: #444;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.costume-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.costume-card {
+  background-color: rgba(44, 62, 80, 0.9);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.costume-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
+.affiche-deguisement {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.costume-card h2 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  font-family: "Creepster", cursive;
+  color: #ff4d4d;
+}
+
+.costume-card p {
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.costume-card button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.costume-card button:hover {
+  background-color: #cc0000;
+}
+
+.costume-card button:active {
+  background-color: #990000;
+}
+
+p {
+  font-size: 18px;
   color: #888;
+  margin-top: 30px;
 }
 </style>
+

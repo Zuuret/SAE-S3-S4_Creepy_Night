@@ -8,11 +8,20 @@ import BaltrouilleService from "../services/baltrouille.service";
 export default ({
     namespaced: true,
     state: {
+        soirees: [],
+        soiree: null,
         deguisements: [],
         deguisement: null,
-        taille_deguisements: []
+        taille_deguisements: [],
+        panier: [],
     },
     mutations: {
+        updateListeSoiree(state, soirees){
+            state.soirees = soirees
+        },
+        updateSoireeById(state, soiree){
+            state.soiree = soiree
+        },
         updateListeDeguisement(state, deguisements){
             state.deguisements = deguisements
         },
@@ -22,8 +31,36 @@ export default ({
         updateListeTailleDeguisement(state, taille_deguisements){
             state.taille_deguisements = taille_deguisements;
         },
+        addDeguisement(state, deguisement){
+            const existingDeguisement = state.panier.find(
+                item => item.id_costume === deguisement.id_costume && item.taille === deguisement.taille
+            );
+            if (existingDeguisement) {
+                existingDeguisement.quantite += 1;
+            } else {
+                state.panier.push({ ...deguisement, quantite: deguisement.quantite || 1 });
+            }
+        },
     },
     actions: {
+        async getAllSoireeBaltrouille({commit}){
+            console.log("Récupération des soirees");
+            let response = await BaltrouilleService.getAllSoireeBaltrouille();
+            if (response.error === 0) {
+                commit('updateListeSoiree', response.data);
+            } else {
+                console.log(response.data);
+            }
+        },
+        async getSoireeBaltrouilleById({commit}, soireeId){
+            console.log("Récupération de la soirée ID : ",soireeId);
+            let response = await BaltrouilleService.getSoireeBaltrouilleById(soireeId);
+            if (response.error === 0) {
+                commit('updateSoireeById', response.data);
+            } else {
+                console.log(response.data);
+            }
+        },
         async getAllDeguisement({commit}){
             console.log("Récupération des déguisements");
             let response = await BaltrouilleService.getAllDeguisement();
@@ -51,5 +88,23 @@ export default ({
                 console.log(response.data);
             }
         },
+        async getDeguisementBySoiree({ commit }, soireeId) {
+            console.log("Récupération des déguisements pour la soirée : ", soireeId);
+            let response = await BaltrouilleService.getDeguisementBySoiree(soireeId);
+            if (response.error === 0) {
+                commit('updateListeDeguisement', response.data);
+            } else {
+                console.log(response.data);
+            }
+        },
+        async addDeguisementPanier({commit}, deguisement) {
+            console.log("Ajout d'un déguisement au panier")
+            let response = await BaltrouilleService.addDeguisementPanier(deguisement)
+            if (response.error === 0) {
+                commit('addDeguisement', response.data);
+            } else {
+                console.log(response.data);
+            }
+        }
     }
 })

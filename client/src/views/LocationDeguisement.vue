@@ -22,21 +22,25 @@
     <button @click="ajouterAuPanier" :disabled="!selectedTaille || stockRestant === 0">
       Ajouter au panier
     </button>
+
+    <PanierDeguisement :panier="panier" />
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
+import PanierDeguisement from "@/components/PanierDeguisement.vue";
 
 export default {
   name: "LocationDeguisement",
+  components: { PanierDeguisement },
   data() {
     return {
       selectedTaille: null,
     };
   },
   computed: {
-    ...mapState('BaltrouilleStore', ['deguisement', 'taille_deguisements']),
+    ...mapState('BaltrouilleStore', ['deguisement', 'taille_deguisements', 'panier']),
     stockRestant() {
       if (this.taille_deguisements && this.selectedTaille) {
         const selectedOption = this.taille_deguisements.find(option => option.taille === this.selectedTaille);
@@ -46,18 +50,19 @@ export default {
     },
   },
   methods: {
-    ...mapActions('BaltrouilleStore', ['getDeguisementById', 'getTailleDeguisement']),
+    ...mapActions('BaltrouilleStore', ['getDeguisementById', 'getTailleDeguisement', 'addDeguisementPanier']),
     ajouterAuPanier() {
       if (this.selectedTaille && this.stockRestant > 0) {
+        const deguisementAvecTaille = { ...this.deguisement, taille: this.selectedTaille, quantite: 1 };
+        this.addDeguisementPanier(deguisementAvecTaille);
         alert(`Déguisement ajouté au panier : Taille ${this.selectedTaille}`);
-        // Appelle une méthode Vuex pour mettre à jour le panier (si nécessaire)
       } else {
         alert("Impossible d'ajouter au panier. Stock insuffisant.");
       }
     },
   },
   mounted() {
-    const deguisementId = parseInt(this.$route.params.id);
+    const deguisementId = parseInt(this.$route.params.deguisementId);
     console.log("ID du déguisement :", deguisementId);
     this.getDeguisementById(deguisementId);
     this.getTailleDeguisement(deguisementId);

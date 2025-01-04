@@ -14,7 +14,7 @@ import {
     taille_deguisements,
     carres,
     bouteilles,
-    reservation_carihorreur, organisateurs, prestataires
+    reservation_carihorreur, organisateurs, prestataires, soireeBaltrouille, panier_deguisement
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -301,6 +301,15 @@ function getPlacesFilm(places_film) {
     return { error: 0, data: placesFilm };
 }
 
+function getAllSoireeBaltrouille(){
+    return {error:0, data:soireeBaltrouille}
+}
+
+function getSoireeBaltrouilleById(soireeId){
+    let soiree = soireeBaltrouille.find(soiree => soiree.id_soiree === parseInt(soireeId))
+    return { error: 0, data: soiree };
+}
+
 function getAllDeguisement(){
     return {error:0, data: deguisements};
 }
@@ -313,6 +322,32 @@ function getDeguisementById(deguisementId){
 function getTailleDeguisement(deguisementId) {
     let tailleDeguisement = taille_deguisements.filter(taille => taille.id_deguisement === parseInt(deguisementId));
     return { error: 0, data: tailleDeguisement };
+}
+
+function getDeguisementBySoiree(soireeId) {
+    let soiree = soireeBaltrouille.find(soiree => soiree.id_soiree === parseInt(soireeId))
+    if (soiree) {
+        let allDeguisements = deguisements.filter(deguisement =>
+            soiree.deguisementsIds.includes(deguisement.id_costume)
+        );
+        return { error: 0, data: allDeguisements };
+    } else {
+        return { error: 1, message: "Soirée introuvable" };
+    }
+}
+
+function addDeguisementPanier(deguisement) {
+    const deguisementExistantAvecTaille = panier_deguisement.find(
+        item => item.id_costume === deguisement.id_costume && item.taille === deguisement.taille
+    );
+    if (deguisementExistantAvecTaille) {
+        deguisementExistantAvecTaille.quantite += 1;
+        return { error: 0, data: deguisementExistantAvecTaille };
+    } else {
+        const nouvelItem = { ...deguisement, quantite: 1 };
+        panier_deguisement.push(nouvelItem);
+        return { error: 0, data: nouvelItem };
+    }
 }
 
 function getAllBouteilles(){
@@ -371,7 +406,6 @@ function getReservationCarihorreur(id){
     return { error: 0, message: "Réservations trouvées avec succès", data: detailsReservations };
 }
 
-
 export default {
     ajoutUtilisateur,
     ajoutOrganisateur,
@@ -401,9 +435,13 @@ export default {
     getFilmById,
     setFilm,
     getPlacesFilm,
+    getAllSoireeBaltrouille,
+    getSoireeBaltrouilleById,
     getAllDeguisement,
     getDeguisementById,
     getTailleDeguisement,
+    getDeguisementBySoiree,
+    addDeguisementPanier,
     getAllBouteilles,
     getBouteillebyId,
     getAllCarres,

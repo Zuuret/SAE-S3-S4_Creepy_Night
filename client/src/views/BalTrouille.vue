@@ -8,10 +8,10 @@
       <p>Venez profiter des soirées effrayantes du festival !</p>
 
       <div class="soirees-list">
-        <div v-for="(soiree, index) in soirees" :key="index" class="soiree-card">
+        <div v-for="soiree in soirees" :key="soiree.id_soiree" class="soiree-card">
           <h2>{{ soiree.date }}</h2>
           <p>{{ soiree.description }}</p>
-          <router-link v-if="soiree" :to="`/baltrouille/deguisement`">
+          <router-link :to="`/baltrouille/${soiree.id_soiree}/deguisements`">
             <button @click="acheterPlace(soiree)">Acheter ma place</button>
           </router-link>
         </div>
@@ -22,32 +22,28 @@
 
 <script>
 import NavBar from "@/components/NavBar.vue";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: "BalTrouille",
   components: {
     NavBar,
   },
-  data() {
-    return {
-      soirees: [
-        { date: "27 octobre 2025", description: "Soirée d'ouverture terrifiante avec DJ Zombie." },
-        { date: "28 octobre 2025", description: "Soirée Disco'Horreur avec un décor ensanglanté." },
-        { date: "29 octobre 2025", description: "Soirée Masques et Mystères - Venez masqués !" },
-        { date: "30 octobre 2025", description: "Soirée spéciale Thriller avec surprises macabres." },
-        { date: "31 octobre 2025", description: "Grande Nuit d'Halloween avec un concours de costumes !" },
-        { date: "1 novembre 2025", description: "Soirée des âmes perdues avec ambiance gothique." },
-        { date: "2 novembre 2025", description: "Soirée de clôture - Dansez avec les esprits !" },
-      ],
-    };
+  computed: {
+    ...mapState('BaltrouilleStore', ['soirees'])
   },
   methods: {
+    ...mapActions('BaltrouilleStore', ['getAllSoireeBaltrouille']),
     acheterPlace(soiree) {
       alert(`Votre place pour la soirée "${soiree.date}" a bien été achetée !`);
     },
   },
+  mounted() {
+    this.getAllSoireeBaltrouille()
+  }
 };
 </script>
+
 
 <style scoped>
 .container {
