@@ -22,18 +22,37 @@ async function insertUser(id,name,firstname,birthdate,email,password,solde,num_c
 
 async function getUsers() {
     const client = await pool.connect();
+    let res;
     try {
-        const res = await client.query('SELECT * FROM Utilisateur');
-        return res.rows;
+        res = await client.query('SELECT * FROM Utilisateur');
+        console.log('RECUPERATION DES UTILISATEURS');
     } catch (error) {
         console.error('Erreur lors de la récupération des utilisateurs :', error);
-        throw error;
+        res = false;
     } finally {
         client.release();
     }
+    return res.rows || false;
+}
+
+async function updateUser(uuid, name, firstname, birthdate, email, password, est_festivalier) {
+    const client = await pool.connect();
+    let is_error = false;
+    try {
+        const query = format('UPDATE utilisateur SET nom = %L, prenom = %L, date_naissance = %L, mail = %L, password = %L, est_festivalier = %L WHERE id = %L', name, firstname, birthdate, email, password, est_festivalier, uuid);
+        await client.query(query);
+        console.log('MISE A JOUR DE L\'UTILISATEUR');
+    } catch (error) {
+        console.error('Erreur lors de la mise à jour de l\'utilisateur :', error);
+        is_error = true;
+    } finally {
+        client.release();
+    }
+    return is_error;
 }
 
 module.exports = {
     insertUser,
-    getUsers
+    getUsers,
+    updateUser
 }

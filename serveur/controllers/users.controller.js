@@ -22,15 +22,47 @@ exports.saveUser = async (req,res) => {
     return res.status(200).send("INSERTION AVEC SUCCES");
 }
 
-
-exports.getUsers = async(req,res) => {
-    userService.getUsers((error,data)=>{
-        if(error){
-            return res.status(500).send("Erreur interne");
-        }
-        return res.status(200).json({data:data});
-    })
+exports.getUsers = async (req,res) => {
+    const users = await userService.getUsers();
+    if (!users) {
+        return res.status(500).json({ error: 'ERREUR INTERNE' });
+    }
+    return res.status(200).json({ data: users });
 }
+
+exports.getUserById = async (req, res) => {
+    const uuid = req.params.uuid;
+    try {
+        const users = await userService.getUsers();
+        if (!users) {
+            return res.status(500).json({ error: 'ERREUR INTERNE' });
+        }
+        const user = users.find(user => user.id === uuid);
+        if (!user) {
+            return res.status(404).json({ error: 'Utilisateur non trouvé' });
+        }
+        return res.status(200).json({ data: user });
+    } catch (error) {
+        console.error('Erreur lors de la récupération de l\'utilisateur :', error);
+        return res.status(500).json({ error: 'ERREUR INTERNE' });
+    }
+};
+
+exports.updateUser = async (req,res) => {
+    const uuid = req.params.uuid;
+    const nom = req.body.name;
+    const prenom = req.body.firstname;
+    const birthdate = req.body.birthdate;
+    const email = req.body.email;
+    const password = req.body.password;
+    const est_festivalier = req.body.is_festivalier;
+    const resultat = await userService.updateUser(uuid,nom,prenom,birthdate,email,password,est_festivalier);
+    if(resultat){
+        return res.status(500).send("ERREUR INTERNE");
+    }
+    return res.status(200).send("MODIFICATION ENREGISTREE");
+};
+
 exports.deleteUser = async (req,res) => {
     let uuid = req.query.uuid;
     if(!uuid){
@@ -47,33 +79,3 @@ exports.deleteUser = async (req,res) => {
         return res.status(200).send(data);
     })
 }
-exports.updateUser = async (req,res) => {
-    let uuid = req.params.uuid; // api/users/:abc
-    let {nom,prenom} = req.body;
-    userService.updateUser(uuid,nom,prenom,(error,data)=>{
-        if(error){
-            if(error == "Utilisateur introuvable"){
-                return res.status(400).send(error);
-            }else{
-                return res.status(500).send("Erreur interne");
-            }
-        }
-        return res.status(200).send(data);      
-    })
-}
-exports.getUserById = async (req, res) => {
-    const uuid = req.params.uuid;
-    try {
-        const users = await userService.getUsers();
-        const user = users.find(user => user.id === uuid);
-        if (!user) {
-            return res.status(404).json({ error: 'Utilisateur non trouvé' });
-        }
-        return res.status(200).json({ data: user });
-    } catch (error) {
-        console.error('Erreur lors de la récupération de l\'utilisateur :', error);
-        return res.status(500).json({ error: 'Erreur interne du serveur' });
-    }
-};
-
-
