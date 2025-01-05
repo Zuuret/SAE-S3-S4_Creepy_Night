@@ -8,6 +8,10 @@
           <p>{{ item.nom_costume }} - Taille : {{ item.taille }}</p>
           <p>Prix : {{ item.prix }} €</p>
           <p>Quantité : {{ item.quantite }}</p>
+          <div class="quantity-controls">
+            <button @click="diminuerQuantite(item)">-</button>
+            <button @click="incrementerQuantite(item)">+</button>
+          </div>
         </div>
       </div>
       <div class="panier-total">
@@ -20,17 +24,18 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import {mapActions, mapState} from 'vuex';
 
 export default {
   name: "PanierDeguisement",
   computed: {
     ...mapState('BaltrouilleStore', ['panier']),
     total() {
-      return this.panier.prix * this.panier.quantite
+      return this.panier.reduce((total, item) => total + item.prix * item.quantite, 0);
     }
   },
   methods: {
+    ...mapActions('BaltrouilleStore',['incrementerQuantite','diminuerQuantite']),
     validerPanier() {
       alert("Commande validée ! Merci de votre achat.");
     }
