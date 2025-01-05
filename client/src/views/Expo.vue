@@ -32,10 +32,10 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(['oeuvres'])
+    ...mapState('ExpositionStore',['oeuvres'])
   },
   methods: {
-    ...mapActions(['getOeuvres']),
+    ...mapActions('ExpositionStore',['getOeuvres']),
   },
   mounted() {
     this.getOeuvres();

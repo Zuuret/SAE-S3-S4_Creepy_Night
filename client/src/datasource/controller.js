@@ -397,9 +397,9 @@ function getAllDemande(){
 }
 
 function addDemandeUberflippe(data) {
-    if (!data.zone) return { error: 1, status: 404, data: "Aucun type de zone sélectionné" };
-    if (!data.nbPersonne) return { error: 1, status: 404, data: "Aucune nombre de personne fourni" };
-    if (!data.description) return { error: 1, status: 404, data: "Aucune description" };
+    if (!data.zone) return {error: 1, status: 404, data: "Aucun type de zone sélectionné"};
+    if (!data.nbPersonne) return {error: 1, status: 404, data: "Aucune nombre de personne fourni"};
+    if (!data.description) return {error: 1, status: 404, data: "Aucune description"};
 
     const nouvelleDemande = {
         id_demande: demandeUberFlippe.length + 1,
@@ -409,7 +409,20 @@ function addDemandeUberflippe(data) {
     };
 
     demandeUberFlippe.push(nouvelleDemande);
-    return { error: 0, status: 200, data: nouvelleDemande };
+    return {error: 0, status: 200, data: nouvelleDemande};
+}
+
+function getAllUtilisateurs() {
+    return { error: 0, data: utilisateurs };
+}
+
+function getBilletsAchatAujourdHui() {
+    const today = new Date().toISOString().split('T')[0];
+    const billetsAchatAujourdHui = transactions.filter(transaction => {
+        return transaction.date === today && transaction.operation === "Achat Billet";
+    }).length;
+
+    return { error: 0, data: billetsAchatAujourdHui };
 }
 
 export default {
@@ -454,4 +467,6 @@ export default {
     getReservationCarihorreur,
     getAllDemande,
     addDemandeUberflippe,
+    getAllUtilisateurs,
+    getBilletsAchatAujourdHui
 };
