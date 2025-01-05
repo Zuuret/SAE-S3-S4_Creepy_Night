@@ -392,6 +392,19 @@ function getReservationCarihorreur(id){
     return { error: 0, message: "Réservations trouvées avec succès", data: detailsReservations };
 }
 
+function getAllUtilisateurs() {
+    return { error: 0, data: utilisateurs };
+}
+
+function getBilletsAchatAujourdHui() {
+    const today = new Date().toISOString().split('T')[0];
+    const billetsAchatAujourdHui = transactions.filter(transaction => {
+        return transaction.date === today && transaction.operation === "Achat Billet";
+    }).length;
+
+    return { error: 0, data: billetsAchatAujourdHui };
+}
+
 export default {
     ajoutUtilisateur,
     ajoutOrganisateur,
@@ -431,5 +444,7 @@ export default {
     getBouteillebyId,
     getAllCarres,
     getCarrebyId,
-    getReservationCarihorreur
+    getReservationCarihorreur,
+    getAllUtilisateurs,
+    getBilletsAchatAujourdHui
 };

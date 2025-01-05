@@ -190,6 +190,7 @@ let soireeBaltrouille = [
     { "id_soiree": 7, "date": "2025-11-02", "description": "Soirée de clôture - Dansez avec les esprits !", "deguisementsIds": [1] },
 ]
 
+/*
 let deguisements = [
     {'id_costume':1, 'nom_costume':'Reine Zombie', 'prix':9.99,'image':require("../assets/costume_reine_zombie.jpeg")},
     {'id_costume':2, 'nom_costume':'Zombie Glouton', 'prix':9.99,'image':require("../assets/costume_zombie_glouton.jpeg")},
@@ -207,6 +208,7 @@ let deguisements = [
     {'id_costume':14, 'nom_costume':'Zombie Singe', 'prix':9.99,'image':require("../assets/zombie_singe.jpeg")},
     {'id_costume':15, 'nom_costume':'Chasseur de Zombie', 'prix':9.99,'image':require("../assets/chasseur_zombie.jpeg")},
 ]
+    */
 
 let taille_deguisements = [
     {'id_deguisement':1, 'taille':'XS','quantite':1},
@@ -322,7 +324,7 @@ module.exports = {
     panier_film,
     signalement,
     soireeBaltrouille,
-    deguisements,
+    /*deguisements,*/
     taille_deguisements,
     panier_deguisement,
     carres,

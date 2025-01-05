@@ -6,25 +6,8 @@
     <p v-else class="error">Accès refusé. Vous n'avez pas les permissions pour voir cette page.</p>
 
     <div v-if="hasAccess">
-      <h2>Liste des Utilisateurs</h2>
-      <table>
-        <thead>
-        <tr>
-          <th>ID</th>
-          <th>Prénom</th>
-          <th>Nom</th>
-          <th>Email</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="user in utilisateurs" :key="user.id">
-          <td>{{ user.id }}</td>
-          <td>{{ user.prenom }}</td>
-          <td>{{ user.nom }}</td>
-          <td>{{ user.email }}</td>
-        </tr>
-        </tbody>
-      </table>
+      <h2>Chiffre du jour</h2>
+      <p>Nombre de billets achetés aujourd'hui : {{ billetsAchatAujourdHui }}</p>
 
       <h2>Liste des Organisateurs</h2>
       <table>
@@ -74,13 +57,15 @@ export default {
   name: "HomeOrganisateur",
   computed: {
     ...mapGetters("ProfilStore", ["utilisateurConnecte"]),
-    ...mapState("ProfilStore", ["utilisateurs", "organisateurs", "prestataires"]),
+    ...mapState("ProfilStore", ["organisateurs", "prestataires"]),
+    ...mapState("organisateur", ["billetsAchatAujourdHui"]),
     hasAccess() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "organisateur";
     },
   },
   methods: {
-    ...mapActions("ProfilStore", ["getAllUtilisateur", "getAllOrganisateur", "getAllPrestataire",]),
+    ...mapActions("ProfilStore", ["getAllOrganisateur", "getAllPrestataire"]),
+    ...mapActions("organisateur", ["fetchBilletsAchatAujourdHui"]),
   },
   mounted() {
     if (!this.utilisateurConnecte) {
@@ -89,9 +74,9 @@ export default {
     } else if (!this.hasAccess) {
       console.log("Accès refusé pour cet utilisateur.");
     } else {
-      this.getAllUtilisateur();
       this.getAllOrganisateur();
       this.getAllPrestataire();
+      this.fetchBilletsAchatAujourdHui();
     }
   }
 };
