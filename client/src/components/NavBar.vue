@@ -63,16 +63,11 @@ export default {
     ...mapActions('ProfilStore', ['logoutUser']),
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
-
-      if (this.isMenuOpen) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = 'auto';
-      }
+      document.body.style.overflow = this.isMenuOpen ? 'hidden' : 'auto';
     },
     closeMenu() {
       this.isMenuOpen = false;
-      document.body.classList.remove('no-scroll'); // Suppression cohérente de la classe
+      document.body.style.overflow = 'auto';
     },
     handleScroll() {
       const currentScrollY = window.scrollY;
@@ -88,18 +83,16 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
-
     if (this.isMenuOpen) {
-      document.body.classList.add('no-scroll');
+      document.body.style.overflow = 'hidden';
     }
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.handleScroll);
-    document.body.classList.remove('no-scroll');
+    document.body.style.overflow = 'auto';
   },
 };
 </script>
-
 
 <style scoped>
 * {
