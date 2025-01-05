@@ -18,15 +18,6 @@ async function getTaillesDeguisementFromLocalSource(deguisementId) {
 async function getDeguisementBySoireeFromLocalSource(soireeId) {
     return LocalSource.getDeguisementBySoiree(soireeId)
 }
-async function addDeguisementPanierFromLocalSource(deguisement){
-    return LocalSource.addDeguisementPanier(deguisement)
-}
-async function incrementerQuantiteFromLocalSource(deguisement){
-    return LocalSource.incrementerQuantite(deguisement)
-}
-async function diminuerQuantiteFromLocalSource(deguisement){
-    return LocalSource.diminuerQuantite(deguisement)
-}
 
 async function getAllSoireeBaltrouille(){
     let response;
@@ -82,35 +73,6 @@ async function getDeguisementBySoiree(soireeId) {
     }
     return response;
 }
-async function addDeguisementPanier(deguisement) {
-    let response;
-    try {
-        response = await addDeguisementPanierFromLocalSource(deguisement)
-    } catch (err) {
-        response = { error: 1, status: 404, data: 'Erreur réseau, impossible de récupérer la liste des déguisements pour cette soirée' };
-    }
-    return response;
-}
-async function incrementerQuantite(deguisement) {
-    let response;
-    try {
-        response = await incrementerQuantiteFromLocalSource(deguisement)
-        console.log(response)
-    } catch (err) {
-        response = { error: 1, status: 404, data: 'Erreur réseau, impossible d\'incrémenter la quantité de ce déguisement' };
-    }
-    return response;
-}
-async function diminuerQuantite(deguisement) {
-    let response;
-    try {
-        response = await diminuerQuantiteFromLocalSource(deguisement)
-        console.log(response)
-    } catch (err) {
-        response = { error: 1, status: 404, data: 'Erreur réseau, impossible de diminuer la quantité de ce déguisement' };
-    }
-    return response;
-}
 
 export default {
     getAllSoireeBaltrouille,
@@ -119,7 +81,4 @@ export default {
     getDeguisementById,
     getTailleDeguisement,
     getDeguisementBySoiree,
-    addDeguisementPanier,
-    incrementerQuantite,
-    diminuerQuantite
 }

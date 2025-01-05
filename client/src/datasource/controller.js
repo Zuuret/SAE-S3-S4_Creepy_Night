@@ -14,7 +14,7 @@ import {
     taille_deguisements,
     carres,
     bouteilles,
-    reservation_carihorreur, organisateurs, prestataires, soireeBaltrouille, panier_deguisement
+    reservation_carihorreur, organisateurs, prestataires, soireeBaltrouille
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -336,82 +336,6 @@ function getDeguisementBySoiree(soireeId) {
     }
 }
 
-function addDeguisementPanier(deguisement) {
-    let stock = taille_deguisements.find(
-        stockItem => stockItem.id_deguisement === deguisement.id_costume && stockItem.taille === deguisement.taille
-    );
-    const deguisementExistantAvecTaille = panier_deguisement.find(
-        item => item.id_costume === deguisement.id_costume && item.taille === deguisement.taille
-    );
-    if (deguisementExistantAvecTaille) {
-        deguisementExistantAvecTaille.quantite += 1;
-        return { error: 0, data: deguisementExistantAvecTaille };
-    } else {
-        const nouvelItem = { ...deguisement, quantite: 1 };
-        stock.quantite -= 1;
-        panier_deguisement.push(nouvelItem);
-        return { error: 0, data: nouvelItem };
-    }
-}
-
-function incrementerQuantite(deguisement) {
-    console.log("Tentative d'incrémentation pour :", deguisement);
-
-    // Recherche de l'article dans le panier
-    let article = panier_deguisement.find(
-        panierItem => panierItem.id_costume === deguisement.id_costume && panierItem.taille === deguisement.taille
-    );
-    console.log("Article trouvé dans le panier :", article);
-
-    // Recherche du stock correspondant
-    let stock = taille_deguisements.find(
-        stockItem => stockItem.id_deguisement === deguisement.id_costume && stockItem.taille === deguisement.taille
-    );
-    console.log("Stock correspondant trouvé :", stock);
-
-    // Vérification et mise à jour
-    if (article && stock && (article.quantite < stock.quantite || article.quantite === stock.quantite)) {
-        article.quantite += 1;
-        stock.quantite -= 1;
-        console.log("Quantité mise à jour dans le panier :", article.quantite);
-        console.log("Quantité restante en stock :", stock.quantite);
-        return { error: 0, data: deguisement };
-    } else {
-        console.error("Erreur : Stock insuffisant ou quantité maximale atteinte.");
-        return { error: 1, message: "Stock insuffisant ou quantité maximale atteinte." };
-    }
-}
-
-
-function diminuerQuantite(deguisement) {
-    let article = panier_deguisement.find(
-        panierItem => panierItem.id_costume === deguisement.id_costume && panierItem.taille === deguisement.taille
-    );
-    let stock = taille_deguisements.find(
-        stockItem => stockItem.id_deguisement === deguisement.id_costume && stockItem.taille === deguisement.taille
-    );
-
-    if (article) {
-        if (article.quantite > 1) {
-            article.quantite -= 1;
-            stock.quantite += 1; // Incrémenter uniquement ici
-        } else if (article.quantite === 1) {
-            const index = panier_deguisement.findIndex(
-                panierItem => panierItem.id_costume === deguisement.id_costume && panierItem.taille === deguisement.taille
-            );
-            if (index !== -1) {
-                panier_deguisement.splice(index, 1);
-            }
-            stock.quantite += 1;
-        }
-        return { error: 0, data: deguisement };
-    } else {
-        return { error: 1, message: "Article non trouvé dans le panier." };
-    }
-}
-
-
-
 function getAllBouteilles(){
     return {error: 0, data:bouteilles}
 }
@@ -503,9 +427,6 @@ export default {
     getDeguisementById,
     getTailleDeguisement,
     getDeguisementBySoiree,
-    addDeguisementPanier,
-    incrementerQuantite,
-    diminuerQuantite,
     getAllBouteilles,
     getBouteillebyId,
     getAllCarres,
