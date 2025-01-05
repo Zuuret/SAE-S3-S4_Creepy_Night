@@ -14,7 +14,7 @@ import {
     taille_deguisements,
     carres,
     bouteilles,
-    reservation_carihorreur, organisateurs, prestataires, soireeBaltrouille
+    reservation_carihorreur, organisateurs, prestataires, soireeBaltrouille, demandeUberFlippe
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -392,6 +392,26 @@ function getReservationCarihorreur(id){
     return { error: 0, message: "Réservations trouvées avec succès", data: detailsReservations };
 }
 
+function getAllDemande(){
+    return { error: 1, data : demandeUberFlippe}
+}
+
+function addDemandeUberflippe(data) {
+    if (!data.zone) return { error: 1, status: 404, data: "Aucun type de zone sélectionné" };
+    if (!data.nbPersonne) return { error: 1, status: 404, data: "Aucune nombre de personne fourni" };
+    if (!data.description) return { error: 1, status: 404, data: "Aucune description" };
+
+    const nouvelleDemande = {
+        id_demande: demandeUberFlippe.length + 1,
+        zone: data.zone,
+        nbPersonne: data.nbPersonne,
+        description: data.description
+    };
+
+    demandeUberFlippe.push(nouvelleDemande);
+    return { error: 0, status: 200, data: nouvelleDemande };
+}
+
 export default {
     ajoutUtilisateur,
     ajoutOrganisateur,
@@ -431,5 +451,7 @@ export default {
     getBouteillebyId,
     getAllCarres,
     getCarrebyId,
-    getReservationCarihorreur
+    getReservationCarihorreur,
+    getAllDemande,
+    addDemandeUberflippe,
 };

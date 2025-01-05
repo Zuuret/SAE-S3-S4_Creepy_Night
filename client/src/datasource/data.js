@@ -304,6 +304,10 @@ let reservation_carihorreur = [
     {"id_reservation":1, "id_utilisateur": 1, "dateCarre":"2025-10-27", "id_carre": 1, "nbPersonne": 5, "bouteilles": [{"id_bouteille": 2, "quantite": 2}]}
 ]
 
+let demandeUberFlippe = [
+    {"id_demande":1, "zone":"Bosquepouvante","nbPersonne":3,"description":"Jeune homme noir cheveux blond et yeux bridé"}
+]
+
 module.exports = {
     utilisateurs,
     organisateurs,
@@ -327,5 +331,6 @@ module.exports = {
     panier_deguisement,
     carres,
     bouteilles,
-    reservation_carihorreur
+    reservation_carihorreur,
+    demandeUberFlippe
 }
