@@ -63,6 +63,7 @@ export default {
     ...mapActions('ProfilStore', ['logoutUser']),
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
+
       if (this.isMenuOpen) {
         document.body.style.overflow = 'hidden';
       } else {
@@ -71,7 +72,7 @@ export default {
     },
     closeMenu() {
       this.isMenuOpen = false;
-      document.body.style.overflow = 'auto';
+      document.body.classList.remove('no-scroll'); // Suppression cohérente de la classe
     },
     handleScroll() {
       const currentScrollY = window.scrollY;
@@ -83,13 +84,18 @@ export default {
       if (this.$route.path !== '/') {
         this.$router.push({ path: '/' });
       }
-    }
+    },
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
+
+    if (this.isMenuOpen) {
+      document.body.classList.add('no-scroll');
+    }
   },
   beforeDestroy() {
     window.removeEventListener("scroll", this.handleScroll);
+    document.body.classList.remove('no-scroll');
   },
 };
 </script>

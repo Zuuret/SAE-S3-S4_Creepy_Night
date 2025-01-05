@@ -41,6 +41,40 @@ export default ({
                 state.panier.push({ ...deguisement, quantite: deguisement.quantite || 1 });
             }
         },
+        incrementerQuantite(state, item) {
+            let article = state.panier.find(
+                panierItem => panierItem.id_costume === item.id_costume && panierItem.taille === item.taille
+            );
+            let stock = state.taille_deguisements.find(
+                stockItem => stockItem.id_deguisement === item.id_costume && stockItem.taille === item.taille
+            );
+            if (article && stock && article.quantite < stock.quantite || article.quantite == stock.quantite) {
+                article.quantite += 1;
+            } else {
+                alert("Stock insuffisant pour ajouter cet article.");
+            }
+        },
+        diminuerQuantite(state, item) {
+            let article = state.panier.find(
+                panierItem => panierItem.id_costume === item.id_costume && panierItem.taille === item.taille
+            );
+            let stock = state.taille_deguisements.find(
+                stockItem => stockItem.id_deguisement === item.id_costume && stockItem.taille === item.taille
+            );
+            if (article) {
+                if (article.quantite > 1) {
+                    article.quantite -= 1;
+                    stock.quantite += 1;
+                } else if (article.quantite === 1) {
+                    const index = state.panier.findIndex(
+                        panierItem => panierItem.id_costume === item.id_costume && panierItem.taille === item.taille
+                    );
+                    if (index !== -1) {
+                        state.panier.splice(index, 1);
+                    }
+                }
+            }
+        }
     },
     actions: {
         async getAllSoireeBaltrouille({commit}){
@@ -104,6 +138,24 @@ export default ({
                 commit('addDeguisement', response.data);
             } else {
                 console.log(response.data);
+            }
+        },
+        async incrementerQuantite({commit}, deguisement){
+            console.log("Incrementation de la quantite")
+            let response = await BaltrouilleService.incrementerQuantite(deguisement)
+            if (response.error === 0){
+                commit('incrementerQuantite', response.data)
+            } else {
+                console.log(response.data)
+            }
+        },
+        async diminuerQuantite({commit}, deguisement){
+            console.log("Diminution de la quantite")
+            let response = await BaltrouilleService.diminuerQuantite(deguisement)
+            if (response.error === 0){
+                commit('diminuerQuantite', response.data)
+            } else {
+                console.log(response.data)
             }
         }
     }

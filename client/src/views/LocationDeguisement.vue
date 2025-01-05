@@ -14,7 +14,6 @@
         </option>
       </select>
     </div>
-
     <div v-else>
       <p>Aucune taille disponible pour ce déguisement.</p>
     </div>
@@ -36,7 +35,7 @@ export default {
   components: { PanierDeguisement },
   data() {
     return {
-      selectedTaille: null,
+      selectedTaille: 'XS',
     };
   },
   computed: {
@@ -53,7 +52,10 @@ export default {
     ...mapActions('BaltrouilleStore', ['getDeguisementById', 'getTailleDeguisement', 'addDeguisementPanier']),
     ajouterAuPanier() {
       if (this.selectedTaille && this.stockRestant > 0) {
-        const deguisementAvecTaille = { ...this.deguisement, taille: this.selectedTaille, quantite: 1 };
+        const deguisementAvecTaille = {
+          ...this.deguisement,
+          taille: this.selectedTaille,
+        };
         this.addDeguisementPanier(deguisementAvecTaille);
         alert(`Déguisement ajouté au panier : Taille ${this.selectedTaille}`);
       } else {
