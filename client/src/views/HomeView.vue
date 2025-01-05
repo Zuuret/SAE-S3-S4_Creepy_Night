@@ -23,7 +23,7 @@
               encore. Que vous soyez un amateur de sensations fortes, un passionné de cinéma
               fantastique ou simplement curieux, Creepy Night vous promet des émotions inoubliables.
             </p>
-            <button class="btn-ticket"><router-link to="/billet">Tickets et abonnements</router-link></button>
+            <router-link class="btn-ticket" to="/billet">Tickets et abonnements</router-link>
           </div>
           <div class="image-intro">
             <img alt="creepynight" src="@/assets/img-intro-1.png" class="image-style">
@@ -49,6 +49,13 @@
           >
             <h2 class="titre-activites">{{ activite.titre }}</h2>
             <p class="description-activite">{{ activite.description }}</p>
+            <router-link 
+              :to="activite.titre === 'Cinépeur' ? '/cinepeur' : 
+                    activite.titre === 'Concerts' ? '/concert' : 
+                    activite.titre === 'Bal’trouille' ? '/baltrouille' : 
+                    activite.titre === 'Expositions' ? '/expo' : 
+                    `/${activite.titre.toLowerCase().replace(/\s+/g, '')}`" 
+              class="btn-activite">Voir l'activité</router-link>
           </div>
         </div>
       </div>
@@ -196,7 +203,7 @@ export default {
 }
 
 .introduction{
-  font-size: 200%;
+  font-size: 180%;
   margin: 10%;
   text-align: justify;
 }
@@ -216,9 +223,19 @@ export default {
 }
 
 .btn-ticket{
-  padding: 15px;
-  border-radius: 5px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+  padding: 12px;
+  border-radius: 8px;
+  background-color: white;
+  color: #AD0918;
+  font-size: 18px;
+  transition: background-color 0.3s, transform 0.3s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-ticket:hover {
+  background-color: #dbdbdb;
+  transform: scale(1.05);
 }
 
 .image-intro {
@@ -344,7 +361,7 @@ export default {
 }
 
 .lamelle {
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.5);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -361,14 +378,38 @@ export default {
   align-items: center;
   text-align: center;
   margin-bottom: 50px;
+  position: relative;
+  opacity: 1;
+}
+
+.lamelle::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.lamelle h2, .lamelle p {
+  position: relative;
+  z-index: 2;
 }
 
 .lamelle:hover {
-  width: 25%; /* Taille agrandie */
+  width: 25%;
+  opacity: 1;
 }
 
 .lamelle h3 {
   margin: 0;
+}
+
+.lamelle:hover h2 {
+  top: 25%;
+  transform: translate(-50%, -50%) rotate(0deg);
 }
 
 .lamelle p {
@@ -378,8 +419,45 @@ export default {
   font-size: 150%;
 }
 
+.lamelle h2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+  white-space: nowrap;
+  transition: transform 0.3s ease, top 0.3s ease;
+}
+
 .lamelle:hover p {
   opacity: 1;
+}
+
+.btn-activite {
+  display: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  background-color: #AD0918; 
+  color: white; 
+  border: none; 
+  border-radius: 5px; 
+  text-align: center;
+  text-decoration: none; 
+  font-size: 16px; 
+  transition: background-color 0.3s, transform 0.3s; 
+  z-index: 2;
+}
+
+.btn-activite:hover {
+  background-color: #8A0714;
+  transform: scale(1.05); 
+}
+
+.btn-activite:active {
+  transform: scale(0.95); 
+}
+
+.lamelle:hover .btn-activite {
+  display: inline-block;
 }
 
 .titre-partie{
