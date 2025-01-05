@@ -63,7 +63,23 @@ exports.updateUser = async (req,res) => {
     return res.status(200).send("MODIFICATION ENREGISTREE");
 };
 
-exports.deleteUser = async (req,res) => {
+exports.deleteUser = async (req, res) => {
+    const { uuid } = req.params;
+
+    try {
+        const result = await userService.deleteUser(uuid);
+
+        if (result) {
+            return res.status(200).json({ message: 'Utilisateur supprimé avec succès' });
+        } else {
+            return res.status(404).json({ message: 'Utilisateur non trouvé' });
+        }
+    } catch (error) {
+        console.error('Erreur lors de la suppression de l’utilisateur:', error);
+        return res.status(500).json({ message: 'Erreur interne du serveur' });
+    }
+};
+/*exports.deleteUser = async (req,res) => {
     let uuid = req.query.uuid;
     if(!uuid){
         return res.status(400).send("UUID Nulle!!!!");
@@ -78,4 +94,4 @@ exports.deleteUser = async (req,res) => {
         }
         return res.status(200).send(data);
     })
-}
+}*/

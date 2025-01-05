@@ -208,6 +208,7 @@ router.put('/:uuid', userController.updateUser);
  *       500:
  *         description: Erreur interne du serveur
  */
+router.delete('/:uuid', userController.deleteUser);
 /*
 router.delete('/:uuid', async (req, res) => {
  const { uuid } = req.params;

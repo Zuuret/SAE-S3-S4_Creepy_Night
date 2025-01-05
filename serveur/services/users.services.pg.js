@@ -51,8 +51,26 @@ async function updateUser(uuid, name, firstname, birthdate, email, password, est
     return is_error;
 }
 
+async function deleteUser(uuid) {
+    const client = await pool.connect();
+    let is_error = false;
+    try {
+        const query = format('DELETE FROM utilisateur WHERE uuid = $1 RETURNING *',uuid);
+        await client.query(query);
+        console.log('SUPPRESSION DE L\'UTILISATEUR');
+    } catch (error) {
+        console.error('Erreur lors de la suppression de l\'utilisateur :', error);
+        is_error = true;
+    } finally {
+        client.release();
+    }
+    return is_error;
+}
+
 module.exports = {
     insertUser,
     getUsers,
-    updateUser
+    updateUser,
+    deleteUser
+    
 }
