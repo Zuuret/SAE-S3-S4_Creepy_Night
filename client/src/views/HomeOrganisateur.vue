@@ -56,16 +56,15 @@ import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   name: "HomeOrganisateur",
   computed: {
-    ...mapGetters("ProfilStore", ["utilisateurConnecte"]),
-    ...mapState("ProfilStore", ["organisateurs", "prestataires"]),
-    ...mapState("organisateur", ["billetsAchatAujourdHui"]),
+    ...mapGetters("ProfilStore", ["utilisateurConnecte", "getUtilisateurs", "getOrganisateurs", "getPrestataires"]),
+    ...mapState("transactions", ["billetsAchatAujourdHui"]),
     hasAccess() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "organisateur";
     },
   },
   methods: {
-    ...mapActions("ProfilStore", ["getAllOrganisateur", "getAllPrestataire"]),
-    ...mapActions("organisateur", ["fetchBilletsAchatAujourdHui"]),
+    ...mapActions("ProfilStore", ["fetchUtilisateurs", "fetchOrganisateurs", "fetchPrestataires"]),
+    ...mapActions("transactions", ["fetchBilletsAchatAujourdHui"]),
   },
   mounted() {
     if (!this.utilisateurConnecte) {
@@ -74,8 +73,9 @@ export default {
     } else if (!this.hasAccess) {
       console.log("Accès refusé pour cet utilisateur.");
     } else {
-      this.getAllOrganisateur();
-      this.getAllPrestataire();
+      this.fetchUtilisateurs();
+      this.fetchOrganisateurs();
+      this.fetchPrestataires();
       this.fetchBilletsAchatAujourdHui();
     }
   }

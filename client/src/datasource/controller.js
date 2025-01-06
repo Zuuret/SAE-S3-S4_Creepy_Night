@@ -455,13 +455,10 @@ function getAllUtilisateurs() {
     return { error: 0, data: utilisateurs };
 }
 
-function getBilletsAchatAujourdHui() {
+export function getBilletsAchatAujourdHui() {
     const today = new Date().toISOString().split('T')[0];
-    const billetsAchatAujourdHui = transactions.filter(transaction => {
-        return transaction.date === today && transaction.operation === "Achat Billet";
-    }).length;
-
-    return { error: 0, data: billetsAchatAujourdHui };
+    const count = transactions.filter(transaction => transaction.date.startsWith(today)).length;
+    return { error: 0, data: count };
 }
 
 function getLivreDOr(idPrestataire) {
@@ -526,6 +523,25 @@ function buyTicketCauchemarathon(data) {
 
     console.log('Achat de billets pour CaucheMarathon effectué avec succès, il reste', course.nb_places, 'places disponibles, solde restant :', user.solde, '€', 'pour l\'utilisateur', user.id, user.prenom, user.nom, data.nbBillets, 'billets achetés, prix total :', data.price, '€, course :', course);
     return { error: 0, status: 200, data: { idRes : reservations_cauchemarathon.length, solde: user.solde } };
+}
+
+export async function addTransactionToDatabase(paymentDetails) {
+    // Créez un nouvel objet de transaction
+    const newTransaction = {
+        id: transactions.length + 1, // Assurez-vous que l'ID est unique
+        date: new Date().toISOString().split('T')[0] + ' ' + new Date().toTimeString().split(' ')[0],
+        operation: 'Achat Billet',
+        details: `Achat d'un billet pour le montant de ${paymentDetails.amount} €`,
+        amount: -paymentDetails.amount,
+        id_utilisateur: paymentDetails.id_utilisateur,
+    };
+
+    // Ajoutez la nouvelle transaction à la liste
+    transactions.push(newTransaction);
+
+    console.log("Transaction ajoutée :", newTransaction);
+    // Simulez une réponse réussie
+    return { error: 0, data: "Transaction réussie" };
 }
 
 export default {

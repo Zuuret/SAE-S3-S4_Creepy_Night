@@ -1,4 +1,5 @@
 import LocalSource from "@/datasource/controller";
+import data from '@/datasource/data.js';
 
 async function ajoutUtilisateurFromLocalSource(data){
     return LocalSource.ajoutUtilisateur(data)
@@ -132,6 +133,18 @@ async function getPrestatairebyId(idPrestataire){
         response = {error: 1, status: 404, data: "erreur réseau, impossible de récupérer l'id du prestataire" }
     }
     return response
+}
+
+export async function getAllUtilisateurs() {
+    return { error: 0, data: data.utilisateurs }; 
+}
+
+export async function getAllOrganisateurs() {
+    return { error: 0, data: data.organisateurs }; 
+}
+
+export async function getAllPrestataires() {
+    return { error: 0, data: data.prestataires }; 
 }
 
 export default {

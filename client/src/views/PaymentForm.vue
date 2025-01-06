@@ -37,7 +37,7 @@
       },
     },
     methods: {
-      ...mapActions('transactions', ['addTransaction']), // Ajoutez l'action pour ajouter une transaction
+      ...mapActions('transactions', ['addTransaction']),
       async submitPayment() {
         const paymentDetails = {
           date: new Date().toISOString().split('T')[0],
