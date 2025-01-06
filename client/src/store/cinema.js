@@ -33,7 +33,7 @@ export default ({
             console.log("Récupération des films");
             let response = await CineFilms.getFilms();
             if (response.error === 0) {
-                commit('updateListFilms', response.data);
+                commit('updateListeFilms', response.data);
             } else {
                 console.log(response.data);
             }
