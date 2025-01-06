@@ -1,5 +1,7 @@
 <template>
   <div>
+    <div><NavBar /></div>
+    <div style="margin-top: 150px"></div>
     <div v-if="ok === null">
       <p>Voulez-vous utiliser votre cashless ?</p>
       <button @click="ok = true">Oui</button>
@@ -36,9 +38,11 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: 'ReservationCinepeurValidation',
+  components: {NavBar},
   data: () => ({
     nom: '',
     numeroCarte: '',
