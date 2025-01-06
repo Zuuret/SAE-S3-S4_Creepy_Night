@@ -11,7 +11,7 @@
         <label for="card-number">Numéro de carte :</label>
         <input type="text" id="card-number" v-model="cardNumber" required />
         <label for="expiry">Date d'expiration :</label>
-        <input type="month" id="expiry" v-model="expiryDate" required />
+        <input type="text" id="expiry" v-model="expiryDate" required />
         <label for="cvv">CVV :</label>
         <input type="text" id="cvv" v-model="cvv" required />
         <button type="submit">{{ buttonText }}</button>

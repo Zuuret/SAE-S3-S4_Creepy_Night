@@ -108,6 +108,10 @@
             <input type="text" v-model="prestataire.adresse" id="adressePrestataire" placeholder="Entrez l'adresse de la société" required>
           </div>
           <div class="form-group">
+            <label for="logoPrestataire">Logo de la société :</label>
+            <input type="file" id="logoPrestataire" accept="image/*" @change="handleLogoUpload" required>
+          </div>
+          <div class="form-group">
             <label for="emailPrestataire">Email :</label>
             <input type="email" v-model="prestataire.email" id="emailPrestataire" placeholder="Entrez votre email" required>
           </div>
@@ -163,6 +167,7 @@ export default {
     prestataire: {
       societe: '',
       adresse: '',
+      logo: '',
       email: '',
       confirmEmail: '',
       motDePasse: '',
@@ -173,6 +178,12 @@ export default {
   },
   methods: {
     ...mapActions('ProfilStore', ['enregistrementUtilisateur', 'enregistrementOrganisateur', 'enregistrementPrestataire', 'updateErrorMessage']),
+    handleLogoUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.prestataire.logo = file;
+      }
+    },
     resetForm(type) {
       this.updateErrorMessage('');
       if (type === 'utilisateur') {
@@ -208,12 +219,12 @@ export default {
       }
     },
     async submitFormPrestataire() {
-      const { societe, adresse, email, confirmEmail, motDePasse } = this.prestataire;
+      const { societe, adresse, logo, email, confirmEmail, motDePasse } = this.prestataire;
       if (email !== confirmEmail) {
         this.updateErrorMessage('Les adresses email ne correspondent pas');
         return;
       }
-      const result = await this.enregistrementPrestataire({ societe, adresse, email, motDePasse });
+      const result = await this.enregistrementPrestataire({ societe, adresse, logo, email, motDePasse });
       if (result.success) {
         alert("Votre compte prestataire est créé");
         await this.$router.push('/connexion');

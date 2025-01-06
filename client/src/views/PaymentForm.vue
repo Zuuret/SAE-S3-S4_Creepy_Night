@@ -8,7 +8,7 @@
           <input type="text" id="card-number" v-model="cardNumber" required />
         </div>
         <div>
-          <label for="expiry-date">Date d'expiration :</label>
+          <label for="expiry-date">Date d'expiration (MM/AA) :</label>
           <input type="text" id="expiry-date" v-model="expiryDate" required />
         </div>
         <div>

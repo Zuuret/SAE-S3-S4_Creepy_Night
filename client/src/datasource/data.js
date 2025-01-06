@@ -9,8 +9,8 @@ let organisateurs = [
 ];
 
 let prestataires = [
-    {"id":1, "societe":"baltrouille","adresse": "3 rue de japy", "email":"baltrouille@gmail.com", "motDePasse":"mdp123"},
-    {"id":2, "societe":"carihorreur","adresse": "5 rue de belfort", "email":"carihorreur@gmail.com", "motDePasse":"mdp123"},
+    {"id":1, "societe":"BurgerKing","adresse": "3 rue de japy", "email":"burgerking@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_burgerking.png")},
+    {"id":2, "societe":"POP","adresse": "5 rue de belfort", "email":"pop@gmail.com", "motDePasse":"mdp123", "logo": require("../assets/logo_pop.png")},
 ];
 
 let artistes = [
