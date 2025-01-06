@@ -67,9 +67,9 @@
       <div class="modal-content">
         <h3>{{ modalTitle }}</h3>
         <label for="amount">Montant :</label>
-        <input type="number" id="amount" v-model="transactionAmount" min="0" step="0.01" />
-        <button @click="processTransaction">{{ modalButton }}</button>
-        <button @click="closeModal">Annuler</button>
+        <input type="number" id="amount" v-model="transactionAmount" min="0" step="0.01" /><br>
+        <button class="modal-button" @click="processTransaction">{{ modalButton }}</button>
+        <button class="modal-cancel" @click="closeModal">Annuler</button>
       </div>
     </div>
   </div>
@@ -319,5 +319,27 @@ export default {
   border-radius: 10px;
   text-align: center;
   color: #fff;
+}
+
+.modal-button {
+  background: #ff0000;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.modal-cancel {
+  background: #ff0000;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-left: 10px;
 }
 </style>
