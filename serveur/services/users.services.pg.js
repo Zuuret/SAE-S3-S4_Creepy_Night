@@ -8,7 +8,7 @@ async function insertUser(id,name,firstname,birthdate,email,password,solde,num_c
         const data = [
             [id, name, firstname, birthdate, email, password, solde, num_cashless, qr_code, est_festivalier]
         ]
-        const query = format('INSERT INTO utilisateur (id,nom,prenom,date_naissance,mail,password,solde,num_cashless,qr_code,est_festivalier) VALUES %L', data);
+        const query = format('INSERT INTO Utilisateur (id,nom,prenom,date_naissance,mail,password,solde,num_cashless,qr_code,est_festivalier) VALUES %L', data);
         await client.query(query);
         console.log('INSERTIONS AVEC SUCCES');
     } catch (error) {
@@ -39,7 +39,7 @@ async function updateUser(uuid, name, firstname, birthdate, email, password, est
     const client = await pool.connect();
     let is_error = false;
     try {
-        const query = format('UPDATE utilisateur SET nom = %L, prenom = %L, date_naissance = %L, mail = %L, password = %L, est_festivalier = %L WHERE id = %L', name, firstname, birthdate, email, password, est_festivalier, uuid);
+        const query = format('UPDATE Utilisateur SET nom = %L, prenom = %L, date_naissance = %L, mail = %L, password = %L, est_festivalier = %L WHERE id = %L', name, firstname, birthdate, email, password, est_festivalier, uuid);
         await client.query(query);
         console.log('MISE A JOUR DE L\'UTILISATEUR');
     } catch (error) {
@@ -72,5 +72,4 @@ module.exports = {
     getUsers,
     updateUser,
     deleteUser
-    
 }
