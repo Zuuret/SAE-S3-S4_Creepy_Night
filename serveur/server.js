@@ -1,5 +1,6 @@
 const express = require("express");
 const userRouter = require("./routes/users.router");
+const concertRouter = require("./routes/concerts.router");
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
@@ -9,10 +10,11 @@ const app = express();
 // Middleware traitement JSON 
 app.use(express.json());
 app.use("/api/users",userRouter);
+app.use("/api/concerts",concertRouter);
 
 /** Swagger Initialization - START */
 const swaggerOption = {
-    swaggerDefinition: (swaggerJsdoc.Options = {
+    swaggerDefinition: {
         info: {
             title: "Creepy Night API",
             description: "API documentation",
@@ -21,9 +23,10 @@ const swaggerOption = {
             },
             servers: ["http://localhost:3000/"],
         },
-    }),
-    apis: ["./routes/users.router.js"],
+    },
+    apis: ["./routes/users.router.js", "./routes/concerts.router.js"],
 };
+
 
 const swaggerDocs = swaggerJsdoc(swaggerOption);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));

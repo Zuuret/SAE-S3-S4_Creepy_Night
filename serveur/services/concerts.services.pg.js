@@ -1,14 +1,14 @@
 const pool = require('../database/db');
 const format = require('pg-format');
 
-async function insertConcert(uuid,artiste,nationalite,date,heure,duree,categorie,scene) {
+async function insertConcert(artiste,nationalite,date,heure,duree,categorie,scene) {
     const client = await pool.connect();
     let is_error = false;
     try {
         const data = [
-            [uuid,artiste,nationalite,date,heure,duree,categorie,scene]
+            [artiste,nationalite,date,heure,duree,categorie,scene]
         ]
-        const query = format('INSERT INTO Concert (uuid,artiste,nationalite,date,heure,duree,categorie,scene) VALUES %L', data);
+        const query = format('INSERT INTO Concert (artiste,nationalite,date,heure,duree,categorie,scene) VALUES %L', data);
         await client.query(query);
         console.log('INSERTIONS AVEC SUCCES');
     } catch (error) {

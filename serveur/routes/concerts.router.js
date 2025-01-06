@@ -7,55 +7,68 @@ const router = express.Router();
  * @swagger
  * /api/concerts:
  *   post:
- *     summary: Ajouter un nouveau concert
- *     description: Permet d'ajouter un nouveau concert dans la base de données.
+ *     summary: Créer un nouveau concert
+ *     description: Utilisé pour créer un nouveau concert
  *     tags:
  *       - concerts
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - artiste
- *               - nationalite
- *               - date
- *               - heure
- *               - duree
- *             properties:
- *               artiste:
- *                 type: string
- *                 example: Coldplay
- *               nationalite:
- *                 type: string
- *                 example: Britannique
- *               date:
- *                 type: string
- *                 format: date
- *                 example: 2025-06-15
- *               heure:
- *                 type: string
- *                 format: time
- *                 example: 20:00:00
- *               duree:
- *                 type: integer
- *                 example: 120
- *               categorie:
- *                 type: string
- *                 example: Pop
- *               scene:
- *                 type: string
- *                 example: Grande scène
+ *     parameters:
+ *       - in: body
+ *         name: concert
+ *         description: Données du concert pour créer un nouveau concert
+ *         schema:
+ *           type: object
+ *           required:
+ *             - artiste
+ *             - nationalite
+ *             - date
+ *             - heure
+ *             - categorie
+ *             - scene
+ *           properties:
+ *             artiste:
+ *               type: string
+ *               minLength: 2
+ *               maxLength: 50
+ *               example: Silverman
+ *               description: nom artiste
+ *             nationalite:
+ *               type: string
+ *               minLength: 2
+ *               maxLength: 50
+ *               example: Espagnole
+ *               description: nationalité
+ *             date:
+ *               type: string
+ *               format: date
+ *               example: 2025-10-27
+ *               description: Date du concert
+ *             heure:
+ *               type: string
+ *               minLength: 8
+ *               maxLength: 8
+ *               example: 23:00:00
+ *               description: heure
+ *             categorie:
+ *              type: string
+ *              minLength: 3
+ *              maxLength: 33
+ *              example: Jersey
+ *             scene:
+ *              type: string
+ *              minLength: 3
+ *              maxLength: 20
+ *              example: grande scene
  *     responses:
- *       '201':
- *         description: Concert ajouté avec succès.
+ *       '200':
+ *         description: Utilisateur créé avec succès
  *       '400':
- *         description: Requête invalide.
+ *         description: Mauvaise requête
  *       '500':
- *         description: Erreur interne du serveur.
+ *         description: Erreur interne du serveur
  */
-router.post("/", concertController.addConcert);
+router.post("/", concertController.saveConcert);
+
+
 
 /**
  * @swagger
@@ -71,7 +84,7 @@ router.post("/", concertController.addConcert);
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.get("/", concertController.getAllConcerts);
+router.get("/", concertController.getConcerts);
 
 /**
  * @swagger
@@ -96,7 +109,7 @@ router.get("/", concertController.getAllConcerts);
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.get("/:id", concertController.getConcertById);
+router.get("/:uuid", concertController.getConcertById);
 
 /**
  * @swagger

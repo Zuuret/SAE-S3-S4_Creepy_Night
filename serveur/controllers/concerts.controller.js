@@ -5,37 +5,39 @@ const concertService = require("../services/concerts.services.pg");
 const {FALSE} = require("pg-format/lib/reserved");
 
 exports.saveConcert = async (req,res) => {
-    const id = uuidv4();
     const artiste = req.body.artiste;
     const nationalite = req.body.nationalite;
     const date = req.body.date;
     const heure = req.body.heure;
-    const duree = req.body.duree;
+    const duree = 1;
     const categorie = req.body.categorie;
     const scene = req.body.scene;
-    const resultat = await concertService.insertConcert(id,artiste,nationalite,date,heure,duree,categorie,scene);
+    const resultat = await concertService.insertConcert(artiste, nationalite, date, heure, duree, categorie, scene);
     if (resultat) {
         return res.status(500).send("ERREUR INTERNE");
     }
     return res.status(200).send("INSERTION AVEC SUCCES");
 }
 
-exports.getConcerts = async (req,res) => {
+exports.getConcerts = async (req, res) => {
     const concerts = await concertService.getConcerts();
     if (!concerts) {
         return res.status(500).json({ error: 'ERREUR INTERNE' });
     }
     return res.status(200).json({ data: concerts });
-}
+};
 
 exports.getConcertById = async (req, res) => {
     const uuid = req.params.uuid;
+    //console.log(uuid)
     try {
         const concerts = await concertService.getConcerts();
         if (!concerts) {
             return res.status(500).json({ error: 'ERREUR INTERNE' });
         }
-        const concert = concerts.find(concert => concert.id === uuid);
+        //console.log(concerts)
+        const concert = concerts.find(concert => concert.id == uuid);
+        //console.log(concert)
         if (!concert) {
             return res.status(404).json({ error: 'Concert non trouvé' });
         }
