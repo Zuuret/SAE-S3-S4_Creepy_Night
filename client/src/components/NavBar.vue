@@ -76,8 +76,9 @@ export default {
     },
     logout() {
       this.logoutUser();
+      this.closeMenu()
       if (this.$route.path !== '/') {
-        this.$router.push({ path: '/' });
+        this.$router.push('/');
       }
     },
   },

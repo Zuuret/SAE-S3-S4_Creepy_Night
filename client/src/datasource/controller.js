@@ -70,6 +70,7 @@ function ajoutOrganisateur(data){
 function ajoutPrestataire(data){
     if (!data.societe) return { error: 1, status: 404, data: 'Aucune société fourni' };
     if (!data.adresse) return { error: 1, status: 404, data: 'Aucune adresse fourni' };
+    if (!data.logo) return { error: 1, status: 404, data: 'Aucun logo fourni' };
     if (!data.email) return { error: 1, status: 404, data: 'Aucun email fourni' };
     if (!data.motDePasse) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
 
@@ -82,6 +83,7 @@ function ajoutPrestataire(data){
         id: prestataires.length + 1,
         societe: data.societe,
         adresse: data.adresse,
+        logo: data.logo,
         email: data.email,
         motDePasse: data.motDePasse,
     };
@@ -121,6 +123,7 @@ function loginUser(data, userList, userType) {
         userData = {
             id: user.id,
             societe: user.societe,
+            logo: user.logo,
             adresse: user.adresse,
             email: user.email,
             role: userType
