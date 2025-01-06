@@ -11,6 +11,7 @@
           <th>Prénom</th>
           <th>Nom</th>
           <th>Email</th>
+          <th>Profil</th>
         </tr>
       </thead>
       <tbody>
@@ -19,6 +20,9 @@
           <td>{{ utilisateur.prenom }}</td>
           <td>{{ utilisateur.nom }}</td>
           <td>{{ utilisateur.email }}</td>
+          <td>
+            <router-link :to="{ name: 'UserProfile', params: { id: utilisateur.id } }">Voir Profil</router-link>
+          </td>
         </tr>
       </tbody>
     </table>

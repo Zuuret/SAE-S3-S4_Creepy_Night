@@ -47,6 +47,7 @@ import PrestataireArticle from "@/views/PrestataireArticle.vue";
 import ArticleSpecifique from "@/views/ArticleSpecifique.vue";
 
 import UberFlippe from "@/views/UberFlippe.vue";
+import UserProfile from '@/views/UserProfile.vue';
 
 Vue.use(VueRouter);
 
@@ -85,6 +86,7 @@ const routes = [
   { path: '/prestataire/:id', name: 'PrestataireSpecifique', component: PrestataireSpecifique },
   { path: '/prestataire/:id/articles', name: 'PrestataireArticle', component: PrestataireArticle },
   { path: '/prestataire/:id/articles/:idArticle', name: 'ArticleSpecifique', component: ArticleSpecifique },
+  { path: '/user/:id', name: 'UserProfile', component: UserProfile },
 ];
 
 const router = new VueRouter({
