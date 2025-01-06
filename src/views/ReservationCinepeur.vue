@@ -1,18 +1,45 @@
 <template>
-  <div class="body item flex-column">
+  <div class="body">
+    <!-- Barre de Navigation -->
     <div><NavBar /></div>
-    <h1 class="item">Calendrier des films</h1>
-    <div class="item flex-row">
-      <div class="item flex-column" style="margin-top: 50px"><div v-for="hour in hours" :key="hour" class="item heures bordure"><p>{{ hour }}</p></div></div>
-      <div class="grille ">
-        <div v-for="day in days" :key="day" class=""><p class="item">{{ day }}</p>
-          <div v-for="hour in hours" :key="hour" class="flex-row bordure">
-            <div v-if="!filmsByDayAndHour[day][hour]" class="case ">
+
+    <!-- Titre -->
+    <h1>Calendrier des films</h1>
+
+    <!-- Contenu principal -->
+    <div class="flex-row">
+
+      <!-- Colonne des heures -->
+      <div class="flex-column" style="margin-top: 74px">
+        <div
+            v-for="hour in hours"
+            :key="hour"
+            class="heures bordure"
+        >
+          <p>{{ hour }}</p>
+        </div>
+      </div>
+
+      <!-- Grille des films -->
+      <div class="grille">
+        <div v-for="day in days" :key="day">
+          <!-- En-tête de jour -->
+          <p>{{ day }}</p>
+
+          <!-- Cellules horaires -->
+          <div v-for="hour in hours" :key="hour" class="bordure">
+            <!-- Cellule vide -->
+            <div
+                v-if="!filmsByDayAndHour[day][hour]"
+                class="case"
+            >
               <p>À venir</p>
             </div>
+
+            <!-- Cellule occupée -->
             <div v-if="filmsByDayAndHour[day][hour]" class="item">
               <router-link :to="`/cinepeur/${filmsByDayAndHour[day][hour].id}`">
-                <img :src="filmsByDayAndHour[day][hour].image" alt="Affiche du concert" />
+                <img :src="filmsByDayAndHour[day][hour].image" alt="Affiche du concert"/>
                 <p>{{ filmsByDayAndHour[day][hour].nomFilm }}</p>
               </router-link>
             </div>
@@ -22,6 +49,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import {mapActions, mapState} from 'vuex';
@@ -92,7 +120,7 @@ export default {
 </script>
 
 <style scoped>
-
+/*
 .body {
   align-items: center;
   font-weight: bold;
@@ -239,4 +267,135 @@ h1,h2,h3,h4,h5,h6,p {
   .align-right {margin-inline: 30%;}
   .image-width {width: 100%}
 }
+*/
+
+/* Corps principal */
+.body {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  background-color: black;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 2rem;
+  color: darkred;
+  margin-top: 70px;
+}
+
+/* Conteneur global des jours et heures */
+.flex-row {
+  text-decoration: none;
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Colonne des heures */
+.heures {
+  background-color: black;
+  text-align: center;
+  color: darkred;
+  font-weight: bold;
+  padding-inline: 10px;
+  height: 150px;
+  border: 1px solid darkred;
+  flex: none; /* Taille fixe */
+}
+
+/* Grille principale */
+.grille {
+  text-decoration: none;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 jours */
+  grid-auto-rows: 150px; /* Hauteur uniforme pour chaque cellule */
+  gap: 5px;
+  margin-left: 10px; /* Sépare la grille des heures */
+  background-color: black;
+  border: 1px solid darkred;
+}
+
+/* En-tête des jours */
+.grille > div > p {
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  background-color: black;
+  color: darkred;
+  border: 1px solid darkred;
+}
+
+/* Cellules */
+.case, .item {
+  height: 150px; /* Taille uniforme */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid darkred;
+}
+
+/* Cellules "À venir" */
+.case {
+  font-size: 0.9rem;
+  color: darkred;
+  font-style: italic;
+}
+
+/* Cellules occupées */
+.item img {
+  max-width: 5rem;
+  max-height: 80%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.item a {
+  text-decoration: none;
+}
+
+.item p {
+  margin-top: 5px;
+  text-align: center;
+  font-weight: bold;
+  color: red;
+}
+
+/* Effet au survol */
+.case:hover {
+  background-color: #0F0F0F;
+}
+
+.item:hover {
+  background-color: #0F0F0F;
+  transform: scale(1.08);
+  transition: transform 0.2s ease;
+}
+
+/* Responsivité */
+@media (max-width: 768px) {
+  .grille {
+    grid-template-columns: repeat(2, 1fr); /* Affiche 2 jours par ligne */
+    gap: 10px;
+  }
+
+  .heures {
+    font-size: 0.8rem;
+    padding: 5px;
+  }
+
+  .case, .item {
+    height: 120px; /* Réduisez la taille pour les petits écrans */
+  }
+}
+
 </style>
