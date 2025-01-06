@@ -10,7 +10,8 @@ export default ({
         livreDOr: [],
         commentaire: null,
         articles: [],
-        article: null
+        article: null,
+        panier: [],
     },
     mutations: {
         updateLivreDOr(state, livreDOr) {
