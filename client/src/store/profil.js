@@ -17,6 +17,7 @@ export default ({
         prestataires: [],
         errorMessage: '',
         utilisateurConnecte: JSON.parse(localStorage.getItem("utilisateurConnecte")) || null,
+        logo: null
     },
     mutations: {
         addUtilisateur(state, utilisateur) {
@@ -62,6 +63,12 @@ export default ({
             state.utilisateurConnecte = null;
             localStorage.removeItem("utilisateurConnecte");
             console.log('Utilisateur déconnecté');
+        },
+        updateLogo(state, logo) {
+            if (state.utilisateurConnecte) {
+                state.utilisateurConnecte.logo = logo;
+                localStorage.setItem("utilisateurConnecte", JSON.stringify(state.utilisateurConnecte));
+            }
         },
     },
 
@@ -117,6 +124,10 @@ export default ({
 
             if (response.error === 0) {
                 commit('updateUtilisateurConnecte', response.data);
+                if (userType === 'prestataire' && response.data.logo instanceof File) {
+                    const logoUrl = URL.createObjectURL(response.data.logo);
+                    commit('updateLogo', logoUrl);
+                }
                 commit('updateErrorMessage', '');
                 return { success: true };
             } else {

@@ -109,7 +109,7 @@
           </div>
           <div class="form-group">
             <label for="logoPrestataire">Logo de la société :</label>
-            <input type="file" id="logoPrestataire" accept="image/*" @change="handleLogoUpload" required>
+            <input type="file" id="logoPrestataire" accept="image/*" @change="handleLogoUpload" required/>
           </div>
           <div class="form-group">
             <label for="emailPrestataire">Email :</label>
@@ -191,7 +191,7 @@ export default {
       } else if (type === 'organisateur') {
         this.organisateur = { prenom: '', nom: '', numTelephone: '', email: '', confirmEmail: '', motDePasse: '' };
       } else if (type === 'prestataire') {
-        this.prestataire = { societe: '', adresse: '', email: '', confirmEmail: '', motDePasse: '' };
+        this.prestataire = { societe: '', adresse: '', logo: '', email: '', confirmEmail: '', motDePasse: '' };
       }
     },
     async submitFormUtilisateur() {
