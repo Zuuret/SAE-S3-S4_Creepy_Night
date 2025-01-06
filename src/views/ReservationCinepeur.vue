@@ -315,6 +315,7 @@ h1 {
   padding-inline: 10px;
   height: 150px;
   border: 1px solid darkred;
+  box-shadow: 0 0 15px rgba(255, 0.5, 0.5, 0.6);
   flex: none; /* Taille fixe */
 }
 
@@ -328,6 +329,7 @@ h1 {
   margin-left: 10px; /* Sépare la grille des heures */
   background-color: black;
   border: 1px solid darkred;
+  box-shadow: 0 0 15px rgba(255, 0.5, 0.5, 0.6);
 }
 
 /* En-tête des jours */
@@ -339,6 +341,7 @@ h1 {
   background-color: black;
   color: darkred;
   border: 1px solid darkred;
+  box-shadow: 0 0 15px rgba(255, 0.5, 0.5, 0.6);
 }
 
 /* Cellules */

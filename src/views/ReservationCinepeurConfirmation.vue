@@ -3,16 +3,16 @@
     <div class="navbar">
       <NavBar />
     </div>
-    <h1>Détails du film</h1>
-    <div v-if="filmById">
-      <img :src="filmById.image" alt="Affiche du film" />
+    <h1 class="bordure">Détails du film</h1>
+    <img :src="filmById.image" alt="Affiche du film" />
+    <div v-if="filmById" class="bordure">
       <h2>{{ filmById.nomFilm }}</h2>
       <p>Date : {{ filmById.date }}</p>
       <p>Heure : {{ filmById.heure }}</p>
       <p>{{ filmById.salle }}</p>
     </div>
 
-    <div v-if="places_film.length > 0">
+    <div v-if="places_film.length > 0" class="bordure">
       <h3>Places disponibles :</h3>
       <div v-for="place in places_film" :key="place.id">
         <p>Type de place : {{ place.type_place }} - Nombre de places : {{ place.nb_places }} - Prix : {{ place.prix_place }} €</p>
@@ -22,10 +22,10 @@
         </select>
       </div>
     </div>
-    <div v-else>
+    <div v-else class="bordure">
       <p>Aucune place disponible pour ce film.</p>
     </div>
-    <div>
+    <div class="bordure">
       <p>Total : {{ prixTotal }}€</p>
     </div>
     <div>
@@ -85,8 +85,15 @@ div {
   max-width: 600px;
   margin: 0 auto;
   text-align: center;
-  box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
 }
+
+.bordure {
+  background-color: #151515;
+  border: 1px solid red;
+  box-shadow: 0 0 15px rgba(255, 0.5, 0.5, 0.6);
+  border-radius: 8px;
+}
+
 /* Titre principal */
 h1 {
   color: #ff0000;
@@ -115,6 +122,7 @@ p {
   color: #eeeeee;
   margin: 5px 0;
 }
+
 /* Select pour la quantité */
 select {
   background-color: #222;
@@ -125,10 +133,12 @@ select {
   border-radius: 4px;
   margin-top: 10px;
 }
+
 select:focus {
   outline: none;
   box-shadow: 0 0 5px #ff4444;
 }
+
 /* Effet de bouton */
 button {
   background-color: #ff0000;
