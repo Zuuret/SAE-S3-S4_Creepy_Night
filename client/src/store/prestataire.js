@@ -8,7 +8,9 @@ export default ({
     namespaced: true,
     state: {
         livreDOr: [],
-        commentaire: null
+        commentaire: null,
+        articles: [],
+        article: null
     },
     mutations: {
         updateLivreDOr(state, livreDOr) {
@@ -16,7 +18,25 @@ export default ({
         },
         ajoutLivreDOr(state, commentaire) {
             state.livreDOr.push(commentaire)
-        }
+        },
+        updateListeArticles(state, articles){
+            state.articles = articles
+        },
+        updateArticleById(state, article){
+            state.article = article
+        },
+        addArticle(state, article){
+            const articleExistant = state.panier.find(
+                item => item === article.id
+            );
+            if (articleExistant) {
+                stock.quantite -= 1;
+                existingDeguisement.quantite += 1;
+            } else {
+                stock.quantite -= 1;
+                state.panier.push({ ...deguisement, quantite: 1 });
+            }
+        },
     },
     actions: {
         async getLivreDOr({commit}, idPrestataire) {
@@ -36,6 +56,24 @@ export default ({
                 commit('ajoutLivreDOr', response.data);
             } else {
                 console.log(response.data)
+            }
+        },
+        async getAllArticlesById({commit}, idPrestataire) {
+            console.log("Récupération des articles pour le prestataire ID :", idPrestataire)
+            let response = await PrestaireService.getAllArticlesById(idPrestataire)
+            if (response.error === 0) {
+                commit('updateListeArticles', response.data)
+            } else {
+                console.log(response.data);
+            }
+        },
+        async getArticleById({commit}, idArticle) {
+            console.log("Récupération de l'article ID :", idArticle)
+            let response = await PrestaireService.getArticleById(idArticle)
+            if (response.error === 0) {
+                commit('updateArticleById', response.data)
+            } else {
+                console.log(response.data);
             }
         },
     }

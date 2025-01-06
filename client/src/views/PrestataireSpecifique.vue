@@ -6,8 +6,11 @@
       <h1>{{ prestataire.societe }}</h1>
       <p>{{ prestataire.adresse }}</p>
       <img :src="prestataire.logo" :alt="prestataire.societe" class="prestataire-logo" />
+      <LivreDOr/>
+      <router-link :to="`/prestataire/${prestataire.id}/articles`">
+        <button>Nos articles</button>
+      </router-link>
     </div>
-    <LivreDOr/>
   </div>
 </template>
 

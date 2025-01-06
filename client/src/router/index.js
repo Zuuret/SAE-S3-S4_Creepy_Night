@@ -43,6 +43,8 @@ import PaiementCashLess from "@/views/PaymentFormCashLess.vue";
 import HomePrestataire from "@/views/HomePrestataire.vue";
 import PrestatairePublic from "@/views/PrestatairePublic.vue"
 import PrestataireSpecifique from "@/views/PrestataireSpecifique.vue";
+import PrestataireArticle from "@/views/PrestataireArticle.vue";
+import ArticleSpecifique from "@/views/ArticleSpecifique.vue";
 
 import UberFlippe from "@/views/UberFlippe.vue";
 
@@ -81,6 +83,8 @@ const routes = [
   { path: '/cashless/paiement/', name: 'PaymentFormCashLess', component: PaiementCashLess },
   { path: '/prestataire', name: 'Prestataire', component: PrestatairePublic },
   { path: '/prestataire/:id', name: 'PrestataireSpecifique', component: PrestataireSpecifique },
+  { path: '/prestataire/:id/articles', name: 'PrestataireArticle', component: PrestataireArticle },
+  { path: '/prestataire/:id/articles/:idArticle', name: 'ArticleSpecifique', component: ArticleSpecifique },
 ];
 
 const router = new VueRouter({

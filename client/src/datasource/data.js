@@ -23,6 +23,8 @@ let articles = [
     { "id": 2, "prestataireId": 1, "nom": 'Cheese Burger', "description": 'Burger avec fromage, frites et boisson', "prix": 6.99, "stock": 30 }
 ];
 
+let panier_article = []
+
 let artistes = [
     {"id":1, "nomGroupe":"PINK", "nbMembres":5, "decision":"null"},
     {"id":2, "nomGroupe":"KISS", "nbMembres":4, "decision":"null"},
@@ -328,6 +330,7 @@ module.exports = {
     prestataires,
     livre_DOr,
     articles,
+    panier_article,
     concerts,
     places_concerts,
     panier_concert,
