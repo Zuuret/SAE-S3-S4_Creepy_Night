@@ -10,7 +10,7 @@
     <div class="flex-row">
 
       <!-- Colonne des heures -->
-      <div class="flex-column" style="margin-top: 74px">
+      <div class="flex-column" style="margin-top: 43px">
         <div
             v-for="hour in hours"
             :key="hour"
@@ -269,6 +269,13 @@ h1,h2,h3,h4,h5,h6,p {
 }
 */
 
+
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
 /* Corps principal */
 .body {
   text-decoration: none;
@@ -283,7 +290,7 @@ h1,h2,h3,h4,h5,h6,p {
 h1 {
   font-size: 2rem;
   color: darkred;
-  margin-top: 70px;
+  margin-block: 40px;
 }
 
 /* Conteneur global des jours et heures */
@@ -353,9 +360,7 @@ h1 {
 
 /* Cellules occupées */
 .item img {
-  max-width: 5rem;
-  max-height: 80%;
-  object-fit: contain;
+  max-width: 7rem;
   border-radius: 4px;
 }
 
@@ -365,6 +370,7 @@ h1 {
 
 .item p {
   margin-top: 5px;
+  font-size: 80%;
   text-align: center;
   font-weight: bold;
   color: red;
