@@ -30,11 +30,11 @@ export default ({
                 item => item === article.id
             );
             if (articleExistant) {
-                stock.quantite -= 1;
-                existingDeguisement.quantite += 1;
+                article.stock -= 1;
+                articleExistant.quantite += 1;
             } else {
-                stock.quantite -= 1;
-                state.panier.push({ ...deguisement, quantite: 1 });
+                article.stock -= 1;
+                state.panier.push({ ...article, quantite: 1 });
             }
         },
     },
