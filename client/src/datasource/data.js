@@ -13,6 +13,16 @@ let prestataires = [
     {"id":2, "societe":"POP","adresse": "5 rue de belfort", "email":"pop@gmail.com", "motDePasse":"mdp123", "logo": require("../assets/logo_pop.png")},
 ];
 
+let livre_DOr = [
+    {"id": 1, "prestataireId": 1, "nomUtilisateur": "John Doe", "evaluation": 5, "message": "Excellent service, j'adore !", "date": "30 Octobre 2025"},
+    {"id": 2, "prestataireId": 1, "nomUtilisateur": "Le festifroussard", "evaluation": 4, "message": "Je me suis péter le bide !", "date": "31 Octobre 2025"}
+]
+
+let articles = [
+    { "id": 1, "prestataireId": 1, "nom": 'Menu Whopper', "description": 'Menu complet avec burger, frites et boisson', "prix": 9.99, "stock": 50, "image": require("../assets/menu_whopper.png") },
+    { "id": 2, "prestataireId": 1, "nom": 'Cheese Burger', "description": 'Burger avec fromage, frites et boisson', "prix": 6.99, "stock": 30 }
+];
+
 let artistes = [
     {"id":1, "nomGroupe":"PINK", "nbMembres":5, "decision":"null"},
     {"id":2, "nomGroupe":"KISS", "nbMembres":4, "decision":"null"},
@@ -308,15 +318,12 @@ let demandeUberFlippe = [
     {"id_demande":1, "zone":"Bosquepouvante","nbPersonne":3,"description":"Jeune homme noir cheveux blond et yeux bridé"}
 ]
 
-let livre_DOr = [
-    {"id": 1, "prestataireId": 1, "nomUtilisateur": "John Doe", "evaluation": 5, "message": "Excellent service, j'adore !", "date": "30 Octobre 2025"},
-    {"id": 2, "prestataireId": 1, "nomUtilisateur": "Le festifroussard", "evaluation": 4, "message": "Je me suis péter le bide !", "date": "31 Octobre 2025"}
-]
-
 module.exports = {
     utilisateurs,
     organisateurs,
     prestataires,
+    livre_DOr,
+    articles,
     concerts,
     places_concerts,
     panier_concert,
@@ -338,5 +345,4 @@ module.exports = {
     bouteilles,
     reservation_carihorreur,
     demandeUberFlippe,
-    livre_DOr
 }

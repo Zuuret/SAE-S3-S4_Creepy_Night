@@ -14,7 +14,7 @@ import {
     taille_deguisements,
     carres,
     bouteilles,
-    reservation_carihorreur, organisateurs, prestataires, soireeBaltrouille, demandeUberFlippe, livre_DOr
+    reservation_carihorreur, organisateurs, prestataires, soireeBaltrouille, demandeUberFlippe, livre_DOr, articles
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -477,6 +477,16 @@ function ajoutLivreDOr(data){
     return {error: 0, status: 200, data: nouveauCommentaire}
 }
 
+function getAllArticlesById(idPrestataire){
+    let articlesPresta = articles.filter(article => article.prestataireId === parseInt(idPrestataire));
+    return { error: 0, data: articlesPresta };
+}
+
+function getArticleById(idArticle){
+    let articlePresta = articles.find(a => a.id === parseInt(idArticle))
+    return {error: 0, data: articlePresta}
+}
+
 export default {
     ajoutUtilisateur,
     ajoutOrganisateur,
@@ -525,5 +535,7 @@ export default {
     getAllUtilisateurs,
     getBilletsAchatAujourdHui,
     getLivreDOr,
-    ajoutLivreDOr
+    ajoutLivreDOr,
+    getAllArticlesById,
+    getArticleById
 };
