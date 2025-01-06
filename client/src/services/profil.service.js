@@ -30,6 +30,9 @@ async function getAllPrestataireFromLocalSource() {
 async function getUserbyIdFromLocalSource(idUser){
     return LocalSource.getUserById(idUser)
 }
+async function getPrestatairebyIdFromLocalSource(idPrestataire){
+    return LocalSource.getPrestataireById(idPrestataire)
+}
 
 async function ajoutUtilisateur(data) {
     let response;
@@ -121,6 +124,15 @@ async function getUserbyId(idUser){
     }
     return response
 }
+async function getPrestatairebyId(idPrestataire){
+    let response;
+    try {
+        response = await getPrestatairebyIdFromLocalSource(idPrestataire)
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible de récupérer l'id du prestataire" }
+    }
+    return response
+}
 
 export default {
     ajoutUtilisateur,
@@ -133,4 +145,5 @@ export default {
     getAllOrganisateur,
     getAllPrestataire,
     getUserbyId,
+    getPrestatairebyId
 }

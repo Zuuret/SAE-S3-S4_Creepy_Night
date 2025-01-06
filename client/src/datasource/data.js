@@ -308,6 +308,11 @@ let demandeUberFlippe = [
     {"id_demande":1, "zone":"Bosquepouvante","nbPersonne":3,"description":"Jeune homme noir cheveux blond et yeux bridé"}
 ]
 
+let livre_DOr = [
+    {"id": 1, "prestataireId": 1, "nomUtilisateur": "John Doe", "evaluation": 5, "message": "Excellent service, j'adore !", "date": "30 Octobre 2025"},
+    {"id": 2, "prestataireId": 1, "nomUtilisateur": "Le festifroussard", "evaluation": 4, "message": "Je me suis péter le bide !", "date": "31 Octobre 2025"}
+]
+
 module.exports = {
     utilisateurs,
     organisateurs,
@@ -332,5 +337,6 @@ module.exports = {
     carres,
     bouteilles,
     reservation_carihorreur,
-    demandeUberFlippe
+    demandeUberFlippe,
+    livre_DOr
 }

@@ -17,7 +17,7 @@ export default ({
         prestataires: [],
         errorMessage: '',
         utilisateurConnecte: JSON.parse(localStorage.getItem("utilisateurConnecte")) || null,
-        logo: null
+        logo: null,
     },
     mutations: {
         addUtilisateur(state, utilisateur) {
@@ -198,6 +198,15 @@ export default ({
             let response = await ProfilService.getUserbyId(idUser);
             if (response.error === 0) {
                 commit('updateUtilisateurbyId', response.data);
+            } else {
+                console.log(response.data);
+            }
+        },
+        async getPrestairebyId({ commit }, idPrestataire) {
+            console.log("Récupération de l'id du prestataire");
+            let response = await ProfilService.getPrestatairebyId(idPrestataire);
+            if (response.error === 0) {
+                commit('updatePrestatairebyId', response.data);
             } else {
                 console.log(response.data);
             }

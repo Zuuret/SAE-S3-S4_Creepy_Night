@@ -14,7 +14,7 @@ import {
     taille_deguisements,
     carres,
     bouteilles,
-    reservation_carihorreur, organisateurs, prestataires, soireeBaltrouille, demandeUberFlippe
+    reservation_carihorreur, organisateurs, prestataires, soireeBaltrouille, demandeUberFlippe, livre_DOr
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -153,7 +153,10 @@ function getUserById(idUser){
     let user = utilisateurs.find(u => u.id === parseInt(idUser))
     return {error: 0, data:user}
 }
-
+function getPrestataireById(idPrestataire){
+    let presta = prestataires.find(u => u.id === parseInt(idPrestataire))
+    return {error: 0, data:presta}
+}
 function addPositionGeographique() {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
@@ -453,7 +456,26 @@ function getBilletsAchatAujourdHui() {
     return { error: 0, data: billetsAchatAujourdHui };
 }
 
+function getLivreDOr(idPrestataire) {
+    let livrePresta = livre_DOr.filter(livre => livre.prestataireId === parseInt(idPrestataire));
+    return { error: 0, data: livrePresta };
+}
 
+function ajoutLivreDOr(data){
+    if(!data.nomUtilisateur) return {errors: 0, status: 404, data: 'Aucune nom d\'utilisateur fourni'}
+    if (!data.evaluation) return {errors: 0, status: 404, data: 'Aucune évaluation fourni'}
+    if(!data.message) return {errors: 0, status: 404, data: 'Aucun message fourni'}
+
+    let nouveauCommentaire = {
+        id: livre_DOr.length + 1,
+        nomUtilisateur: data.nomUtilisateur,
+        evaluation: data.evaluation,
+        message: data.message,
+        date: data.date
+    }
+    livre_DOr.push(nouveauCommentaire)
+    return {error: 0, status: 200, data: nouveauCommentaire}
+}
 
 export default {
     ajoutUtilisateur,
@@ -466,6 +488,7 @@ export default {
     getAllOrganisateur,
     getAllPrestataire,
     getUserById,
+    getPrestataireById,
     addPositionGeographique,
     addSignalement,
     getAllSignalements,
@@ -500,5 +523,7 @@ export default {
     getAllDemande,
     addDemandeUberflippe,
     getAllUtilisateurs,
-    getBilletsAchatAujourdHui
+    getBilletsAchatAujourdHui,
+    getLivreDOr,
+    ajoutLivreDOr
 };
