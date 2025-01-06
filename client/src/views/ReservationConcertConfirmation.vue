@@ -55,7 +55,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('ConcertStore', ['getConcertbyId', 'getPlacesConcertsbyId', 'ajouterAuPanier']),
+    ...mapActions('ConcertStore', ['getConcertbyId', 'getPlacesConcertsbyId','getAllPlacesConcert', 'ajouterAuPanier']),
     ajoutAuPanier() {
       if (this.quantite <= 0) {
         alert('Veuillez sélectionner une quantité valide.');
@@ -77,6 +77,7 @@ export default {
     const concertId = parseInt(this.$route.params.id);
     this.getConcertbyId(concertId);
     this.getPlacesConcertsbyId(concertId);
+    this.getAllPlacesConcert()
   },
 };
 </script>

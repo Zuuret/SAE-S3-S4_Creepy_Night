@@ -57,8 +57,7 @@ export default ({
         },
         retirerDuPanier(state, { concertId }) {
             const placeDansPanier = state.panier.find(item => item.concertId === concertId);
-            const placesConcert = state.place_concert.find(place => place.id_concert === concertId);
-            console.log(placesConcert)
+            const placesConcert = state.places_concert.find(place => place.id_concert === concertId);
             if (placeDansPanier && placesConcert) {
                 placeDansPanier.nbPlaces -= 1;
                 placesConcert.nb_places += 1;
@@ -72,7 +71,7 @@ export default ({
         },
         viderPlace(state, { concertId }) {
             const placeDansPanier = state.panier.find(item => item.concertId === concertId);
-            const placesConcert = state.place_concert.find(place => place.id_concert === concertId);
+            const placesConcert = state.places_concert.find(place => place.id_concert === concertId);
             if (placeDansPanier && placesConcert) {
                 placesConcert.nb_places += placeDansPanier.nbPlaces;
                 placeDansPanier.nbPlaces = 0;
