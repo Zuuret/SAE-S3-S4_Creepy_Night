@@ -109,7 +109,7 @@
           </div>
           <div class="form-group">
             <label for="logoPrestataire">Logo de la société :</label>
-            <input type="file" id="logoPrestataire" accept="image/*" @change="handleLogoUpload" required>
+            <input type="file" id="logoPrestataire" accept="image/*" @change="handleLogoUpload" required/>
           </div>
           <div class="form-group">
             <label for="emailPrestataire">Email :</label>
@@ -134,7 +134,6 @@
             <button type="submit" class="submit-button">Confirmer l'inscription</button>
           </div>
         </form>
-        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
       </div>
     </div>
   </div>
@@ -191,7 +190,7 @@ export default {
       } else if (type === 'organisateur') {
         this.organisateur = { prenom: '', nom: '', numTelephone: '', email: '', confirmEmail: '', motDePasse: '' };
       } else if (type === 'prestataire') {
-        this.prestataire = { societe: '', adresse: '', email: '', confirmEmail: '', motDePasse: '' };
+        this.prestataire = { societe: '', adresse: '', logo: '', email: '', confirmEmail: '', motDePasse: '' };
       }
     },
     async submitFormUtilisateur() {
@@ -201,6 +200,7 @@ export default {
         return;
       }
       const result = await this.enregistrementUtilisateur({ nom, prenom, dateNaissance, email, motDePasse });
+      console.log(result)
       if (result.success) {
         alert("Votre compte utilisateur est créé");
         await this.$router.push('/connexion');
@@ -236,7 +236,6 @@ export default {
 
 
 <style scoped>
-/* Global Styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -249,7 +248,6 @@ body {
 
 }
 
-/* Container for the form */
 .form-container {
   width: 100%;
   max-width: 400px;
@@ -296,7 +294,6 @@ h3{
   border-bottom: 2px solid #AD0918;
 }
 
-/* Form styles */
 .form-content {
   display: flex;
   flex-direction: column;
@@ -413,5 +410,10 @@ input:focus {
 
 .link:hover {
   text-decoration: underline;
+}
+.error {
+  color: red;
+  font-weight: bold;
+  margin: 20px 0;
 }
 </style>

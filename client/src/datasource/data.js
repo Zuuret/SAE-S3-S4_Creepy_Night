@@ -308,6 +308,11 @@ let demandeUberFlippe = [
     {"id_demande":1, "zone":"Bosquepouvante","nbPersonne":3,"description":"Jeune homme noir cheveux blond et yeux bridé"}
 ]
 
+let livre_DOr = [
+    {"id": 1, "prestataireId": 1, "nomUtilisateur": "John Doe", "evaluation": 5, "message": "Excellent service, j'adore !", "date": "30 Octobre 2025"},
+    {"id": 2, "prestataireId": 1, "nomUtilisateur": "Le festifroussard", "evaluation": 4, "message": "Je me suis péter le bide !", "date": "31 Octobre 2025"}
+]
+
 let reservations_cauchemarathon= [
     {"id_reservation":1, "id_utilisateur": 1, "id_course": 1, "nb_places": 2},
 ]
@@ -337,5 +342,6 @@ module.exports = {
     bouteilles,
     reservation_carihorreur,
     demandeUberFlippe,
+    livre_DOr,
     reservations_cauchemarathon
 }

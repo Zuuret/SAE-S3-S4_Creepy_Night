@@ -19,6 +19,7 @@ import {
     prestataires,
     soireeBaltrouille,
     demandeUberFlippe,
+    livre_DOr,
     reservations_cauchemarathon,
     courses_cauchemarathon
 } from './data.js';
@@ -159,7 +160,10 @@ function getUserById(idUser){
     let user = utilisateurs.find(u => u.id === parseInt(idUser))
     return {error: 0, data:user}
 }
-
+function getPrestataireById(idPrestataire){
+    let presta = prestataires.find(u => u.id === parseInt(idPrestataire))
+    return {error: 0, data:presta}
+}
 function addPositionGeographique() {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
@@ -459,6 +463,27 @@ function getBilletsAchatAujourdHui() {
     return { error: 0, data: billetsAchatAujourdHui };
 }
 
+function getLivreDOr(idPrestataire) {
+    let livrePresta = livre_DOr.filter(livre => livre.prestataireId === parseInt(idPrestataire));
+    return { error: 0, data: livrePresta };
+}
+
+function ajoutLivreDOr(data){
+    if(!data.nomUtilisateur) return {errors: 0, status: 404, data: 'Aucune nom d\'utilisateur fourni'}
+    if (!data.evaluation) return {errors: 0, status: 404, data: 'Aucune évaluation fourni'}
+    if(!data.message) return {errors: 0, status: 404, data: 'Aucun message fourni'}
+
+    let nouveauCommentaire = {
+        id: livre_DOr.length + 1,
+        nomUtilisateur: data.nomUtilisateur,
+        evaluation: data.evaluation,
+        message: data.message,
+        date: data.date
+    }
+    livre_DOr.push(nouveauCommentaire)
+    return {error: 0, status: 200, data: nouveauCommentaire}
+}
+
 function buyTicketCauchemarathon(data) {
     const user = utilisateurs.find(u => u.id === data.idUser);
     if (!user) return { error: 1, status: 404, data: 'Utilisateur non trouvé' };
@@ -492,7 +517,6 @@ function buyTicketCauchemarathon(data) {
     return { error: 0, status: 200, data: { idRes : reservations_cauchemarathon.length, solde: user.solde } };
 }
 
-
 export default {
     ajoutUtilisateur,
     ajoutOrganisateur,
@@ -504,6 +528,7 @@ export default {
     getAllOrganisateur,
     getAllPrestataire,
     getUserById,
+    getPrestataireById,
     addPositionGeographique,
     addSignalement,
     getAllSignalements,
@@ -539,5 +564,7 @@ export default {
     addDemandeUberflippe,
     getAllUtilisateurs,
     getBilletsAchatAujourdHui,
+    getLivreDOr,
+    ajoutLivreDOr,
     buyTicketCauchemarathon,
 };

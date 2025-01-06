@@ -17,6 +17,7 @@ export default ({
         prestataires: [],
         errorMessage: '',
         utilisateurConnecte: JSON.parse(localStorage.getItem("utilisateurConnecte")) || null,
+        logo: null,
     },
     mutations: {
         addUtilisateur(state, utilisateur) {
@@ -62,6 +63,12 @@ export default ({
             state.utilisateurConnecte = null;
             localStorage.removeItem("utilisateurConnecte");
             console.log('Utilisateur déconnecté');
+        },
+        updateLogo(state, logo) {
+            if (state.utilisateurConnecte) {
+                state.utilisateurConnecte.logo = logo;
+                localStorage.setItem("utilisateurConnecte", JSON.stringify(state.utilisateurConnecte));
+            }
         },
     },
 
@@ -117,6 +124,10 @@ export default ({
 
             if (response.error === 0) {
                 commit('updateUtilisateurConnecte', response.data);
+                if (userType === 'prestataire' && response.data.logo instanceof File) {
+                    const logoUrl = URL.createObjectURL(response.data.logo);
+                    commit('updateLogo', logoUrl);
+                }
                 commit('updateErrorMessage', '');
                 return { success: true };
             } else {
@@ -187,6 +198,15 @@ export default ({
             let response = await ProfilService.getUserbyId(idUser);
             if (response.error === 0) {
                 commit('updateUtilisateurbyId', response.data);
+            } else {
+                console.log(response.data);
+            }
+        },
+        async getPrestairebyId({ commit }, idPrestataire) {
+            console.log("Récupération de l'id du prestataire");
+            let response = await ProfilService.getPrestatairebyId(idPrestataire);
+            if (response.error === 0) {
+                commit('updatePrestatairebyId', response.data);
             } else {
                 console.log(response.data);
             }

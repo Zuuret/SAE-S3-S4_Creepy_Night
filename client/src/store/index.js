@@ -11,7 +11,7 @@ import CinemaStore from "../store/cinema";
 import SecuFlippeStore from '../store/secuflippe'
 import BaltrouilleStore from "../store/baltrouille";
 import UberFlippeStore from "../store/uberflippe";
-
+import PrestataireStore from "../store/prestataire"
 import CarihorreurStore from "@/store/carihorreur";
 // import organisateur from "../store/organisateur";
 // import transactions from '../store/transactions';
@@ -27,6 +27,7 @@ export default new Vuex.Store({
     BaltrouilleStore,
     CarihorreurStore,
     UberFlippeStore,
+    PrestataireStore
     // organisateur,
     // transactions
   }
