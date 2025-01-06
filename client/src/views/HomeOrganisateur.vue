@@ -1,52 +1,63 @@
 <template>
   <div>
-    <h1 v-if="hasAccess">Bienvenue sur la page de l'organisateur</h1>
-    <p v-if="hasAccess">Contenu réservé aux organisateurs.</p>
+    <h1>Bienvenue sur la page de l'organisateur</h1>
+    <p>Nombre de billets achetés aujourd'hui : {{ billetsAchatAujourdHui }}</p>
 
-    <p v-else class="error">Accès refusé. Vous n'avez pas les permissions pour voir cette page.</p>
-
-    <div v-if="hasAccess">
-      <h2>Chiffre du jour</h2>
-      <p>Nombre de billets achetés aujourd'hui : {{ billetsAchatAujourdHui }}</p>
-
-      <h2>Liste des Organisateurs</h2>
-      <table>
-        <thead>
+    <h2>Liste des Utilisateurs</h2>
+    <table>
+      <thead>
         <tr>
           <th>ID</th>
           <th>Prénom</th>
           <th>Nom</th>
           <th>Email</th>
         </tr>
-        </thead>
-        <tbody>
+      </thead>
+      <tbody>
+        <tr v-for="utilisateur in utilisateurs" :key="utilisateur.id">
+          <td>{{ utilisateur.id }}</td>
+          <td>{{ utilisateur.prenom }}</td>
+          <td>{{ utilisateur.nom }}</td>
+          <td>{{ utilisateur.email }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Liste des Organisateurs</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nom</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody>
         <tr v-for="organisateur in organisateurs" :key="organisateur.id">
           <td>{{ organisateur.id }}</td>
-          <td>{{ organisateur.prenom }}</td>
           <td>{{ organisateur.nom }}</td>
           <td>{{ organisateur.email }}</td>
         </tr>
-        </tbody>
-      </table>
+      </tbody>
+    </table>
 
-      <h2>Liste des Prestataires</h2>
-      <table>
-        <thead>
+    <h2>Liste des Prestataires</h2>
+    <table>
+      <thead>
         <tr>
           <th>ID</th>
           <th>Société</th>
           <th>Email</th>
         </tr>
-        </thead>
-        <tbody>
+      </thead>
+      <tbody>
         <tr v-for="prestataire in prestataires" :key="prestataire.id">
           <td>{{ prestataire.id }}</td>
           <td>{{ prestataire.societe }}</td>
           <td>{{ prestataire.email }}</td>
         </tr>
-        </tbody>
-      </table>
-    </div>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -56,7 +67,8 @@ import { mapActions, mapGetters, mapState } from "vuex";
 export default {
   name: "HomeOrganisateur",
   computed: {
-    ...mapGetters("ProfilStore", ["utilisateurConnecte", "getUtilisateurs", "getOrganisateurs", "getPrestataires"]),
+    ...mapGetters("ProfilStore", ["utilisateurConnecte", "getUtilisateurs"]),
+    ...mapState("profil", ["utilisateurs", "organisateurs", "prestataires"]),
     ...mapState("transactions", ["billetsAchatAujourdHui"]),
     hasAccess() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "organisateur";
