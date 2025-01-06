@@ -12,7 +12,7 @@ var router = express.Router();
  *     summary: Créer un nouvel utilisateur
  *     description: Utilisé pour créer un nouvel utilisateur
  *     tags:
- *       - users
+ *       - utilisateurs
  *     parameters:
  *       - in: body
  *         name: user
@@ -72,7 +72,7 @@ router.post("/", userController.saveUser);
  *     summary: Récupérer tous les utilisateurs
  *     description: Permet de récupérer la liste de tous les utilisateurs.
  *     tags:
- *       - users
+ *       - utilisateurs
  *     responses:
  *       '200':
  *         description: Liste des utilisateurs récupérée avec succès.
@@ -88,7 +88,7 @@ router.get("/", userController.getUsers);
  *     summary: Récupérer un utilisateur par ID
  *     description: Récupère un utilisateur par son UUID
  *     tags:
- *       - users
+ *       - utilisateurs
  *     parameters:
  *       - in: path
  *         name: uuid
@@ -122,7 +122,7 @@ router.get('/:uuid', userController.getUserById);
  *     summary: Modifier un utilisateur par ID
  *     description: Modifie un utilisateur existant par son UUID
  *     tags:
- *       - users
+ *       - utilisateurs
  *     parameters:
  *       - in: path
  *         name: uuid
@@ -136,53 +136,53 @@ router.get('/:uuid', userController.getUserById);
  *           example: 5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6
  *           description: UUID de l'utilisateur
  *           required: true
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 minLength: 2
- *                 maxLength: 50
- *                 example: Doe
- *                 description: Nom
- *                 required: true
- *               firstname:
- *                 type: string
- *                 minLength: 2
- *                 maxLength: 50
- *                 example: John
- *                 description: Prénom
- *                 required: true
- *               birthdate:
- *                 type: string
- *                 format: date
- *                 example: 2000-01-01
- *                 description: Date de naissance
- *                 required: true
- *               email:
- *                 type: string
- *                 minLength: 5
- *                 maxLength: 55
- *                 example: johndoe@example.com
- *                 description: Adresse mail
- *                 required: true
- *               password:
- *                 type: string
- *                 minLength: 1
- *                 maxLength: 45
- *                 example: mdp
- *                 description: Mot de passe
- *                 required: true
- *               est_festivalier:
- *                 type: boolean
- *                 example: true
- *                 description: Est festivalier
- *                 required: true
- *
+ *       - in: body
+ *         name: user
+ *         description: Données de l'utilisateur à mettre à jour
+ *         schema:
+ *           type: object
+ *           properties:
+ *             name:
+ *               type: string
+ *               minLength: 2
+ *               maxLength: 50
+ *               example: Doe
+ *               description: Nom
+ *               required: true
+ *             firstname:
+ *               type: string
+ *               minLength: 2
+ *               maxLength: 50
+ *               example: John
+ *               description: Prénom
+ *               required: true
+ *             birthdate:
+ *               type: string
+ *               format: date
+ *               example: 2000-01-01
+ *               description: Date de naissance
+ *               required: true
+ *             email:
+ *               type: string
+ *               minLength: 5
+ *               maxLength: 55
+ *               example: johndoe@example.com
+ *               description: Adresse mail
+ *               required: true
+ *               unique: true
+ *             password:
+ *               type: string
+ *               minLength: 1
+ *               maxLength: 45
+ *               example: mdp
+ *               description: Mot de passe
+ *               required: true
+ *               unique: true
+ *             is_festivalier:
+ *               type: boolean
+ *               example: true
+ *               description: Est festivalier
+ *               required: true*
  *     responses:
  *       '200':
  *         description: Utilisateur mis à jour
@@ -193,6 +193,7 @@ router.get('/:uuid', userController.getUserById);
  */
 router.put('/:uuid', userController.updateUser);
 
+
 /**
  * @swagger
  * /api/users/{uuid}:
@@ -200,7 +201,7 @@ router.put('/:uuid', userController.updateUser);
  *     summary: Supprimer un utilisateur par ID
  *     description: Supprime un utilisateur par son UUID
  *     tags:
- *       - users
+ *       - utilisateurs
  *     parameters:
  *       - in: path
  *         name: uuid
