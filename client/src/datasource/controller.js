@@ -14,7 +14,15 @@ import {
     taille_deguisements,
     carres,
     bouteilles,
-    reservation_carihorreur, organisateurs, prestataires, soireeBaltrouille, demandeUberFlippe, livre_DOr, articles
+    reservation_carihorreur,
+    organisateurs,
+    prestataires,
+    soireeBaltrouille,
+    demandeUberFlippe,
+    livre_DOr,
+    articles,
+    reservations_cauchemarathon,
+    courses_cauchemarathon
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -482,9 +490,42 @@ function getAllArticlesById(idPrestataire){
     return { error: 0, data: articlesPresta };
 }
 
-function getArticleById(idArticle){
+function getArticleById(idArticle) {
     let articlePresta = articles.find(a => a.id === parseInt(idArticle))
     return {error: 0, data: articlePresta}
+}
+
+function buyTicketCauchemarathon(data) {
+    const user = utilisateurs.find(u => u.id === data.idUser);
+    if (!user) return { error: 1, status: 404, data: 'Utilisateur non trouvé' };
+
+    const course = courses_cauchemarathon.find(c => c.nomCircuit === data.nomCourse && c.date === data.dateCourse);
+
+    if (course.nb_places < data.nbBillets) return { error: 1, status: 404, data: 'Pas assez de places disponibles' };
+
+    if (user.solde < data.price) return { error: 1, status: 404, data: 'Solde insuffisant' };
+    user.solde -= data.price
+
+    transactions.push({
+        id: transactions.length + 1,
+        date: new Date().toISOString().split('T')[0] + ' ' + new Date().toTimeString().split(' ')[0],
+        operation: 'Achat Billet CaucheMarathon',
+        details: `Achat de ${data.nbBillets} billets pour CaucheMarathon`,
+        amount: -data.price,
+        id_utilisateur: user.id
+    });
+
+    reservations_cauchemarathon.push({
+        id_reservation: reservations_cauchemarathon.length + 1,
+        id_utilisateur: user.id,
+        id_course: course.id,
+        nb_places: data.nbBillets
+    });
+
+    courses_cauchemarathon.find(c => c.id === course.id).nb_places -= data.nbBillets;
+
+    console.log('Achat de billets pour CaucheMarathon effectué avec succès, il reste', course.nb_places, 'places disponibles, solde restant :', user.solde, '€', 'pour l\'utilisateur', user.id, user.prenom, user.nom, data.nbBillets, 'billets achetés, prix total :', data.price, '€, course :', course);
+    return { error: 0, status: 200, data: { idRes : reservations_cauchemarathon.length, solde: user.solde } };
 }
 
 export default {
@@ -537,5 +578,6 @@ export default {
     getLivreDOr,
     ajoutLivreDOr,
     getAllArticlesById,
-    getArticleById
+    getArticleById,
+    buyTicketCauchemarathon,
 };
