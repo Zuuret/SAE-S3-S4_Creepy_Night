@@ -13,6 +13,16 @@ let prestataires = [
     {"id":2, "societe":"POP","adresse": "5 rue de belfort", "email":"pop@gmail.com", "motDePasse":"mdp123", "logo": require("../assets/logo_pop.png")},
 ];
 
+let livre_DOr = [
+    {"id": 1, "prestataireId": 1, "nomUtilisateur": "John Doe", "evaluation": 5, "message": "Excellent service, j'adore !", "date": "30 Octobre 2025"},
+    {"id": 2, "prestataireId": 1, "nomUtilisateur": "Le festifroussard", "evaluation": 4, "message": "Je me suis péter le bide !", "date": "31 Octobre 2025"}
+]
+
+let articles = [
+    { "id": 1, "prestataireId": 1, "nom": 'Menu Whopper', "description": 'Menu complet avec burger, frites et boisson', "prix": 9.99, "stock": 50, "image": require("../assets/menu_whopper.png") },
+    { "id": 2, "prestataireId": 1, "nom": 'Cheese Burger', "description": 'Burger avec fromage, frites et boisson', "prix": 6.99, "stock": 30 }
+];
+
 let artistes = [
     {"id":1, "nomGroupe":"PINK", "nbMembres":5, "decision":"null"},
     {"id":2, "nomGroupe":"KISS", "nbMembres":4, "decision":"null"},
@@ -116,12 +126,12 @@ let expo_oeuvres_demande = [
 ]
 
 let courses_cauchemarathon = [
-    {"id": 1, "nomCircuit": "La FrayeuRoute", "date": "Mercredi 29 octobre", "heure": "20h00", "nb_places": 150 },
-    {"id": 2, "nomCircuit": "La FrayeuRoute", "date": "Vendredi 31 octobre", "heure": "20h00", "nb_places": 150 },
-    {"id": 3, "nomCircuit": "La FrayeuRoute", "date": "Dimanche 2 novembre", "heure": "20h00", "nb_places": 150 },
-    {"id": 4, "nomCircuit": "L'ÉpouvanTour", "date": "Mercredi 29 octobre", "heure": "22h00", "nb_places": 100 },
-    {"id": 5, "nomCircuit": "L'ÉpouvanTour", "date": "Vendredi 31 octobre", "heure": "22h00", "nb_places": 100 },
-    {"id": 6, "nomCircuit": "L'ÉpouvanTour", "date": "Dimanche 2 novembre", "heure": "22h00", "nb_places": 100 }
+    {"id": 1, "nomCircuit": "La FrayeuRoute", "date": "Mercredi 29 octobre", "heure": "20h00", "nb_places": 250 },
+    {"id": 2, "nomCircuit": "La FrayeuRoute", "date": "Vendredi 31 octobre", "heure": "20h00", "nb_places": 250 },
+    {"id": 3, "nomCircuit": "La FrayeuRoute", "date": "Dimanche 2 novembre", "heure": "20h00", "nb_places": 250 },
+    {"id": 4, "nomCircuit": "L'ÉpouvanTour", "date": "Mercredi 29 octobre", "heure": "22h00", "nb_places": 200 },
+    {"id": 5, "nomCircuit": "L'ÉpouvanTour", "date": "Vendredi 31 octobre", "heure": "22h00", "nb_places": 200 },
+    {"id": 6, "nomCircuit": "L'ÉpouvanTour", "date": "Dimanche 2 novembre", "heure": "22h00", "nb_places": 200 }
 ];
 
 let cine_films = [
@@ -308,10 +318,16 @@ let demandeUberFlippe = [
     {"id_demande":1, "zone":"Bosquepouvante","nbPersonne":3,"description":"Jeune homme noir cheveux blond et yeux bridé"}
 ]
 
+let reservations_cauchemarathon= [
+    {"id_reservation":1, "id_utilisateur": 1, "id_course": 1, "nb_places": 2},
+]
+
 module.exports = {
     utilisateurs,
     organisateurs,
     prestataires,
+    livre_DOr,
+    articles,
     concerts,
     places_concerts,
     panier_concert,
@@ -332,5 +348,6 @@ module.exports = {
     carres,
     bouteilles,
     reservation_carihorreur,
-    demandeUberFlippe
+    demandeUberFlippe,
+    reservations_cauchemarathon
 }

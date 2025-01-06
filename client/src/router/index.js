@@ -41,6 +41,8 @@ import CashLess from "@/views/CashLess.vue";
 import PaiementCashLess from "@/views/PaymentFormCashLess.vue";
 
 import HomePrestataire from "@/views/HomePrestataire.vue";
+import PrestatairePublic from "@/views/PrestatairePublic.vue"
+import PrestataireSpecifique from "@/views/PrestataireSpecifique.vue";
 
 import UberFlippe from "@/views/UberFlippe.vue";
 
@@ -75,8 +77,10 @@ const routes = [
   { path: '/cinepeur/:id/validate', name: 'validationCinepeur', component: ReservationCinepeurValidation},
   { path: '/uberflippe', name: 'uberFlippe', component: UberFlippe},
   { path: '/home-organisateur', name: 'HomeOrganisateur', component: HomeOrganisateur },
-  { path: '/home-prestataire', name: 'HomePrestataire', component: HomePrestataire, meta: { requiresPrestataire: true } },
+  { path: '/home-prestataire', name: 'HomePrestataire', component: HomePrestataire },
   { path: '/cashless/paiement/', name: 'PaymentFormCashLess', component: PaiementCashLess },
+  { path: '/prestataire', name: 'Prestataire', component: PrestatairePublic },
+  { path: '/prestataire/:id', name: 'PrestataireSpecifique', component: PrestataireSpecifique },
 ];
 
 const router = new VueRouter({

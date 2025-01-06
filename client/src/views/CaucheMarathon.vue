@@ -37,10 +37,22 @@
             </select>
           </div>
           <p>Vivez une expérience effrayante en participant à cette course d'horreur ! Le prix du billet est de 10€.</p>
-          <div class="ticket-purchase" v-if="selectedCircuit !== 'both'">
+          <label class="qtt" for="quantity">Nombre de places : </label>
+          <input type="number" id="quantity" name="quantity" min="1" max="30" v-model="nb_place">
+          <div class="ticket-purchase" v-if="selectedCircuit !== 'both' && utilisateurConnecte && nb_place > 0">
             <h2>Participer au Cauche'Marathon</h2>
-            <p>Vous avez choisi : <strong>{{ selectedCircuitName }}</strong> le <strong>{{ selectedDayName }}</strong>.</p>
-            <button @click="buyTicket">Billet - 10€</button>
+            <p>Vous avez choisi : <strong>{{ nb_place }}</strong> place(s) pour le circuit <strong>{{ selectedCircuitName }}</strong> le <strong>{{ selectedDayName }}</strong>.</p>
+            <button @click="buyTicket">Billet(s) - {{ totalPrice }}€</button>
+          </div>
+          <div v-else-if="selectedCircuit === 'both'">
+            <p style="color: #ff4444; font-weight: bold;">Veuillez sélectionner un circuit pour acheter un billet.</p>
+          </div>
+          <div v-else-if="!utilisateurConnecte">
+            <p style="color: #ff4444; font-weight: bold;">Vous devez être connecté pour acheter un billet.</p>
+            <button @click="$router.push('/connexion')">Se connecter</button>
+          </div>
+          <div v-else-if="nb_place <= 0">
+            <p style="color: #ff4444; font-weight: bold;">Veuillez sélectionner un nombre de places valide.</p>
           </div>
 
           <div class="prizes">
@@ -64,18 +76,25 @@
 
 <script>
 import NavBar from "@/components/NavBar.vue";
+import { mapState, mapMutations } from 'vuex';
+import CauchemarathonService from "@/services/cauchemarathon.service";
 
 export default {
   name: 'CaucheMarathon',
   components: { NavBar },
   data() {
     return {
+      nb_place: 0,
       selectedCircuit: 'both',
       selectedDay: 'mercredi',
       ticketPrice: 10,
     };
   },
   computed: {
+    ...mapState('ProfilStore', ['utilisateurConnecte']),
+    totalPrice() {
+      return this.nb_place * this.ticketPrice;
+    },
     selectedCircuitName() {
       switch (this.selectedCircuit) {
         case 'circuit1':
@@ -102,11 +121,22 @@ export default {
     },
   },
   methods: {
+    ...mapMutations('ProfilStore', ['updateSoldeUtilisateur']),
     selectCircuit(circuit) {
       this.selectedCircuit = circuit;
     },
-    buyTicket() {
-      alert(`Billet acheté ! Préparez-vous pour la terreur. Prix : ${this.ticketPrice}€. Circuit : ${this.selectedCircuitName}, Jour : ${this.selectedDayName}`);
+    async buyTicket() {
+      if (this.utilisateurConnecte.solde < this.totalPrice) {
+        alert('Solde insuffisant pour acheter le(s) billet(s). Veuillez recharger votre compte sur la page CashLess.');
+        return;
+      }
+      let response = await CauchemarathonService.buyTicketCauchemarathon({ idUser: this.utilisateurConnecte.id, nbBillets: this.nb_place, price: this.totalPrice, dateCourse: this.selectedDayName, nomCourse: this.selectedCircuitName });
+      if (response.status !== 200) {
+        alert(response.data);
+        return;
+      }
+      this.updateSoldeUtilisateur(response.data.solde);
+      alert(`Billet(s) acheté(s) ! Préparez-vous pour la terreur. Prix : ${this.totalPrice}€. Circuit : ${this.selectedCircuitName}, Jour : ${this.selectedDayName}, Nombre de places : ${this.nb_place}.\nId de la réservation : ${response.data.idRes}`);
     },
   }
 };
@@ -262,6 +292,12 @@ footer {
   color: #ff4444;
   font-family: 'Creepster', cursive;
   letter-spacing: 2px;
+}
+
+.qtt {
+  font-size: 1.2em;
+  margin: 10px 0;
+  color: #cccccc;
 }
 
 </style>

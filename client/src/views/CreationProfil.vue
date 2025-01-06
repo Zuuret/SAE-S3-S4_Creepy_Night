@@ -134,7 +134,6 @@
             <button type="submit" class="submit-button">Confirmer l'inscription</button>
           </div>
         </form>
-        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
       </div>
     </div>
   </div>
@@ -201,6 +200,7 @@ export default {
         return;
       }
       const result = await this.enregistrementUtilisateur({ nom, prenom, dateNaissance, email, motDePasse });
+      console.log(result)
       if (result.success) {
         alert("Votre compte utilisateur est créé");
         await this.$router.push('/connexion');
@@ -236,7 +236,6 @@ export default {
 
 
 <style scoped>
-/* Global Styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -249,7 +248,6 @@ body {
 
 }
 
-/* Container for the form */
 .form-container {
   width: 100%;
   max-width: 400px;
@@ -296,7 +294,6 @@ h3{
   border-bottom: 2px solid #AD0918;
 }
 
-/* Form styles */
 .form-content {
   display: flex;
   flex-direction: column;
@@ -413,5 +410,10 @@ input:focus {
 
 .link:hover {
   text-decoration: underline;
+}
+.error {
+  color: red;
+  font-weight: bold;
+  margin: 20px 0;
 }
 </style>
