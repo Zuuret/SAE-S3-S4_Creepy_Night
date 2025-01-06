@@ -7,23 +7,34 @@
       <h3>{{ article.prix }}</h3>
       <h3>Stock : {{ article.stock }}</h3>
     </div>
-    <button>Ajouter au panier</button>
-  </div>
-  <div v-else>
-    <p>Pas d'article</p>
+    <button @click="ajouterAuPanier()">Ajouter au panier</button>
+    <PanierArticle/>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
+import PanierArticle from "@/components/PanierArticle.vue";
 
 export default {
   name: 'ArticleSpecifique',
+  components: {PanierArticle},
   computed: {
     ...mapState('PrestataireStore', ['article'])
   },
   methods: {
-    ...mapActions('PrestataireStore', ['getArticleById'])
+    ...mapActions('PrestataireStore', ['getArticleById','addArticlePanier']),
+    ajouterAuPanier() {
+      if (this.article.stock > 0) {
+        const article = {
+          ...this.article,
+        };
+        this.addArticlePanier(article);
+        alert(`Article ajouté au panier`);
+      } else {
+        alert("Impossible d'ajouter au panier. Stock insuffisant.");
+      }
+    },
   },
   mounted() {
     const articleId = parseInt(this.$route.params.idArticle)
@@ -33,17 +44,7 @@ export default {
 </script>
 
 <style scoped>
-/* Conteneur principal de l'article */
-.article {
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin: 20px 0;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centrage horizontal du contenu */
-}
+
 
 /* Image de l'article */
 .article_image {

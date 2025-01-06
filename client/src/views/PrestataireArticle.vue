@@ -1,9 +1,9 @@
 <template>
   <div class="prestataires-list">
-    <div v-if="articles.length === 0" class="no-articles">
+    <div v-if="articlesId.length === 0" class="no-articles">
       <p>Aucun articles disponible.</p>
     </div>
-    <div v-else class="article" v-for="article in articles" :key="article.id">
+    <div v-else class="article" v-for="article in articlesId" :key="article.id">
       <router-link :to="`articles/${article.id}`">
         <div class="article-item">
           <img :src="article.image" :alt="article.image" class="article_image" />
@@ -24,7 +24,7 @@ import {mapActions, mapState} from "vuex";
 export default {
   name:'PrestataireArticle',
   computed: {
-    ...mapState('PrestataireStore',['articles']),
+    ...mapState('PrestataireStore',['articlesId']),
     ...mapState('ProfilStore',['prestataire'])
   },
   methods: {

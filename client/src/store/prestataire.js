@@ -10,6 +10,7 @@ export default ({
         livreDOr: [],
         commentaire: null,
         articles: [],
+        articlesId: [],
         article: null,
         panier: [],
     },
@@ -20,24 +21,50 @@ export default ({
         ajoutLivreDOr(state, commentaire) {
             state.livreDOr.push(commentaire)
         },
-        updateListeArticles(state, articles){
-            state.articles = articles
+        updateListeArticlesId(state, articlesId){
+            state.articlesId = articlesId
         },
         updateArticleById(state, article){
             state.article = article
         },
-        addArticle(state, article){
-            const articleExistant = state.panier.find(
-                item => item === article.id
-            );
-            if (articleExistant) {
-                article.stock -= 1;
-                articleExistant.quantite += 1;
-            } else {
-                article.stock -= 1;
-                state.panier.push({ ...article, quantite: 1 });
+        updateListeArticle(state, articles){
+            state.articles = articles
+        },
+        addArticle(state, article) {
+            let articleGlobal = state.articles.find(art => art.id === article.id);
+            const articleExistant = state.panier.find(item => item.id === article.id);
+            if (articleGlobal.stock > 0) {
+                if (articleExistant) {
+                    articleExistant.quantite += 1;
+                    articleGlobal.stock -= 1;
+                } else {
+                    state.panier.push({...article, quantite: 1});
+                    articleGlobal.stock -= 1;
+                }
             }
         },
+        incrementerQuantite(state, item) {
+            let articleGlobal = state.articles.find(art => art.id === item.id);
+            if (articleGlobal && articleGlobal.stock > 0) {
+                item.quantite += 1;
+                articleGlobal.stock -= 1;
+            } else {
+                alert("Stock insuffisant pour ajouter cet article.");
+            }
+        },
+        diminuerQuantite(state, item) {
+            let articleGlobal = state.articles.find(art => art.id === item.id);
+            if (item.quantite > 1) {
+                item.quantite -= 1;
+                articleGlobal.stock += 1;
+            } else {
+                const index = state.panier.findIndex(panierItem => panierItem.id === item.id);
+                if (index !== -1) {
+                    state.panier.splice(index, 1);
+                    articleGlobal.stock += 1;
+                }
+            }
+        }
     },
     actions: {
         async getLivreDOr({commit}, idPrestataire) {
@@ -63,7 +90,7 @@ export default ({
             console.log("Récupération des articles pour le prestataire ID :", idPrestataire)
             let response = await PrestaireService.getAllArticlesById(idPrestataire)
             if (response.error === 0) {
-                commit('updateListeArticles', response.data)
+                commit('updateListeArticlesId', response.data)
             } else {
                 console.log(response.data);
             }
@@ -77,5 +104,26 @@ export default ({
                 console.log(response.data);
             }
         },
+        async getAllArticle({commit}){
+            console.log("Récupération de tout les articles :")
+            let response = await PrestaireService.getAllArticle()
+            if (response.error === 0) {
+                commit('updateListeArticle', response.data)
+            } else {
+                console.log(response.data);
+            }
+        },
+        async addArticlePanier({commit}, article) {
+            console.log("Ajout d'un article")
+            commit('addArticle', article);
+        },
+        async incrementerQuantite({commit}, article){
+            console.log("Incrementation de la quantite")
+            commit('incrementerQuantite', article)
+        },
+        async diminuerQuantite({commit}, article){
+            console.log("Diminution de la quantite")
+            commit('diminuerQuantite', article)
+        }
     }
 })

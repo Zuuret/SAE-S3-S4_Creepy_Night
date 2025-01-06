@@ -492,6 +492,10 @@ function getArticleById(idArticle) {
     return {error: 0, data: articlePresta}
 }
 
+function getAllArticle(){
+    return {error: 0, data: articles}
+}
+
 function buyTicketCauchemarathon(data) {
     const user = utilisateurs.find(u => u.id === data.idUser);
     if (!user) return { error: 1, status: 404, data: 'Utilisateur non trouvé' };
@@ -595,5 +599,6 @@ export default {
     ajoutLivreDOr,
     getAllArticlesById,
     getArticleById,
+    getAllArticle,
     buyTicketCauchemarathon,
 };

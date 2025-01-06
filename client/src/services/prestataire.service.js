@@ -12,6 +12,9 @@ async function getAllArticlesByIdFromLocalSource(idPrestataire){
 async function getArticleByIdFromLocalSource(idArticle){
     return LocalSource.getArticleById(idArticle)
 }
+async function getAllArticleFromLocalSource(){
+    return LocalSource.getAllArticle()
+}
 
 async function getLivreDOr(idPrestataire) {
     let response;
@@ -49,10 +52,20 @@ async function getArticleById(idArticle) {
     }
     return response
 }
+async function getAllArticle() {
+    let response;
+    try {
+        response = await getAllArticleFromLocalSource()
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible de récupérer 'article'"  }
+    }
+    return response
+}
 
 export default {
     getLivreDOr,
     ajoutLivreDOr,
     getAllArticlesById,
-    getArticleById
+    getArticleById,
+    getAllArticle
 }

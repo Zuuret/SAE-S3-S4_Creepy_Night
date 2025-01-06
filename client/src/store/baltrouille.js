@@ -57,20 +57,12 @@ export default ({
             let stock = state.taille_deguisements.find(
                 stockItem => stockItem.id_deguisement === item.id_costume && stockItem.taille === item.taille
             );
-
             if (!article) {
-                console.error("Article non trouvé dans le panier", item);
                 return;
             }
-
             if (!stock) {
-                console.error("Stock non trouvé pour l'article", item);
                 return;
             }
-
-            console.log("Article trouvé:", article);
-            console.log("Stock trouvé:", stock);
-
             if (stock.quantite !== 0) {
                 article.quantite += 1;
                 stock.quantite -= 1;

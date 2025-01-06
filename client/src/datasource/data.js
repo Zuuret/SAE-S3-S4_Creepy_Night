@@ -20,7 +20,8 @@ let livre_DOr = [
 
 let articles = [
     { "id": 1, "prestataireId": 1, "nom": 'Menu Whopper', "description": 'Menu complet avec burger, frites et boisson', "prix": 9.99, "stock": 50, "image": require("../assets/menu_whopper.png") },
-    { "id": 2, "prestataireId": 1, "nom": 'Cheese Burger', "description": 'Burger avec fromage, frites et boisson', "prix": 6.99, "stock": 30 }
+    { "id": 2, "prestataireId": 1, "nom": 'Cheese Burger', "description": 'Burger avec fromage, frites et boisson', "prix": 6.99, "stock": 30 },
+    { "id": 3, "prestataireId": 2, "nom": 'Figurine Pop Chucky', "description": "Cette figurine va vous glasser le sang attention a ne pas croiser son regard", "prix": 18.99, "stock": 10 },
 ];
 
 let panier_article = []
