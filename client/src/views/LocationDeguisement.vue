@@ -1,24 +1,24 @@
 <template>
   <div class="location-deguisement">
-    <div v-if="deguisement">
+    <div v-if="deguisement" class="deguisement-info">
       <img :src="deguisement.image" alt="Affiche du déguisement" class="affiche-deguisement" />
       <p class="nom-costume">{{ deguisement.nom_costume }}</p>
       <p class="prix-costume">{{ deguisement.prix }} €</p>
     </div>
 
-    <div v-if="taille_deguisements && taille_deguisements.length > 0">
-      <label for="taille-select">Choisir une taille :</label>
-      <select id="taille-select" v-model="selectedTaille">
-        <option v-for="taille in taille_deguisements" :key="taille.taille" :value="taille.taille">
+    <div v-if="taille_deguisement && taille_deguisement.length > 0" class="taille-select-container">
+      <label for="taille-select" class="label-taille">Choisir une taille :</label>
+      <select id="taille-select" v-model="selectedTaille" class="taille-select">
+        <option v-for="taille in taille_deguisement" :key="taille.taille" :value="taille.taille">
           {{ taille.taille }} (Stock : {{ taille.quantite }})
         </option>
       </select>
     </div>
-    <div v-else>
+    <div v-else class="no-size-message">
       <p>Aucune taille disponible pour ce déguisement.</p>
     </div>
 
-    <button @click="ajouterAuPanier" :disabled="!selectedTaille || stockRestant === 0">
+    <button @click="ajouterAuPanier" :disabled="!selectedTaille || stockRestant === 0" class="btn-ajouter">
       Ajouter au panier
     </button>
 
@@ -39,17 +39,17 @@ export default {
     };
   },
   computed: {
-    ...mapState('BaltrouilleStore', ['deguisement', 'taille_deguisements', 'panier']),
+    ...mapState('BaltrouilleStore', ['deguisement', 'taille_deguisement', 'panier']),
     stockRestant() {
-      if (this.taille_deguisements && this.selectedTaille) {
-        const selectedOption = this.taille_deguisements.find(option => option.taille === this.selectedTaille);
+      if (this.taille_deguisement && this.selectedTaille) {
+        const selectedOption = this.taille_deguisement.find(option => option.taille === this.selectedTaille);
         return selectedOption ? selectedOption.quantite : 0;
       }
       return 0;
     },
   },
   methods: {
-    ...mapActions('BaltrouilleStore', ['getDeguisementById', 'getTailleDeguisement', 'addDeguisementPanier']),
+    ...mapActions('BaltrouilleStore', ['getDeguisementById', 'getTailleDeguisementById', 'addDeguisementPanier']),
     ajouterAuPanier() {
       if (this.selectedTaille && this.stockRestant > 0) {
         const deguisementAvecTaille = {
@@ -67,53 +67,88 @@ export default {
     const deguisementId = parseInt(this.$route.params.deguisementId);
     console.log("ID du déguisement :", deguisementId);
     this.getDeguisementById(deguisementId);
-    this.getTailleDeguisement(deguisementId);
+    this.getTailleDeguisementById(deguisementId);
   },
 };
 </script>
 
 <style scoped>
 .location-deguisement {
+  max-width: 600px;
+  margin: 0 auto;
   text-align: center;
   padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.deguisement-info {
+  margin-bottom: 20px;
 }
 
 .affiche-deguisement {
   max-width: 100%;
   height: auto;
-  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .nom-costume {
-  font-size: 1.5em;
-  font-weight: bold;
-  margin: 10px 0;
+  font-size: 1.8em;
+  font-weight: 600;
+  color: #333;
+  margin: 15px 0 5px;
 }
 
 .prix-costume {
+  font-size: 1.4em;
+  font-weight: 500;
+  color: #e60000;
+  margin-bottom: 20px;
+}
+
+.taille-select-container {
+  margin-bottom: 20px;
+}
+
+.label-taille {
   font-size: 1.2em;
-  margin: 5px 0 20px;
+  margin-bottom: 10px;
+  display: block;
 }
 
-select {
-  margin: 10px 0;
-  padding: 5px;
+.taille-select {
+  padding: 10px;
   font-size: 1em;
-}
-
-button {
-  margin-top: 20px;
-  padding: 10px 20px;
-  font-size: 1em;
-  background-color: #007bff;
-  color: white;
-  border: none;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  cursor: pointer;
+  width: 200px;
 }
 
-button:disabled {
+.no-size-message {
+  color: #e60000;
+  font-size: 1.2em;
+  margin-top: 15px;
+}
+
+.btn-ajouter {
+  padding: 12px 25px;
+  font-size: 1.1em;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-ajouter:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+.btn-ajouter:hover:enabled {
+  background-color: #0056b3;
 }
 </style>

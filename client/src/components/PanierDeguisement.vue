@@ -35,11 +35,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions('BaltrouilleStore',['incrementerQuantite','diminuerQuantite']),
+    ...mapActions('BaltrouilleStore',['incrementerQuantite','diminuerQuantite', 'getAllTailleDeguisement']),
     validerPanier() {
       alert("Commande validée ! Merci de votre achat.");
     }
   },
+  mounted() {
+    this.getAllTailleDeguisement()
+  }
 };
 </script>
 

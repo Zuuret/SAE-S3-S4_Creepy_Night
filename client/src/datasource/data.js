@@ -209,21 +209,21 @@ let deguisements = [
 ]
 
 let taille_deguisements = [
-    {'id_deguisement':1, 'taille':'XS','quantite':1},
+    {'id_deguisement':1, 'taille':'XS','quantite':3},
     {'id_deguisement':1, 'taille':'S','quantite':2},
     {'id_deguisement':1, 'taille':'M','quantite':1},
-    {'id_deguisement':1, 'taille':'L','quantite':1},
+    {'id_deguisement':1, 'taille':'L','quantite':5},
     {'id_deguisement':1, 'taille':'XL','quantite':1},
-    {'id_deguisement':2, 'taille':'XS','quantite':1},
+    {'id_deguisement':2, 'taille':'XS','quantite':2},
     {'id_deguisement':2, 'taille':'S','quantite':2},
     {'id_deguisement':2, 'taille':'M','quantite':1},
-    {'id_deguisement':2, 'taille':'L','quantite':1},
+    {'id_deguisement':2, 'taille':'L','quantite':4},
     {'id_deguisement':2, 'taille':'XL','quantite':1},
-    {'id_deguisement':3, 'taille':'XS','quantite':1},
+    {'id_deguisement':3, 'taille':'XS','quantite':7},
     {'id_deguisement':3, 'taille':'S','quantite':2},
     {'id_deguisement':3, 'taille':'M','quantite':1},
-    {'id_deguisement':3, 'taille':'L','quantite':1},
-    {'id_deguisement':3, 'taille':'XL','quantite':1},
+    {'id_deguisement':3, 'taille':'L','quantite':2},
+    {'id_deguisement':3, 'taille':'XL','quantite':10},
     {'id_deguisement':4, 'taille':'XS','quantite':1},
     {'id_deguisement':4, 'taille':'S','quantite':2},
     {'id_deguisement':4, 'taille':'M','quantite':1},
@@ -304,6 +304,10 @@ let reservation_carihorreur = [
     {"id_reservation":1, "id_utilisateur": 1, "dateCarre":"2025-10-27", "id_carre": 1, "nbPersonne": 5, "bouteilles": [{"id_bouteille": 2, "quantite": 2}]}
 ]
 
+let demandeUberFlippe = [
+    {"id_demande":1, "zone":"Bosquepouvante","nbPersonne":3,"description":"Jeune homme noir cheveux blond et yeux bridé"}
+]
+
 module.exports = {
     utilisateurs,
     organisateurs,
@@ -327,5 +331,6 @@ module.exports = {
     panier_deguisement,
     carres,
     bouteilles,
-    reservation_carihorreur
+    reservation_carihorreur,
+    demandeUberFlippe
 }

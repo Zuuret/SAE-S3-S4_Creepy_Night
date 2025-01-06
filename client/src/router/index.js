@@ -42,16 +42,19 @@ import PaiementCashLess from "@/views/PaymentFormCashLess.vue";
 
 import HomePrestataire from "@/views/HomePrestataire.vue";
 
+import UberFlippe from "@/views/UberFlippe.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
   { path: '/creation-profil', name: 'creationProfil', component: CreationProfil },
+  { path: '/connexion', name: 'PageConnexion', component: PageConnexion },
   { path: '/profil', name: 'profil', component: MonProfil },
+  { path: '/concert', name: 'calendrierConcert', component: CalendrierConcert },
   { path: '/concert/:id', name: 'reservationConcert', component: ReservationConcertConfirmation },
   { path: '/concert/:id/validate', name: 'validationConcert', component: ValidationReservation },
   { path: '/planning', name: 'Planning', component: ConcertPlanner},
-  { path: '/concert-schedule', name: 'calendrierConcert', component: CalendrierConcert },
   { path: '/organisateur/validartiste', name: 'validArtiste', component: OrgaValidArtisteView, meta: { requiresOrganisateur: true } },
   { path: '/billet', name: 'billet', component: BilletAchat },
   { path: '/payment/:ticketId', name: 'PaymentForm', component: PaymentForm },
@@ -70,7 +73,7 @@ const routes = [
   { path: '/cinepeur', name: 'cinepeur', component: ReservationCinepeur },
   { path: '/cinepeur/:id', name: 'reservationCinepeur', component: ReservationCinepeurConfirmation },
   { path: '/cinepeur/:id/validate', name: 'validationCinepeur', component: ReservationCinepeurValidation},
-  { path: '/connexion', name: 'PageConnexion', component: PageConnexion },
+  { path: '/uberflippe', name: 'uberFlippe', component: UberFlippe},
   { path: '/home-organisateur', name: 'HomeOrganisateur', component: HomeOrganisateur },
   { path: '/home-prestataire', name: 'HomePrestataire', component: HomePrestataire, meta: { requiresPrestataire: true } },
   { path: '/cashless/paiement/', name: 'PaymentFormCashLess', component: PaiementCashLess },

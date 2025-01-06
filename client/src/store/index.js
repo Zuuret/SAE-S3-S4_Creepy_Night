@@ -10,7 +10,11 @@ import ExpositionStore from '../store/exposition'
 import CinemaStore from "../store/cinema";
 import SecuFlippeStore from '../store/secuflippe'
 import BaltrouilleStore from "../store/baltrouille";
+import UberFlippeStore from "../store/uberflippe";
+
 import CarihorreurStore from "@/store/carihorreur";
+// import organisateur from "../store/organisateur";
+// import transactions from '../store/transactions';
 
 export default new Vuex.Store({
   modules: {
@@ -21,6 +25,9 @@ export default new Vuex.Store({
     CinemaStore,
     SecuFlippeStore,
     BaltrouilleStore,
-    CarihorreurStore
+    CarihorreurStore,
+    UberFlippeStore,
+    // organisateur,
+    // transactions
   }
 })

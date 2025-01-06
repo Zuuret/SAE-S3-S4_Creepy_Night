@@ -14,7 +14,7 @@ import {
     taille_deguisements,
     carres,
     bouteilles,
-    reservation_carihorreur, organisateurs, prestataires, soireeBaltrouille
+    reservation_carihorreur, organisateurs, prestataires, soireeBaltrouille, demandeUberFlippe
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -340,7 +340,11 @@ function getDeguisementById(deguisementId){
     return {error: 0, data: deguisement}
 }
 
-function getTailleDeguisement(deguisementId) {
+function getAllTailleDeguisement(){
+    return {error: 0, data: taille_deguisements}
+}
+
+function getTailleDeguisementById(deguisementId) {
     let tailleDeguisement = taille_deguisements.filter(taille => taille.id_deguisement === parseInt(deguisementId));
     return { error: 0, data: tailleDeguisement };
 }
@@ -413,6 +417,39 @@ function getReservationCarihorreur(id){
     return { error: 0, message: "Réservations trouvées avec succès", data: detailsReservations };
 }
 
+function getAllDemande(){
+    return { error: 1, data : demandeUberFlippe}
+}
+
+function addDemandeUberflippe(data) {
+    if (!data.zone) return {error: 1, status: 404, data: "Aucun type de zone sélectionné"};
+    if (!data.nbPersonne) return {error: 1, status: 404, data: "Aucune nombre de personne fourni"};
+    if (!data.description) return {error: 1, status: 404, data: "Aucune description"};
+
+    const nouvelleDemande = {
+        id_demande: demandeUberFlippe.length + 1,
+        zone: data.zone,
+        nbPersonne: data.nbPersonne,
+        description: data.description
+    };
+
+    demandeUberFlippe.push(nouvelleDemande);
+    return {error: 0, status: 200, data: nouvelleDemande};
+}
+
+function getAllUtilisateurs() {
+    return { error: 0, data: utilisateurs };
+}
+
+function getBilletsAchatAujourdHui() {
+    const today = new Date().toISOString().split('T')[0];
+    const billetsAchatAujourdHui = transactions.filter(transaction => {
+        return transaction.date === today && transaction.operation === "Achat Billet";
+    }).length;
+
+    return { error: 0, data: billetsAchatAujourdHui };
+}
+
 
 
 export default {
@@ -448,12 +485,17 @@ export default {
     getSoireeBaltrouilleById,
     getAllDeguisement,
     getDeguisementById,
-    getTailleDeguisement,
+    getAllTailleDeguisement,
+    getTailleDeguisementById,
     getDeguisementBySoiree,
     getAllBouteilles,
     getBouteillebyId,
     getAllCarres,
     getCarrebyId,
     getReservationCarihorreur,
-    validerPaiementBancaire
+    validerPaiementBancaire,
+    getAllDemande,
+    addDemandeUberflippe,
+    getAllUtilisateurs,
+    getBilletsAchatAujourdHui
 };

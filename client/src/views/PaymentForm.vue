@@ -21,7 +21,7 @@
   </template>
   
   <script>
-  import data from '@/datasource/data.js'; // Importez le fichier data.js
+  import { mapActions } from 'vuex';
 
   export default {
     data() {
@@ -37,28 +37,20 @@
       },
     },
     methods: {
+      ...mapActions('transactions', ['addTransaction']), // Ajoutez l'action pour ajouter une transaction
       async submitPayment() {
         const paymentDetails = {
-          date: new Date().toLocaleDateString(),
-          amount: this.ticketPrice, // Utilisez le prix du ticket
+          date: new Date().toISOString().split('T')[0],
+          amount: this.ticketPrice,
           cardNumber: '**** **** **** ' + this.cardNumber.slice(-4),
           id_utilisateur: 1, // Remplacez par l'ID de l'utilisateur connecté
         };
-        console.log('Ajout du paiement avec :', paymentDetails);
-        
-        // Ajoutez la transaction au tableau des transactions dans data.js
-        data.transactions.push({
-          id: data.transactions.length + 1, // Générer un nouvel ID
-          date: paymentDetails.date,
-          heure: new Date().toLocaleTimeString(), // Heure actuelle
-          operation: "Paiement Billet",
-          details: `Achat d'un billet pour ${paymentDetails.amount} €`,
-          amount: paymentDetails.amount,
-          id_utilisateur: paymentDetails.id_utilisateur,
-        });
-        
+
+        // Ajoutez la transaction via le store
+        await this.addTransaction(paymentDetails);
+
         alert('Paiement fictif effectué avec succès !');
-        this.$router.push({ name: 'billet' }); // Redirection vers la page BilletAchat
+        this.$router.push({ name: 'billet' });
       },
     },
   };
