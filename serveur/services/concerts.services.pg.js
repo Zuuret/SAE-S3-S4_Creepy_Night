@@ -51,11 +51,12 @@ async function updateConcert(uuid,artiste,nationalite,date,heure,duree,categorie
     return is_error;
 }
 
-async function deleteConcert(uuid) {
+async function deleteConcert(id) {
     const client = await pool.connect();
     let is_error = false;
+    console.log(id)
     try {
-        const query = format('DELETE FROM Concert WHERE uuid = $1 RETURNING *',uuid);
+        const query = format('DELETE FROM Concert WHERE id = %L RETURNING *',id);
         await client.query(query);
         console.log('SUPPRESSION DU CONCERT');
     } catch (error) {

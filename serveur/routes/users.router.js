@@ -65,7 +65,21 @@ var router = express.Router();
  */
 router.post("/", userController.saveUser);
 
-
+/**
+ * @swagger
+ * /api/users:
+ *   get:
+ *     summary: Récupérer tous les utilisateurs
+ *     description: Permet de récupérer la liste de tous les utilisateurs.
+ *     tags:
+ *       - users
+ *     responses:
+ *       '200':
+ *         description: Liste des utilisateurs récupérée avec succès.
+ *       '500':
+ *         description: Erreur interne du serveur.
+ */
+router.get("/", userController.getUsers);
 
 /**
  * @swagger

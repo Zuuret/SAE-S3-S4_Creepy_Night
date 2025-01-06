@@ -55,7 +55,7 @@ async function deleteUser(uuid) {
     const client = await pool.connect();
     let is_error = false;
     try {
-        const query = format('DELETE FROM utilisateur WHERE uuid = $1 RETURNING *',uuid);
+        const query = format('DELETE FROM Utilisateur WHERE id = %L RETURNING *',uuid);
         await client.query(query);
         console.log('SUPPRESSION DE L\'UTILISATEUR');
     } catch (error) {

@@ -66,10 +66,10 @@ exports.updateConcert = async (req,res) => {
 };
 
 exports.deleteConcert = async (req, res) => {
-    const { uuid } = req.params;
-
+    const { id } = req.params;
+    //console.log(id)
     try {
-        const result = await concertService.deleteConcert(uuid);
+        const result = await concertService.deleteConcert(id);
 
         if (result) {
             return res.status(200).json({ message: 'Concert supprimé avec succès' });
@@ -81,6 +81,7 @@ exports.deleteConcert = async (req, res) => {
         return res.status(500).json({ message: 'Erreur interne du serveur' });
     }
 };
+
 /*exports.deleteUser = async (req,res) => {
     let uuid = req.query.uuid;
     if(!uuid){

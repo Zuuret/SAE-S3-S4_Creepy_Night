@@ -1,6 +1,13 @@
 const express = require("express");
 const userRouter = require("./routes/users.router");
 const concertRouter = require("./routes/concerts.router");
+const expoRouter = require("./routes/expos.router");
+const filmRouter = require("./routes/films.router");
+const prestataireRouter = require("./routes/prestataires.router");
+const prestationRouter = require("./routes/prestations.router");
+
+
+
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
@@ -11,6 +18,12 @@ const app = express();
 app.use(express.json());
 app.use("/api/users",userRouter);
 app.use("/api/concerts",concertRouter);
+app.use("/api/expos",expoRouter);
+app.use("/api/films",filmRouter);
+app.use("/api/prestataires",prestataireRouter);
+app.use("/api/prestations",prestationRouter);
+
+
 
 /** Swagger Initialization - START */
 const swaggerOption = {
@@ -24,7 +37,9 @@ const swaggerOption = {
             servers: ["http://localhost:3000/"],
         },
     },
-    apis: ["./routes/users.router.js", "./routes/concerts.router.js"],
+    apis: ["./routes/users.router.js", "./routes/concerts.router.js", "./routes/expos.router.js", "./routes/films.router.js",
+        "./routes/prestataires.router.js", "./routes/prestations.router.js"
+    ],
 };
 
 
