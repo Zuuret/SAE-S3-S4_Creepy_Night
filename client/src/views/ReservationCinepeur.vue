@@ -65,7 +65,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('CinemaStore',['films']),
+    ...mapState(['films']),
     filmsByDayAndHour() {
       const filmsByDayAndHour = {};
       this.days.forEach(day => {
@@ -76,7 +76,7 @@ export default {
       });
       this.films.forEach(film => {
         const filmDate = new Date(film.date);
-        const filmDay = filmDate.toLocaleDateString('fr-FR', {weekday: 'long', day: 'numeric', month: 'long'});
+        const filmDay = filmDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
         const filmHour = film.heure.split('h')[0] + ':00';
         if (this.days.includes(filmDay)) {
           filmsByDayAndHour[filmDay][filmHour] = film;
@@ -88,7 +88,7 @@ export default {
   }
   ,
   methods: {
-    ...mapActions('CinemaStore', ['getFilms']),
+    ...mapActions(['getFilms']),
     getLastWeekOfOctober() {
       let year;
       if (new Date().getMonth() === 11 || new Date().getMonth() === 10) {
@@ -106,7 +106,7 @@ export default {
 
       // Add days from Monday to Sunday
       for (let i = 0; i < 7; i++) {
-        lastWeek.push(lastDayOfOctober.toLocaleDateString('fr-FR', {weekday: 'long', day: 'numeric', month: 'long'}));
+        lastWeek.push(lastDayOfOctober.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }));
         lastDayOfOctober.setDate(lastDayOfOctober.getDate() + 1);
       }
 
@@ -120,156 +120,6 @@ export default {
 </script>
 
 <style scoped>
-/*
-.body {
-  align-items: center;
-  font-weight: bold;
-  font-family: Arial, sans-serif;
-  background-color: black;
-  border: 5px solid lightgray;
-}
-
-.bordure {border: 1px solid white;}
-
-.nav {display: flex; align-items: center;}
-
-.item {display: flex; padding: 10px; text-align: center}
-.grille {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 20px;
-  padding: 10px;
-}
-.flex-row {flex-direction: row;}
-.flex-column {flex-direction: column;}
-.margin-inline{margin-inline: 40%;}
-.between{justify-content: space-between;}
-.center{justify-content: center;}
-.around{justify-content: space-around;}
-.evenly{justify-content: space-evenly;}
-
-.item a {
-  text-decoration: none;
-  text-align: center;
-  vertical-align: middle;
-  margin: 5px;
-  padding: 10px;
-  background-color: black;
-  color: white;
-  border-radius: 10px;
-  border: 1px solid white;
-}
-
-.item a:hover {
-  background-color: #0C0C0C;
-  border: 1px solid red;
-}
-
-.item img {
-  width: 100%;
-}
-
-.heures {
-  margin-bottom: 220px;
-}
-
-.case {
-  padding-block : 120px;
-}
-
-.filtre {
-  text-align: center;
-  vertical-align: middle;
-  margin: 5px;
-  padding: 10px;
-  background-color: black;
-  color: white;
-  border-radius: 10px;
-}
-
-.filtre:hover {
-  background-color: grey;
-  color: white;
-  border: 1px solid grey;
-}
-
-h1,h2,h3,h4,h5,h6,p {
-  text-align: center;
-  color: red;
-}
-
-@media (min-width: 1025px) {
-  .body {
-    margin: 0% 0% 0% 0%;
-    orientation: landscape;
-  }
-
-  .main {
-    margin: 80px 20% 0% 20%;
-  }
-
-  .nav-item{margin-left: 14%;}
-
-  .flex-row{flex-direction: row;}
-  .flex-column{flex-direction: column;}
-
-  .justify-content-center{justify-content: center;}
-  .justify-content-space-between{justify-content: space-between;}
-  .justify-content-space-around{justify-content: space-around;}
-  .justify-content-space-evenly{justify-content: space-evenly;}
-
-  .load {border: 1px solid black; padding-inline: 100px;}
-  .align-right {margin-left: 70%;}
-  .image-width{width: 100px;}
-}
-
-@media (min-width: 769px) and (max-width: 1024px) {
-  .body {
-    margin: 0% 0% 0% 0%;
-    orientation: landscape;
-  }
-
-  .main{
-    margin: 80px 0% 0% 0%;
-  }
-
-  .nav-item{margin-inline: 14%;}
-
-  .flex-row{flex-direction: row;}
-  .flex-column{flex-direction: column;}
-
-  .justify-content-center{justify-content: center;}
-  .justify-content-space-between{justify-content: space-between;}
-  .justify-content-space-around{justify-content: space-around;}
-  .justify-content-space-evenly{justify-content: space-evenly;}
-
-  .load {border: 1px solid black; padding-inline: 100px;}
-  .align-right {margin-left: 70%;}
-  .image-width{width: 100%}
-}
-
-@media (max-width: 768px) {
-  .body {
-    margin: 0% 0% 0% 0%;
-    orientation: portrait;
-  }
-
-  main {margin: 80px 0% 0% 0%;}
-
-  .nav-item{margin-inline: 50%;}
-
-  .flex-row{flex-direction: column;}
-  .flex-column{flex-direction: row;}
-
-  .load {border: 1px solid black; margin-inline: 40%;}
-  .center {justify-content: center;}
-  .center-bot {margin-inline: 30%;}
-  .align-right {margin-inline: 30%;}
-  .image-width {width: 100%}
-}
-*/
-
-
 * {
   margin: 0;
   padding: 0;
@@ -315,6 +165,7 @@ h1 {
   padding-inline: 10px;
   height: 150px;
   border: 1px solid darkred;
+  box-shadow: 0 0 15px rgba(255, 0.5, 0.5, 0.6);
   flex: none; /* Taille fixe */
 }
 
@@ -328,6 +179,7 @@ h1 {
   margin-left: 10px; /* Sépare la grille des heures */
   background-color: black;
   border: 1px solid darkred;
+  box-shadow: 0 0 15px rgba(255, 0.5, 0.5, 0.6);
 }
 
 /* En-tête des jours */
@@ -339,6 +191,7 @@ h1 {
   background-color: black;
   color: darkred;
   border: 1px solid darkred;
+  box-shadow: 0 0 15px rgba(255, 0.5, 0.5, 0.6);
 }
 
 /* Cellules */
