@@ -12,8 +12,11 @@ async function getAllDeguisementFromLocalSource(){
 async function getDeguisementByIdFromLocalSource(deguisementId){
     return LocalSource.getDeguisementById(deguisementId)
 }
-async function getTaillesDeguisementFromLocalSource(deguisementId) {
-    return LocalSource.getTailleDeguisement(deguisementId);
+async function getAllTailleDeguisementFromLocalSource(){
+    return LocalSource.getAllTailleDeguisement()
+}
+async function getTaillesDeguisementByIdFromLocalSource(deguisementId) {
+    return LocalSource.getTailleDeguisementById(deguisementId);
 }
 async function getDeguisementBySoireeFromLocalSource(soireeId) {
     return LocalSource.getDeguisementBySoiree(soireeId)
@@ -55,10 +58,19 @@ async function getDeguisementById(deguisementId){
     }
     return response;
 }
-async function getTailleDeguisement(deguisementId) {
+async function getAllTailleDeguisement() {
     let response;
     try {
-        response = await getTaillesDeguisementFromLocalSource(deguisementId);
+        response = await getAllTailleDeguisementFromLocalSource()
+    } catch (err) {
+        response = { error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste de taille des déguisement' };
+    }
+    return response;
+}
+async function getTailleDeguisementById(deguisementId) {
+    let response;
+    try {
+        response = await getTaillesDeguisementByIdFromLocalSource(deguisementId);
     } catch (err) {
         response = { error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la taille du déguisement' };
     }
@@ -77,8 +89,9 @@ async function getDeguisementBySoiree(soireeId) {
 export default {
     getAllSoireeBaltrouille,
     getSoireeBaltrouilleById,
+    getAllTailleDeguisement,
     getAllDeguisement,
     getDeguisementById,
-    getTailleDeguisement,
+    getTailleDeguisementById,
     getDeguisementBySoiree,
 }

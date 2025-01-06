@@ -190,7 +190,6 @@ let soireeBaltrouille = [
     { "id_soiree": 7, "date": "2025-11-02", "description": "Soirée de clôture - Dansez avec les esprits !", "deguisementsIds": [1] },
 ]
 
-/*
 let deguisements = [
     {'id_costume':1, 'nom_costume':'Reine Zombie', 'prix':9.99,'image':require("../assets/costume_reine_zombie.jpeg")},
     {'id_costume':2, 'nom_costume':'Zombie Glouton', 'prix':9.99,'image':require("../assets/costume_zombie_glouton.jpeg")},
@@ -208,24 +207,23 @@ let deguisements = [
     {'id_costume':14, 'nom_costume':'Zombie Singe', 'prix':9.99,'image':require("../assets/zombie_singe.jpeg")},
     {'id_costume':15, 'nom_costume':'Chasseur de Zombie', 'prix':9.99,'image':require("../assets/chasseur_zombie.jpeg")},
 ]
-    */
 
 let taille_deguisements = [
-    {'id_deguisement':1, 'taille':'XS','quantite':1},
+    {'id_deguisement':1, 'taille':'XS','quantite':3},
     {'id_deguisement':1, 'taille':'S','quantite':2},
     {'id_deguisement':1, 'taille':'M','quantite':1},
-    {'id_deguisement':1, 'taille':'L','quantite':1},
+    {'id_deguisement':1, 'taille':'L','quantite':5},
     {'id_deguisement':1, 'taille':'XL','quantite':1},
-    {'id_deguisement':2, 'taille':'XS','quantite':1},
+    {'id_deguisement':2, 'taille':'XS','quantite':2},
     {'id_deguisement':2, 'taille':'S','quantite':2},
     {'id_deguisement':2, 'taille':'M','quantite':1},
-    {'id_deguisement':2, 'taille':'L','quantite':1},
+    {'id_deguisement':2, 'taille':'L','quantite':4},
     {'id_deguisement':2, 'taille':'XL','quantite':1},
-    {'id_deguisement':3, 'taille':'XS','quantite':1},
+    {'id_deguisement':3, 'taille':'XS','quantite':7},
     {'id_deguisement':3, 'taille':'S','quantite':2},
     {'id_deguisement':3, 'taille':'M','quantite':1},
-    {'id_deguisement':3, 'taille':'L','quantite':1},
-    {'id_deguisement':3, 'taille':'XL','quantite':1},
+    {'id_deguisement':3, 'taille':'L','quantite':2},
+    {'id_deguisement':3, 'taille':'XL','quantite':10},
     {'id_deguisement':4, 'taille':'XS','quantite':1},
     {'id_deguisement':4, 'taille':'S','quantite':2},
     {'id_deguisement':4, 'taille':'M','quantite':1},
@@ -328,7 +326,7 @@ module.exports = {
     panier_film,
     signalement,
     soireeBaltrouille,
-    /*deguisements,*/
+    deguisements,
     taille_deguisements,
     panier_deguisement,
     carres,

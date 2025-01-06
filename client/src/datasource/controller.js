@@ -319,7 +319,11 @@ function getDeguisementById(deguisementId){
     return {error: 0, data: deguisement}
 }
 
-function getTailleDeguisement(deguisementId) {
+function getAllTailleDeguisement(){
+    return {error: 0, data: taille_deguisements}
+}
+
+function getTailleDeguisementById(deguisementId) {
     let tailleDeguisement = taille_deguisements.filter(taille => taille.id_deguisement === parseInt(deguisementId));
     return { error: 0, data: tailleDeguisement };
 }
@@ -458,7 +462,8 @@ export default {
     getSoireeBaltrouilleById,
     getAllDeguisement,
     getDeguisementById,
-    getTailleDeguisement,
+    getAllTailleDeguisement,
+    getTailleDeguisementById,
     getDeguisementBySoiree,
     getAllBouteilles,
     getBouteillebyId,

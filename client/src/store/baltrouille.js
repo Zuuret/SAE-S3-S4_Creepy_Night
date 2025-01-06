@@ -13,6 +13,7 @@ export default ({
         deguisements: [],
         deguisement: null,
         taille_deguisements: [],
+        taille_deguisement: null,
         panier: [],
     },
     mutations: {
@@ -29,10 +30,13 @@ export default ({
             state.deguisement = deguisement
         },
         updateListeTailleDeguisement(state, taille_deguisements){
-            state.taille_deguisements = taille_deguisements;
+            state.taille_deguisements = taille_deguisements
+        },
+        updateTailleDeguisementById(state, taille_deguisement){
+            state.taille_deguisement = taille_deguisement;
         },
         addDeguisement(state, deguisement){
-            let stock = state.taille_deguisements.find(
+            let stock = state.taille_deguisement.find(
                 stockItem => stockItem.id_deguisement === deguisement.id_costume && stockItem.taille === deguisement.taille
             );
             const existingDeguisement = state.panier.find(
@@ -53,7 +57,21 @@ export default ({
             let stock = state.taille_deguisements.find(
                 stockItem => stockItem.id_deguisement === item.id_costume && stockItem.taille === item.taille
             );
-            if (article && stock && article.quantite < stock.quantite || article.quantite == stock.quantite) {
+
+            if (!article) {
+                console.error("Article non trouvé dans le panier", item);
+                return;
+            }
+
+            if (!stock) {
+                console.error("Stock non trouvé pour l'article", item);
+                return;
+            }
+
+            console.log("Article trouvé:", article);
+            console.log("Stock trouvé:", stock);
+
+            if (stock.quantite !== 0) {
                 article.quantite += 1;
                 stock.quantite -= 1;
             } else {
@@ -67,7 +85,7 @@ export default ({
             let stock = state.taille_deguisements.find(
                 stockItem => stockItem.id_deguisement === item.id_costume && stockItem.taille === item.taille
             );
-            if (article) {
+            if (article && stock) {
                 if (article.quantite > 1) {
                     article.quantite -= 1;
                     stock.quantite += 1;
@@ -77,7 +95,7 @@ export default ({
                     );
                     if (index !== -1) {
                         state.panier.splice(index, 1);
-                        stock.quantite += 1
+                        stock.quantite += 1;
                     }
                 }
             }
@@ -120,11 +138,20 @@ export default ({
                 console.log(response.data);
             }
         },
-        async getTailleDeguisement({ commit }, deguisementId) {
-            console.log("Récupération des tailles pour le déguisement ID : ", deguisementId);
-            let response = await BaltrouilleService.getTailleDeguisement(deguisementId);
+        async getAllTailleDeguisement({commit}){
+            console.log("Récupération des tailles de déguisements");
+            let response = await BaltrouilleService.getAllTailleDeguisement();
             if (response.error === 0) {
                 commit('updateListeTailleDeguisement', response.data);
+            } else {
+                console.log(response.data);
+            }
+        },
+        async getTailleDeguisementById({ commit }, deguisementId) {
+            console.log("Récupération des tailles pour le déguisement ID : ", deguisementId);
+            let response = await BaltrouilleService.getTailleDeguisementById(deguisementId);
+            if (response.error === 0) {
+                commit('updateTailleDeguisementById', response.data);
             } else {
                 console.log(response.data);
             }

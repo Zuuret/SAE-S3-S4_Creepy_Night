@@ -13,8 +13,8 @@ import BaltrouilleStore from "../store/baltrouille";
 import UberFlippeStore from "../store/uberflippe";
 
 import CarihorreurStore from "@/store/carihorreur";
-import organisateur from "../store/organisateur";
-import transactions from '../store/transactions';
+// import organisateur from "../store/organisateur";
+// import transactions from '../store/transactions';
 
 export default new Vuex.Store({
   modules: {
@@ -27,7 +27,7 @@ export default new Vuex.Store({
     BaltrouilleStore,
     CarihorreurStore,
     UberFlippeStore,
-    organisateur,
-    transactions
+    // organisateur,
+    // transactions
   }
 })
