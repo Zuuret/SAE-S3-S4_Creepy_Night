@@ -65,7 +65,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['films']),
+    ...mapState('CinemaStore',['films']),
     filmsByDayAndHour() {
       const filmsByDayAndHour = {};
       this.days.forEach(day => {
@@ -88,7 +88,7 @@ export default {
   }
   ,
   methods: {
-    ...mapActions(['getFilms']),
+    ...mapActions('CinemaStore',['getFilms']),
     getLastWeekOfOctober() {
       let year;
       if (new Date().getMonth() === 11 || new Date().getMonth() === 10) {
