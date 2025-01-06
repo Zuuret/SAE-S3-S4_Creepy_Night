@@ -4,8 +4,12 @@ async function getAllTransactionsFromLocalSource(){
     return LocalSource.getAllTransactions();
 }
 
-async function updateFundsToLocalSource(idUser, amount){
-    return LocalSource.updateFunds(idUser, amount);
+async function updateFundsToLocalSource(data){
+    return LocalSource.updateFunds(data);
+}
+
+async function checkBankCardFromLocalSource(data) {
+    return LocalSource.validerPaiementBancaire(data);
 }
 
 async function getAllTransactions() {
@@ -18,17 +22,29 @@ async function getAllTransactions() {
     return response;
 }
 
-async function updateFunds(idUser, amount) {
+async function updateFunds(data) {
     let response;
     try {
-        response = await updateFundsToLocalSource(idUser, amount);
+        response = await updateFundsToLocalSource(data);
     } catch (err) {
         response = { error: 1, status: 404, data: 'erreur réseau, impossible de mettre à jour le solde' };
     }
     return response;
 }
 
+async function checkBankCard(data) {
+    let response;
+    try {
+        response = await checkBankCardFromLocalSource(data);
+    } catch (err) {
+        response = { error: 1, status: 404, data: 'erreur réseau, impossible de vérifier le compte bancaire' };
+    }
+    return response;
+}
+
+
 export default {
     getAllTransactions,
-    updateFunds
+    updateFunds,
+    checkBankCard
 }

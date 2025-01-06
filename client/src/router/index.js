@@ -38,6 +38,7 @@ import ReservationCinepeurValidation from "@/views/ReservationCinepeurValidation
 import ReservationCinepeur from "@/views/ReservationCinepeur.vue";
 
 import CashLess from "@/views/CashLess.vue";
+import PaiementCashLess from "@/views/PaymentFormCashLess.vue";
 
 import HomePrestataire from "@/views/HomePrestataire.vue";
 
@@ -71,7 +72,8 @@ const routes = [
   { path: '/cinepeur/:id/validate', name: 'validationCinepeur', component: ReservationCinepeurValidation},
   { path: '/connexion', name: 'PageConnexion', component: PageConnexion },
   { path: '/home-organisateur', name: 'HomeOrganisateur', component: HomeOrganisateur },
-  { path: '/home-prestataire', name: 'HomePrestataire', component: HomePrestataire, meta: { requiresPrestataire: true } }
+  { path: '/home-prestataire', name: 'HomePrestataire', component: HomePrestataire, meta: { requiresPrestataire: true } },
+  { path: '/cashless/paiement/', name: 'PaymentFormCashLess', component: PaiementCashLess },
 ];
 
 const router = new VueRouter({

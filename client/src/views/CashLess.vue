@@ -35,18 +35,17 @@
       </div>
     </div>
 
-    <div class="container">
+    <div class="container" v-if="utilisateurConnecte">
       <div class="wallet">
         <h2>Votre porte-monnaie</h2>
         <div class="balance">
-          <p>Solde actuel : <span class="amount">{{ utilisateur.solde.toFixed(2) }} €</span></p>
-          <button class="recharge-button" @click="recharge">Recharger</button>
-          <button class="refund-button" @click="refund">Remboursement</button>
+          <p>Solde actuel : <span class="amount">{{ soldeAffiche.toFixed(2) }} €</span></p>
+          <button class="recharge-button" @click="openModal('Rechargement')">Recharger</button>
+          <button class="refund-button" @click="openModal('Remboursement')">Remboursement</button>
         </div>
         <div class="ticket-info">
           <img src="@/assets/qr.png" alt="QR Code" class="qr-code-image" />
-          <p>N° de billet : {{ utilisateur.numCashless }}</p>
-          <button class="view-ticket">Voir mon billet</button>
+          <p>N° de billet : {{ utilisateurConnecte.numCashless }}</p>
         </div>
       </div>
       <div class="transactions">
@@ -57,11 +56,20 @@
             <div class="transaction-details">
               <span>{{ transaction.operation }}</span>
               <span :class="{ positive: transaction.amount > 0, negative: transaction.amount < 0 }">
-                {{ transaction.amount > 0 ? '+' : '' }}{{ transaction.amount.toFixed(2) }} €
+                {{ transaction.amount > 0 ? '+' : '' }}{{ parseFloat(transaction.amount).toFixed(2) }} €
               </span>
             </div>
           </li>
         </ul>
+      </div>
+    </div>
+    <div class="modal" v-if="showModal">
+      <div class="modal-content">
+        <h3>{{ modalTitle }}</h3>
+        <label for="amount">Montant :</label>
+        <input type="number" id="amount" v-model="transactionAmount" min="0" step="0.01" />
+        <button @click="processTransaction">{{ modalButton }}</button>
+        <button @click="closeModal">Annuler</button>
       </div>
     </div>
   </div>
@@ -73,27 +81,54 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   name: 'CashLess',
-  components: { NavBar },
-  computed: {
-    ...mapState('CashLessStore',['transactions', 'utilisateur']),
-    filteredTransactions() {
-      return this.transactions.filter((transaction) => transaction.id_utilisateur === this.utilisateur.id);
-    }
-  },
-  methods: {
-    ...mapActions('CashLessStore',['getAllTransactions', 'updateFunds']),
-    recharge() {
-      alert('Fonctionnalité non disponible pour le moment');
-    },
-    refund() {
-      alert('Fonctionnalité non disponible pour le moment');
-    }
-  },
   data() {
     return {
-      soldes: 0,
-      numCashless: 0
-    }
+      showModal: false,
+      modalTitle: '',
+      modalButton: '',
+      transactionAmount: 0,
+      transactionType: '',
+    };
+  },
+  components: { NavBar },
+  computed: {
+    ...mapState('CashLessStore',['transactions']),
+    ...mapState('ProfilStore',['utilisateurConnecte']),
+    filteredTransactions() {
+      return this.transactions.filter((transaction) => transaction.id_utilisateur === this.utilisateurConnecte.id);
+    },
+    soldeAffiche() {
+      const solde = this.utilisateurConnecte?.solde || 0;
+      return Number(solde);
+    },
+  },
+  methods: {
+    ...mapActions('CashLessStore',['getAllTransactions']),
+    openModal(type) {
+      this.showModal = true;
+      this.transactionType = type;
+      if (type === 'Rechargement') {
+        this.modalTitle = 'Créditer votre compte';
+        this.modalButton = 'Procéder au paiement';
+      } else {
+        this.modalTitle = 'Demander un remboursement';
+        this.modalButton = 'Procéder au remboursement';
+      }
+    },
+    closeModal() {
+      this.showModal = false;
+      this.transactionAmount = 0;
+    },
+    processTransaction() {
+      if (this.transactionAmount <= 0) {
+        alert('Veuillez entrer un montant valide.');
+        return;
+      }
+      this.$router.push({
+        name: 'PaymentFormCashLess',
+        query: { type: this.transactionType, amount: this.transactionAmount },
+      });
+    },
   },
   mounted() {
     this.getAllTransactions();
@@ -264,5 +299,25 @@ export default {
 
 .negative {
   color: #ff0000;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #333;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  color: #fff;
 }
 </style>

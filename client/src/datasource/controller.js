@@ -275,11 +275,32 @@ function getAllTransactions() {
     return { error: 0, data: transactions };
 }
 
-function updateFunds(idUser, amount) {
-    let user = utilisateurs.find(u => u.id === parseInt(idUser));
+function updateFunds(data) {
+    let user = utilisateurs.find(u => u.id === data.idUser);
     if (!user) return { error: 1, status: 404, data: 'Utilisateur non trouvé' };
-    user.solde = amount;
-    return { error: 0, status: 200, data: user };
+    user.solde += parseFloat(data.amount);
+    let date = new Date().toISOString().split('T')[0] + ' ' + new Date().toTimeString().split(' ')[0];
+    transactions.push({
+        id: transactions.length + 1,
+        date: date,
+        operation: data.operation,
+        details: data.details,
+        amount: data.amount,
+        id_utilisateur: user.id
+    });
+    return { error: 0, status: 200, data: user.solde };
+}
+
+function validerPaiementBancaire(data) {
+    if (!data.nom) return { error: 1, status: 404, data: 'Aucun nom de titulaire de la carte fourni' };
+    if (!data.numeroCarte) return { error: 1, status: 404, data: 'Aucun numéro de carte fourni' };
+    if (!data.dateExpiration) return { error: 1, status: 404, data: 'Aucune date d\'expiration fournie' };
+    if (!data.cvv) return { error: 1, status: 404, data: 'Aucun CVV fourni' };
+
+    let carte = coordonnees_bancaire.find(c => c.nom === data.nom && c.numero_carte === data.numeroCarte && c.date_expiration === data.dateExpiration && c.cvv === data.cvv);
+    if (!carte) return { error: 1, status: 404, data: 'Carte non trouvée' };
+
+    return { error: 0, status: 200, data: carte };
 }
 
 function getFilms() {
@@ -392,6 +413,8 @@ function getReservationCarihorreur(id){
     return { error: 0, message: "Réservations trouvées avec succès", data: detailsReservations };
 }
 
+
+
 export default {
     ajoutUtilisateur,
     ajoutOrganisateur,
@@ -431,5 +454,6 @@ export default {
     getBouteillebyId,
     getAllCarres,
     getCarrebyId,
-    getReservationCarihorreur
+    getReservationCarihorreur,
+    validerPaiementBancaire
 };

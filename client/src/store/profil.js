@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import ProfilService from '../services/profil.service';
+import CashLessService from '../services/cashless.service';
+
 
 Vue.use(Vuex);
 
@@ -51,6 +53,10 @@ export default ({
             state.utilisateurConnecte = utilisateur;
             localStorage.setItem("utilisateurConnecte", JSON.stringify(utilisateur));
             console.log('Utilisateur connecté:');
+        },
+        updateSoldeUtilisateur(state, solde) {
+            state.utilisateurConnecte.solde = solde;
+            localStorage.setItem("utilisateurConnecte", JSON.stringify(state.utilisateurConnecte));
         },
         clearUtilisateurConnecte(state) {
             state.utilisateurConnecte = null;
@@ -187,6 +193,29 @@ export default ({
         },
         async logoutUser({commit}){
             commit('clearUtilisateurConnecte')
+        },
+        async updateFunds({ commit }, data) {
+            console.log("Mise à jour du solde de l'utilisateur");
+            let response = await CashLessService.updateFunds(data);
+            if (response.error === 0) {
+                commit('updateSoldeUtilisateur', response.data);
+                commit('updateErrorMessage', '');
+                return { success: true };
+            } else {
+                commit('updateErrorMessage', response.data);
+                return { success: false };
+            }
+        },
+        async checkBankCard({ commit }, data) {
+            console.log("Vérification du compte bancaire de l'utilisateur");
+            let response = await CashLessService.checkBankCard(data);
+            if (response.error === 0) {
+                commit('updateErrorMessage', '');
+                return true;
+            } else {
+                commit('updateErrorMessage', response.data);
+                return false;
+            }
         }
     },
     getters: {
