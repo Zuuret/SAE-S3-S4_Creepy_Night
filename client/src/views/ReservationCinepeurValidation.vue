@@ -1,60 +1,29 @@
 <template>
   <div>
     <div><NavBar /></div>
-    <div style="margin-top: 150px"></div>
-    <div v-if="ok === null">
-      <p>Voulez-vous utiliser votre cashless ?</p>
-      <button @click="ok = true">Oui</button>
-      <button @click="ok = false">Non</button>
-    </div>
-    <div v-if="ok === false" >
-      <form @submit.prevent="validerPaiement({nom, numeroCarte, dateExpiration, cvv})">
-        <h3>Coordonnées bancaires</h3>
-        <div>
-          <label for="nom">Nom sur la carte :</label>
-          <input id="nom" name="nom" type="text" v-model="nom" required />
-        </div>
-        <div>
-          <label for="numeroCarte">Numéro de carte :</label>
-          <input id="numeroCarte" name="numeroCarte" type="text" v-model="numeroCarte" required />
-        </div>
-        <div>
-          <label for="dateExpiration">Date d'expiration :</label>
-          <input id="dateExpiration" name="dateExpiration" type="month" v-model="dateExpiration" required />
-        </div>
-        <div>
-          <label for="cvv">CVV :</label>
-          <input id="cvv" name="cvv" type="text" v-model="cvv" required />
-        </div>
-        <button type="submit">Confirmer le paiement</button>
-      </form>
-      <div v-if="coordonneesBancaire" class="success-message">
-        <p>Votre paiement a bien été pris en compte</p>
-      </div>
+    <h1 class="titre">Cashless</h1>
+    <div class="bordure">
+      <h3>Monnaie restante</h3>
+      <p class="solde">{{ utilisateurConnecte.solde }}</p>
+
     </div>
   </div>
 </template>
 
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapState } from 'vuex';
 import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: 'ReservationCinepeurValidation',
   components: {NavBar},
   data: () => ({
-    nom: '',
-    numeroCarte: '',
-    dateExpiration: '',
-    cvv: '',
-    ok: null,
   }),
   computed: {
-    ...mapState('CinemaStore',['coordonneesBancaire']),
+    ...mapState('ProfilStore',['utilisateurConnecte']),
   },
   methods: {
-    ...mapActions('CinemaStore',['validerPaiement']),
   },
   mounted() {
   }
@@ -63,36 +32,37 @@ export default {
 
 <style scoped>
 /* Style global pour le formulaire */
-form {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
-}
-
-h3 {
-  text-align: center;
-  color: #333;
-}
-
-label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: #555;
-}
-
-input[type="text"],
-input[type="month"] {
-  width: 100%;
+* {
+  margin: 0px;
   padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
+  text-decoration: none;
+}
+
+.titre {
+  margin-top: 50px;
+  padding: 20px;
+}
+
+div {
+  color: #ff4444;
+  text-align: center;
+  background-color: #111;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.solde {
+  font-size: 40px;
+}
+
+.bordure {
+  background-color: #151515;
+  border: 1px solid red;
+  box-shadow: 0 0 15px rgba(255, 0.5, 0.5, 0.6);
+  border-radius: 8px;
 }
 
 button {

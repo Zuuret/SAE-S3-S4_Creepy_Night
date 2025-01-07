@@ -1,5 +1,5 @@
 <template>
-  <div class="body">
+  <div class="body" style="padding-top: 150px">
     <!-- Barre de Navigation -->
     <div><NavBar /></div>
 

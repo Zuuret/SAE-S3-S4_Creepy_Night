@@ -43,18 +43,16 @@
             <label for="motDePasseUtilisateur">Mot de passe :</label>
             <input type="password" v-model="utilisateur.motDePasse" id="motDePasseUtilisateur" placeholder="Entrez votre mot de passe" required>
           </div>
-
+          <p class="error" v-if="errorMessage">{{ errorMessage }}</p>
           <p class="login-link">
             Déjà un compte Creepynight ? 
             <router-link to="/connexion" class="link">Connectez-vous</router-link>
           </p>
-          
           <div class="form-actions">
             <button type="button" class="cancel-button" @click="$router.go(-1)">Annuler</button>
             <button type="submit" class="submit-button">Confirmer l'inscription</button>
           </div>
         </form>
-        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
       </div>
 
       <div v-if="userType === 'organisateur'" class="form-box">
@@ -83,7 +81,7 @@
             <label for="motDePasseOrganisateur">Mot de passe :</label>
             <input type="password" v-model="organisateur.motDePasse" id="motDePasseOrganisateur" placeholder="Entrez votre mot de passe" required>
           </div>
-
+          <p class="error" v-if="errorMessage">{{ errorMessage }}</p>
           <p class="login-link">
             Déjà un compte Creepynight ? 
             <router-link to="/connexion" class="link">Connectez-vous</router-link>
@@ -94,7 +92,6 @@
             <button type="submit" class="submit-button">Confirmer l'inscription</button>
           </div>
         </form>
-        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
       </div>
 
       <div v-if="userType === 'prestataire'" class="form-box">
@@ -123,12 +120,11 @@
             <label for="motDePassePrestataire">Mot de passe :</label>
             <input type="password" v-model="prestataire.motDePasse" id="motDePassePrestataire" placeholder="Entrez votre mot de passe" required>
           </div>
-
+          <p class="error" v-if="errorMessage">{{ errorMessage }}</p>
           <p class="login-link">
             Déjà un compte Creepynight ? 
             <router-link to="/connexion" class="link">Connectez-vous</router-link>
           </p>
-
           <div class="form-actions">
             <button type="button" class="cancel-button" @click="$router.go(-1)">Annuler</button>
             <button type="submit" class="submit-button">Confirmer l'inscription</button>
@@ -138,7 +134,6 @@
     </div>
   </div>
 </template>
-
 
 <script>
 import { mapState, mapActions } from 'vuex';
@@ -335,17 +330,19 @@ input:focus {
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.3s ease;
+  margin-top: 0;
 }
 
 .submit-button:hover {
   background-color: #8A0714;
 }
-
 .login-link span {
   color: #666;
+  margin: 0;
 }
 
 .login-link a {
+  margin: 0;
   color: #AD0918;
   text-decoration: none;
   font-weight: bold;
@@ -381,12 +378,6 @@ input:focus {
   align-items: center;
 }
 
-.form-actions {
-  display: flex;
-  justify-content: flex-start;
-  width: 100%;
-}
-
 .cancel-button {
   background-color: #666;
   color: white;
@@ -397,6 +388,7 @@ input:focus {
   cursor: pointer;
   transition: background-color 0.3s;
   margin-right: 10px;
+  margin-top: 0;
 }
 
 .cancel-button:hover {
@@ -414,6 +406,18 @@ input:focus {
 .error {
   color: red;
   font-weight: bold;
-  margin: 20px 0;
+  margin: 0;
+}
+
+.login-link {
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 8px;
+}
+.form-actions {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  margin-top: 0;
 }
 </style>

@@ -81,8 +81,22 @@ export default ({
                 console.log("Concert non trouvé dans le panier.");
             }
         },
-        ajouterReservation(state, reservation) {
+        reserverConcert(state) {
+            let reservation = {
+                id: new Date().getTime(),
+                concerts: state.panier.map(item => ({
+                    concertId: item.concertId,
+                    nbPlaces: item.nbPlaces,
+                    prixTotal: item.prixTotal,
+                    concert: item.concert,
+                    place: item.place
+                })),
+                total: state.panier.reduce((total, item) => total + item.prixTotal, 0),
+                date: new Date().toLocaleString(),
+            };
             state.reservations.push(reservation);
+            state.panier = [];
+            console.log("Réservation créée : ", reservation);
         },
         updateListeArtistes(state, artistes){
             state.artistes = artistes;
@@ -157,6 +171,28 @@ export default ({
             if (responseConcert.error === 0) {
                 console.log("Supression dans le panier");
                 commit("viderPlace", {concertId});
+            }
+        },
+        async reserverConcert({ commit, dispatch, rootState, state }) {
+            const totalPanier = state.panier.reduce((total, item) => total + item.prixTotal, 0);
+            const soldeUtilisateur = rootState.ProfilStore.utilisateurConnecte.solde;
+
+            if (soldeUtilisateur >= totalPanier) {
+                const response = await dispatch(
+                    'ProfilStore/updateFunds',
+                    { montant: -totalPanier },
+                    { root: true }
+                );
+
+                console.log("Résultat de l'action updateFunds : ", response);
+                if (response.success) {
+                    commit('reserverConcert');
+                    console.log("Réservation réussie !");
+                } else {
+                    console.log("Erreur lors de la mise à jour des fonds.");
+                }
+            } else {
+                console.log("Solde insuffisant pour la réservation.");
             }
         },
         async getArtistes({ commit }) {
