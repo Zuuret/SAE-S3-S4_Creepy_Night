@@ -3,7 +3,8 @@ import Vuex from 'vuex';
 import ProfilService from '../services/profil.service';
 import CashLessService from '../services/cashless.service';
 import { getAllUtilisateurs, getAllOrganisateurs, getAllPrestataires } from "@/services/profil.service";
-import { demandesPrestataires as initialDemandes } from '../datasource/data';
+import { demandesPrestataires as initialDemandesPrestataires } from '../datasource/data';
+import { demandesOrganisateurs as initialDemandesOrganisateurs } from '../datasource/data';
 
 Vue.use(Vuex);
 
@@ -19,7 +20,8 @@ export default ({
         errorMessage: '',
         utilisateurConnecte: JSON.parse(localStorage.getItem("utilisateurConnecte")) || null,
         logo: null,
-        demandesPrestataires: initialDemandes,
+        demandesPrestataires: initialDemandesPrestataires,
+        demandesOrganisateurs: initialDemandesOrganisateurs,
     },
     mutations: {
         addUtilisateur(state, utilisateur) {
@@ -84,11 +86,20 @@ export default ({
         addDemandePrestataire(state, demande) {
             state.demandesPrestataires.push(demande);
         },
+        addDemandeOrganisateur(state, demande) {
+            state.demandesOrganisateurs.push(demande);
+        },
         SET_DEMANDES_PRESTATAIRES(state, demandes) {
             state.demandesPrestataires = demandes;
         },
+        SET_DEMANDES_ORGANISATEURS(state, demandes) {
+            state.demandesOrganisateurs = demandes;
+        },
         removeDemandePrestataire(state, demandeId) {
             state.demandesPrestataires = state.demandesPrestataires.filter(d => d.id !== demandeId);
+        },
+        removeDemandeOrganisateur(state, demandeId) {
+            state.demandesOrganisateurs = state.demandesOrganisateurs.filter(d => d.id !== demandeId);
         },
     },
 
@@ -109,18 +120,7 @@ export default ({
                 return { success: false };
             }
         },
-        async enregistrementOrganisateur({ commit }, data) {
-            console.log("Enregistrement d'un nouvel organisateur");
-            let response = await ProfilService.ajoutOrganisateur(data);
-            if (response.error === 0) {
-                commit('addOrganisateur', response.data);
-                commit('updateErrorMessage', '');
-                return { success: true };
-            } else {
-                commit('updateErrorMessage', response.data);
-                return { success: false };
-            }
-        },
+        
         async enregistrementPrestataire({ commit, state }, data) {
             console.log("Enregistrement d'un nouveau prestataire");
 
@@ -129,7 +129,7 @@ export default ({
                 ? Math.max(...state.demandesPrestataires.map(d => d.id))
                 : 0; // Si aucune demande, commencer à 0
 
-            const nouvelleDemande = {
+            const nouvelleDemandePrestataire = {
                 id: dernierId + 1, // ID de la nouvelle demande
                 societe: data.societe,
                 adresse: data.adresse,
@@ -138,9 +138,30 @@ export default ({
             };
 
             // Ajoutez la demande au tableau des demandes
-            commit('addDemandePrestataire', nouvelleDemande);
+            commit('addDemandePrestataire', nouvelleDemandePrestataire);
             return { success: true }; // Retournez un succès ou un échec selon votre logique
         },
+
+        async enregistrementOrganisateur({ commit, state }, data) {
+            console.log("Enregistrement d'un nouvel Organisateur");
+
+            const dernierId = state.demandesOrganisateurs.length > 0
+                ? Math.max(...state.demandesOrganisateurs.map(d => d.id))
+                : 0;
+
+            const nouvelleDemandeOrganisateur = {
+                id: dernierId + 1, 
+                nom: data.nom,
+                prenom: data.prenom,
+                email: data.email,
+                telephone: data.telephone,
+                motDePasse: data.motDePasse,
+            };
+
+            commit('addDemandeOrganisateur', nouvelleDemandeOrganisateur);
+            return { success: true }; 
+        },
+
         async loginUser({ commit }, { data, userType }) {
             let response;
             if (userType === 'utilisateur') {
@@ -285,9 +306,14 @@ export default ({
             }
         },
         async fetchDemandesPrestataires({ commit }) {
-            commit('SET_DEMANDES_PRESTATAIRES', initialDemandes);
+            commit('SET_DEMANDES_PRESTATAIRES', initialDemandesPrestataires);
         },
-        async accepterDemande({ commit, state }, demande) {
+
+        async fetchDemandesOrganisateurs({ commit }) {
+            commit('SET_DEMANDES_PRESTATAIRES', initialDemandesOrganisateurs);
+        },
+
+        async accepterDemandePrestataire({ commit, state }, demande) {
 
             const dernierIdPrestataire = state.prestataires.length > 0
                 ? Math.max(...state.prestataires.map(p => p.id))
@@ -298,7 +324,7 @@ export default ({
                 societe: demande.societe,
                 adresse: demande.adresse,
                 email: demande.email,
-                motDePasse: demande.motDePasse, // Assurez-vous que le mot de passe est inclus
+                motDePasse: demande.motDePasse,
             };
 
             // Afficher les informations du nouveau prestataire dans la console
@@ -307,6 +333,28 @@ export default ({
             commit('addPrestataire', nouveauPrestataire); // Ajoutez le prestataire
             commit('removeDemandePrestataire', demande.id); // Supprimez la demande
         },
+
+        async accepterDemandeOrganisateur({ commit, state }, demande) {
+
+            const dernierIdOrganisateur = state.organisateurs.length > 0
+                ? Math.max(...state.organisateurs.map(p => p.id))
+                : 0;
+
+            const nouveauOrganisateur = {
+                id: dernierIdOrganisateur + 1,
+                prenom: demande.prenom,
+                nom: demande.nom,
+                email: demande.email,
+                telephone: demande.telephone,
+                motDePasse: demande.motDePasse,
+            };
+
+            console.log(`Nouvel Organisateur ajouté : Email: ${nouveauOrganisateur.email}, Mot de passe: ${nouveauOrganisateur.motDePasse}`);
+
+            commit('addOrganisateur', nouveauOrganisateur);
+            commit('removeDemandeOrganisateur', demande.id);
+        },
+
     },
     getters: {
         utilisateurConnecte: state => state.utilisateurConnecte,

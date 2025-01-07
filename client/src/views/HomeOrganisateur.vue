@@ -71,6 +71,34 @@
       </div>
 
       <div class="card">
+        <h2>Demandes d'Inscription des Organisateurs</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="demande in demandesOrganisateurs" :key="demande.id">
+              <td>{{ demande.id }}</td>
+              <td>{{ demande.nom }}</td>
+              <td>{{ demande.prenom }}</td>
+              <td>{{ demande.email }}</td>
+              <td>{{ demande.telephone }}</td>
+              <td>
+                <button @click="handleAccepterDemandeOrganisateur(demande)">Accepter</button>
+                <button @click="rejeterDemandeOrganisateur(demande)">Rejeter</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
         <h2>Demandes d'Inscription des Prestataires</h2>
         <table>
           <thead>
@@ -87,8 +115,8 @@
               <td>{{ demande.societe }}</td>
               <td>{{ demande.email }}</td>
               <td>
-                <button @click="handleAccepterDemande(demande)">Accepter</button>
-                <button @click="rejeterDemande(demande)">Rejeter</button>
+                <button @click="handleAccepterDemandePrestataire(demande)">Accepter</button>
+                <button @click="rejeterDemandePrestataire(demande)">Rejeter</button>
               </td>
             </tr>
           </tbody>
@@ -105,7 +133,7 @@ export default {
   name: "HomeOrganisateur",
   computed: {
     ...mapGetters("ProfilStore", ["utilisateurConnecte", "getUtilisateurs"]),
-    ...mapState("profil", ["utilisateurs", "organisateurs", "prestataires", "demandesPrestataires"]),
+    ...mapState("profil", ["utilisateurs", "organisateurs", "prestataires", "demandesPrestataires","demandesOrganisateurs"]),
     ...mapState("transactions", ["billetsAchatAujourdHui"]),
     hasAccess() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "organisateur";
@@ -114,12 +142,18 @@ export default {
   methods: {
     ...mapActions("ProfilStore", ["fetchUtilisateurs", "fetchOrganisateurs", "fetchPrestataires"]),
     ...mapActions("transactions", ["fetchBilletsAchatAujourdHui"]),
-    ...mapActions("profil", ["fetchUtilisateurs", "fetchOrganisateurs", "fetchPrestataires", "fetchDemandesPrestataires", "accepterDemande"]),
-    handleAccepterDemande(demande) {
-        this.accepterDemande(demande);
+    ...mapActions("profil", ["fetchUtilisateurs", "fetchOrganisateurs", "fetchPrestataires", "fetchDemandesPrestataires", "accepterDemandePrestataire", "accepterDemandeOrganisateur"]),
+    handleAccepterDemandePrestataire(demande) {
+        this.accepterDemandePrestataire(demande);
     },
-    rejeterDemande(demande) {
+    rejeterDemandePrestataire(demande) {
         this.$store.commit('profil/removeDemandePrestataire', demande.id);
+    },
+    handleAccepterDemandeOrganisateur(demande) {
+        this.accepterDemandeOrganisateur(demande);
+    },
+    rejeterDemandeOrganisateur(demande) {
+        this.$store.commit('profil/removeDemandeOrganisateur', demande.id);
     },
   },
   mounted() {

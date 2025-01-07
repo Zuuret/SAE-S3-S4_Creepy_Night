@@ -23,7 +23,8 @@ import {
     articles,
     reservations_cauchemarathon,
     demandesPrestataires,
-    courses_cauchemarathon
+    courses_cauchemarathon,
+    demandesOrganisateurs
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -522,6 +523,27 @@ function demandeInscriptionPrestataire(data) {
     return { error: 0, status: 200, data: nouvelleDemande };
 }
 
+function demandeInscriptionOrganisateur(data) {
+    if (!data.nom) return { error: 1, status: 404, data: 'Aucun nom fourni' };
+    if (!data.prenom) return { error: 1, status: 404, data: 'Aucun prenom fourni' };
+    if (!data.email) return { error: 1, status: 404, data: 'Aucun email fourni' };
+    if (!data.telephone) return { error: 1, status: 404, data: 'Aucun telephone fourni' };
+    if (!data.motDePasse) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
+
+    let nouvelleDemande = {
+        id: demandesOrganisateurs.length + 1,
+        nom: data.nom,
+        prenom: data.prenom,
+        email: data.email,
+        telephone: data.telephone,
+        motDePasse: data.motDePasse,
+        statut: 'en attente'
+    };
+
+    demandesOrganisateurs.push(nouvelleDemande);
+    return { error: 0, status: 200, data: nouvelleDemande };
+}
+
 export default {
     ajoutUtilisateur,
     ajoutOrganisateur,
@@ -574,4 +596,5 @@ export default {
     getAllArticle,
     buyTicketCauchemarathon,
     demandeInscriptionPrestataire,
+    demandeInscriptionOrganisateur,
 };
