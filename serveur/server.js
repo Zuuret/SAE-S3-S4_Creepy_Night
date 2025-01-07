@@ -5,6 +5,10 @@ const expoRouter = require("./routes/expos.router");
 const filmRouter = require("./routes/films.router");
 const prestataireRouter = require("./routes/prestataires.router");
 const prestationRouter = require("./routes/prestations.router");
+const achatBilletRouter = require("./routes/achat_billet.router");
+const transactionHistoriqueRouter = require("./routes/transactions.router");
+
+
 
 
 
@@ -22,6 +26,8 @@ app.use("/api/expos",expoRouter);
 app.use("/api/films",filmRouter);
 app.use("/api/prestataires",prestataireRouter);
 app.use("/api/prestations",prestationRouter);
+app.use("/api/achat",achatBilletRouter);
+app.use("/api/transactions",transactionHistoriqueRouter);
 
 
 
@@ -38,7 +44,9 @@ const swaggerOption = {
         },
     },
     apis: ["./routes/users.router.js", "./routes/concerts.router.js", "./routes/expos.router.js", "./routes/films.router.js",
-        "./routes/prestataires.router.js", "./routes/prestations.router.js"
+        "./routes/prestataires.router.js", "./routes/prestations.router.js", "./routes/achat_billet.router.js",
+        "./routes/transactions.router.js"
+
     ],
 };
 
