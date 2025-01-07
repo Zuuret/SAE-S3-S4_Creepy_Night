@@ -2,21 +2,32 @@
   <div v-if="hasAccess" class="home-prestataire">
     <h1>Bienvenue {{ utilisateurConnecte.societe }}</h1>
     <img :src="utilisateurConnecte.logo" alt="Logo prestataire" class="logo" />
-
+    <h2>Mon livre d'or</h2>
+    <div v-for="message in livreDOr" :key="message.id" class="message">
+      <p><strong>{{ message.nomUtilisateur }}</strong> ({{ message.date }})</p>
+      <p>{{ message.message }}</p>
+      <div class="rating">
+        <span v-for="i in message.evaluation" :key="i">⭐</span>
+      </div>
+    </div>
   </div>
   <p v-else class="error">Accès refusé. Vous n'avez pas les permissions pour voir cette page.</p>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 
 export default {
   name: "HomePrestataire",
   computed: {
     ...mapGetters("ProfilStore", ["utilisateurConnecte"]),
+    ...mapState('PrestataireStore', ['livreDOr']),
     hasAccess() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "prestataire";
     },
+  },
+  methods: {
+    ...mapActions("PrestataireStore", ['getLivreDOr'])
   },
   mounted() {
     if (!this.utilisateurConnecte) {
@@ -27,6 +38,7 @@ export default {
     } else {
       console.log("Accès autorisé, utilisateur :", this.utilisateurConnecte);
     }
+    this.getLivreDOr(this.utilisateurConnecte.id)
   },
 };
 </script>

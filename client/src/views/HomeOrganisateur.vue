@@ -80,14 +80,14 @@ export default {
   name: "HomeOrganisateur",
   computed: {
     ...mapGetters("ProfilStore", ["utilisateurConnecte", "getUtilisateurs"]),
-    ...mapState("profil", ["utilisateurs", "organisateurs", "prestataires"]),
+    ...mapState("ProfilStore", ["utilisateurs", "organisateurs", "prestataires"]),
     ...mapState("transactions", ["billetsAchatAujourdHui"]),
     hasAccess() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "organisateur";
     },
   },
   methods: {
-    ...mapActions("ProfilStore", ["fetchUtilisateurs", "fetchOrganisateurs", "fetchPrestataires"]),
+    ...mapActions("ProfilStore", ["getAllUtilisateur","getAllOrganisateur","getAllPrestataire"]),
     ...mapActions("transactions", ["fetchBilletsAchatAujourdHui"]),
   },
   mounted() {
@@ -97,9 +97,9 @@ export default {
     } else if (!this.hasAccess) {
       console.log("Accès refusé pour cet utilisateur.");
     } else {
-      this.fetchUtilisateurs();
-      this.fetchOrganisateurs();
-      this.fetchPrestataires();
+      this.getAllUtilisateur();
+      this.getAllOrganisateur();
+      this.getAllPrestataire();
       this.fetchBilletsAchatAujourdHui();
     }
   }
@@ -149,12 +149,4 @@ th {
   background-color: #f2f2f2;
 }
 
-.router-link {
-  color: #007bff; /* Couleur pour les liens */
-  text-decoration: none;
-}
-
-.router-link:hover {
-  text-decoration: underline; /* Souligner au survol */
-}
 </style>

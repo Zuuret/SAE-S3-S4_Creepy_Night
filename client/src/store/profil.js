@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import ProfilService from '../services/profil.service';
 import CashLessService from '../services/cashless.service';
-import { getAllUtilisateurs, getAllOrganisateurs, getAllPrestataires } from "@/services/profil.service";
 
 
 Vue.use(Vuex);
@@ -70,15 +69,6 @@ export default ({
                 state.utilisateurConnecte.logo = logo;
                 localStorage.setItem("utilisateurConnecte", JSON.stringify(state.utilisateurConnecte));
             }
-        },
-        SET_UTILISATEURS(state, utilisateurs) {
-            state.utilisateurs = utilisateurs;
-        },
-        SET_ORGANISATEURS(state, organisateurs) {
-            state.organisateurs = organisateurs;
-        },
-        SET_PRESTATAIRES(state, prestataires) {
-            state.prestataires = prestataires;
         },
     },
 
@@ -245,24 +235,6 @@ export default ({
             } else {
                 commit('updateErrorMessage', response.data);
                 return false;
-            }
-        },
-        async fetchUtilisateurs({ commit }) {
-            const response = await getAllUtilisateurs();
-            if (response.error === 0) {
-                commit('SET_UTILISATEURS', response.data);
-            }
-        },
-        async fetchOrganisateurs({ commit }) {
-            const response = await getAllOrganisateurs();
-            if (response.error === 0) {
-                commit('SET_ORGANISATEURS', response.data);
-            }
-        },
-        async fetchPrestataires({ commit }) {
-            const response = await getAllPrestataires();
-            if (response.error === 0) {
-                commit('SET_PRESTATAIRES', response.data);
             }
         },
     },

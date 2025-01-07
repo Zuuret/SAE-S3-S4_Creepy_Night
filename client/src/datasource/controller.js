@@ -47,8 +47,6 @@ function ajoutUtilisateur(data) {
         solde: 0,
         numCashless: Math.floor(Math.random() * 1000000000)
     };
-
-    utilisateurs.push(nouvelUtilisateur);
     return { error: 0, status: 200, data: nouvelUtilisateur };
 }
 function ajoutOrganisateur(data){
@@ -71,8 +69,6 @@ function ajoutOrganisateur(data){
         email: data.email,
         motDePasse: data.motDePasse,
     };
-
-    organisateurs.push(nouvelOrganisateur);
     return { error: 0, status: 200, data: nouvelOrganisateur };
 }
 function ajoutPrestataire(data){
@@ -95,8 +91,6 @@ function ajoutPrestataire(data){
         email: data.email,
         motDePasse: data.motDePasse,
     };
-
-    prestataires.push(nouveauPrestataire);
     return { error: 0, status: 200, data: nouveauPrestataire };
 }
 function loginUser(data, userList, userType) {
