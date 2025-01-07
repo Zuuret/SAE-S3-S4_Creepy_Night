@@ -16,6 +16,11 @@ async function acheterBillet(utilisateurId, activiteId) {
         );
         const soldeResult = await client.query(soldeQuery);
 
+        const   activiteNom = format(
+            "SELECT nom FROM Activite WHERE id = %L", 
+            activiteId
+        );
+        const nameActivite = await client.query(activiteNom);
         if (soldeResult.rows.length === 0) {
             throw new Error("Utilisateur non trouvé");
         }
@@ -63,6 +68,14 @@ async function acheterBillet(utilisateurId, activiteId) {
             billetData
         );
         await client.query(billetQuery);
+        const transactionData = [
+            [new Date(), 'Achat Billet Activité', `Achat d'un billet pour l'activité ${nameActivite.rows[0]["nom"]} - Prix : ${prix}€`, prix, utilisateurId]
+        ];
+        const transactionQuery = format(
+            "INSERT INTO Transaction (date, operation, details, montant, utilisateur_id) VALUES %L",
+            transactionData
+        );
+        await client.query(transactionQuery);
 
         // Valider la transaction
         await client.query("COMMIT");

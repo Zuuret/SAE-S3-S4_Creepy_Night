@@ -7,6 +7,8 @@ const prestataireRouter = require("./routes/prestataires.router");
 const prestationRouter = require("./routes/prestations.router");
 const achatBilletRouter = require("./routes/achat_billet.router");
 const transactionHistoriqueRouter = require("./routes/transactions.router");
+const signalementRouter = require("./routes/signalement.router");
+
 
 
 
@@ -28,6 +30,7 @@ app.use("/api/prestataires",prestataireRouter);
 app.use("/api/prestations",prestationRouter);
 app.use("/api/achat",achatBilletRouter);
 app.use("/api/transactions",transactionHistoriqueRouter);
+app.use("/api/signalement",signalementRouter);
 
 
 
@@ -45,7 +48,7 @@ const swaggerOption = {
     },
     apis: ["./routes/users.router.js", "./routes/concerts.router.js", "./routes/expos.router.js", "./routes/films.router.js",
         "./routes/prestataires.router.js", "./routes/prestations.router.js", "./routes/achat_billet.router.js",
-        "./routes/transactions.router.js"
+        "./routes/transactions.router.js", "./routes/signalement.router.js"
 
     ],
 };
