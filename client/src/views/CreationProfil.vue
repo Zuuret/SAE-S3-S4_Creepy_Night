@@ -221,7 +221,7 @@ export default {
       }
       const result = await this.enregistrementPrestataire({ societe, adresse, logo, email, motDePasse });
       if (result.success) {
-        alert("Votre compte prestataire est créé");
+        alert("Votre demande a été envoyée !");
         await this.$router.push('/connexion');
       }
     },

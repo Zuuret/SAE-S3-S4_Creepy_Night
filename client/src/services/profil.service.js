@@ -7,9 +7,6 @@ async function ajoutUtilisateurFromLocalSource(data){
 async function ajoutOrganisateurFromLocalSource(data){
     return LocalSource.ajoutOrganisateur(data)
 }
-async function ajoutPrestataireFromLocalSource(data){
-    return LocalSource.ajoutPrestataire(data)
-}
 async function loginSiteUtilisateurFromLocalSource(data){
     return LocalSource.loginSiteUtilisateur(data)
 }
@@ -34,6 +31,9 @@ async function getUserbyIdFromLocalSource(idUser){
 async function getPrestatairebyIdFromLocalSource(idPrestataire){
     return LocalSource.getPrestataireById(idPrestataire)
 }
+async function getOrganisateurbyIdFromLocalSource(idOrganisateur){
+    return LocalSource.getOrganisateurById(idOrganisateur)
+}
 
 async function ajoutUtilisateur(data) {
     let response;
@@ -53,14 +53,14 @@ async function ajoutOrganisateur(data) {
     }
     return response
 }
-async function ajoutPrestataire(data){
+async function ajoutPrestataire(data) {
     let response;
     try {
-        response = await ajoutPrestataireFromLocalSource(data)
+        response = await demandeInscriptionPrestataire(data);
     } catch (err) {
-        response = {error: 1, status: 404, data: "erreur réseau, impossible d'ajouter un prestataire"  }
+        response = { error: 1, status: 404, data: "erreur réseau, impossible d'ajouter un prestataire" };
     }
-    return response
+    return response;
 }
 async function loginSiteUtilisateur(data) {
     let response;
@@ -135,6 +135,16 @@ async function getPrestatairebyId(idPrestataire){
     return response
 }
 
+async function getOrganisateurbyId(idPrestataire){
+    let response;
+    try {
+        response = await getOrganisateurbyIdFromLocalSource(idPrestataire)
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible de récupérer l'id du prestataire" }
+    }
+    return response
+}
+
 export async function getAllUtilisateurs() {
     return { error: 0, data: data.utilisateurs }; 
 }
@@ -145,6 +155,26 @@ export async function getAllOrganisateurs() {
 
 export async function getAllPrestataires() {
     return { error: 0, data: data.prestataires }; 
+}
+
+export async function demandeInscriptionPrestataire(data) {
+    let response;
+    try {
+        response = await LocalSource.demandeInscriptionPrestataire(data);
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible d'envoyer la demande" };
+    }
+    return response;
+}
+
+export async function demandeInscriptionOrganisateur(data) {
+    let response;
+    try {
+        response = await LocalSource.demandeInscriptionOrganisateur(data);
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible d'envoyer la demande" };
+    }
+    return response;
 }
 
 export default {
@@ -158,5 +188,6 @@ export default {
     getAllOrganisateur,
     getAllPrestataire,
     getUserbyId,
-    getPrestatairebyId
+    getPrestatairebyId,
+    getOrganisateurbyId
 }

@@ -8,9 +8,21 @@ let organisateurs = [
     {"id":2, "prenom":"Luc", "nom":"Balta", "email":"lucbalta@outlook.fr", "motDePasse":"mdp456", "numTelephone": 546865430},
 ];
 
+let demandesOrganisateurs = [
+    { id: 1, prenom: "Tim", nom: "Duncan", email: "timduncan@gmail.com", telephone: "0707070707", motDePasse: "mdp" },
+    { id: 2, prenom: "Enzo", nom: "Ferrari", email: "enzoferrari@gmail.com", telephone: "0606060606", motDePasse: "mdp" },
+    { id: 3, prenom: "Yahia", nom: "Touré", email: "yahiatoure@gmail.com", telephone: "0505050505", motDePasse: "mdp" },
+];
+
 let prestataires = [
     {"id":1, "societe":"BurgerKing","adresse": "3 rue de japy", "email":"burgerking@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_burgerking.png")},
     {"id":2, "societe":"POP","adresse": "5 rue de belfort", "email":"pop@gmail.com", "motDePasse":"mdp123", "logo": require("../assets/logo_pop.png")},
+];
+
+let demandesPrestataires = [
+    { id: 1, societe: "Société A", adresse: "Adresse A", email: "contact@societea.com", statut: "en attente", motDePasse: "mdp" },
+    { id: 2, societe: "Société B", adresse: "Adresse B", email: "contact@societeb.com", statut: "en attente", motDePasse: "mdp" },
+    { id: 3, societe: "Société C", adresse: "Adresse C", email: "contact@societec.com", statut: "en attente", motDePasse: "mdp" },
 ];
 
 let livre_DOr = [
@@ -327,6 +339,8 @@ let reservations_cauchemarathon= [
     {"id_reservation":1, "id_utilisateur": 1, "id_course": 1, "nb_places": 2},
 ]
 
+
+
 module.exports = {
     utilisateurs,
     organisateurs,
@@ -356,5 +370,7 @@ module.exports = {
     bouteilles,
     reservation_carihorreur,
     demandeUberFlippe,
-    reservations_cauchemarathon
+    reservations_cauchemarathon,
+    demandesPrestataires,
+    demandesOrganisateurs
 }

@@ -69,6 +69,59 @@
           </tbody>
         </table>
       </div>
+
+      <div class="card">
+        <h2>Demandes d'Inscription des Organisateurs</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="demande in demandesOrganisateurs" :key="demande.id">
+              <td>{{ demande.id }}</td>
+              <td>{{ demande.nom }}</td>
+              <td>{{ demande.prenom }}</td>
+              <td>{{ demande.email }}</td>
+              <td>{{ demande.telephone }}</td>
+              <td>
+                <button @click="handleAccepterDemandeOrganisateur(demande)">Accepter</button>
+                <button @click="rejeterDemandeOrganisateur(demande)">Rejeter</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h2>Demandes d'Inscription des Prestataires</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Société</th>
+              <th>Email</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="demande in demandesPrestataires" :key="demande.id">
+              <td>{{ demande.id }}</td>
+              <td>{{ demande.societe }}</td>
+              <td>{{ demande.email }}</td>
+              <td>
+                <button @click="handleAccepterDemandePrestataire(demande)">Accepter</button>
+                <button @click="rejeterDemandePrestataire(demande)">Rejeter</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -80,15 +133,28 @@ export default {
   name: "HomeOrganisateur",
   computed: {
     ...mapGetters("ProfilStore", ["utilisateurConnecte", "getUtilisateurs"]),
-    ...mapState("ProfilStore", ["utilisateurs", "organisateurs", "prestataires"]),
+    ...mapState("profil", ["utilisateurs", "organisateurs", "prestataires", "demandesPrestataires","demandesOrganisateurs"]),
     ...mapState("transactions", ["billetsAchatAujourdHui"]),
     hasAccess() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "organisateur";
     },
   },
   methods: {
-    ...mapActions("ProfilStore", ["getAllUtilisateur","getAllOrganisateur","getAllPrestataire"]),
+    ...mapActions("ProfilStore", ["fetchUtilisateurs", "fetchOrganisateurs", "fetchPrestataires"]),
     ...mapActions("transactions", ["fetchBilletsAchatAujourdHui"]),
+    ...mapActions("profil", ["fetchUtilisateurs", "fetchOrganisateurs", "fetchPrestataires", "fetchDemandesPrestataires", "accepterDemandePrestataire", "accepterDemandeOrganisateur"]),
+    handleAccepterDemandePrestataire(demande) {
+        this.accepterDemandePrestataire(demande);
+    },
+    rejeterDemandePrestataire(demande) {
+        this.$store.commit('profil/removeDemandePrestataire', demande.id);
+    },
+    handleAccepterDemandeOrganisateur(demande) {
+        this.accepterDemandeOrganisateur(demande);
+    },
+    rejeterDemandeOrganisateur(demande) {
+        this.$store.commit('profil/removeDemandeOrganisateur', demande.id);
+    },
   },
   mounted() {
     if (!this.utilisateurConnecte) {
@@ -97,9 +163,10 @@ export default {
     } else if (!this.hasAccess) {
       console.log("Accès refusé pour cet utilisateur.");
     } else {
-      this.getAllUtilisateur();
-      this.getAllOrganisateur();
-      this.getAllPrestataire();
+      this.fetchUtilisateurs();
+      this.fetchOrganisateurs();
+      this.fetchPrestataires();
+      this.fetchDemandesPrestataires();
       this.fetchBilletsAchatAujourdHui();
     }
   }
@@ -149,4 +216,12 @@ th {
   background-color: #f2f2f2;
 }
 
+.router-link {
+  color: #007bff; /* Couleur pour les liens */
+  text-decoration: none;
+}
+
+.router-link:hover {
+  text-decoration: underline; /* Souligner au survol */
+}
 </style>

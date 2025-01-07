@@ -1,6 +1,31 @@
-import {concerts, coordonnees_bancaire, places_concerts, utilisateurs, artistes, transactions, expo_oeuvres, expo_oeuvres_demande, cine_films, places_films,
-        signalement, deguisements, taille_deguisements, carres, bouteilles, reservation_carihorreur, organisateurs, prestataires, soireeBaltrouille, demandeUberFlippe,
-        livre_DOr, articles, reservations_cauchemarathon, courses_cauchemarathon } from './data.js';
+import {
+    concerts,
+    coordonnees_bancaire,
+    places_concerts,
+    utilisateurs,
+    artistes,
+    transactions,
+    expo_oeuvres,
+    expo_oeuvres_demande,
+    cine_films,
+    places_films,
+    signalement,
+    deguisements,
+    taille_deguisements,
+    carres,
+    bouteilles,
+    reservation_carihorreur,
+    organisateurs,
+    prestataires,
+    soireeBaltrouille,
+    demandeUberFlippe,
+    livre_DOr,
+    articles,
+    reservations_cauchemarathon,
+    demandesPrestataires,
+    courses_cauchemarathon,
+    demandesOrganisateurs
+} from './data.js';
 
 function ajoutUtilisateur(data) {
     if (!data.prenom) return { error: 1, status: 404, data: 'Aucun prénom fourni' };
@@ -12,6 +37,7 @@ function ajoutUtilisateur(data) {
     if (emailExiste) {
         return { error: 1, status: 409, data: 'Cet email est déjà utilisé' };
     }
+
     let nouvelUtilisateur = {
         id: utilisateurs.length + 1,
         prenom: data.prenom,
@@ -30,10 +56,12 @@ function ajoutOrganisateur(data){
     if (!data.numTelephone) return { error: 1, status: 404, data: 'Aucune numéro de téléphone fournie' };
     if (!data.email) return { error: 1, status: 404, data: 'Aucun email fourni' };
     if (!data.motDePasse) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
+
     const emailExiste = organisateurs.some(organisateur => organisateur.email === data.email);
     if (emailExiste) {
         return { error: 1, status: 409, data: 'Cet email est déjà utilisé' };
     }
+
     let nouvelOrganisateur = {
         id: organisateurs.length + 1,
         prenom: data.prenom,
@@ -44,26 +72,7 @@ function ajoutOrganisateur(data){
     };
     return { error: 0, status: 200, data: nouvelOrganisateur };
 }
-function ajoutPrestataire(data){
-    if (!data.societe) return { error: 1, status: 404, data: 'Aucune société fourni' };
-    if (!data.adresse) return { error: 1, status: 404, data: 'Aucune adresse fourni' };
-    if (!data.logo) return { error: 1, status: 404, data: 'Aucun logo fourni' };
-    if (!data.email) return { error: 1, status: 404, data: 'Aucun email fourni' };
-    if (!data.motDePasse) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
-    const emailExiste = prestataires.some(prestataire => prestataire.email === data.email);
-    if (emailExiste) {
-        return { error: 1, status: 409, data: 'Cet email est déjà utilisé' };
-    }
-    let nouveauPrestataire = {
-        id: prestataires.length + 1,
-        societe: data.societe,
-        adresse: data.adresse,
-        logo: data.logo,
-        email: data.email,
-        motDePasse: data.motDePasse,
-    };
-    return { error: 0, status: 200, data: nouveauPrestataire };
-}
+
 function loginUser(data, userList, userType) {
     if (!data.email || !data.motDePasse) {
         return { error: 1, status: 404, data: 'Email ou mot de passe non fourni.' };
@@ -495,10 +504,49 @@ export async function addTransactionToDatabase(paymentDetails) {
     return { error: 0, data: "Transaction réussie" };
 }
 
+function demandeInscriptionPrestataire(data) {
+    if (!data.societe) return { error: 1, status: 404, data: 'Aucune société fournie' };
+    if (!data.adresse) return { error: 1, status: 404, data: 'Aucune adresse fournie' };
+    if (!data.email) return { error: 1, status: 404, data: 'Aucun email fourni' };
+    if (!data.motDePasse) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
+
+    let nouvelleDemande = {
+        id: demandesPrestataires.length + 1,
+        societe: data.societe,
+        adresse: data.adresse,
+        email: data.email,
+        motDePasse: data.motDePasse,
+        statut: 'en attente'
+    };
+
+    demandesPrestataires.push(nouvelleDemande);
+    return { error: 0, status: 200, data: nouvelleDemande };
+}
+
+function demandeInscriptionOrganisateur(data) {
+    if (!data.nom) return { error: 1, status: 404, data: 'Aucun nom fourni' };
+    if (!data.prenom) return { error: 1, status: 404, data: 'Aucun prenom fourni' };
+    if (!data.email) return { error: 1, status: 404, data: 'Aucun email fourni' };
+    if (!data.telephone) return { error: 1, status: 404, data: 'Aucun telephone fourni' };
+    if (!data.motDePasse) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
+
+    let nouvelleDemande = {
+        id: demandesOrganisateurs.length + 1,
+        nom: data.nom,
+        prenom: data.prenom,
+        email: data.email,
+        telephone: data.telephone,
+        motDePasse: data.motDePasse,
+        statut: 'en attente'
+    };
+
+    demandesOrganisateurs.push(nouvelleDemande);
+    return { error: 0, status: 200, data: nouvelleDemande };
+}
+
 export default {
     ajoutUtilisateur,
     ajoutOrganisateur,
-    ajoutPrestataire,
     loginSiteUtilisateur,
     loginSiteOrganisateur,
     loginSitePrestataire,
@@ -547,4 +595,6 @@ export default {
     getArticleById,
     getAllArticle,
     buyTicketCauchemarathon,
+    demandeInscriptionPrestataire,
+    demandeInscriptionOrganisateur,
 };
