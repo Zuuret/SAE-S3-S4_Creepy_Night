@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import controller from "@/datasource/controller";
-
+/* eslint-disable */
 Vue.use(Vuex)
 
 import ConcertService from "../services/concert.service";
@@ -17,7 +16,7 @@ export default ({
         place_concert: null,
         places_concert: [],
         panier: [],
-        coordonneesBancaire: null,
+        reservations: [],
     },
     mutations: {
         updateListeConcert(state, concerts){
@@ -54,6 +53,7 @@ export default ({
                     place: place,
                 });
             }
+            console.log(state.panier)
         },
         retirerDuPanier(state, { concertId }) {
             const placeDansPanier = state.panier.find(item => item.concertId === concertId);
@@ -81,14 +81,14 @@ export default ({
                 console.log("Concert non trouvé dans le panier.");
             }
         },
+        ajouterReservation(state, reservation) {
+            state.reservations.push(reservation);
+        },
         updateListeArtistes(state, artistes){
             state.artistes = artistes;
         },
         updateArtiste(state, artiste){
             state.artiste = artiste;
-        },
-        updateCoordonneesBancaire(state, coordonneesBancaire){
-            state.coordonneesBancaire = coordonneesBancaire;
         },
     },
     actions: {
@@ -173,16 +173,6 @@ export default ({
             let response = await ValidArtiste.setDecision(artiste);
             if (response.error === 0) {
                 commit('updateArtiste', response.data);
-            } else {
-                console.log(response.data);
-            }
-        },
-        async validerPaiement({commit}, data){
-            console.log("enregistrement de nouvelles données bancaire")
-            let response = await controller.validerPaiement(data);
-            if(response.error === 0){
-                commit('updateCoordonneesBancaire', response.data);
-                return true;
             } else {
                 console.log(response.data);
             }

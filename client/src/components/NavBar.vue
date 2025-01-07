@@ -23,18 +23,12 @@
         <router-link to="/profil" @click="closeMenu">Mon Profil</router-link>
       </div>
 
-      <router-link to="/concert" @click="closeMenu">Programmation des concerts</router-link>
       <router-link to="/planning" @click="closeMenu">Placer concert</router-link>
       <router-link to="/organisateur/validartiste" @click="closeMenu">Valider concert</router-link>
-      <router-link to="/billet" @click="closeMenu">Tickets et abonnements</router-link>
+      <router-link to="/prestataire" @click="closeMenu">Nos prestataires</router-link>
       <router-link to="/secuflippe" @click="closeMenu">SecuFlippe</router-link>
-      <router-link to="/cauchemarathon" @click="closeMenu">CaucheMarathon</router-link>
-      <router-link to="/baltrouille" @click="closeMenu">Bal'trouille</router-link>
-      <router-link to="/carihorreur" @click="closeMenu">CariHorreur</router-link>
       <router-link to="/carte-interactive" @click="closeMenu">Carte Interactive</router-link>
       <router-link to="/cashless" @click="closeMenu">CashLess</router-link>
-      <router-link to="/expo" @click="closeMenu">Exposition</router-link>
-      <router-link to="/cinepeur" @click="closeMenu">Cinepeur</router-link>
       <router-link to="/payment-history" @click="closeMenu">Historique de paiement</router-link>
     </div>
   </div>

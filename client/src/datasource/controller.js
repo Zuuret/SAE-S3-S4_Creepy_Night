@@ -22,8 +22,8 @@ import {
     livre_DOr,
     articles,
     reservations_cauchemarathon,
-    courses_cauchemarathon,
-    demandesPrestataires
+    demandesPrestataires,
+    courses_cauchemarathon, panier_concert, reservation_concert
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -229,21 +229,71 @@ function getPlaceConcertbyId(concertId) {
     let place_concert = places_concerts.filter(place => place.id_concert === parseInt(concertId));
     return { error: 0, data: place_concert };
 }
-
-function validerPaiement(data){
-    if (!data.nom) return { error: 1, status: 404, data: 'Aucun nom de titulaire de la carte fourni' };
-    if (!data.numeroCarte) return { error: 1, status: 404, data: 'Aucun numero de carte fourni' };
-    if (!data.dateExpiration) return { error: 1, status: 404, data: "Aucune date d'expiration fourni" };
-    if (!data.cvv) return { error: 1, status: 404, data: 'Aucun cvv fourni' };
-
-    let nouvelleCoordonnees = {
-        nom: coordonnees_bancaire.nom,
-        numeroCarte: coordonnees_bancaire.numero_carte,
-        dateExpiration: coordonnees_bancaire.date_expiration,
-        cvv: coordonnees_bancaire.cvv,
+function addPanierConcert(data) {
+    let placeDansPanier = panier_concert.find(item => item.concertId === data.concertId);
+    if (placeDansPanier) {
+        placeDansPanier.nbPlaces += data.nbPlaces;
+        placeDansPanier.prixTotal = placeDansPanier.nbPlaces * data.prixPlace;
+    } else {
+        const nouveauPanier = {
+            concertId: data.concertId,
+            nbPlaces: data.nbPlaces,
+            prixTotal: data.nbPlaces * data.prixPlace,
+            concert: data.concert,
+            place: data.place
+        }
+        panier_concert.push(nouveauPanier)
+        return {error:0, data: nouveauPanier}
     }
-    return { error: 0, status: 200, data: nouvelleCoordonnees };
 }
+
+
+
+    function achatBilletConcert(idUtilisateur) {
+    console.log("Début de la fonction achatBilletConcert");
+
+    const user = utilisateurs.find(u => u.id === parseInt(idUtilisateur));
+    if (!user) {
+        console.log("Utilisateur non trouvé pour l'ID:", idUtilisateur);
+        return { error: 1, status: 404, data: 'Utilisateur non trouvé' };
+    }
+    console.log('Panier_concert', panier_concert)
+    console.log("Solde de l'utilisateur avant achat:", user.solde);
+    if (user.solde < panier_concert.prixTotal) {
+        console.log("Solde insuffisant. Solde actuel:", user.solde, "Prix total:", panier_concert.prixTotal);
+        return { error: 1, status: 400, data: 'Solde insuffisant' };
+    }
+    user.solde -= panier_concert.prixTotal;
+    console.log("Solde de l'utilisateur après achat:", user.solde);
+
+    // Ajouter la transaction
+    const transaction = {
+        id: transactions.length + 1,
+        date: new Date().toISOString().split('T')[0] + ' ' + new Date().toTimeString().split(' ')[0],
+        operation: 'Achat Billet Concert',
+        details: panier_concert.concert.artiste,
+        amount: -panier_concert.prixTotal,
+        id_utilisateur: user.id
+    };
+    transactions.push(transaction);
+    console.log("Transaction ajoutée:", transaction);
+
+    // Ajouter la réservation
+    const nouvelleReservation = {
+        id_reservation: reservation_concert.length + 1,
+        id_utilisateur: user.id,
+        id_concert: panier_concert.concert.id,
+        nb_places: panier_concert.nbPlaces,
+        prix_total: panier_concert.prixTotal,
+        date_reservation: new Date().toISOString()
+    };
+    reservation_concert.push(nouvelleReservation);
+    console.log("Réservation ajoutée:", nouvelleReservation);
+
+    console.log("Fin de la fonction achatBilletConcert");
+    return { error: 0, status: 200, data: nouvelleReservation };
+}
+
 
 function getArtistes() {
     return {error: 0, data: artistes}
@@ -587,7 +637,8 @@ export default {
     getConcertbyId,
     getAllPlaceConcert,
     getPlaceConcertbyId,
-    validerPaiement,
+    addPanierConcert,
+    achatBilletConcert,
     getArtistes,
     setDecision,
     getOeuvres,

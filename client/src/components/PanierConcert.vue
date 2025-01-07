@@ -28,7 +28,7 @@
       <p><strong>Total du panier : {{ totalPanier }} €</strong></p>
       <div v-if="panier.length > 0">
         <router-link to="/cashless">
-          <button @click="validerPaiement">Valider la commande</button>
+          <button @click="achatBillet()">Valider la commande</button>
         </router-link>
       </div>
     </div>
@@ -39,19 +39,32 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex";
+import {mapActions, mapMutations, mapState} from "vuex";
+import ConcertService from "@/services/concert.service";
 
 export default {
   computed: {
     ...mapState('ConcertStore',['panier']),
+    ...mapState('ProfilStore', ['utilisateurConnecte']),
     totalPanier() {
       return this.panier.reduce((total, item) => total + item.nbPlaces * item.place[0].prix_place, 0);
     },
   },
   methods: {
     ...mapActions('ConcertStore', ['retirerDuPanier','viderPlace']),
-    validerPaiement() {
-      console.log("Validation de la commande");
+    ...mapMutations('ProfilStore', ['updateSoldeUtilisateur']),
+    async achatBillet() {
+      if (this.utilisateurConnecte.solde < this.totalPanier) {
+        alert('Solde insuffisant pour acheter le(s) billet(s). Veuillez recharger votre compte sur la page CashLess.');
+        return;
+      }
+      let response = await ConcertService.achatBilletConcert(this.utilisateurConnecte.id);
+      if (response.status !== 200) {
+        alert(response.data);
+        return;
+      }
+      this.updateSoldeUtilisateur(response.data.solde);
+      alert(`Billet(s) acheté(s) ! Préparez-vous pour la terreur. Prix : ${this.totalPrice}€. Circuit : ${this.selectedCircuitName}, Jour : ${this.selectedDayName}, Nombre de places : ${this.nb_place}.\nId de la réservation : ${response.data.idRes}`);
     }
   }
 };

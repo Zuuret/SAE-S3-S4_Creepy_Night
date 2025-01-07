@@ -56,9 +56,24 @@ async function getPlacesConcertsbyId(concertId) {
     return response;
 }
 
+async function achatBilletConcertFromLocalSource(idUtilisateur){
+    return LocalSource.achatBilletConcert(idUtilisateur);
+}
+
+async function achatBilletConcert(idUtilisateur) {
+    let response;
+    try {
+        response = await achatBilletConcertFromLocalSource(idUtilisateur);
+    } catch (err) {
+        response = { error: 1, status: 404, data: 'erreur réseau, impossible de procéder à l\'achat de vos ticket concert' };
+    }
+    return response;
+}
+
 export default {
     getAllConcerts,
     getConcertbyId,
     getAllPlaceConcert,
     getPlacesConcertsbyId,
+    achatBilletConcert,
 };
