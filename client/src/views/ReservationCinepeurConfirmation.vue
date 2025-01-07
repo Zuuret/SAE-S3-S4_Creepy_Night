@@ -1,37 +1,51 @@
 <template>
-  <div>
-    <div class="navbar">
-      <NavBar />
-    </div>
-    <h1 class="bordure">Détails du film</h1>
-    <img :src="filmById.image" alt="Affiche du film" />
-    <div v-if="filmById" class="bordure">
-      <h2>{{ filmById.nomFilm }}</h2>
-      <p>Date : {{ filmById.date }}</p>
-      <p>Heure : {{ filmById.heure }}</p>
-      <p>{{ filmById.salle }}</p>
-    </div>
-
-    <div v-if="places_film.length > 0" class="bordure">
-      <h3>Places disponibles :</h3>
-      <div v-for="place in places_film" :key="place.id">
-        <p>Type de place : {{ place.type_place }} - Nombre de places : {{ place.nb_places }} - Prix : {{ place.prix_place }} €</p>
-        <label :for="`selection_quantite_${place.type_place}`">Quantité :</label>
-        <select v-model.number="quantiteParType[place.type_place]">
-          <option v-for="n in 7" :key="n" :value="n-1">{{ n-1 }}</option>
-        </select>
-      </div>
-    </div>
-    <div v-else class="bordure">
-      <p>Aucune place disponible pour ce film.</p>
-    </div>
-    <div class="bordure">
-      <p>Total : {{ prixTotal }}€</p>
-    </div>
-    <div>
-      <router-link v-if="prixTotal != 0" :to="`/cinepeur/${filmById.id}/validate`">
-        <button>Obtenir ma place</button>
+  <div style="margin-top: 150px">
+    <NavBar />
+    <div v-if="utilisateurConnecte == null">
+      <h1>Veuillez vous connecter :</h1>
+      <router-link :to="`/cinepeur/`">
+        <button style="margin-top: 10px">Retour</button>
       </router-link>
+      <router-link :to="`/connexion/`">
+        <button style="margin-top: 10px">Se Connecter</button>
+      </router-link>
+    </div>
+    <div v-else>
+      <h1 class="bordure">Détails du film</h1>
+      <img :src="filmById.image" alt="Affiche du film" />
+      <div v-if="filmById" class="bordure">
+        <h2>{{ filmById.nomFilm }}</h2>
+        <p>Date : {{ filmById.date }}</p>
+        <p>Heure : {{ filmById.heure }}</p>
+        <p>{{ filmById.salle }}</p>
+      </div>
+
+      <div v-if="places_film.length > 0" class="bordure">
+        <h3>Places disponibles :</h3>
+        <div v-for="place in places_film" :key="place.id">
+          <p>Type de place : {{ place.type_place }}</p>
+          <p>Nombre de places : {{ place.nb_places }}</p>
+          <p>Prix : {{ place.prix_place }} €</p>
+          <div>
+            <p v-if="utilisateurConnecte !== null">Votre Cashless : {{ utilisateurConnecte.solde }} €</p>
+            <label :for="`selection_quantite_${place.type_place}`">
+              Quantité :
+            </label>
+            <select v-model.number="quantiteParType[place.type_place]">
+              <option v-for="n in 7" :key="n" :value="n-1">{{ n-1 }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div v-if="places_film.length <= 0" class="bordure">
+        <p>Aucune place disponible pour ce film.</p>
+      </div>
+      <div class="bordure">
+        <p>Total : {{ prixTotal }}€</p>
+        <router-link v-if="prixTotal != 0 && utilisateurConnecte.solde >= prixTotal" :to="`/cinepeur/`">
+          <button style="margin-top: 10px">Obtenir ma place</button>
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
@@ -49,7 +63,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('CinemaStore',['filmById', 'places_film']),
+    ...mapState('CinemaStore',['filmById', 'places_film','utilisateurConnecte']),
     prixTotal() {
       let total = 0;
       for (const place of this.places_film) {
@@ -76,6 +90,12 @@ export default {
 </script>
 
 <style scoped>
+* {
+  margin: 0px;
+  padding: 10px;
+  text-decoration: none;
+}
+
 /* Style principal du conteneur */
 div {
   color: #ff4444;
