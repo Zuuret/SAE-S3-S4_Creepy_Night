@@ -3,12 +3,12 @@
     <div class="navbar">
       <NavBar />
     </div>
-    <div v-if="ok === null">
+    <div v-if="ok === null" class="bordure">
       <p>Voulez-vous utiliser votre cashless ?</p>
       <button @click="ok = true">Oui</button>
       <button @click="ok = false">Non</button>
     </div>
-    <div v-if="ok === false" >
+    <div v-if="ok === false" class="bordure">
       <form @submit.prevent="validerPaiement({nom, numeroCarte, dateExpiration, cvv})">
         <h3>Coordonnées bancaires</h3>
         <div>
@@ -32,6 +32,9 @@
       <div v-if="coordonneesBancaire" class="success-message">
         <p>Votre paiement a bien été pris en compte</p>
       </div>
+    </div>
+    <div v-if="ok === true" class="bordure">
+
     </div>
   </div>
 </template>
@@ -68,40 +71,46 @@ form {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f5f5f5;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-family: Arial, sans-serif;
 }
 
+.bordure {
+  background-color: #151515;
+  border: 1px solid red;
+  box-shadow: 0 0 15px rgba(255, 0.5, 0.5, 0.6);
+  border-radius: 8px;
+}
+
+div {
+  color: #ff4444;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
 h3 {
   text-align: center;
-  color: #333;
+  color: red;
 }
 
 label {
   display: block;
   font-weight: bold;
   margin-bottom: 5px;
-  color: #555;
+  color: red;
 }
 
-input[type="text"],
-input[type="month"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-}
 
 button {
   width: 100%;
   padding: 12px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
+  background-color: black;
+  color: red;
+  border: 1px solid darkred;
   border-radius: 4px;
   font-size: 16px;
   font-weight: bold;
@@ -110,17 +119,16 @@ button {
 }
 
 button:hover {
-  background-color: #45a049;
+  background-color: #0A0A0A;
 }
 
 /* Message de confirmation */
 .success-message {
   margin-top: 20px;
   padding: 15px;
-  background-color: #e6ffed;
-  border: 1px solid #a2dfab;
+  border: 1px solid darkred;
   border-radius: 4px;
-  color: #2f8a5f;
+  color: #red;
   text-align: center;
 }
 
