@@ -125,8 +125,8 @@ export default ({
             console.log("Enregistrement d'un nouveau prestataire");
 
             // Trouver le dernier ID dans le tableau des demandes
-            const dernierId = state.demandesPrestataires.length > 0 
-                ? Math.max(...state.demandesPrestataires.map(d => d.id)) 
+            const dernierId = state.demandesPrestataires.length > 0
+                ? Math.max(...state.demandesPrestataires.map(d => d.id))
                 : 0; // Si aucune demande, commencer à 0
 
             const nouvelleDemande = {
@@ -288,13 +288,13 @@ export default ({
             commit('SET_DEMANDES_PRESTATAIRES', initialDemandes);
         },
         async accepterDemande({ commit, state }, demande) {
-            
-            const dernierIdPrestataire = state.prestataires.length > 0 
-                ? Math.max(...state.prestataires.map(p => p.id)) 
+
+            const dernierIdPrestataire = state.prestataires.length > 0
+                ? Math.max(...state.prestataires.map(p => p.id))
                 : 0;
 
             const nouveauPrestataire = {
-                id: dernierIdPrestataire + 1, 
+                id: dernierIdPrestataire + 1,
                 societe: demande.societe,
                 adresse: demande.adresse,
                 email: demande.email,

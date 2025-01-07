@@ -10,11 +10,11 @@ const router = express.Router();
  *     summary: Créer une nouvelle expo
  *     description: Utilisé pour créer une nouvelle expo
  *     tags:
- *       -expos
+ *       - expos
  *     parameters:
  *       - in: body
  *         name: expo
- *         description: Données du concert pour créer une nouvelle expo
+ *         description: Données pour créer une nouvelle expo
  *         schema:
  *           type: object
  *           required:
@@ -28,7 +28,7 @@ const router = express.Router();
  *               type: string
  *               minLength: 2
  *               maxLength: 50
- *               example: barbu
+ *               example: leroi
  *               description: nom exposant
  *             email:
  *               type: string
@@ -36,7 +36,7 @@ const router = express.Router();
  *               maxLength: 50
  *               example: salut@crea.com
  *               description: email
- *             date:
+ *             date_crea:
  *               type: string
  *               format: date
  *               example: 2025-10-27
@@ -65,7 +65,7 @@ const router = express.Router();
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.post("/", concertController.saveConcert);
+router.post("/", expoController.saveExpo);
 
 /**
  * @swagger
@@ -110,45 +110,73 @@ router.get("/:id", expoController.getExpoById);
 
 /**
  * @swagger
- * /api/expos:
+ * /api/expos/{id}:
  *   put:
- *     summary: Modifier une exposition
- *     description: Permet de modifier les informations d'une exposition existante.
+ *     summary: Modifier une exposition par ID
+ *     description: Modifie une exposition existant par son ID
  *     tags:
  *       - expos
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - id
- *             properties:
- *               id:
- *                 type: integer
- *                 example: 1
- *               createur:
- *                 type: string
- *                 example: Jane Doe
- *               email:
- *                 type: string
- *                 example: janedoe@example.com
- *               date_crea:
- *                 type: string
- *                 format: date-time
- *                 example: 2025-01-07T10:00:00
- *               description:
- *                 type: string
- *                 example: Une exposition mise à jour.
- *               image:
- *                 type: string
- *                 example: image2.jpg
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: L'ID de l'oeuvre
+ *         schema:
+ *           type: string
+ *           format: id
+ *           minLength: 1
+ *           maxLength: 5
+ *           example: 3
+ *           description: ID de l'oeuvre
+ *           required: true
+ *       - in: body
+ *         name: concert
+ *         description: Données de l'oeuvre à mettre à jour
+ *         schema:
+ *           type: object
+ *           properties:
+ *             createur:
+ *               type: string
+ *               minLength: 2
+ *               maxLength: 50
+ *               example: Tupac
+ *               description: Nom de créateur d'oeuvre
+ *               required: true
+ *             email:
+ *               type: string
+ *               minLength: 2
+ *               maxLength: 50
+ *               example: Tupac@50cent.fr
+ *               description: adresse mail
+ *               required: true
+ *             date_crea:
+ *               type: string
+ *               format: date
+ *               example: 2000-01-01
+ *               description: Date de création de l'oeuvre
+ *               required: true
+ *             description:
+ *               type: string
+ *               minLength: 5
+ *               maxLength: 8
+ *               example: figurine
+ *               description: description de l'oeuvre
+ *               required: true
+ *             image:
+ *               type: string
+ *               minLength: 1
+ *               maxLength: 45
+ *               example: batmobile.png
+ *               description: image
+ *               required: true
+ *               unique: true
  *     responses:
  *       '200':
- *         description: Modification enregistrée avec succès.
+ *         description: oeuvre mise à jour
+ *       '404':
+ *         description: oeuvre non trouvé
  *       '500':
- *         description: Erreur interne du serveur.
+ *         description: Erreur interne du serveur
  */
 router.put("/", expoController.updateExpo);
 

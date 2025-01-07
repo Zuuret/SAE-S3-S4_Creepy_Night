@@ -66,7 +66,7 @@ exports.deletePrestataire = async (req, res) => {
     try {
         const result = await prestataireService.deletePrestataire(uuid);
 
-        if (result) {
+        if (!result) {
             return res.status(200).json({ message: 'Prestataire supprimé avec succès' });
         } else {
             return res.status(404).json({ message: 'Prestataire non trouvé' });

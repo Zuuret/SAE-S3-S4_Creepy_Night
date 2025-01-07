@@ -66,7 +66,7 @@ exports.deleteExpo = async (req, res) => {
     try {
         const result = await expoService.deleteExpo(id);
 
-        if (result) {
+        if (!result) {
             return res.status(200).json({ message: 'Expo supprimé avec succès' });
         } else {
             return res.status(404).json({ message: 'Expo non trouvé' });
