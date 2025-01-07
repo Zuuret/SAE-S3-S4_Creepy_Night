@@ -50,15 +50,15 @@ exports.getConcertById = async (req, res) => {
 
 exports.updateConcert = async (req,res) => {
     
-    const uuid = req.params.uuid;
+    const id = req.params.id;
     const artiste = req.body.artiste;
     const nationalite = req.body.nationalite;
     const date = req.body.date;
     const heure = req.body.heure;
-    const duree = req.body.duree;
+    const duree = 1;
     const categorie = req.body.categorie;
     const scene = req.body.scene;
-    const resultat = await concertService.updateConcert(uuid,artiste,nationalite,date,heure,duree,categorie,scene);
+    const resultat = await concertService.updateConcert(id,artiste,nationalite,date,heure,duree,categorie,scene);
     if(resultat){
         return res.status(500).send("ERREUR INTERNE");
     }
@@ -71,7 +71,7 @@ exports.deleteConcert = async (req, res) => {
     try {
         const result = await concertService.deleteConcert(id);
 
-        if (result) {
+        if (!result) {
             return res.status(200).json({ message: 'Concert supprimé avec succès' });
         } else {
             return res.status(404).json({ message: 'Concert non trouvé' });

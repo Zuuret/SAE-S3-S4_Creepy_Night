@@ -9,7 +9,7 @@ const router = express.Router();
  *     summary: Ajouter un nouveau prestataire
  *     description: Permet d'ajouter un nouveau prestataire avec les informations fournies.
  *     tags:
- *       - Prestataires
+ *       - prestataires
  *     requestBody:
  *       required: true
  *       content:
@@ -52,7 +52,7 @@ router.post("/", prestataireController.savePrestataire);
  *     summary: Récupérer la liste des prestataires
  *     description: Permet de récupérer tous les prestataires disponibles.
  *     tags:
- *       - Prestataires
+ *       - prestataires
  *     responses:
  *       '200':
  *         description: Liste des prestataires récupérée avec succès.
@@ -68,7 +68,7 @@ router.get("/", prestataireController.getPrestataires);
  *     summary: Récupérer un prestataire par UUID
  *     description: Permet de récupérer les informations d'un prestataire à partir de son UUID.
  *     tags:
- *       - Prestataires
+ *       - prestataires
  *     parameters:
  *       - in: path
  *         name: uuid
@@ -91,52 +91,64 @@ router.get("/:uuid", prestataireController.getPrestataireById);
  * @swagger
  * /api/prestataires/{uuid}:
  *   put:
- *     summary: Modifier un prestataire
- *     description: Permet de mettre à jour les informations d'un prestataire existant.
+ *     summary: Modifier un prestataire par ID
+ *     description: Modifie un prestataire existant par son UUID
  *     tags:
- *       - Prestataires
+ *       - prestataires
  *     parameters:
  *       - in: path
  *         name: uuid
  *         required: true
- *         description: UUID du prestataire
+ *         description: L'UUID du prestataire
  *         schema:
  *           type: string
  *           format: uuid
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - societe
- *               - email
- *               - password
- *             properties:
- *               societe:
- *                 type: string
- *                 maxLength: 50
- *                 example: Societe B
- *               adresse:
- *                 type: string
- *                 maxLength: 150
- *                 example: 456 Avenue des Entrepreneurs
- *               email:
- *                 type: string
- *                 format: email
- *                 example: support@societeB.com
- *               password:
- *                 type: string
- *                 format: password
- *                 example: securePassword
+ *           minLength: 36
+ *           maxLength: 36
+ *           example: 5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6
+ *       - in: body
+ *         name: prestataire
+ *         description: Données du prestataire à mettre à jour
+ *         schema:
+ *           type: object
+ *           properties:
+ *             societe:
+ *               type: string
+ *               minLength: 1
+ *               maxLength: 50
+ *               example: Argentcorp
+ *               description: Nom de la société
+ *               required: true
+ *             adresse:
+ *               type: string
+ *               maxLength: 150
+ *               example: "10 rue de l'Entreprise, 75000 Paris"
+ *               description: Adresse de la société
+ *             email:
+ *               type: string
+ *               minLength: 5
+ *               maxLength: 50
+ *               example: contact@ezmoipitie.com
+ *               description: Adresse e-mail du prestataire
+ *               required: true
+ *               unique: true
+ *             password:
+ *               type: string
+ *               minLength: 8
+ *               maxLength: 150
+ *               example: "MotDePasseSecurise123"
+ *               description: Mot de passe du prestataire
+ *               required: true
  *     responses:
  *       '200':
- *         description: Modification enregistrée avec succès.
+ *         description: Prestataire mis à jour
+ *       '404':
+ *         description: Prestataire non trouvé
  *       '500':
- *         description: Erreur interne du serveur.
+ *         description: Erreur interne du serveur
  */
 router.put("/:uuid", prestataireController.updatePrestataire);
+
 
 /**
  * @swagger
@@ -145,7 +157,7 @@ router.put("/:uuid", prestataireController.updatePrestataire);
  *     summary: Supprimer un prestataire
  *     description: Permet de supprimer un prestataire à partir de son UUID.
  *     tags:
- *       - Prestataires
+ *       - prestataires
  *     parameters:
  *       - in: path
  *         name: uuid

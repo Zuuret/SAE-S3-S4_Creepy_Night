@@ -9,7 +9,7 @@ const router = express.Router();
  *     summary: Ajouter une nouvelle prestation
  *     description: Permet d'ajouter une nouvelle prestation avec les informations fournies.
  *     tags:
- *       - Prestations
+ *       - prestations
  *     requestBody:
  *       required: true
  *       content:
@@ -23,14 +23,14 @@ const router = express.Router();
  *               nom:
  *                 type: string
  *                 maxLength: 50
- *                 example: Nettoyage à domicile
+ *                 example: tabassage nocturne
  *               prix:
  *                 type: integer
  *                 example: 50
  *               description:
  *                 type: string
  *                 maxLength: 150
- *                 example: Nettoyage complet d'une maison ou appartement.
+ *                 example: un tabassage dans les règles de l'art la nuit
  *               image:
  *                 type: string
  *                 example: image.jpg
@@ -52,7 +52,7 @@ router.post("/", prestationController.savePrestation);
  *     summary: Récupérer la liste des prestations
  *     description: Permet de récupérer toutes les prestations disponibles.
  *     tags:
- *       - Prestations
+ *       - prestations
  *     responses:
  *       '200':
  *         description: Liste des prestations récupérée avec succès.
@@ -68,7 +68,7 @@ router.get("/", prestationController.getPrestations);
  *     summary: Récupérer une prestation par ID
  *     description: Permet de récupérer les informations d'une prestation spécifique à partir de son ID.
  *     tags:
- *       - Prestations
+ *       - prestations
  *     parameters:
  *       - in: path
  *         name: id
@@ -90,51 +90,62 @@ router.get("/:id", prestationController.getPrestationById);
  * @swagger
  * /api/prestations/{id}:
  *   put:
- *     summary: Modifier une prestation
- *     description: Permet de mettre à jour les informations d'une prestation existante.
+ *     summary: Modifier une prestation par ID
+ *     description: Modifie une prestation existante par son ID
  *     tags:
- *       - Prestations
+ *       - prestations
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID de la prestation
+ *         description: L'ID de la prestation
  *         schema:
  *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - nom
- *               - prix
- *             properties:
- *               nom:
- *                 type: string
- *                 maxLength: 50
- *                 example: Nettoyage à domicile
- *               prix:
- *                 type: integer
- *                 example: 50
- *               description:
- *                 type: string
- *                 maxLength: 150
- *                 example: Nettoyage complet d'une maison ou appartement.
- *               image:
- *                 type: string
- *                 example: image.jpg
- *               zone_id:
- *                 type: integer
- *                 example: 1
+ *           example: 1
+ *           description: ID de la prestation
+ *       - in: body
+ *         name: prestation
+ *         description: Données de la prestation à mettre à jour
+ *         schema:
+ *           type: object
+ *           properties:
+ *             nom:
+ *               type: string
+ *               minLength: 1
+ *               maxLength: 50
+ *               example: Snack
+ *               description: Nom de la prestation
+ *               required: true
+ *             prix:
+ *               type: integer
+ *               example: 50
+ *               description: Prix de la prestation (en euros)
+ *               required: true
+ *             description:
+ *               type: string
+ *               maxLength: 150
+ *               example: Frites avec du sel salé
+ *               description: Description de la prestation
+ *             image:
+ *               type: string
+ *               maxLength: 50
+ *               example: "los_fritas.jpg"
+ *               description: image associé à la prestation
+ *             zone_id:
+ *               type: integer
+ *               example: 3
+ *               description: ID de la zone associée à la prestation
+ *               required: true
  *     responses:
  *       '200':
- *         description: Modification enregistrée avec succès.
+ *         description: Prestation mise à jour
+ *       '404':
+ *         description: Prestation non trouvée
  *       '500':
- *         description: Erreur interne du serveur.
+ *         description: Erreur interne du serveur
  */
 router.put("/:id", prestationController.updatePrestation);
+
 
 /**
  * @swagger
@@ -143,7 +154,7 @@ router.put("/:id", prestationController.updatePrestation);
  *     summary: Supprimer une prestation
  *     description: Permet de supprimer une prestation à partir de son ID.
  *     tags:
- *       - Prestations
+ *       - prestations
  *     parameters:
  *       - in: path
  *         name: id

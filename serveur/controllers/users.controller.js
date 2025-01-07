@@ -69,7 +69,7 @@ exports.deleteUser = async (req, res) => {
     try {
         const result = await userService.deleteUser(uuid);
 
-        if (result) {
+        if (!result) {
             return res.status(200).json({ message: 'Utilisateur supprimé avec succès' });
         } else {
             return res.status(404).json({ message: 'Utilisateur non trouvé' });

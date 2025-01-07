@@ -115,54 +115,78 @@ router.get("/:uuid", concertController.getConcertById);
  * @swagger
  * /api/concerts/{id}:
  *   put:
- *     summary: Modifier un concert
- *     description: Permet de modifier les informations d'un concert existant.
+ *     summary: Modifier un concert par ID
+ *     description: Modifie un concert existant par son ID
  *     tags:
  *       - concerts
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: ID du concert
+ *         description: L'ID du concert
  *         schema:
- *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               artiste:
- *                 type: string
- *                 example: Coldplay
- *               nationalite:
- *                 type: string
- *                 example: Britannique
- *               date:
- *                 type: string
- *                 format: date
- *                 example: 2025-06-15
- *               heure:
- *                 type: string
- *                 format: time
- *                 example: 20:00:00
- *               duree:
- *                 type: integer
- *                 example: 120
- *               categorie:
- *                 type: string
- *                 example: Pop
- *               scene:
- *                 type: string
- *                 example: Grande scène
+ *           type: string
+ *           format: id
+ *           minLength: 1
+ *           maxLength: 5
+ *           example: 3
+ *           description: ID du concert
+ *           required: true
+ *       - in: body
+ *         name: concert
+ *         description: Données du concert à mettre à jour
+ *         schema:
+ *           type: object
+ *           properties:
+ *             artiste:
+ *               type: string
+ *               minLength: 2
+ *               maxLength: 50
+ *               example: Doe
+ *               description: Nom d'artiste
+ *               required: true
+ *             nationalite:
+ *               type: string
+ *               minLength: 2
+ *               maxLength: 50
+ *               example: Francais
+ *               description: nationalite
+ *               required: true
+ *             date:
+ *               type: string
+ *               format: date
+ *               example: 2000-01-01
+ *               description: Date du concert
+ *               required: true
+ *             heure:
+ *               type: string
+ *               minLength: 5
+ *               maxLength: 8
+ *               example: 22:00:00
+ *               description: heure de début
+ *               required: true
+ *             categorie:
+ *               type: string
+ *               minLength: 1
+ *               maxLength: 45
+ *               example: RAP
+ *               description: genre
+ *               required: true
+ *               unique: true
+ *             scene:
+ *               type: string
+ *               minLength: 1
+ *               maxLength: 45
+ *               example: Grande scene
+ *               description: où se joue
+ *               required: true
  *     responses:
  *       '200':
- *         description: Concert modifié avec succès.
+ *         description: concert mis à jour
  *       '404':
- *         description: Concert non trouvé.
+ *         description: concert non trouvé
  *       '500':
- *         description: Erreur interne du serveur.
+ *         description: Erreur interne du serveur
  */
 router.put("/:id", concertController.updateConcert);
 

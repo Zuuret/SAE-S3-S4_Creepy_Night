@@ -73,7 +73,7 @@ exports.deleteFilm = async (req, res) => {
     try {
         const result = await filmService.deleteFilm(id);
 
-        if (result) {
+        if (!result) {
             return res.status(200).json({ message: 'Film supprimé avec succès' });
         } else {
             return res.status(404).json({ message: 'Film non trouvé' });

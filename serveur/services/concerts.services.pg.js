@@ -35,11 +35,11 @@ async function getConcerts() {
     return res.rows || false;
 }
 
-async function updateConcert(uuid,artiste,nationalite,date,heure,duree,categorie,scene) {
+async function updateConcert(id,artiste,nationalite,date,heure,duree,categorie,scene) {
     const client = await pool.connect();
     let is_error = false;
     try {
-        const query = format('UPDATE Concert SET artiste = %L,nationalite = %L, date = %L, heure = %L, duree = %L, categorie = %L, scene = scene WHERE id = %L', artiste, nationalite,date,heure,duree,categorie,scene, uuid);
+        const query = format('UPDATE Concert SET artiste = %L,nationalite = %L, date = %L, heure = %L, duree = %L, categorie = %L, scene = %L WHERE id = %L', artiste, nationalite,date,heure,duree,categorie,scene, id);
         await client.query(query);
         console.log('MISE A JOUR DU CONCERT');
     } catch (error) {

@@ -67,7 +67,7 @@ exports.deletePrestation = async (req, res) => {
     try {
         const result = await prestationService.deletePrestation(id);
 
-        if (result) {
+        if (!result) {
             return res.status(200).json({ message: 'Prestation supprimé avec succès' });
         } else {
             return res.status(404).json({ message: 'Prestation non trouvé' });
