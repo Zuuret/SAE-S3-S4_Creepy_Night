@@ -1,5 +1,6 @@
 const express = require("express");
 const expoController = require("../controllers/expos.controller");
+const sessionMiddleware = require("../middlewares/session.middleware");
 
 const router = express.Router();
 
@@ -65,7 +66,7 @@ const router = express.Router();
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.post("/", expoController.saveExpo);
+router.post("/", sessionMiddleware.checkSession, expoController.saveExpo);
 
 /**
  * @swagger
@@ -113,7 +114,7 @@ router.get("/:id", expoController.getExpoById);
  * /api/expos/{id}:
  *   put:
  *     summary: Modifier une exposition par ID
- *     description: Modifie une exposition existant par son ID
+ *     description: Modifie une exposition existante par son ID
  *     tags:
  *       - expos
  *     parameters:
@@ -178,7 +179,7 @@ router.get("/:id", expoController.getExpoById);
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.put("/", expoController.updateExpo);
+router.put("/", sessionMiddleware.checkSession, expoController.updateExpo);
 
 /**
  * @swagger
@@ -203,6 +204,6 @@ router.put("/", expoController.updateExpo);
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.delete("/:id", expoController.deleteExpo);
+router.delete("/:id", sessionMiddleware.checkSession, expoController.deleteExpo);
 
 module.exports = router;

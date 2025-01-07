@@ -1,5 +1,6 @@
 const express = require("express");
 const filmController = require("../controllers/films.controller");
+const sessionMiddleware = require("../middlewares/session.middleware");
 
 const router = express.Router();
 /**
@@ -56,7 +57,7 @@ const router = express.Router();
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.post("/", filmController.saveFilm);
+router.post("/", sessionMiddleware.checkSession, filmController.saveFilm);
 
 /**
  * @swagger
@@ -190,7 +191,7 @@ router.get("/:id", filmController.getFilmById);
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.put("/:id", filmController.updateFilm);
+router.put("/:id", sessionMiddleware.checkSession, filmController.updateFilm);
 
 /**
  * @swagger
@@ -215,6 +216,6 @@ router.put("/:id", filmController.updateFilm);
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.delete("/:id", filmController.deleteFilm);
+router.delete("/:id", sessionMiddleware.checkSession, filmController.deleteFilm);
 
 module.exports = router;

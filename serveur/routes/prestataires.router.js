@@ -1,5 +1,6 @@
 const express = require("express");
 const prestataireController = require("../controllers/prestataires.controller");
+const sessionMiddleware = require("../middlewares/session.middleware");
 
 const router = express.Router();
 /**
@@ -147,7 +148,7 @@ router.get("/:uuid", prestataireController.getPrestataireById);
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.put("/:uuid", prestataireController.updatePrestataire);
+router.put("/:uuid", sessionMiddleware.checkSession, prestataireController.updatePrestataire);
 
 
 /**
@@ -174,6 +175,6 @@ router.put("/:uuid", prestataireController.updatePrestataire);
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.delete("/:uuid", prestataireController.deletePrestataire);
+router.delete("/:uuid", sessionMiddleware.checkSession, prestataireController.deletePrestataire);
 
 module.exports = router;

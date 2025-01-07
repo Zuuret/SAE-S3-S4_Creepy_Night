@@ -1,5 +1,6 @@
 const express = require("express");
 const signalementController = require('../controllers/signalement.controller');
+//const sessionMiddleware = require("../middlewares/session.middleware");
 
 const router = express.Router();
 

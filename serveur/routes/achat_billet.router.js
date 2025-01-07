@@ -1,5 +1,6 @@
 const express = require("express");
 const acheterBilletController = require("../controllers/achat_billet.controller");
+const sessionMiddleware = require("../middlewares/session.middleware");
 
 const router = express.Router();
 
@@ -72,6 +73,6 @@ const router = express.Router();
  *                   type: string
  *                   example: "Erreur lors de l'achat du billet"
  */
-router.post("/", acheterBilletController.acheterBillet);
+router.post("/", sessionMiddleware.checkSession, acheterBilletController.acheterBillet);
 
 module.exports = router;
