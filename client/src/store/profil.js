@@ -3,7 +3,6 @@ import Vuex from 'vuex';
 import ProfilService from '../services/profil.service';
 import CashLessService from '../services/cashless.service';
 
-
 Vue.use(Vuex);
 
 export default ({
@@ -79,6 +78,7 @@ export default ({
         async enregistrementUtilisateur({ commit }, data) {
             console.log("Enregistrement d'un nouvel utilisateur");
             let response = await ProfilService.ajoutUtilisateur(data);
+            console.log(response)
             if (response.error === 0) {
                 commit('addUtilisateur', response.data);
                 commit('updateErrorMessage', '');

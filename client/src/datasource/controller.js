@@ -1,29 +1,6 @@
-import {
-    concerts,
-    coordonnees_bancaire,
-    places_concerts,
-    utilisateurs,
-    artistes,
-    transactions,
-    expo_oeuvres,
-    expo_oeuvres_demande,
-    cine_films,
-    places_films,
-    signalement,
-    deguisements,
-    taille_deguisements,
-    carres,
-    bouteilles,
-    reservation_carihorreur,
-    organisateurs,
-    prestataires,
-    soireeBaltrouille,
-    demandeUberFlippe,
-    livre_DOr,
-    articles,
-    reservations_cauchemarathon,
-    courses_cauchemarathon, panier_concert, reservation_concert
-} from './data.js';
+import {concerts, coordonnees_bancaire, places_concerts, utilisateurs, artistes, transactions, expo_oeuvres, expo_oeuvres_demande, cine_films, places_films,
+        signalement, deguisements, taille_deguisements, carres, bouteilles, reservation_carihorreur, organisateurs, prestataires, soireeBaltrouille, demandeUberFlippe,
+        livre_DOr, articles, reservations_cauchemarathon, courses_cauchemarathon } from './data.js';
 
 function ajoutUtilisateur(data) {
     if (!data.prenom) return { error: 1, status: 404, data: 'Aucun prénom fourni' };
@@ -31,12 +8,10 @@ function ajoutUtilisateur(data) {
     if (!data.dateNaissance) return { error: 1, status: 404, data: 'Aucune date de naissance fournie' };
     if (!data.email) return { error: 1, status: 404, data: 'Aucun email fourni' };
     if (!data.motDePasse) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
-
     const emailExiste = utilisateurs.some(user => user.email === data.email);
     if (emailExiste) {
         return { error: 1, status: 409, data: 'Cet email est déjà utilisé' };
     }
-
     let nouvelUtilisateur = {
         id: utilisateurs.length + 1,
         prenom: data.prenom,
@@ -55,12 +30,10 @@ function ajoutOrganisateur(data){
     if (!data.numTelephone) return { error: 1, status: 404, data: 'Aucune numéro de téléphone fournie' };
     if (!data.email) return { error: 1, status: 404, data: 'Aucun email fourni' };
     if (!data.motDePasse) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
-
     const emailExiste = organisateurs.some(organisateur => organisateur.email === data.email);
     if (emailExiste) {
         return { error: 1, status: 409, data: 'Cet email est déjà utilisé' };
     }
-
     let nouvelOrganisateur = {
         id: organisateurs.length + 1,
         prenom: data.prenom,
@@ -77,12 +50,10 @@ function ajoutPrestataire(data){
     if (!data.logo) return { error: 1, status: 404, data: 'Aucun logo fourni' };
     if (!data.email) return { error: 1, status: 404, data: 'Aucun email fourni' };
     if (!data.motDePasse) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
-
     const emailExiste = prestataires.some(prestataire => prestataire.email === data.email);
     if (emailExiste) {
         return { error: 1, status: 409, data: 'Cet email est déjà utilisé' };
     }
-
     let nouveauPrestataire = {
         id: prestataires.length + 1,
         societe: data.societe,
@@ -159,6 +130,9 @@ function getPrestataireById(idPrestataire){
     let presta = prestataires.find(u => u.id === parseInt(idPrestataire))
     return {error: 0, data:presta}
 }
+
+
+
 function addPositionGeographique() {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
@@ -182,13 +156,11 @@ function addPositionGeographique() {
         }
     });
 }
-
 function addSignalement(data) {
     if (!data.typeIncident) return { error: 1, status: 404, data: "Aucun type d'incident fourni" };
     if (!data.descriptionIncident) return { error: 1, status: 404, data: "Aucune description pour l'incident fourni" };
     if (!data.zoneIncident) return { error: 1, status: 404, data: "Aucune zone sélectionnée pour l'incident" };
     if (!data.positionUtilisateur) return { error: 1, status: 404, data: "Aucune position utilisateur fournie" };
-
     const nouveauSignalement = {
         typeIncident: data.typeIncident,
         descriptionIncident: data.descriptionIncident,
@@ -196,102 +168,31 @@ function addSignalement(data) {
         positionUtilisateur: data.positionUtilisateur,
         timestamp: new Date(),
     };
-
-    signalement.push(nouveauSignalement);
     return { error: 0, status: 200, data: nouveauSignalement };
 }
-
 function getAllSignalements(){
     return {error: 0, data: signalement}
 }
 
+
+
 function getAllConcerts(){
     return {error: 0, data: concerts}
 }
-
 function getConcertbyId(concertId){
     let concert = concerts.find(c => c.id === parseInt(concertId))
     return {error: 0, data: concert}
 }
-
 function getAllPlaceConcert(){
     return {error: 0, data: places_concerts}
 }
-
 function getPlaceConcertbyId(concertId) {
     let place_concert = places_concerts.filter(place => place.id_concert === parseInt(concertId));
     return { error: 0, data: place_concert };
 }
-function addPanierConcert(data) {
-    let placeDansPanier = panier_concert.find(item => item.concertId === data.concertId);
-    if (placeDansPanier) {
-        placeDansPanier.nbPlaces += data.nbPlaces;
-        placeDansPanier.prixTotal = placeDansPanier.nbPlaces * data.prixPlace;
-    } else {
-        const nouveauPanier = {
-            concertId: data.concertId,
-            nbPlaces: data.nbPlaces,
-            prixTotal: data.nbPlaces * data.prixPlace,
-            concert: data.concert,
-            place: data.place
-        }
-        panier_concert.push(nouveauPanier)
-        return {error:0, data: nouveauPanier}
-    }
-}
-
-
-
-    function achatBilletConcert(idUtilisateur) {
-    console.log("Début de la fonction achatBilletConcert");
-
-    const user = utilisateurs.find(u => u.id === parseInt(idUtilisateur));
-    if (!user) {
-        console.log("Utilisateur non trouvé pour l'ID:", idUtilisateur);
-        return { error: 1, status: 404, data: 'Utilisateur non trouvé' };
-    }
-    console.log('Panier_concert', panier_concert)
-    console.log("Solde de l'utilisateur avant achat:", user.solde);
-    if (user.solde < panier_concert.prixTotal) {
-        console.log("Solde insuffisant. Solde actuel:", user.solde, "Prix total:", panier_concert.prixTotal);
-        return { error: 1, status: 400, data: 'Solde insuffisant' };
-    }
-    user.solde -= panier_concert.prixTotal;
-    console.log("Solde de l'utilisateur après achat:", user.solde);
-
-    // Ajouter la transaction
-    const transaction = {
-        id: transactions.length + 1,
-        date: new Date().toISOString().split('T')[0] + ' ' + new Date().toTimeString().split(' ')[0],
-        operation: 'Achat Billet Concert',
-        details: panier_concert.concert.artiste,
-        amount: -panier_concert.prixTotal,
-        id_utilisateur: user.id
-    };
-    transactions.push(transaction);
-    console.log("Transaction ajoutée:", transaction);
-
-    // Ajouter la réservation
-    const nouvelleReservation = {
-        id_reservation: reservation_concert.length + 1,
-        id_utilisateur: user.id,
-        id_concert: panier_concert.concert.id,
-        nb_places: panier_concert.nbPlaces,
-        prix_total: panier_concert.prixTotal,
-        date_reservation: new Date().toISOString()
-    };
-    reservation_concert.push(nouvelleReservation);
-    console.log("Réservation ajoutée:", nouvelleReservation);
-
-    console.log("Fin de la fonction achatBilletConcert");
-    return { error: 0, status: 200, data: nouvelleReservation };
-}
-
-
 function getArtistes() {
     return {error: 0, data: artistes}
 }
-
 function setDecision(cjs) {
     let decision = cjs[0];
     let id = cjs[1];
@@ -304,6 +205,8 @@ function setDecision(cjs) {
     demande.decision = decision;
     return {error: 0, status: 200, data: demande}
 }
+
+
 
 function getOeuvres() {
     return {error: 0, data: expo_oeuvres}
@@ -611,8 +514,6 @@ export default {
     getConcertbyId,
     getAllPlaceConcert,
     getPlaceConcertbyId,
-    addPanierConcert,
-    achatBilletConcert,
     getArtistes,
     setDecision,
     getOeuvres,
