@@ -1,12 +1,21 @@
 <template>
   <div class="home-organisateur">
-    <h1>Bienvenue sur la page de l'organisateur</h1>
-    <p>Nombre de billets achetés aujourd'hui : {{ billetsAchatAujourdHui }}</p>
+    <header>
+      <h1>Bienvenue sur la page de l'organisateur</h1>
+    </header>
+
+    <section class="daily-stats">
+      <h2>Chiffres du jour</h2>
+      <div class="stat-item">
+        <span class="stat-title">Places vendues aujourd'hui :</span>
+        <span class="stat-value">{{ billetsAchatAujourdHui }}</span>
+      </div>
+    </section>
 
     <div class="card-container">
       <div class="card">
         <h2>Liste des Utilisateurs</h2>
-        <table>
+        <table class="modern-table">
           <thead>
             <tr>
               <th>ID</th>
@@ -23,7 +32,12 @@
               <td>{{ utilisateur.nom }}</td>
               <td>{{ utilisateur.email }}</td>
               <td>
-                <router-link :to="{ name: 'UserProfile', params: { id: utilisateur.id } }">Voir Profil</router-link>
+                <router-link
+                  class="profile-link"
+                  :to="{ name: 'UserProfile', params: { id: utilisateur.id } }"
+                >
+                  Voir Profil
+                </router-link>
               </td>
             </tr>
           </tbody>
@@ -32,7 +46,7 @@
 
       <div class="card">
         <h2>Liste des Organisateurs</h2>
-        <table>
+        <table class="modern-table">
           <thead>
             <tr>
               <th>ID</th>
@@ -52,7 +66,7 @@
 
       <div class="card">
         <h2>Liste des Prestataires</h2>
-        <table>
+        <table class="modern-table">
           <thead>
             <tr>
               <th>ID</th>
@@ -72,7 +86,7 @@
 
       <div class="card">
         <h2>Demandes d'Inscription des Organisateurs</h2>
-        <table>
+        <table class="modern-table">
           <thead>
             <tr>
               <th>ID</th>
@@ -91,16 +105,21 @@
               <td>{{ demande.email }}</td>
               <td>{{ demande.telephone }}</td>
               <td>
-                <button @click="handleAccepterDemandeOrganisateur(demande)">Accepter</button>
-                <button @click="rejeterDemandeOrganisateur(demande)">Rejeter</button>
+                <button @click="handleAccepterDemandeOrganisateur(demande)">
+                  Accepter
+                </button>
+                <button @click="rejeterDemandeOrganisateur(demande)">
+                  Rejeter
+                </button>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
+
       <div class="card">
         <h2>Demandes d'Inscription des Prestataires</h2>
-        <table>
+        <table class="modern-table">
           <thead>
             <tr>
               <th>ID</th>
@@ -115,8 +134,12 @@
               <td>{{ demande.societe }}</td>
               <td>{{ demande.email }}</td>
               <td>
-                <button @click="handleAccepterDemandePrestataire(demande)">Accepter</button>
-                <button @click="rejeterDemandePrestataire(demande)">Rejeter</button>
+                <button @click="handleAccepterDemandePrestataire(demande)">
+                  Accepter
+                </button>
+                <button @click="rejeterDemandePrestataire(demande)">
+                  Rejeter
+                </button>
               </td>
             </tr>
           </tbody>
@@ -127,13 +150,20 @@
 </template>
 
 <script>
+/* Script inchangé pour l'instant */
 import { mapActions, mapGetters, mapState } from "vuex";
 
 export default {
   name: "HomeOrganisateur",
   computed: {
     ...mapGetters("ProfilStore", ["utilisateurConnecte", "getUtilisateurs"]),
-    ...mapState("profil", ["utilisateurs", "organisateurs", "prestataires", "demandesPrestataires","demandesOrganisateurs"]),
+    ...mapState("profil", [
+      "utilisateurs",
+      "organisateurs",
+      "prestataires",
+      "demandesPrestataires",
+      "demandesOrganisateurs",
+    ]),
     ...mapState("transactions", ["billetsAchatAujourdHui"]),
     hasAccess() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "organisateur";
@@ -142,18 +172,25 @@ export default {
   methods: {
     ...mapActions("ProfilStore", ["fetchUtilisateurs", "fetchOrganisateurs", "fetchPrestataires"]),
     ...mapActions("transactions", ["fetchBilletsAchatAujourdHui"]),
-    ...mapActions("profil", ["fetchUtilisateurs", "fetchOrganisateurs", "fetchPrestataires", "fetchDemandesPrestataires", "accepterDemandePrestataire", "accepterDemandeOrganisateur"]),
+    ...mapActions("profil", [
+      "fetchUtilisateurs",
+      "fetchOrganisateurs",
+      "fetchPrestataires",
+      "fetchDemandesPrestataires",
+      "accepterDemandePrestataire",
+      "accepterDemandeOrganisateur",
+    ]),
     handleAccepterDemandePrestataire(demande) {
-        this.accepterDemandePrestataire(demande);
+      this.accepterDemandePrestataire(demande);
     },
     rejeterDemandePrestataire(demande) {
-        this.$store.commit('profil/removeDemandePrestataire', demande.id);
+      this.$store.commit("profil/removeDemandePrestataire", demande.id);
     },
     handleAccepterDemandeOrganisateur(demande) {
-        this.accepterDemandeOrganisateur(demande);
+      this.accepterDemandeOrganisateur(demande);
     },
     rejeterDemandeOrganisateur(demande) {
-        this.$store.commit('profil/removeDemandeOrganisateur', demande.id);
+      this.$store.commit("profil/removeDemandeOrganisateur", demande.id);
     },
   },
   mounted() {
@@ -169,59 +206,114 @@ export default {
       this.fetchDemandesPrestataires();
       this.fetchBilletsAchatAujourdHui();
     }
-  }
+  },
 };
 </script>
 
 <style scoped>
+/* Style global */
 .home-organisateur {
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f4f5f7;
+}
+
+header h1 {
+  text-align: center;
+  font-size: 2.5em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.daily-stats {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.daily-stats h2 {
+  font-size: 1.8em;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2em;
+  color: #555;
+}
+
+.stat-title {
+  font-weight: bold;
 }
 
 .card-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  margin-top: 20px;
+  gap: 20px;
 }
 
 .card {
   background: white;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  width: 30%; /* Ajustez la largeur selon vos besoins */
-  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: calc(45% - 20px);
+  min-width: 280px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 h2 {
-  color: #ff0000; /* Couleur pour les titres */
+  font-size: 1.5em;
+  color: #2c3e50;
+  margin-bottom: 15px;
 }
 
-table {
+/* Style moderne pour les tableaux */
+table.modern-table {
   width: 100%;
   border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background: #fff;
 }
 
-th, td {
-  padding: 10px;
+table.modern-table thead {
+  background-color: #2c3e50;
+  color: #fff;
+}
+
+table.modern-table th,
+table.modern-table td {
+  padding: 12px 15px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
 }
 
-th {
-  background-color: #f2f2f2;
+table.modern-table tr:nth-child(even) {
+  background-color: #f8f9fa;
 }
 
-.router-link {
-  color: #007bff; /* Couleur pour les liens */
+table.modern-table tr:hover {
+  background-color: #e0e7ff;
+}
+
+.profile-link {
+  color: #3498db;
+  font-weight: bold;
   text-decoration: none;
+  transition: transform 0.2s, color 0.2s;
 }
 
-.router-link:hover {
-  text-decoration: underline; /* Souligner au survol */
+.profile-link:hover {
+  transform: scale(1.1);
+  color: #1f78b4;
 }
 </style>

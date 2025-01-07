@@ -58,25 +58,11 @@
           </div>
         </div>
       </div>
-      <div class="pourquoi-venir">
-        <h1 class="titre-partie" id="titre-pourquoi-venir">Pourquoi venir à Creepy Night ?</h1>
-        <p class="puce">1. Une ambiance unique : Plongez dans un univers où
-          chaque détail est pensé pour éveiller vos sens et votre
-          imaginaire.
-        </p>
-        <p class="puce">
-          2. Une expérience pour tous : Seul, entre amis ou en
-          famille, Creepy Night est l’événement idéal pour partager des
-          moments riches en émotions.
-        </p>
-        <p class="puce">
-          3. Des artistes de renom : Profitez de performances
-          inédites et de rencontres avec des créateurs et talents du
-          genre horrifique.</p>
-      </div>
-
-      <div v-if="utilisateurConnecte" class="welcome-message">
-        Bonjour {{ utilisateurConnecte.prenom }} {{ utilisateurConnecte.nom }}
+      <div class="carte">
+        <h1 class="titre-carte">Découvrez dès maintenant le plan de votre festival Creepynight !</h1> 
+        <div class="carte-interactive">
+          <CarteInteractive />
+        </div>
       </div>
     </div>
     <footer class="footer">
@@ -113,11 +99,13 @@ import cinepeurImg from "@/assets/cinepeur.jpg";
 import concertsImg from "@/assets/concert.jpg";
 import balTrouilleImg from "@/assets/baltrouille.jpg";
 import expoImg from "@/assets/expo.jpg";
+import CarteInteractive from './CarteInteractive.vue';
 
 export default {
   components: {
     CompteRebours,
     NavBar,
+    CarteInteractive,
   },
   data() {
     return {
@@ -550,6 +538,13 @@ export default {
   color: black;
   text-align: center;
   margin-top: 20px;
+}
+
+.titre-carte{
+  font-family: 'Creepster', cursive;
+  font-size: 300%;
+  text-align: center;
+  padding-top: 50px;
 }
 
 </style>
