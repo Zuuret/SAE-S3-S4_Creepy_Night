@@ -85,6 +85,8 @@ let places_concerts = [
 
 let panier_concert = [];
 
+let reservation_concert = [];
+
 let coordonnees_bancaire = [
     {'nom': 'Doe', "numero_carte": "123456789ABCDEFG", 'date_expiration': "11/31", 'cvv': '484'}
 ]
@@ -335,6 +337,7 @@ module.exports = {
     concerts,
     places_concerts,
     panier_concert,
+    reservation_concert,
     coordonnees_bancaire,
     artistes,
     transactions,

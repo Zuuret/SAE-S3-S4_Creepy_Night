@@ -3,7 +3,6 @@
     <div class="navbar">
       <NavBar />
     </div>
-
     <div class="accueil">
       <img src="@/assets/fond_Accueil.png" alt="CreepyNight_accueil" class="accueil_image">
       <div class="compte-rebours">
@@ -49,12 +48,12 @@
           >
             <h2 class="titre-activites">{{ activite.titre }}</h2>
             <p class="description-activite">{{ activite.description }}</p>
-            <router-link 
-              :to="activite.titre === 'Cinépeur' ? '/cinepeur' : 
-                    activite.titre === 'Concerts' ? '/concert' : 
-                    activite.titre === 'Bal’trouille' ? '/baltrouille' : 
-                    activite.titre === 'Expositions' ? '/expo' : 
-                    `/${activite.titre.toLowerCase().replace(/\s+/g, '')}`" 
+            <router-link
+              :to="activite.titre === 'Cinépeur' ? '/cinepeur' :
+                    activite.titre === 'Concerts' ? '/concert' :
+                    activite.titre === 'Bal’trouille' ? '/baltrouille' :
+                    activite.titre === 'Expositions' ? '/expo' :
+                    `/${activite.titre.toLowerCase().replace(/\s+/g, '')}`"
               class="btn-activite">Voir l'activité</router-link>
           </div>
         </div>
@@ -156,6 +155,11 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    hasAccess() {
+      return this.utilisateurConnecte && this.utilisateurConnecte.role === "utilisateur";
+    },
   },
   mounted() {
     const utilisateur = localStorage.getItem('utilisateurConnecte');
