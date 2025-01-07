@@ -69,6 +69,31 @@
           </tbody>
         </table>
       </div>
+
+      <div class="card">
+        <h2>Demandes d'Inscription des Prestataires</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Société</th>
+              <th>Email</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="demande in demandesPrestataires" :key="demande.id">
+              <td>{{ demande.id }}</td>
+              <td>{{ demande.societe }}</td>
+              <td>{{ demande.email }}</td>
+              <td>
+                <button @click="handleAccepterDemande(demande)">Accepter</button>
+                <button @click="rejeterDemande(demande)">Rejeter</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </template>
@@ -80,7 +105,7 @@ export default {
   name: "HomeOrganisateur",
   computed: {
     ...mapGetters("ProfilStore", ["utilisateurConnecte", "getUtilisateurs"]),
-    ...mapState("profil", ["utilisateurs", "organisateurs", "prestataires"]),
+    ...mapState("profil", ["utilisateurs", "organisateurs", "prestataires", "demandesPrestataires"]),
     ...mapState("transactions", ["billetsAchatAujourdHui"]),
     hasAccess() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "organisateur";
@@ -89,6 +114,13 @@ export default {
   methods: {
     ...mapActions("ProfilStore", ["fetchUtilisateurs", "fetchOrganisateurs", "fetchPrestataires"]),
     ...mapActions("transactions", ["fetchBilletsAchatAujourdHui"]),
+    ...mapActions("profil", ["fetchUtilisateurs", "fetchOrganisateurs", "fetchPrestataires", "fetchDemandesPrestataires", "accepterDemande"]),
+    handleAccepterDemande(demande) {
+        this.accepterDemande(demande);
+    },
+    rejeterDemande(demande) {
+        this.$store.commit('profil/removeDemandePrestataire', demande.id);
+    },
   },
   mounted() {
     if (!this.utilisateurConnecte) {
@@ -100,6 +132,7 @@ export default {
       this.fetchUtilisateurs();
       this.fetchOrganisateurs();
       this.fetchPrestataires();
+      this.fetchDemandesPrestataires();
       this.fetchBilletsAchatAujourdHui();
     }
   }

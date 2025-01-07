@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import ProfilService from '../services/profil.service';
 import CashLessService from '../services/cashless.service';
 import { getAllUtilisateurs, getAllOrganisateurs, getAllPrestataires } from "@/services/profil.service";
+import { demandesPrestataires as initialDemandes } from '../datasource/data';
 
 
 Vue.use(Vuex);
@@ -19,6 +20,7 @@ export default ({
         errorMessage: '',
         utilisateurConnecte: JSON.parse(localStorage.getItem("utilisateurConnecte")) || null,
         logo: null,
+        demandesPrestataires: initialDemandes,
     },
     mutations: {
         addUtilisateur(state, utilisateur) {
@@ -80,6 +82,15 @@ export default ({
         SET_PRESTATAIRES(state, prestataires) {
             state.prestataires = prestataires;
         },
+        addDemandePrestataire(state, demande) {
+            state.demandesPrestataires.push(demande);
+        },
+        SET_DEMANDES_PRESTATAIRES(state, demandes) {
+            state.demandesPrestataires = demandes;
+        },
+        removeDemandePrestataire(state, demandeId) {
+            state.demandesPrestataires = state.demandesPrestataires.filter(d => d.id !== demandeId);
+        },
     },
 
     actions: {
@@ -110,17 +121,25 @@ export default ({
                 return { success: false };
             }
         },
-        async enregistrementPrestataire({ commit }, data) {
+        async enregistrementPrestataire({ commit, state }, data) {
             console.log("Enregistrement d'un nouveau prestataire");
-            let response = await ProfilService.ajoutPrestataire(data);
-            if (response.error === 0) {
-                commit('addPrestataire', response.data);
-                commit('updateErrorMessage', '');
-                return { success: true };
-            } else {
-                commit('updateErrorMessage', response.data);
-                return { success: false };
-            }
+
+            // Trouver le dernier ID dans le tableau des demandes
+            const dernierId = state.demandesPrestataires.length > 0 
+                ? Math.max(...state.demandesPrestataires.map(d => d.id)) 
+                : 0; // Si aucune demande, commencer à 0
+
+            const nouvelleDemande = {
+                id: dernierId + 1, // ID de la nouvelle demande
+                societe: data.societe,
+                adresse: data.adresse,
+                email: data.email,
+                motDePasse: data.motDePasse, // Assurez-vous d'inclure le mot de passe ici
+            };
+
+            // Ajoutez la demande au tableau des demandes
+            commit('addDemandePrestataire', nouvelleDemande);
+            return { success: true }; // Retournez un succès ou un échec selon votre logique
         },
         async loginUser({ commit }, { data, userType }) {
             let response;
@@ -264,6 +283,29 @@ export default ({
             if (response.error === 0) {
                 commit('SET_PRESTATAIRES', response.data);
             }
+        },
+        async fetchDemandesPrestataires({ commit }) {
+            commit('SET_DEMANDES_PRESTATAIRES', initialDemandes);
+        },
+        async accepterDemande({ commit, state }, demande) {
+            
+            const dernierIdPrestataire = state.prestataires.length > 0 
+                ? Math.max(...state.prestataires.map(p => p.id)) 
+                : 0;
+
+            const nouveauPrestataire = {
+                id: dernierIdPrestataire + 1, 
+                societe: demande.societe,
+                adresse: demande.adresse,
+                email: demande.email,
+                motDePasse: demande.motDePasse, // Assurez-vous que le mot de passe est inclus
+            };
+
+            // Afficher les informations du nouveau prestataire dans la console
+            console.log(`Nouveau prestataire ajouté : Email: ${nouveauPrestataire.email}, Mot de passe: ${nouveauPrestataire.motDePasse}`);
+
+            commit('addPrestataire', nouveauPrestataire); // Ajoutez le prestataire
+            commit('removeDemandePrestataire', demande.id); // Supprimez la demande
         },
     },
     getters: {

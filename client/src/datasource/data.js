@@ -325,6 +325,12 @@ let reservations_cauchemarathon= [
     {"id_reservation":1, "id_utilisateur": 1, "id_course": 1, "nb_places": 2},
 ]
 
+let demandesPrestataires = [
+    { id: 1, societe: "Société A", adresse: "Adresse A", email: "contact@societea.com", statut: "en attente", motDePasse: "mdp" },
+    { id: 2, societe: "Société B", adresse: "Adresse B", email: "contact@societeb.com", statut: "en attente", motDePasse: "mdp" },
+    { id: 3, societe: "Société C", adresse: "Adresse C", email: "contact@societec.com", statut: "en attente", motDePasse: "mdp" },
+];
+
 module.exports = {
     utilisateurs,
     organisateurs,
@@ -353,5 +359,6 @@ module.exports = {
     bouteilles,
     reservation_carihorreur,
     demandeUberFlippe,
-    reservations_cauchemarathon
+    reservations_cauchemarathon,
+    demandesPrestataires
 }

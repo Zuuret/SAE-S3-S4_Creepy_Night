@@ -22,7 +22,8 @@ import {
     livre_DOr,
     articles,
     reservations_cauchemarathon,
-    courses_cauchemarathon
+    courses_cauchemarathon,
+    demandesPrestataires
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -548,6 +549,25 @@ export async function addTransactionToDatabase(paymentDetails) {
     return { error: 0, data: "Transaction réussie" };
 }
 
+function demandeInscriptionPrestataire(data) {
+    if (!data.societe) return { error: 1, status: 404, data: 'Aucune société fournie' };
+    if (!data.adresse) return { error: 1, status: 404, data: 'Aucune adresse fournie' };
+    if (!data.email) return { error: 1, status: 404, data: 'Aucun email fourni' };
+    if (!data.motDePasse) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
+
+    let nouvelleDemande = {
+        id: demandesPrestataires.length + 1,
+        societe: data.societe,
+        adresse: data.adresse,
+        email: data.email,
+        motDePasse: data.motDePasse,
+        statut: 'en attente'
+    };
+
+    demandesPrestataires.push(nouvelleDemande);
+    return { error: 0, status: 200, data: nouvelleDemande };
+}
+
 export default {
     ajoutUtilisateur,
     ajoutOrganisateur,
@@ -601,4 +621,5 @@ export default {
     getArticleById,
     getAllArticle,
     buyTicketCauchemarathon,
+    demandeInscriptionPrestataire,
 };

@@ -7,9 +7,9 @@ async function ajoutUtilisateurFromLocalSource(data){
 async function ajoutOrganisateurFromLocalSource(data){
     return LocalSource.ajoutOrganisateur(data)
 }
-async function ajoutPrestataireFromLocalSource(data){
+/*async function ajoutPrestataireFromLocalSource(data){
     return LocalSource.ajoutPrestataire(data)
-}
+}*/
 async function loginSiteUtilisateurFromLocalSource(data){
     return LocalSource.loginSiteUtilisateur(data)
 }
@@ -53,14 +53,14 @@ async function ajoutOrganisateur(data) {
     }
     return response
 }
-async function ajoutPrestataire(data){
+async function ajoutPrestataire(data) {
     let response;
     try {
-        response = await ajoutPrestataireFromLocalSource(data)
+        response = await demandeInscriptionPrestataire(data);
     } catch (err) {
-        response = {error: 1, status: 404, data: "erreur réseau, impossible d'ajouter un prestataire"  }
+        response = { error: 1, status: 404, data: "erreur réseau, impossible d'ajouter un prestataire" };
     }
-    return response
+    return response;
 }
 async function loginSiteUtilisateur(data) {
     let response;
@@ -145,6 +145,16 @@ export async function getAllOrganisateurs() {
 
 export async function getAllPrestataires() {
     return { error: 0, data: data.prestataires }; 
+}
+
+export async function demandeInscriptionPrestataire(data) {
+    let response;
+    try {
+        response = await LocalSource.demandeInscriptionPrestataire(data);
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible d'envoyer la demande" };
+    }
+    return response;
 }
 
 export default {
