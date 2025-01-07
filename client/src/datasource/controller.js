@@ -24,7 +24,6 @@ import {
     reservations_cauchemarathon,
     courses_cauchemarathon, panier_concert, reservation_concert
 } from './data.js';
-import {no} from "vue/src/shared/util";
 
 function ajoutUtilisateur(data) {
     if (!data.prenom) return { error: 1, status: 404, data: 'Aucun prénom fourni' };
