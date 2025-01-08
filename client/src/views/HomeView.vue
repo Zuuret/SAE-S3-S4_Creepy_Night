@@ -545,6 +545,13 @@ export default {
   font-size: 300%;
   text-align: center;
   padding-top: 50px;
+  color: white;
+  padding: 50px;
+}
+
+.carte{
+  background-color: #AD0918;
+  padding-bottom: 50px;
 }
 
 </style>

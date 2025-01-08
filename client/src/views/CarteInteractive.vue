@@ -1,28 +1,22 @@
 <template>
-  <div class="interactive-container">
-    <div class="zoom-container" :style="{ transform: `scale(${zoomLevel})` }" @wheel="onWheel">
-      <img src="@/assets/carte_creepy_night.png" alt="Carte interactive" class="map-image" />
+  <div class="interactive-map-container" @click="deselectIcon">
+    <div class="legend">
+      <h3>Légende</h3>
+      <ul>
+        <li v-for="(icon, index) in icons" :key="'legend-' + index" @click.stop="selectIcon(icon)" :class="{ active: selectedIcon === icon }"> {{ icon.title }} </li>
+      </ul>
+    </div>
 
-      <div
-          v-for="(icon, index) in icons"
-          :key="'icon-' + index"
-          class="icon-container"
-          :style="{ top: `${icon.y}%`, left: `${icon.x}%` }"
-          @mouseover="hoverElement(icon)"
-          @mouseleave="leaveElement"
-          :class="{ 'icon-hovered': hoveredIcon === icon }"
-      >
-        <img :src="icon.image" class="icon" :alt="icon.title" />
-
-        <div
-            v-if="hoveredIcon === icon"
-            class="icon-info"
-            @mouseover="hoverElement(icon)"
-            @mouseleave="leaveElement"
-        >
-          <h4>{{ icon.title }}</h4>
-          <p>{{ icon.description }}</p>
-          <img :src="icon.image2" class="illustration_activites" :alt="illustration_activite"/>
+    <div class="interactive-container">
+      <div class="zoom-container" :style="{ transform: `scale(${zoomLevel})`, transformOrigin: `${transformOriginX} ${transformOriginY}` }" @wheel="onWheel">
+        <img src="@/assets/carte_creepy_night.png" alt="Carte interactive" class="map-image" />
+        <div v-for="(icon, index) in icons" :key="'icon-' + index" class="icon-container" :style="{ top: `${icon.y}%`, left: `${icon.x}%` }" @mouseover="hoverElement(icon)" @mouseleave="leaveElement" :class="{ 'icon-hovered': hoveredIcon === icon || selectedIcon === icon }">
+          <img :src="icon.image" class="icon" :alt="icon.title" />
+          <div v-if="hoveredIcon === icon || selectedIcon === icon" class="icon-info">
+            <h4>{{ icon.title }}</h4>
+            <p>{{ icon.description }}</p>
+            <img v-if="icon.image2" :src="icon.image2" class="illustration_activites" :alt="icon.title" />
+          </div>
         </div>
       </div>
     </div>
@@ -37,23 +31,36 @@ export default {
       zoomLevel: 1,
       maxZoom: 3,
       minZoom: 1,
+      transformOriginX: "50%", 
+      transformOriginY: "50%",
       icons: [
-        { x: 12, y: 57, title: "Grande scène", description: "Plongez dans une expérience musicale inoubliable lors des concerts prévus de notre festival !", image: require("@/assets/icone_concert.png"), image2: require("@/assets/concert_carte.jpg") },
-        { x: 31.5, y: 38, title: "Point d'intérêt 2", description: "Description du point 2", image: require("@/assets/icone_secours.png")},
-        { x: 46.5, y: 44, title: "Point d'intérêt 3", description: "Description du point 3", image: require("@/assets/icone_expo.png")},
-        { x: 70, y: 37, title: "Point d'intérêt 4", description: "Description du point 4", image: require("@/assets/icone_cinema.png")},
-        { x: 68, y: 25, title: "Point d'intérêt 5", description: "Description du point 5", image: require("@/assets/icone_baltrouille.png") },
-        { x: 78, y: 19, title: "Point d'intérêt 6", description: "Description du point 6", image: require("@/assets/icone_secours.png")},
-        { x: 64, y: 20, title: "Point d'intérêt 7", description: "Description du point 7" },
-        { x: 58, y: 12, title: "Point d'intérêt 8", description: "Description du point 8" },
-        { x: 74, y: 15, title: "Point d'intérêt 9", description: "Description du point 9" },
+      { x: 17, y: 50, title: "Grande scène", description: "Plongez dans une expérience musicale inoubliable lors des concerts prévus de notre festival !", image: require("@/assets/icone_concert.png"), image2: require("@/assets/concert_carte.jpg") },
+      { x: 30, y: 40, title: "Poste de Secours", description: "Un espace dédié à votre sécurité pour répondre à toute urgence médicale pendant le festival.", image: require("@/assets/icone_secours.png"), },
+      { x: 46.5, y: 44, title: "Exposition", description: "Explorez une exposition captivante qui met en avant des artistes locaux et des œuvres uniques.", image: require("@/assets/icone_expo.png"), image2: require("@/assets/expo-carte.jpg") },
+      { x: 73, y: 38, title: "CinéPeur", description: "Venez frissonner devant des films effrayants dans notre cinéma en plein air, une expérience unique sous les étoiles !", image: require("@/assets/icone_cinema.png") },
+      { x: 70, y: 30, title: "Bal'Trouille", description: "Dansez toute la nuit déguisé(e) dans une ambiance festive et terrifiante pour célébrer Halloween comme jamais auparavant !", image: require("@/assets/icone_baltrouille.png") },
+      { x: 80, y: 22, title: "Poste de Secours", description: "Un espace dédié à votre sécurité pour répondre à toute urgence médicale pendant le festival.", image: require("@/assets/icone_secours.png") },
+      { x: 64, y: 20, title: "Accueil", description: "Retrouvez toutes les informations nécessaires à votre visite et notre équipe prête à vous guider.", image: require("@/assets/icone_accueil.png") },
+      { x: 56, y: 14, title: "Recharge Cashless", description: "Rechargez facilement et rapidement votre bracelet cashless pour profiter pleinement du festival.", image: require("@/assets/icone_cashless.png")},
+      { x: 74, y: 15, title: "Restaurant Burger King", description: "Savourez vos burgers préférés chez Burger King pour une pause gourmande au cœur du festival.", image: require("@/assets/icone_burgerking.png")},
       ],
-      hoveredIcon: null, // Stocke l'icône survolée
+      hoveredIcon: null,
+      selectedIcon: null,
     };
   },
   methods: {
     onWheel(event) {
       event.preventDefault();
+
+      const container = event.currentTarget;
+      const rect = container.getBoundingClientRect();
+
+      const mouseX = event.clientX - rect.left;
+      const mouseY = event.clientY - rect.top;
+
+      this.transformOriginX = `${(mouseX / rect.width) * 100}%`;
+      this.transformOriginY = `${(mouseY / rect.height) * 100}%`;
+
       const zoomSpeed = 0.1;
       if (event.deltaY < 0) {
         this.zoomLevel = Math.min(this.maxZoom, this.zoomLevel + zoomSpeed);
@@ -65,16 +72,23 @@ export default {
       this.hoveredIcon = icon;
     },
     leaveElement() {
-      if (!this.$el.contains(event.relatedTarget)) {
-        this.hoveredIcon = null; // Cacher l'info-bulle uniquement si la souris quitte toute la zone
+      this.hoveredIcon = null;
+    },
+    selectIcon(icon) {
+      if (this.selectedIcon === icon) {
+        this.selectedIcon = null;
+      } else {
+        this.selectedIcon = icon;
       }
+    },
+    deselectIcon() {
+      this.selectedIcon = null;
     },
   },
 };
 </script>
 
 <style scoped>
-/* Conteneur principal */
 .interactive-container {
   position: relative;
   width: 100%;
@@ -82,7 +96,6 @@ export default {
   overflow: hidden;
 }
 
-/* Zone zoomable */
 .zoom-container {
   position: relative;
   width: 100%;
@@ -91,15 +104,15 @@ export default {
   transition: transform 0.2s ease;
 }
 
-/* Image de la carte */
+
 .map-image {
+  position: relative;
+  top: 100px;
   width: 100%;
-  height: 100%;
-  object-fit: contain;
-  transition: transform 0.3s ease;
+  height: auto; 
+  border-radius: 10px;
 }
 
-/* Conteneur de chaque icône avec son info */
 .icon-container {
   position: absolute;
   display: flex;
@@ -111,47 +124,43 @@ export default {
   transition: transform 0.3s ease;
 }
 
-/* Icône */
 .icon {
   width: 70px;
   height: 100px;
   transition: transform 0.3s ease;
 }
 
-/* Animation lors du survol */
 .icon-hovered .icon {
   animation: bounce 0.6s infinite;
 }
 
-/* Info-bulle */
 .icon-info {
-  width: 500%; /* Supprimer la largeur de 500% */
-  max-width: 300px; /* Limite la largeur de l'info-bulle */
+  width: 500%;
+  max-width: 300px;
   position: absolute;
-  bottom: 100%; /* Place les infos juste au-dessus de l'icône */
-  transform: translateY(-10px); /* Ajuste l'espacement vertical */
+  bottom: 100%; 
+  transform: translateY(-10px); 
   text-align: center;
-  background-color: rgba(0, 0, 0, 0.7); /* Fond sombre avec transparence */
+  background-color: rgba(0, 0, 0, 0.7);
   color: white;
-  padding: 12px 15px; /* Plus d'espace pour rendre le texte plus lisible */
-  border-radius: 8px; /* Bord arrondi */
+  padding: 12px 15px; 
+  border-radius: 8px; 
   z-index: 2;
-  pointer-events: none; /* Empêche l'info-bulle de gêner le clic sur l'icône */
-  transition: opacity 0.3s ease, transform 0.3s ease; /* Transition fluide */
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-/* Titre de l'info-bulle */
 .icon-info h4 {
   font-size: 18px;
-  margin-bottom: 5px; /* Un peu d'espace entre le titre et la description */
-  font-weight: bold; /* Titre en gras pour le rendre plus visible */
+  margin-bottom: 5px; 
+  font-weight: bold;
 }
 
-/* Description de l'info-bulle */
+
 .icon-info p {
   font-size: 14px;
-  line-height: 1.4; /* Améliore la lisibilité du texte */
-  margin: 0; /* Supprime les marges supplémentaires */
+  line-height: 1.4;
+  margin: 0; 
 }
 
 
@@ -159,7 +168,6 @@ export default {
   width: 100%;
 }
 
-/* Animation bounce */
 @keyframes bounce {
   0%, 100% {
     transform: translateY(0);
@@ -167,6 +175,68 @@ export default {
   50% {
     transform: translateY(-10px);
   }
+}
+
+.interactive-map-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  width: 90%;
+  margin: 0 auto;
+  height: 90vh; 
+  background-color: #f5f5f5; 
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.legend {
+  width: 40%;
+  background-color: #e7e7e7;
+  color: white;
+  padding: 20px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  border-radius: 10px; 
+  height: 94%;
+  display: flex;
+  flex-direction: column;
+}
+
+.legend h3 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: black;
+}
+
+.legend ul {
+  list-style: none;
+  padding: 0;
+}
+
+.legend li {
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #5e4678;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.legend li:hover {
+  background-color: #6e5688;
+}
+
+.legend li.active {
+  background-color: #8e70a8;
+  font-weight: bold;
+}
+
+.interactive-container {
+  flex-grow: 1; 
+  max-width: 70%; 
+  position: relative;
+  overflow: hidden;
 }
 
 </style>
