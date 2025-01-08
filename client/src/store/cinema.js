@@ -44,7 +44,7 @@ export default ({
             }
         },
         async getFilmById({commit}, filmById){
-            console.log("Récupération du concert ID : ", filmById);
+            console.log("Récupération du film par id : ", filmById);
             let response = await CineFilms.getFilmById(filmById);
             if (response.error === 0) {
                 commit('updateFilmById', response.data);
@@ -53,7 +53,7 @@ export default ({
             }
         },
         async setFilm({commit}, film) {
-            console.log("Demande de film envoyée");
+            console.log("Injection de film envoyée");
             let response = await CineFilms.setFilm(film);
             if (response.error === 0) {
                 commit('updateFilm', response.data);
@@ -62,7 +62,7 @@ export default ({
             }
         },
         async getPlacesFilms({ commit }, places_film) {
-            console.log("Récupération des places pour le concert : ", places_film);
+            console.log("Récupération des places pour le film : ", places_film);
             let response = await CineFilms.getPlacesFilm(places_film);
             if (response.error === 0) {
                 commit('updateListePlaceFilm', response.data);
@@ -70,9 +70,9 @@ export default ({
                 console.log(response.data);
             }
         },
-        async setPlacesFilms({ commit }, place_film) {
-            console.log("Création du billet pour le concert : ", place_film);
-            let response = await CineFilms.setPlaceFilm(place_film);
+        async setPlaceFilm({ commit }, film) {
+            console.log("Création du billet pour le film : ", film);
+            let response = await CineFilms.setPlaceFilm(film);
             if (response.error === 0) {
                 commit('updateSoldeUtilisateur', response.data);
             } else {

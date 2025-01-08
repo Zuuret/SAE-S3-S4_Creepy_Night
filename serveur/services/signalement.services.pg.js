@@ -6,10 +6,8 @@ async function signalerIncident(utilisateurId, typeIncident, description, zoneId
     let isError = false;
 
     try {
-        // Début de la transaction
         await client.query("BEGIN");
 
-        // Vérifier si la zone existe
         const zoneQuery = format(
             "SELECT id FROM Zone WHERE id = %L",
             zoneId
@@ -20,7 +18,6 @@ async function signalerIncident(utilisateurId, typeIncident, description, zoneId
             throw new Error("Zone non trouvée");
         }
 
-        // Ajouter le signalement dans la table Signalement
         const signalementData = [
             [typeIncident, description, zoneId, position, new Date()]
         ];
@@ -30,7 +27,6 @@ async function signalerIncident(utilisateurId, typeIncident, description, zoneId
         );
         await client.query(signalementQuery);
 
-        // Identifier les organisateurs responsables de la zone via la table `organise`
         const organisateursQuery = format(
             "SELECT o.id, o.nom, o.prenom, o.email FROM Organisateur o " +
             "JOIN organise org ON o.id = org.organisateur_id " +
@@ -43,7 +39,6 @@ async function signalerIncident(utilisateurId, typeIncident, description, zoneId
             throw new Error("Aucun organisateur responsable de cette zone");
         }
 
-        // Extraire les informations des organisateurs
         const organisateurs = organisateursResult.rows.map(org => ({
             id: org.id,
             nom: org.nom,
@@ -51,12 +46,10 @@ async function signalerIncident(utilisateurId, typeIncident, description, zoneId
             email: org.email
         }));
 
-        // Valider la transaction
         await client.query("COMMIT");
 
-        return organisateurs; // Retourner la liste des organisateurs à notifier
+        return organisateurs;
     } catch (error) {
-        // Annuler la transaction en cas d'erreur
         await client.query("ROLLBACK");
         console.error("Erreur lors du signalement de l'incident :", error.message);
         isError = true;

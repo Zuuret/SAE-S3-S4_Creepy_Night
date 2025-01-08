@@ -74,7 +74,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions('CinemaStore',['getFilmById', 'getPlacesFilms']),
+    ...mapActions('CinemaStore',['getFilmById', 'getPlacesFilms', 'setPlaceFilm']),
   },
   mounted() {
     const filmId = parseInt(this.$route.params.id);

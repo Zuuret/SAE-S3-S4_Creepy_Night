@@ -77,19 +77,3 @@ exports.deletePrestation = async (req, res) => {
         return res.status(500).json({ message: 'Erreur interne du serveur' });
     }
 };
-/*exports.deleteUser = async (req,res) => {
-    let uuid = req.query.uuid;
-    if(!uuid){
-        return res.status(400).send("UUID Nulle!!!!");
-    }
-    userService.deleteUser(uuid,(error,data)=>{
-        if(error){
-            if(error == "Utilisateur introuvable"){
-                return res.status(400).send(error);
-            }else{
-                return res.status(500).send("Erreur interne");
-            }
-        }
-        return res.status(200).send(data);
-    })
-}*/
