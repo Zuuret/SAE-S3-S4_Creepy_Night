@@ -50,6 +50,11 @@ import ArticleSpecifique from "@/views/ArticleSpecifique.vue";
 import UberFlippe from "@/views/UberFlippe.vue";
 import UserProfile from '@/views/UserProfile.vue';
 
+import OrgaUtilisateurs from '@/views/OrgaUtilisateurs.vue';
+import OrgaOrganisateurs from "@/views/OrgaOrganisateurs.vue";
+import OrgaPrestataires from "@/views/OrgaPrestataires.vue";
+import OrgaDemandes from "@/views/OrgaDemandes.vue"
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -89,6 +94,10 @@ const routes = [
   { path: '/prestataire/:id/articles', name: 'PrestataireArticle', component: PrestataireArticle },
   { path: '/prestataire/:id/articles/:idArticle', name: 'ArticleSpecifique', component: ArticleSpecifique },
   { path: '/user/:id', name: 'UserProfile', component: UserProfile },
+  { path: '/orga-utilisateurs', name: 'OrgaUtilisateurs', component: OrgaUtilisateurs },
+  { path: '/orga-organisateurs', name: 'OrgaOrganisateurs', component: OrgaOrganisateurs },
+  { path: '/orga-prestataires', name: 'OrgaPrestataires', component: OrgaPrestataires },
+  { path: '/orga-demandes', name: 'OrgaDemandes', component: OrgaDemandes },
 ];
 
 const router = new VueRouter({

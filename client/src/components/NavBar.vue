@@ -23,8 +23,6 @@
         <router-link to="/profil" @click="closeMenu">Mon Profil</router-link>
       </div>
 
-      <router-link to="/planning" @click="closeMenu">Placer concert</router-link>
-      <router-link to="/organisateur/validartiste" @click="closeMenu">Valider concert</router-link>
       <router-link to="/prestataire" @click="closeMenu">Nos prestataires</router-link>
       <router-link to="/secuflippe" @click="closeMenu">SecuFlippe</router-link>
       <router-link to="/cashless" @click="closeMenu">CashLess</router-link>
