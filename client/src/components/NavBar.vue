@@ -27,9 +27,7 @@
       <router-link to="/organisateur/validartiste" @click="closeMenu">Valider concert</router-link>
       <router-link to="/prestataire" @click="closeMenu">Nos prestataires</router-link>
       <router-link to="/secuflippe" @click="closeMenu">SecuFlippe</router-link>
-      <router-link to="/carte-interactive" @click="closeMenu">Carte Interactive</router-link>
       <router-link to="/cashless" @click="closeMenu">CashLess</router-link>
-      <router-link to="/payment-history" @click="closeMenu">Historique de paiement</router-link>
     </div>
   </div>
 </template>
