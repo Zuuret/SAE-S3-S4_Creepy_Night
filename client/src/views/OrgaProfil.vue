@@ -5,29 +5,15 @@
       </div>
   
       <div class="main-content">
-        <header>
-          <h1>Liste des prestataires de CreepyNight</h1>
-        </header>
-  
         <div class="card-container">
           <div class="card">
-            <h2>Liste des Prestataires</h2>
-            <table class="modern-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Société</th>
-                  <th>Email</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="prestataire in prestataires" :key="prestataire.id">
-                  <td>{{ prestataire.id }}</td>
-                  <td>{{ prestataire.societe }}</td>
-                  <td>{{ prestataire.email }}</td>
-                </tr>
-              </tbody>
-            </table>
+            <h1>Mon Profil</h1>
+            <div class="profil-infos">
+                <p><strong>Nom :</strong> {{ utilisateurConnecte.nom }}</p>
+                <p><strong>Prénom :</strong> {{ utilisateurConnecte.prenom }}</p>
+                <p><strong>Email :</strong> {{ utilisateurConnecte.email }}</p>
+                <p><strong>Téléphone :</strong> {{ utilisateurConnecte.numTelephone }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -35,37 +21,33 @@
   </template>
   
   <script>
-  import { mapActions, mapGetters, mapState } from "vuex";
+  import { mapState, mapActions } from 'vuex';
   import NavOrganisateur from "@/components/NavOrganisateur.vue";
   
   export default {
     
-    name: "OrgaPrestataires",
+    name: "OrgaProfil",
     components:{
       NavOrganisateur
     },
     computed: {
-      ...mapGetters("ProfilStore", ["utilisateurConnecte", "getUtilisateurs"]),
-      ...mapState("profil", ["prestataires"]),
-      ...mapState("transactions", ["billetsAchatAujourdHui"]),
+        ...mapState('ProfilStore', ['utilisateurConnecte']),
       hasAccess() {
         return this.utilisateurConnecte && this.utilisateurConnecte.role === "organisateur";
       },
     },
     methods: {
-      ...mapActions("ProfilStore", ["fetchPrestataires"]),
-      ...mapActions("transactions", ["fetchBilletsAchatAujourdHui"]),
-      ...mapActions("profil", ["fetchPrestataires"]),
-      
+        ...mapActions('ProfilStore', ['getUserbyId']),
     },
     mounted() {
+        const utilisateurId = this.utilisateurConnecte.id
       if (!this.utilisateurConnecte) {
         console.log("Utilisateur non connecté, redirection vers /");
         this.$router.push("/");
       } else if (!this.hasAccess) {
         console.log("Accès refusé pour cet utilisateur.");
       } else {
-        this.fetchPrestataires();
+        this.getUserbyId(utilisateurId);
       }
     },
   };

@@ -54,6 +54,7 @@ import OrgaUtilisateurs from '@/views/OrgaUtilisateurs.vue';
 import OrgaOrganisateurs from "@/views/OrgaOrganisateurs.vue";
 import OrgaPrestataires from "@/views/OrgaPrestataires.vue";
 import OrgaDemandes from "@/views/OrgaDemandes.vue"
+import OrgaProfil from "@/views/OrgaProfil.vue"
 
 Vue.use(VueRouter);
 
@@ -98,6 +99,7 @@ const routes = [
   { path: '/orga-organisateurs', name: 'OrgaOrganisateurs', component: OrgaOrganisateurs },
   { path: '/orga-prestataires', name: 'OrgaPrestataires', component: OrgaPrestataires },
   { path: '/orga-demandes', name: 'OrgaDemandes', component: OrgaDemandes },
+  { path: '/orga-profil', name: 'OrgaProfil', component: OrgaProfil },
 ];
 
 const router = new VueRouter({
