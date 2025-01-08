@@ -22,6 +22,8 @@ const app = express();
 
 // Middleware traitement JSON 
 app.use(express.json());
+
+
 app.use("/api/users",userRouter);
 app.use("/api/concerts",concertRouter);
 app.use("/api/expos",expoRouter);

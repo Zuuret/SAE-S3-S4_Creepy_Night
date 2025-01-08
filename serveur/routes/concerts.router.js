@@ -1,5 +1,6 @@
 const express = require("express");
 const concertController = require("../controllers/concerts.controller");
+const sessionMiddleware = require("../middlewares/session.middleware");
 
 const router = express.Router();
 
@@ -66,7 +67,7 @@ const router = express.Router();
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.post("/", concertController.saveConcert);
+router.post("/", sessionMiddleware.checkSession, concertController.saveConcert);
 
 
 
@@ -188,7 +189,7 @@ router.get("/:uuid", concertController.getConcertById);
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.put("/:id", concertController.updateConcert);
+router.put("/:id", sessionMiddleware.checkSession, concertController.updateConcert);
 
 /**
  * @swagger
@@ -213,6 +214,6 @@ router.put("/:id", concertController.updateConcert);
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.delete("/:id", concertController.deleteConcert);
+router.delete("/:id", sessionMiddleware.checkSession, concertController.deleteConcert);
 
 module.exports = router;

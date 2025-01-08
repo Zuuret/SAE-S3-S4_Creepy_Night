@@ -1,5 +1,6 @@
 const express = require("express");
 const transactionsController = require("../controllers/transactions.controller");
+const sessionMiddleware = require("../middlewares/session.middleware");
 
 const router = express.Router();
 
@@ -74,6 +75,6 @@ const router = express.Router();
  *                   type: string
  *                   example: "Erreur lors de la récupération des transactions"
  */
-router.get("/:utilisateurId", transactionsController.consulterHistorique);
+router.get("/:utilisateurId", sessionMiddleware.checkSession, transactionsController.consulterHistorique);
 
 module.exports = router;

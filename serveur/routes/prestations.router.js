@@ -1,5 +1,6 @@
 const express = require("express");
 const prestationController = require("../controllers/prestations.controller");
+const sessionMiddleware = require("../middlewares/session.middleware");
 
 const router = express.Router();
 /**
@@ -43,7 +44,7 @@ const router = express.Router();
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.post("/", prestationController.savePrestation);
+router.post("/", sessionMiddleware.checkSession, prestationController.savePrestation);
 
 /**
  * @swagger
@@ -144,7 +145,7 @@ router.get("/:id", prestationController.getPrestationById);
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.put("/:id", prestationController.updatePrestation);
+router.put("/:id", sessionMiddleware.checkSession, prestationController.updatePrestation);
 
 
 /**
@@ -170,6 +171,6 @@ router.put("/:id", prestationController.updatePrestation);
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.delete("/:id", prestationController.deletePrestation);
+router.delete("/:id", sessionMiddleware.checkSession, prestationController.deletePrestation);
 
 module.exports = router;

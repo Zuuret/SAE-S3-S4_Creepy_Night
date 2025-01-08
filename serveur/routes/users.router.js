@@ -1,6 +1,6 @@
 const express = require("express");
 const userController = require("../controllers/users.controller");
-//const userMiddleware = require("../middlewares/users.middleware");
+const sessionMiddleware = require("../middlewares/session.middleware");
 
 var router = express.Router();
 
@@ -191,7 +191,7 @@ router.get('/:uuid', userController.getUserById);
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.put('/:uuid', userController.updateUser);
+router.put('/:uuid', sessionMiddleware.checkSession, userController.updateUser);
 
 
 /**
@@ -223,7 +223,7 @@ router.put('/:uuid', userController.updateUser);
  *       500:
  *         description: Erreur interne du serveur
  */
-router.delete('/:uuid', userController.deleteUser);
+router.delete('/:uuid', sessionMiddleware.checkSession, userController.deleteUser);
 /*
 router.delete('/:uuid', async (req, res) => {
  const { uuid } = req.params;
