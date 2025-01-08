@@ -79,10 +79,10 @@ export default ({
         },
         reserverConcert(state) {
             let reservation = {
-                id: new Date().getTime(),
-                userId: state.utilisateurConnecte.id,
+                id_reservation: state.reservations.length + 1,
+                utilisateurId: state.utilisateurConnecte.id,
                 concerts: state.panier.map(item => ({
-                    concertId: item.concertId,
+                    placeId: item.placeId,
                     nbPlaces: item.nbPlaces,
                     prixTotal: item.prixTotal,
                     concert: item.concert,
@@ -92,12 +92,12 @@ export default ({
                 date: new Date().toLocaleString(),
             };
             state.reservations.push(reservation);
+            state.reservationsId.push(reservation.id_reservation);
             state.panier = [];
-            console.log("Réservation créée : ", reservation);
+            console.log("Réservation créée : ", state.reservations);
         },
         updateReservationConcertId(state, reservationsId){
             state.reservationsId = reservationsId
-            console.log(reservationsId)
         },
         updateListeArtistes(state, artistes){
             state.artistes = artistes;
@@ -166,6 +166,7 @@ export default ({
                 commit("viderPlace", {concertId});
             }
         },
+        /*
         async reserverConcert({ commit, dispatch, rootState, state }) {
             const totalPanier = state.panier.reduce((total, item) => total + item.prixTotal, 0);
 
@@ -189,10 +190,20 @@ export default ({
             } else {
                 console.log("Solde insuffisant pour la réservation.");
             }
+        },*/
+        async reserverConcert({commit}, idUser){
+            console.log('Ajout d\'une reservation pour ID :', idUser)
+            let response = await ConcertService.addReservationConcert(idUser)
+            if (response.error === 0){
+                commit('reserverConcert', response.data)
+            } else {
+                console.log(response.data)
+            }
         },
         async getReservationConcertById({commit}, utilisateurId){
             console.log("Récupération des commande de ID :", utilisateurId)
             let response = await ConcertService.getReservationConcertById(utilisateurId)
+            console.log('Response :', response)
             if (response.error === 0) {
                 commit('updateReservationConcertId', response.data);
             } else {
