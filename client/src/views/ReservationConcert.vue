@@ -2,8 +2,8 @@
   <div>
     <h2>Mes réservations</h2>
     <div v-if="reservationsId && reservationsId.length > 0">
-      <div v-for="reservation in reservationsId" :key="reservation.id">
-        <p><strong>Réservation #{{ reservation.id }}</strong></p>
+      <div v-for="reservation in reservationsId" :key="reservation.id_reservation">
+        <p><strong>Réservation #{{ reservation.id_reservation }}</strong></p>
         <p>Date: {{ reservation.date }}</p>
         <p>Total: {{ reservation.total }} €</p>
         <div>

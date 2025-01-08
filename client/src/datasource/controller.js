@@ -228,15 +228,13 @@ function ajouterAuPanier(placeId, nbPlaces) {
         return { error: 0, statut: 200, data: nouvellePlace };
     }
 }
-
 function addReservationConcert(idUser) {
     const user = utilisateurs.find(u => u.id === parseInt(idUser));
     if (!user) return { error: 1, status: 404, data: 'Utilisateur non trouvé' };
 
-    const total_panier = panier_concert.reduce((total, item) => total + item.prixTotal, 0)
-
+    const total_panier = panier_concert.reduce((total, item) => total + item.prixTotal, 0);
     if (user.solde < total_panier) return { error: 1, status: 404, data: 'Solde insuffisant' };
-    user.solde -= total_panier
+    user.solde -= total_panier;
 
     transactions.push({
         id: transactions.length + 1,
@@ -246,27 +244,36 @@ function addReservationConcert(idUser) {
         amount: -total_panier,
         id_utilisateur: user.id
     });
-    reservation_concert.push({
-        id: reservation_concert.length + 1,
-        userId: user.id,
+
+    let nouvelleReservation = {
+        id_reservation: reservation_concert.length + 1,
+        utilisateurId: user.id,
         concerts: panier_concert.map(item => ({
-            concertId: item.concertId,
+            placeId: item.placeId,
             nbPlaces: item.nbPlaces,
             prixTotal: item.prixTotal,
-            concert: item.concert,
-            place: item.place
+            concert: JSON.parse(JSON.stringify(item.concert)),
+            place: JSON.parse(JSON.stringify(item.place))
         })),
         date: new Date().toLocaleString(),
-    })
+    };
+    reservation_concert.push(nouvelleReservation);
     panier_concert.length = 0;
-    return { error: 0, status: 200, data: { idRes : reservation_concert.length, solde: user.solde } };
+    return { error: 0, status: 200, data: nouvelleReservation };
 }
+
+function getReservationConcertById(utilisateurId) {
+    console.log("Utilisateur ID :", utilisateurId);
+    console.log("Réservations existantes :", reservation_concert);
+
+    let reservation = reservation_concert.filter(reser => reser.utilisateurId === parseInt(utilisateurId));
+    console.log("Réservations filtrées :", reservation);
+
+    return { error: 0, data: reservation };
+}
+
 function getArtistes() {
     return {error: 0, data: artistes}
-}
-function getReservationConcertById(utilisateurId){
-    let reservation = reservation_concert.filter(reser => reser.userId === parseInt(utilisateurId))
-    return { error: 0, data: reservation };
 }
 function setDecision(cjs) {
     let decision = cjs[0];
