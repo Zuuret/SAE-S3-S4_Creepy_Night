@@ -16,8 +16,8 @@ async function getPlacesFilmsFromLocalSource(places_film) {
     return LocalSource.getPlacesFilm(places_film);
 }
 
-async function setPlaceFilmFromLocalSource(place_film) {
-    return LocalSource.setPlaceFilm(place_film);
+async function setPlaceFilmFromLocalSource(film) {
+    return LocalSource.setPlaceFilm(film);
 }
 
 async function getFilms() {
@@ -64,10 +64,10 @@ async function getPlacesFilm(places_film) {
     return response;
 }
 
-async function setPlaceFilm(place_film) {
+async function setPlaceFilm(film) {
     let response;
     try {
-        response = await setPlaceFilmFromLocalSource(place_film);
+        response = await setPlaceFilmFromLocalSource(film);
     } catch (err) {
         response = { error: 1, status: 404, data: "erreur réseau, impossible de créer la place" };
     }

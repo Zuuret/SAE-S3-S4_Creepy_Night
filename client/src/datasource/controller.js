@@ -1,30 +1,23 @@
 import {
-    concerts,
+    concerts, places_concerts, reservation_concert, panier_concert,
     coordonnees_bancaire,
-    places_concerts,
     utilisateurs,
+    organisateurs, demandesOrganisateurs,
+    prestataires, demandesPrestataires,
     artistes,
     transactions,
-    expo_oeuvres,
-    expo_oeuvres_demande,
-    cine_films,
-    places_films,
+    expo_oeuvres, expo_oeuvres_demande,
+    cine_films, places_films, reserve_film,
     signalement,
-    deguisements,
-    taille_deguisements,
+    deguisements, taille_deguisements,
     carres,
     bouteilles,
     reservation_carihorreur,
-    organisateurs,
-    prestataires,
     soireeBaltrouille,
     demandeUberFlippe,
     livre_DOr,
     articles,
-    reservations_cauchemarathon,
-    demandesPrestataires,
-    courses_cauchemarathon,
-    demandesOrganisateurs, reservation_concert, panier_concert
+    reservations_cauchemarathon, courses_cauchemarathon
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -165,6 +158,7 @@ function addPositionGeographique() {
         }
     });
 }
+
 function addSignalement(data) {
     if (!data.typeIncident) return { error: 1, status: 404, data: "Aucun type d'incident fourni" };
     if (!data.descriptionIncident) return { error: 1, status: 404, data: "Aucune description pour l'incident fourni" };
@@ -199,6 +193,7 @@ function getPlaceConcertbyId(placeId) {
     let place_concert = places_concerts.find(place => place.id_place === parseInt(placeId));
     return { error: 0, data: place_concert };
 }
+
 function ajouterAuPanier(placeId, nbPlaces) {
     let placeConcert = places_concerts.find(p => p.id_place === parseInt(placeId));
     if (!placeConcert) {
@@ -261,13 +256,16 @@ function addReservationConcert(idUser) {
     panier_concert.length = 0;
     return { error: 0, status: 200, data: { idRes : reservation_concert.length, solde: user.solde } };
 }
+
 function getArtistes() {
     return {error: 0, data: artistes}
 }
+
 function getReservationConcertById(utilisateurId){
     let reservation = reservation_concert.filter(reser => reser.userId === parseInt(utilisateurId))
     return { error: 0, data: reservation };
 }
+
 function setDecision(cjs) {
     let decision = cjs[0];
     let id = cjs[1];
@@ -280,8 +278,6 @@ function setDecision(cjs) {
     demande.decision = decision;
     return {error: 0, status: 200, data: demande}
 }
-
-
 
 function getOeuvres() {
     return {error: 0, data: expo_oeuvres}
@@ -356,6 +352,39 @@ function setFilm(film){
 function getPlacesFilm(places_film) {
     let placesFilm = places_films.filter(place => place.id_film === parseInt(places_film));
     return { error: 0, data: placesFilm };
+}
+
+function setPlaceFilm(film) {
+    const user = utilisateurs.find(u => u.id === film.idUser);
+    if (!user) return { error: 1, status: 404, data: 'Utilisateur non trouvé' };
+
+    const res_film = places_films.find(c => c.id_film === film.id);
+
+    if (res_film.nb_places < film.nb_billets) return { error: 1, status: 404, data: 'Pas assez de places disponibles' };
+
+    if (user.solde < film.price) return { error: 1, status: 404, data: 'Solde insuffisant' };
+    user.solde -= film.price
+
+    transactions.push({
+        id: transactions.length + 1,
+        date: new Date().toISOString().split('T')[0] + ' ' + new Date().toTimeString().split(' ')[0],
+        operation: 'Achat Billet Cinepeur',
+        details: `Achat de ${film.nb_billets} billets pour Cinepeur`,
+        amount: -film.price,
+        id_utilisateur: user.id
+    });
+
+    reserve_film.push({
+        id_reservation: reserve_film.length + 1,
+        id_utilisateur: user.id,
+        id_course: film.id,
+        nb_places: film.nb_billets
+    });
+
+    res_film.nb_places -= film.nb_billets;
+
+    console.log('Achat de billets pour les films effectué avec succès, il reste', res_film.nb_places, 'places disponibles, solde restant :', user.solde, '€', 'pour l\'utilisateur', user.id, user.prenom, user.nom, film.nb_billets, 'billets achetés, prix total :', film.price, '€, film :', film.nomFilm);
+    return { error: 0, status: 200, data: user.solde };
 }
 
 function getAllSoireeBaltrouille(){
@@ -641,6 +670,7 @@ export default {
     getFilmById,
     setFilm,
     getPlacesFilm,
+    setPlaceFilm,
     getAllSoireeBaltrouille,
     getSoireeBaltrouilleById,
     getAllDeguisement,

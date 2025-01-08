@@ -201,7 +201,7 @@ let places_films = [
     { "id_film": 22, "type_place": "Fosse", "nb_places": 300, "prix_place": 15 },
 ];
 
-let panier_film = [
+let reserve_film = [
     {'nb_places_prises':'2', 'type_place_prises':'Fosse'}
 ];
 
@@ -360,7 +360,7 @@ module.exports = {
     courses_cauchemarathon,
     cine_films,
     places_films,
-    panier_film,
+    reserve_film,
     signalement,
     soireeBaltrouille,
     deguisements,
