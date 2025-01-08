@@ -1,42 +1,20 @@
 <template>
   <div class="body" style="padding-top: 150px">
-    <!-- Barre de Navigation -->
     <div><NavBar /></div>
-
-    <!-- Titre -->
     <h1>Calendrier des films</h1>
-
-    <!-- Contenu principal -->
     <div class="flex-row">
-
-      <!-- Colonne des heures -->
       <div class="flex-column" style="margin-top: 43px">
-        <div
-            v-for="hour in hours"
-            :key="hour"
-            class="heures bordure"
-        >
+        <div v-for="hour in hours" :key="hour" class="heures bordure">
           <p>{{ hour }}</p>
         </div>
       </div>
-
-      <!-- Grille des films -->
       <div class="grille">
         <div v-for="day in days" :key="day">
-          <!-- En-tête de jour -->
           <p>{{ day }}</p>
-
-          <!-- Cellules horaires -->
           <div v-for="hour in hours" :key="hour" class="bordure">
-            <!-- Cellule vide -->
-            <div
-                v-if="!filmsByDayAndHour[day][hour]"
-                class="case"
-            >
+            <div v-if="!filmsByDayAndHour[day][hour]" class="case">
               <p>À venir</p>
             </div>
-
-            <!-- Cellule occupée -->
             <div v-if="filmsByDayAndHour[day][hour]" class="item">
               <router-link :to="`/cinepeur/${filmsByDayAndHour[day][hour].id}`">
                 <img :src="filmsByDayAndHour[day][hour].image" alt="Affiche du concert"/>
