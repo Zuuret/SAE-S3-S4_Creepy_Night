@@ -1,8 +1,11 @@
 const signalementService = require('../services/signalement.services.pg');
 
 exports.signalerIncident = async (req, res) => {
-    const { utilisateurId, typeIncident, description, zoneId, position } = req.body;
-
+    const utilisateurId = req.body.utilisateurId;
+    const typeIncident = req.body.typeIncident;
+    const description = req.body.description;
+    const zoneId = req.body.zoneId;
+    const position = req.body.position;
     try {
         // Appel du service pour signaler l'incident et obtenir la liste des organisateurs à notifier
         const organisateurs = await signalementService.signalerIncident(
