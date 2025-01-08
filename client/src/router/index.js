@@ -10,6 +10,7 @@ import ValidationReservation from '../views/ValidationReservation.vue';
 import CalendrierConcert from '../views/CalendrierConcert.vue';
 import ConcertPlanner from "@/views/ConcertPlanner.vue";
 import OrgaValidArtisteView from "@/views/OrgaValidArtisteView.vue";
+import reservationConcert from "@/views/ReservationConcert.vue";
 
 import BilletAchat from "@/views/BilletAchat.vue";
 import PaymentForm from '@/views/PaymentForm.vue';
@@ -49,8 +50,6 @@ import ArticleSpecifique from "@/views/ArticleSpecifique.vue";
 import UberFlippe from "@/views/UberFlippe.vue";
 import UserProfile from '@/views/UserProfile.vue';
 
-import reservationActivites from "@/views/ReservationActivites.vue";
-
 Vue.use(VueRouter);
 
 const routes = [
@@ -59,6 +58,7 @@ const routes = [
   { path: '/connexion', name: 'PageConnexion', component: PageConnexion },
   { path: '/profil', name: 'profil', component: MonProfil },
   { path: '/concert', name: 'calendrierConcert', component: CalendrierConcert },
+  { path: '/concert/reservations', name: 'Reservation', component: reservationConcert},
   { path: '/concert/:id', name: 'reservationConcert', component: ReservationConcertConfirmation },
   { path: '/concert/:id/validate', name: 'validationConcert', component: ValidationReservation },
   { path: '/planning', name: 'Planning', component: ConcertPlanner},
@@ -89,7 +89,6 @@ const routes = [
   { path: '/prestataire/:id/articles', name: 'PrestataireArticle', component: PrestataireArticle },
   { path: '/prestataire/:id/articles/:idArticle', name: 'ArticleSpecifique', component: ArticleSpecifique },
   { path: '/user/:id', name: 'UserProfile', component: UserProfile },
-  { path: '/reservations', name: 'Reservation', component: reservationActivites},
 ];
 
 const router = new VueRouter({
@@ -97,5 +96,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-
+/* eslint-disable */
 export default router

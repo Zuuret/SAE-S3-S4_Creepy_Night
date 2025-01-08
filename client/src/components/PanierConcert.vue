@@ -27,7 +27,7 @@
       </table>
       <p><strong>Total du panier : {{ totalPanier }} €</strong></p>
       <div v-if="panier.length > 0">
-        <button @click="reserverConcert">Valider la commande</button>
+        <button @click="reserverConcert(utilisateurConnecte.id)">Valider la commande</button>
       </div>
     </div>
     <div v-else>
@@ -41,8 +41,7 @@ import {mapActions, mapMutations, mapState} from "vuex";
 
 export default {
   computed: {
-    ...mapState('ConcertStore',['panier']),
-    ...mapState('ProfilStore', ['utilisateurConnecte']),
+    ...mapState('ConcertStore',['panier','utilisateurConnecte']),
     totalPanier() {
       return this.panier.reduce((total, item) => total + item.nbPlaces * item.place.prix_place, 0);
     },

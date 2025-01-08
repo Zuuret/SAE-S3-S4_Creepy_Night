@@ -70,6 +70,20 @@ async function ajouterAuPanier(concertId, nbPlaces) {
     return response;
 }
 
+async function addReservationConcertFromLocalSource(idUser){
+    return LocalSource.addReservationConcert(idUser)
+}
+
+async function addReservationConcert(idUser) {
+    let response;
+    try {
+        response = addReservationConcertFromLocalSource(idUser)
+    } catch (err) {
+        response = { error: 1, status: 404, data: 'erreur réseau, impossible d\'ajouter une réservation' };
+    }
+    return response;
+}
+
 async function getReservationConcertByIdFromLocalSource(utilisateurId){
     return LocalSource.getReservationConcertById(utilisateurId)
 }
@@ -90,5 +104,6 @@ export default {
     getAllPlaceConcert,
     getPlacesConcertsbyId,
     ajouterAuPanier,
+    addReservationConcert,
     getReservationConcertById
 };
