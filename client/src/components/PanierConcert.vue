@@ -16,7 +16,7 @@
         <tr v-for="item in panier" :key="item.concertId">
           <td>{{ item.concert.artiste }}</td>
           <td>{{ item.nbPlaces }}</td>
-          <td>{{ item.place[0].prix_place }} €</td>
+          <td>{{ item.place.prix_place }} €</td>
           <td>{{ item.prixTotal }} €</td>
           <td class="actions">
             <button @click="retirerDuPanier({ concertId: item.concertId })">Retirer une place</button>
@@ -44,11 +44,11 @@ export default {
     ...mapState('ConcertStore',['panier']),
     ...mapState('ProfilStore', ['utilisateurConnecte']),
     totalPanier() {
-      return this.panier.reduce((total, item) => total + item.nbPlaces * item.place[0].prix_place, 0);
+      return this.panier.reduce((total, item) => total + item.nbPlaces * item.place.prix_place, 0);
     },
   },
   methods: {
-    ...mapActions('ConcertStore', ['retirerDuPanier','viderPlace','reserverConcert']),
+    ...mapActions('ConcertStore', ['retirerDuPanier', 'viderPlace', 'reserverConcert']),
     ...mapMutations('ProfilStore', ['updateSoldeUtilisateur']),
   }
 };

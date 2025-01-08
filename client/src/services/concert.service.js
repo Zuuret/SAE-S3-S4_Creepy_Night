@@ -42,28 +42,42 @@ async function getAllPlaceConcert() {
     return response;
 }
 
-async function getPlacesConcertsbyIdFromLocalSource(concertId) {
-    return LocalSource.getPlaceConcertbyId(concertId);
+async function getPlacesConcertsbyIdFromLocalSource(placeId) {
+    return LocalSource.getPlaceConcertbyId(placeId);
 }
 
-async function getPlacesConcertsbyId(concertId) {
+async function getPlacesConcertsbyId(placeId) {
     let response;
     try {
-        response = await getPlacesConcertsbyIdFromLocalSource(concertId);
+        response = await getPlacesConcertsbyIdFromLocalSource(placeId);
     } catch (err) {
         response = { error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des places de concerts' };
     }
     return response;
 }
 
-async function achatBilletConcertFromLocalSource(idUtilisateur){
-    return LocalSource.achatBilletConcert(idUtilisateur);
+async function ajouterAuPanierFromLocalSource(concertId, nbPlaces){
+    return LocalSource.ajouterAuPanier(concertId, nbPlaces)
 }
 
-async function achatBilletConcert(idUtilisateur) {
+async function ajouterAuPanier(concertId, nbPlaces) {
     let response;
     try {
-        response = await achatBilletConcertFromLocalSource(idUtilisateur);
+        response = await ajouterAuPanierFromLocalSource(concertId, nbPlaces)
+    } catch (err) {
+        response = { error: 1, status: 404, data: 'erreur réseau, impossible d\'ajouter un concert au panier' };
+    }
+    return response;
+}
+
+async function getReservationConcertByIdFromLocalSource(utilisateurId){
+    return LocalSource.getReservationConcertById(utilisateurId)
+}
+
+async function getReservationConcertById(utilisateurId) {
+    let response;
+    try {
+        response = await getReservationConcertByIdFromLocalSource(utilisateurId)
     } catch (err) {
         response = { error: 1, status: 404, data: 'erreur réseau, impossible de procéder à l\'achat de vos ticket concert' };
     }
@@ -75,5 +89,6 @@ export default {
     getConcertbyId,
     getAllPlaceConcert,
     getPlacesConcertsbyId,
-    achatBilletConcert,
+    ajouterAuPanier,
+    getReservationConcertById
 };

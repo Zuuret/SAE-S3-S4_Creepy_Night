@@ -24,7 +24,7 @@ import {
     reservations_cauchemarathon,
     demandesPrestataires,
     courses_cauchemarathon,
-    demandesOrganisateurs
+    demandesOrganisateurs, reservation_concert, panier_concert
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -195,12 +195,78 @@ function getConcertbyId(concertId){
 function getAllPlaceConcert(){
     return {error: 0, data: places_concerts}
 }
-function getPlaceConcertbyId(concertId) {
-    let place_concert = places_concerts.filter(place => place.id_concert === parseInt(concertId));
+function getPlaceConcertbyId(placeId) {
+    let place_concert = places_concerts.find(place => place.id_place === parseInt(placeId));
     return { error: 0, data: place_concert };
+}
+function ajouterAuPanier(placeId, nbPlaces) {
+    let placeConcert = places_concerts.find(p => p.id_place === parseInt(placeId));
+    if (!placeConcert) {
+        console.log("Place non trouvée");
+        return { error: 1, statut: 404, message: "Place non trouvée" };
+    }
+    let concert = concerts.find(c => c.id === placeConcert.id_concert);
+    if (!concert) {
+        console.log("Concert non trouvé");
+        return { error: 1, statut: 404, message: "Concert non trouvé" };
+    }
+    const placeDansPanier = panier_concert.find(item => item.placeId === parseInt(placeId));
+    if (placeDansPanier) {
+        placeDansPanier.nbPlaces += nbPlaces;
+        placeDansPanier.prixTotal = placeDansPanier.nbPlaces * placeConcert.prix_place;
+        console.log(placeDansPanier);
+        return { error: 0, statut: 200, data: placeDansPanier };
+    } else {
+        let nouvellePlace = {
+            placeId: placeId,
+            nbPlaces: nbPlaces,
+            prixTotal: nbPlaces * placeConcert.prix_place,
+            concert: concert,
+            place: placeConcert
+        };
+        panier_concert.push(nouvellePlace);
+        return { error: 0, statut: 200, data: nouvellePlace };
+    }
+}
+
+function addReservationConcert(idUser) {
+    const user = utilisateurs.find(u => u.id === parseInt(idUser));
+    if (!user) return { error: 1, status: 404, data: 'Utilisateur non trouvé' };
+
+    const total_panier = panier_concert.reduce((total, item) => total + item.prixTotal, 0)
+
+    if (user.solde < total_panier) return { error: 1, status: 404, data: 'Solde insuffisant' };
+    user.solde -= total_panier
+
+    transactions.push({
+        id: transactions.length + 1,
+        date: new Date().toISOString().split('T')[0] + ' ' + new Date().toTimeString().split(' ')[0],
+        operation: 'Achat Billet Concert',
+        details: `Réservation concert`,
+        amount: -total_panier,
+        id_utilisateur: user.id
+    });
+    reservation_concert.push({
+        id: reservation_concert.length + 1,
+        userId: user.id,
+        concerts: panier_concert.map(item => ({
+            concertId: item.concertId,
+            nbPlaces: item.nbPlaces,
+            prixTotal: item.prixTotal,
+            concert: item.concert,
+            place: item.place
+        })),
+        date: new Date().toLocaleString(),
+    })
+    panier_concert.length = 0;
+    return { error: 0, status: 200, data: { idRes : reservation_concert.length, solde: user.solde } };
 }
 function getArtistes() {
     return {error: 0, data: artistes}
+}
+function getReservationConcertById(utilisateurId){
+    let reservation = reservation_concert.filter(reser => reser.userId === parseInt(utilisateurId))
+    return { error: 0, data: reservation };
 }
 function setDecision(cjs) {
     let decision = cjs[0];
@@ -562,6 +628,9 @@ export default {
     getConcertbyId,
     getAllPlaceConcert,
     getPlaceConcertbyId,
+    ajouterAuPanier,
+    addReservationConcert,
+    getReservationConcertById,
     getArtistes,
     setDecision,
     getOeuvres,

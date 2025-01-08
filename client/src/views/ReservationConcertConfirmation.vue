@@ -16,9 +16,9 @@
         <h3>Places disponibles :</h3>
         <div v-if="place_concert">
           <p>
-            <strong>Type :</strong> {{ place_concert[0].type_place }} <br/>
-            <strong>Prix :</strong> {{ place_concert[0].prix_place }} €<br/>
-            <strong>Disponibles :</strong> {{ place_concert[0].nb_places }}
+            <strong>Type :</strong> {{ place_concert.type_place }} <br/>
+            <strong>Prix :</strong> {{ place_concert.prix_place }} €<br/>
+            <strong>Disponibles :</strong> {{ place_concert.nb_places }}
           </p>
           <label for="selection_quantite">QUANTITÉ</label>
           <input type="number" v-model.number="quantite" id="selection_quantite" min="0" step="1"/>
@@ -51,20 +51,20 @@ export default {
   computed: {
     ...mapState('ConcertStore', ['concert', 'place_concert']),
     prixTotal() {
-      return this.place_concert[0] ? this.place_concert[0].prix_place * this.quantite : 0;
+      return this.place_concert ? this.place_concert.prix_place * this.quantite : 0;
     },
   },
   methods: {
     ...mapActions('ConcertStore', ['getConcertbyId', 'getPlacesConcertsbyId','getAllPlacesConcert', 'ajouterAuPanier']),
-    ajoutAuPanier() {
+    async ajoutAuPanier() {
       if (this.quantite <= 0) {
         alert('Veuillez sélectionner une quantité valide.');
       } else {
-        this.ajouterAuPanier({
-          concertId: this.concert.id,
+        await this.ajouterAuPanier({
+          placeId: this.place_concert.id_place,
           nbPlaces: this.quantite
         }).then(() => {
-          this.place_concert[0].nb_places -= this.quantite;
+          this.place_concert.nb_places -= this.quantite;
           this.quantite = 0;
         }).catch(error => {
           alert("Erreur lors de l'ajout au panier.");

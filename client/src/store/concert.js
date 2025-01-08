@@ -17,6 +17,8 @@ export default ({
         places_concert: [],
         panier: [],
         reservations: [],
+        reservationsId: [],
+        utilisateurConnecte: JSON.parse(localStorage.getItem("utilisateurConnecte")) || null,
     },
     mutations: {
         updateListeConcert(state, concerts){
@@ -34,26 +36,20 @@ export default ({
         updatePanier(state, panier) {
             state.panier = panier;
         },
-        ajouterAuPanier(state, { concertId, nbPlaces, concert, place }) {
-            const prixPlace = Array.isArray(place) ? place[0]?.prix_place : place.prix_place;
-            if (typeof prixPlace !== "number") {
-                console.log("Prix place invalide :", prixPlace);
-                return;
-            }
-            const placeDansPanier = state.panier.find(item => item.concertId === concertId);
+        ajouterAuPanier(state, { placeId, nbPlaces, concert, place }) {
+            let placeDansPanier = state.panier.find(item => item.placeId === placeId);
             if (placeDansPanier) {
                 placeDansPanier.nbPlaces += nbPlaces;
-                placeDansPanier.prixTotal = placeDansPanier.nbPlaces * prixPlace;
+                placeDansPanier.prixTotal = placeDansPanier.nbPlaces * place.prix_place;
             } else {
                 state.panier.push({
-                    concertId: concertId,
+                    placeId: placeId,
                     nbPlaces: nbPlaces,
-                    prixTotal: nbPlaces * prixPlace,
+                    prixTotal: nbPlaces * place.prix_place,
                     concert: concert,
                     place: place,
                 });
             }
-            console.log(state.panier)
         },
         retirerDuPanier(state, { concertId }) {
             const placeDansPanier = state.panier.find(item => item.concertId === concertId);
@@ -84,6 +80,7 @@ export default ({
         reserverConcert(state) {
             let reservation = {
                 id: new Date().getTime(),
+                userId: state.utilisateurConnecte.id,
                 concerts: state.panier.map(item => ({
                     concertId: item.concertId,
                     nbPlaces: item.nbPlaces,
@@ -97,6 +94,10 @@ export default ({
             state.reservations.push(reservation);
             state.panier = [];
             console.log("Réservation créée : ", reservation);
+        },
+        updateReservationConcertId(state, reservationsId){
+            state.reservationsId = reservationsId
+            console.log(reservationsId)
         },
         updateListeArtistes(state, artistes){
             state.artistes = artistes;
@@ -133,30 +134,22 @@ export default ({
                 console.log(response.data);
             }
         },
-        async getPlacesConcertsbyId({ commit }, concertId) {
-            console.log("Récupération des places de concerts pour le concert ID : ", concertId);
-            let response = await ConcertService.getPlacesConcertsbyId(concertId);
+        async getPlacesConcertsbyId({ commit }, placeId) {
+            console.log("Récupération des places de concerts pour le concert ID : ", placeId);
+            let response = await ConcertService.getPlacesConcertsbyId(placeId);
             if (response.error === 0) {
                 commit('updatePlaceConcertById', response.data);
             } else {
                 console.log(response.data);
             }
         },
-        async ajouterAuPanier({ commit }, { concertId, nbPlaces }) {
+        async ajouterAuPanier({ commit }, { placeId, nbPlaces }) {
             console.log("Ajout dans le panier")
-            let responseConcert = await ConcertService.getConcertbyId(concertId);
-            let responsePlaceConcert = await ConcertService.getPlacesConcertsbyId(concertId);
-            if (responseConcert.error === 0 || responsePlaceConcert.error === 0) {
-                commit("ajouterAuPanier", {
-                    concertId,
-                    nbPlaces,
-                    prixTotal: nbPlaces * responsePlaceConcert.prix_place,
-                    concert: responseConcert.data,
-                    place: responsePlaceConcert.data
-                });
+            let response = await ConcertService.ajouterAuPanier(placeId, nbPlaces)
+            if (response.error === 0) {
+                commit("ajouterAuPanier", response.data);
             } else {
-                console.log(responseConcert.data);
-                console.log(responsePlaceConcert.data)
+                console.log(response.data);
             }
         },
         async retirerDuPanier({ commit }, { concertId }) {
@@ -175,24 +168,35 @@ export default ({
         },
         async reserverConcert({ commit, dispatch, rootState, state }) {
             const totalPanier = state.panier.reduce((total, item) => total + item.prixTotal, 0);
-            const soldeUtilisateur = rootState.ProfilStore.utilisateurConnecte.solde;
+
+            const utilisateurCo = rootState.ProfilStore.utilisateurConnecte;
+            const soldeUtilisateur = utilisateurCo.solde;
 
             if (soldeUtilisateur >= totalPanier) {
-                const response = await dispatch(
-                    'ProfilStore/updateFunds',
-                    { montant: -totalPanier },
-                    { root: true }
-                );
-
-                console.log("Résultat de l'action updateFunds : ", response);
+                const data = {
+                    idUser: utilisateurCo.id,
+                    amount: -totalPanier,
+                    operation: "Débit place concert",
+                    details: "Réservation concert",
+                };
+                const response = await dispatch('ProfilStore/updateFunds', data, { root: true });
                 if (response.success) {
                     commit('reserverConcert');
                     console.log("Réservation réussie !");
                 } else {
-                    console.log("Erreur lors de la mise à jour des fonds.");
+                    console.log("Erreur lors de la mise à jour des fonds :", response.errorMessage || "Erreur inconnue");
                 }
             } else {
                 console.log("Solde insuffisant pour la réservation.");
+            }
+        },
+        async getReservationConcertById({commit}, utilisateurId){
+            console.log("Récupération des commande de ID :", utilisateurId)
+            let response = await ConcertService.getReservationConcertById(utilisateurId)
+            if (response.error === 0) {
+                commit('updateReservationConcertId', response.data);
+            } else {
+                console.log(response.data);
             }
         },
         async getArtistes({ commit }) {

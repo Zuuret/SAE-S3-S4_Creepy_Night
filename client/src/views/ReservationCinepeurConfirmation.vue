@@ -42,8 +42,8 @@
       </div>
       <div class="bordure">
         <p>Total : {{ prixTotal }}€</p>
-        <router-link v-if="prixTotal != 0 && utilisateurConnecte.solde >= prixTotal" :to="`/cinepeur/`">
-          <button style="margin-top: 10px">Obtenir ma place</button>
+        <router-link v-if="prixTotal !== 0 && utilisateurConnecte.solde >= prixTotal" :to="`/cinepeur/`">
+          <button>Obtenir ma place</button>
         </router-link>
       </div>
     </div>
@@ -91,7 +91,7 @@ export default {
 
 <style scoped>
 * {
-  margin: 0px;
+  margin: 0;
   padding: 10px;
   text-decoration: none;
 }
