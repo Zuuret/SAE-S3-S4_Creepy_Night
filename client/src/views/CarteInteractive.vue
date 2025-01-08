@@ -12,7 +12,7 @@
         <img src="@/assets/carte_creepy_night.png" alt="Carte interactive" class="map-image" />
         <div v-for="(icon, index) in icons" :key="'icon-' + index" class="icon-container" :style="{ top: `${icon.y}%`, left: `${icon.x}%` }" @mouseover="hoverElement(icon)" @mouseleave="leaveElement" :class="{ 'icon-hovered': hoveredIcon === icon || selectedIcon === icon }">
           <img :src="icon.image" class="icon" :alt="icon.title" />
-          <div v-if="hoveredIcon === icon || selectedIcon === icon" class="icon-info" @mouseenter.stop @mouseleave.stop>
+          <div v-if="hoveredIcon === icon || selectedIcon === icon" class="icon-info" @mouseenter="hoverElement(icon)" @mouseleave="leaveElement">
             <h4>{{ icon.title }}</h4>
             <p>{{ icon.description }}</p>
             <img v-if="icon.image2" :src="icon.image2" class="illustration_activites" :alt="icon.title" />
@@ -47,6 +47,7 @@ export default {
       ],
       hoveredIcon: null,
       selectedIcon: null,
+      hoverTimeout: null,
     };
   },
   methods: {
@@ -70,12 +71,13 @@ export default {
       }
     },
     hoverElement(icon) {
+      clearTimeout(this.hoverTimeout);
       this.hoveredIcon = icon;
     },
     leaveElement() {
-      setTimeout(() => {
-        this.hoveredIcon = null;
-      }, 200);
+      this.hoverTimeout = setTimeout(() => {
+        this.hoveredIcon = null; 
+      }, 150);
     },
     selectIcon(icon) {
       if (this.selectedIcon === icon) {
@@ -124,7 +126,7 @@ export default {
   top: 0;
   left: 0;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease;;
 }
 
 .icon {
@@ -148,9 +150,9 @@ export default {
   color: white;
   padding: 12px 15px; 
   border-radius: 8px; 
-  z-index: 2;
+  z-index: 10;
   pointer-events: auto;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
 .icon-info h4 {
@@ -166,6 +168,10 @@ export default {
   margin: 0; 
 }
 
+.icon-container:hover .icon-info {
+  opacity: 1; /* Rendre la bulle plus visible */
+  transform: translateY(-5px); /* Légère élévation pour signaler l'état actif */
+}
 
 .illustration_activites {
   width: 100%;
