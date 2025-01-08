@@ -62,10 +62,19 @@ export default ({
             }
         },
         async getPlacesFilms({ commit }, places_film) {
-            console.log("Récupération des places de concerts pour le concert ID : ", places_film);
+            console.log("Récupération des places pour le concert : ", places_film);
             let response = await CineFilms.getPlacesFilm(places_film);
             if (response.error === 0) {
                 commit('updateListePlaceFilm', response.data);
+            } else {
+                console.log(response.data);
+            }
+        },
+        async setPlacesFilms({ commit }, place_film) {
+            console.log("Création du billet pour le concert : ", place_film);
+            let response = await CineFilms.setPlaceFilm(place_film);
+            if (response.error === 0) {
+                commit('updateSoldeUtilisateur', response.data);
             } else {
                 console.log(response.data);
             }
