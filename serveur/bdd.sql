@@ -1,8 +1,9 @@
 DROP TABLE IF EXISTS gere CASCADE;
 DROP TABLE IF EXISTS organise CASCADE;
 DROP TABLE IF EXISTS Signalement CASCADE;
-DROP TABLE IF EXISTS Bouteille CASCADE;
-DROP TABLE IF EXISTS Carre CASCADE;
+DROP TABLE IF EXISTS panier_article CASCADE;
+DROP TABLE IF EXISTS articles CASCADE;
+DROP TABLE IF EXISTS livre_dor CASCADE;
 DROP TABLE IF EXISTS Taille_deguisement CASCADE;
 DROP TABLE IF EXISTS Deguisement CASCADE;
 DROP TABLE IF EXISTS Films CASCADE;
@@ -18,6 +19,12 @@ DROP TABLE IF EXISTS Billet_activite CASCADE;
 DROP TABLE IF EXISTS Activite CASCADE;
 DROP TABLE IF EXISTS Zone CASCADE;
 DROP TABLE IF EXISTS Transaction CASCADE;
+DROP TABLE IF EXISTS coordonnees_bancaire CASCADE;
+DROP TABLE IF EXISTS demande_uber_flippe CASCADE;
+DROP TABLE IF EXISTS demandes_prestataires CASCADE;
+DROP TABLE IF EXISTS demandes_organisateurs CASCADE;
+DROP TABLE IF EXISTS Bouteille CASCADE;
+DROP TABLE IF EXISTS Carre CASCADE;
 DROP TABLE IF EXISTS Organisateur CASCADE;
 DROP TABLE IF EXISTS Prestataire CASCADE;
 DROP TABLE IF EXISTS Utilisateur CASCADE;
@@ -210,6 +217,63 @@ CREATE TABLE gere (
     evenement_id INT REFERENCES Evenement(id) ON DELETE CASCADE,
     organisateur_id UUID REFERENCES Organisateur(id) ON DELETE CASCADE,
     PRIMARY KEY (evenement_id, organisateur_id)
+);
+
+CREATE TABLE livre_dor (
+    id INT PRIMARY KEY,
+    prestataire_id UUID REFERENCES Prestataire(id) ON DELETE CASCADE,
+    nom_utilisateur VARCHAR(255) NOT NULL,
+    evaluation INT CHECK (evaluation BETWEEN 1 AND 5),
+    message TEXT NOT NULL,
+    date DATE NOT NULL
+);
+
+CREATE TABLE articles (
+    id INT PRIMARY KEY,
+    prestataire_id UUID REFERENCES Prestataire(id) ON DELETE CASCADE,
+    nom VARCHAR(255) NOT NULL,
+    description TEXT,
+    prix DECIMAL(10, 2) NOT NULL,
+    stock INT NOT NULL,
+    image VARCHAR(255) 
+);
+
+CREATE TABLE panier_article (
+    id INT PRIMARY KEY,
+    article_id INT REFERENCES articles(id) ON DELETE CASCADE,
+    quantite INT NOT NULL
+);
+
+CREATE TABLE coordonnees_bancaire (
+    nom VARCHAR(255) NOT NULL,
+    numero_carte CHAR(16) NOT NULL,
+    date_expiration CHAR(5) NOT NULL,
+    cvv CHAR(3) NOT NULL
+);
+
+CREATE TABLE demande_uber_flippe (
+    id_demande INT PRIMARY KEY,
+    zone VARCHAR(255) NOT NULL,
+    nb_personne INT NOT NULL,
+    description TEXT NOT NULL
+);
+
+CREATE TABLE demandes_prestataires (
+    id INT PRIMARY KEY,
+    societe VARCHAR(255) NOT NULL,
+    adresse VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    statut VARCHAR(50) NOT NULL,
+    mot_de_passe VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE demandes_organisateurs (
+    id INT PRIMARY KEY,
+    prenom VARCHAR(255) NOT NULL,
+    nom VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    telephone CHAR(10) NOT NULL,
+    mot_de_passe VARCHAR(255) NOT NULL
 );
 
 
