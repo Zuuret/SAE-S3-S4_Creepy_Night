@@ -169,8 +169,8 @@ export default {
 }
 
 .icon-container:hover .icon-info {
-  opacity: 1; /* Rendre la bulle plus visible */
-  transform: translateY(-5px); /* Légère élévation pour signaler l'état actif */
+  opacity: 1;
+  transform: translateY(-5px);
 }
 
 .illustration_activites {
