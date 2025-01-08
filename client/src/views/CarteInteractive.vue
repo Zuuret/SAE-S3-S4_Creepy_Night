@@ -43,7 +43,7 @@ export default {
       { x: 80, y: 22, title: "Poste de Secours", description: "Un espace dédié à votre sécurité pour répondre à toute urgence médicale pendant le festival.", image: require("@/assets/icone_secours.png") },
       { x: 64, y: 20, title: "Accueil", description: "Retrouvez toutes les informations nécessaires à votre visite et notre équipe prête à vous guider.", image: require("@/assets/icone_accueil.png") },
       { x: 56, y: 14, title: "Recharge Cashless", description: "Rechargez facilement et rapidement votre bracelet cashless pour profiter pleinement du festival.", image: require("@/assets/icone_cashless.png")},
-      { x: 74, y: 15, title: "Restaurant Burger King", description: "Savourez vos burgers préférés chez Burger King pour une pause gourmande au cœur du festival.", image: require("@/assets/icone_burgerking.png"), route: "/prestataire/1"},
+      { x: 74, y: 15, title: "Restaurant Burger King", image: require("@/assets/icone_burgerking.png"), route: "/prestataire/1"},
       ],
       hoveredIcon: null,
       selectedIcon: null,
