@@ -12,10 +12,11 @@
         <img src="@/assets/carte_creepy_night.png" alt="Carte interactive" class="map-image" />
         <div v-for="(icon, index) in icons" :key="'icon-' + index" class="icon-container" :style="{ top: `${icon.y}%`, left: `${icon.x}%` }" @mouseover="hoverElement(icon)" @mouseleave="leaveElement" :class="{ 'icon-hovered': hoveredIcon === icon || selectedIcon === icon }">
           <img :src="icon.image" class="icon" :alt="icon.title" />
-          <div v-if="hoveredIcon === icon || selectedIcon === icon" class="icon-info">
+          <div v-if="hoveredIcon === icon || selectedIcon === icon" class="icon-info" @mouseenter.stop @mouseleave.stop>
             <h4>{{ icon.title }}</h4>
             <p>{{ icon.description }}</p>
             <img v-if="icon.image2" :src="icon.image2" class="illustration_activites" :alt="icon.title" />
+            <router-link v-if="icon.route" :to="icon.route" class="detail-button">Détail</router-link>
           </div>
         </div>
       </div>
@@ -42,7 +43,7 @@ export default {
       { x: 80, y: 22, title: "Poste de Secours", description: "Un espace dédié à votre sécurité pour répondre à toute urgence médicale pendant le festival.", image: require("@/assets/icone_secours.png") },
       { x: 64, y: 20, title: "Accueil", description: "Retrouvez toutes les informations nécessaires à votre visite et notre équipe prête à vous guider.", image: require("@/assets/icone_accueil.png") },
       { x: 56, y: 14, title: "Recharge Cashless", description: "Rechargez facilement et rapidement votre bracelet cashless pour profiter pleinement du festival.", image: require("@/assets/icone_cashless.png")},
-      { x: 74, y: 15, title: "Restaurant Burger King", description: "Savourez vos burgers préférés chez Burger King pour une pause gourmande au cœur du festival.", image: require("@/assets/icone_burgerking.png")},
+      { x: 74, y: 15, title: "Restaurant Burger King", description: "Savourez vos burgers préférés chez Burger King pour une pause gourmande au cœur du festival.", image: require("@/assets/icone_burgerking.png"), route: "/prestataire/1"},
       ],
       hoveredIcon: null,
       selectedIcon: null,
@@ -72,7 +73,9 @@ export default {
       this.hoveredIcon = icon;
     },
     leaveElement() {
-      this.hoveredIcon = null;
+      setTimeout(() => {
+        this.hoveredIcon = null;
+      }, 200);
     },
     selectIcon(icon) {
       if (this.selectedIcon === icon) {
@@ -138,7 +141,7 @@ export default {
   width: 500%;
   max-width: 300px;
   position: absolute;
-  bottom: 100%; 
+  bottom: 100%;
   transform: translateY(-10px); 
   text-align: center;
   background-color: rgba(0, 0, 0, 0.7);
@@ -146,7 +149,7 @@ export default {
   padding: 12px 15px; 
   border-radius: 8px; 
   z-index: 2;
-  pointer-events: none;
+  pointer-events: auto;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
@@ -241,6 +244,31 @@ export default {
   max-width: 70%; 
   position: relative;
   overflow: hidden;
+}
+
+.detail-button {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #AD0918;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.detail-button:hover {
+  background-color: #D40F1C; 
+  transform: scale(1.05);
+}
+
+.detail-button:active {
+  transform: scale(0.95);
 }
 
 </style>
