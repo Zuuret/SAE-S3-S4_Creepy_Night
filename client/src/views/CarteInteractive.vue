@@ -193,6 +193,7 @@ export default {
 .legend {
   width: 40%;
   background-color: #e7e7e7;
+  font-family: 'Creepster', cursive;
   color: white;
   padding: 20px;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -207,6 +208,7 @@ export default {
   font-size: 20px;
   margin-bottom: 15px;
   color: black;
+  font-size: 200%;
 }
 
 .legend ul {
@@ -217,19 +219,21 @@ export default {
 .legend li {
   padding: 10px;
   margin: 5px 0;
-  background-color: #5e4678;
+  background-color: white;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  color: black;
 }
 
 .legend li:hover {
-  background-color: #6e5688;
+  background-color: #d6d6d6;
 }
 
 .legend li.active {
-  background-color: #8e70a8;
+  background-color: #AD0918;
   font-weight: bold;
+  color: white;
 }
 
 .interactive-container {
