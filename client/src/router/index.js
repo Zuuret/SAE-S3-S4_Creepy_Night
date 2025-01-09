@@ -24,6 +24,7 @@ import SecuflippeMesSignalements from "@/views/SecuflippeMesSignalements.vue";
 import BalTrouille from "@/views/BalTrouille.vue";
 import BaltrouilleDeguisement from "@/views/BaltrouilleDeguisement.vue"
 import LocationDeguisement from "@/views/LocationDeguisement.vue";
+import ReservationDeguisement from "@/views/ReservationDeguisement.vue";
 
 import CariHorreur from "@/views/CariHorreur.vue"
 
@@ -77,6 +78,7 @@ const routes = [
   { path: '/baltrouille', name: 'baltrouille', component: BalTrouille},
   { path: '/baltrouille/:soireeId/deguisements', name: 'BaltrouilleDeguisement', component: BaltrouilleDeguisement},
   { path: '/baltrouille/:soireeId/deguisements/:deguisementId', name: 'locationDeguisement', component: LocationDeguisement},
+  { path: '/baltrouille/reservations', name: 'BaltrouilleReservations', component: ReservationDeguisement},
   { path: '/cashless', name: 'cashless', component: CashLess},
   { path: '/carihorreur', name: 'carihorreur', component: CariHorreur},
   { path: '/carte-interactive', name: 'carte-interactive', component: CarteInteractive},
