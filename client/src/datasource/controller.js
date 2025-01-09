@@ -17,7 +17,7 @@ import {
     demandeUberFlippe,
     livre_DOr,
     articles,
-    reservations_cauchemarathon, courses_cauchemarathon
+    reservations_cauchemarathon, courses_cauchemarathon, panier_deguisement, location_deguisement
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -223,23 +223,60 @@ function ajouterAuPanier(placeId, nbPlaces) {
         return { error: 0, statut: 200, data: nouvellePlace };
     }
 }
+function retirerDuPanier(placeId) {
+    let placeDansPanier = panier_concert.find(item => item.placeId === placeId);
+    if (placeDansPanier) {
+        if (placeDansPanier.nbPlaces > 0) {
+            placeDansPanier.nbPlaces -= 1;
+            let placeConcert = places_concerts.find(item => item.placeId === placeId);
+            if (placeConcert) {
+                placeConcert.nb_places += 1;
+            }
+            return { error: 0, statut: 200, data: placeDansPanier };
+        } else {
+            let placeSupprime = panier_concert.filter(item => item.placeId !== placeId);
+            return { error: 0, statut: 200, data: placeSupprime };
+        }
+    } else {
+        return { error: 1, statut: 404, message: "Place non trouvée dans le panier." };
+    }
+}
+function viderPlace(placeId) {
+    const placeDansPanier = panier_concert.find(item => item.placeId === placeId);
+    if (placeDansPanier) {
+        placeDansPanier.nbPlaces = 0;
+        placeDansPanier.prixTotal = 0;
+        panier_concert.filter(item => item.placeId !== placeId);
+        return { error: 0, statut: 200, data: placeDansPanier };
+    }
+}
 function addReservationConcert(idUser) {
-    const user = utilisateurs.find(u => u.id === parseInt(idUser));
-    if (!user) return { error: 1, status: 404, data: 'Utilisateur non trouvé' };
-
-    const total_panier = panier_concert.reduce((total, item) => total + item.prixTotal, 0);
-    if (user.solde < total_panier) return { error: 1, status: 404, data: 'Solde insuffisant' };
+    let user = utilisateurs.find(u => u.id === parseInt(idUser));
+    if (!user) {
+        return { error: 1, status: 404, data: 'Utilisateur non trouvé' };
+    }
+    let total_panier = panier_concert.reduce((total, item) => total + item.prixTotal, 0);
+    if (user.solde < total_panier) {
+        return { error: 1, status: 403, data: 'Solde insuffisant' };
+    }
     user.solde -= total_panier;
-
-    transactions.push({
+    let nouvelleTransaction = {
         id: transactions.length + 1,
-        date: new Date().toISOString().split('T')[0] + ' ' + new Date().toTimeString().split(' ')[0],
+        date: new Date().toLocaleDateString('fr-FR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        }) + ' ' + new Date().toLocaleTimeString('fr-FR', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }),
         operation: 'Achat Billet Concert',
-        details: `Réservation concert`,
+        details: 'Réservation concert',
         amount: -total_panier,
         id_utilisateur: user.id
-    });
-
+    };
+    transactions.push(nouvelleTransaction);
     let nouvelleReservation = {
         id_reservation: reservation_concert.length + 1,
         utilisateurId: user.id,
@@ -250,12 +287,18 @@ function addReservationConcert(idUser) {
             concert: JSON.parse(JSON.stringify(item.concert)),
             place: JSON.parse(JSON.stringify(item.place))
         })),
-        date: new Date().toLocaleString(),
+        date: new Date().toLocaleDateString('fr-FR', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })
     };
     reservation_concert.push(nouvelleReservation);
     panier_concert.length = 0;
-    return { error: 0, status: 200, data: nouvelleReservation };
+    return {error: 0, status: 200, data:  { solde: user.solde, newRes: nouvelleReservation }};
 }
+
 
 function getReservationConcertById(utilisateurId) {
     console.log("Utilisateur ID :", utilisateurId);
@@ -429,7 +472,102 @@ function getDeguisementBySoiree(soireeId) {
         return { error: 1, message: "Soirée introuvable" };
     }
 }
-
+function ajouterDeguisement(deguisement){
+    let stock = taille_deguisements.find(stockItem => stockItem.id_deguisement === deguisement.id_costume && stockItem.taille === deguisement.taille);
+    let existingDeguisement = panier_deguisement.find(item => item.id_costume === deguisement.id_costume && item.taille === deguisement.taille);
+    if (existingDeguisement) {
+        stock.quantite -= 1;
+        existingDeguisement.quantite += 1;
+        return { error: 0, data: existingDeguisement };
+    } else {
+        stock.quantite -= 1;
+        let nouveauDeguisement = { ...deguisement, quantite: 1 }
+        panier_deguisement.push(nouveauDeguisement);
+        return { error: 0, data: nouveauDeguisement };
+    }
+}
+function incrementerQuantiteDeguisement(item) {
+    let stock = taille_deguisements.find(stockItem => stockItem.id_deguisement === item.id_costume && stockItem.taille === item.taille);
+    let articleDansPanier = panier_deguisement.find(panierItem => panierItem.id_costume === item.id_costume && panierItem.taille === item.taille);
+    if (!stock || !articleDansPanier) {return { error: 1, status: 404, data: "Article ou stock introuvable" };}
+    if (stock.quantite > 0) {
+        articleDansPanier.quantite += 1;
+        stock.quantite -= 1;
+        console.log(panier_deguisement)
+        return {error: 0, status: 200, data: {article: {...articleDansPanier}, stock: {...stock}}};
+    }
+}
+function diminuerQuantiteDeguisement(item) {
+    let stock = taille_deguisements.find(stockItem => stockItem.id_deguisement === item.id_costume && stockItem.taille === item.taille);
+    let articleDansPanier = panier_deguisement.find(panierItem => panierItem.id_costume === item.id_costume && panierItem.taille === item.taille);
+    if (!articleDansPanier || !stock) {
+        return { error: 1, status: 404, data: "Article ou stock introuvable" };
+    }
+    if (articleDansPanier.quantite > 1) {
+        articleDansPanier.quantite -= 1;
+        stock.quantite += 1;
+        return { error: 0, status: 200, data: { article: articleDansPanier, stock: stock } };
+    } else if (articleDansPanier.quantite === 1) {
+        const index = panier_deguisement.findIndex(panierItem => panierItem.id_costume === item.id_costume && panierItem.taille === item.taille);
+        if (index !== -1) {
+            articleDansPanier.quantite = panier_deguisement.splice(index, 1);
+            stock.quantite += 1;
+            return { error: 0, status: 200, data: { article: articleDansPanier, stock: stock } };
+        }
+    }
+}
+function addLocationDeguisement(idUser) {
+    let user = utilisateurs.find(u => u.id === parseInt(idUser));
+    if (!user) {
+        return { error: 1, status: 404, data: 'Utilisateur non trouvé' };
+    }
+    let total_panier = panier_deguisement.reduce((total, item) => total + (item.prix * item.quantite), 0);
+    if (user.solde < total_panier) {
+        return { error: 1, status: 403, data: 'Solde insuffisant' };
+    }
+    user.solde -= total_panier;
+    let nouvelleTransaction = {
+        id: transactions.length + 1,
+        date: new Date().toLocaleDateString('fr-FR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        }) + ' ' + new Date().toLocaleTimeString('fr-FR', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }),
+        operation: 'Achat location deguisement',
+        details: 'Réservation Baltrouille',
+        amount: -total_panier,
+        id_utilisateur: user.id
+    };
+    transactions.push(nouvelleTransaction);
+    let nouvelleLocation = {
+        id_location: location_deguisement.length + 1,
+        utilisateurId: user.id,
+        deguisements: panier_deguisement.map(item => ({
+            ...item,
+            quantite: item.quantite
+        })),
+        date: new Date().toLocaleDateString('fr-FR', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })
+    };
+    location_deguisement.push(nouvelleLocation);
+    panier_concert.length = 0;
+    console.log(location_deguisement)
+    return {error: 0, status: 200, data: {transaction: nouvelleTransaction, reservation: nouvelleLocation}};
+}
+function getLocationDeguisementById(utilisateurId) {
+    console.log("Utilisateur ID :", utilisateurId);
+    console.log("Réservations existantes :", location_deguisement);
+    let location = location_deguisement.filter(loca => loca.utilisateurId === parseInt(utilisateurId));
+    return { error: 0, data: location };
+}
 function getAllBouteilles(){
     return {error: 0, data:bouteilles}
 }
@@ -662,6 +800,8 @@ export default {
     getAllPlaceConcert,
     getPlaceConcertbyId,
     ajouterAuPanier,
+    retirerDuPanier,
+    viderPlace,
     addReservationConcert,
     getReservationConcertById,
     getArtistes,
@@ -682,6 +822,11 @@ export default {
     getAllTailleDeguisement,
     getTailleDeguisementById,
     getDeguisementBySoiree,
+    ajouterDeguisement,
+    incrementerQuantiteDeguisement,
+    diminuerQuantiteDeguisement,
+    getLocationDeguisementById,
+    addLocationDeguisement,
     getAllBouteilles,
     getBouteillebyId,
     getAllCarres,

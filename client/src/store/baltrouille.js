@@ -15,6 +15,8 @@ export default ({
         taille_deguisements: [],
         taille_deguisement: null,
         panier: [],
+        reservations: [],
+        reservationsId: []
     },
     mutations: {
         updateListeSoiree(state, soirees){
@@ -36,62 +38,58 @@ export default ({
             state.taille_deguisement = taille_deguisement;
         },
         addDeguisement(state, deguisement){
-            let stock = state.taille_deguisement.find(
-                stockItem => stockItem.id_deguisement === deguisement.id_costume && stockItem.taille === deguisement.taille
-            );
             const existingDeguisement = state.panier.find(
                 item => item.id_costume === deguisement.id_costume && item.taille === deguisement.taille
             );
             if (existingDeguisement) {
-                stock.quantite -= 1;
                 existingDeguisement.quantite += 1;
             } else {
-                stock.quantite -= 1;
                 state.panier.push({ ...deguisement, quantite: 1 });
             }
         },
-        incrementerQuantite(state, item) {
-            let article = state.panier.find(
-                panierItem => panierItem.id_costume === item.id_costume && panierItem.taille === item.taille
-            );
-            let stock = state.taille_deguisements.find(
-                stockItem => stockItem.id_deguisement === item.id_costume && stockItem.taille === item.taille
-            );
-            if (!article) {
+        incrementerQuantite(state, { article, stock }) {
+            let articleDansPanier = state.panier.find(panierItem => panierItem.id_costume === article.id_costume && panierItem.taille === article.taille);
+            let stockDeguisement = state.taille_deguisements.find(stockItem => stockItem.id_deguisement === stock.id_deguisement && stockItem.taille === stock.taille);
+            if (!articleDansPanier) {
+                console.error("Article introuvable dans le panier :", article);
                 return;
             }
-            if (!stock) {
+            if (!stockDeguisement) {
+                console.error("Stock introuvable :", stock);
                 return;
             }
-            if (stock.quantite !== 0) {
-                article.quantite += 1;
-                stock.quantite -= 1;
-            } else {
-                alert("Stock insuffisant pour ajouter cet article.");
+            articleDansPanier.quantite = article.quantite;
+            stockDeguisement.quantite = stock.quantite;
+        },
+        diminuerQuantite(state, { article, stock }) {
+            let articleDansPanier = state.panier.find(panierItem => panierItem.id_costume === article.id_costume && panierItem.taille === article.taille);
+            let stockDeguisement = state.taille_deguisements.find(stockItem => stockItem.id_deguisement === stock.id_deguisement && stockItem.taille === stock.taille);
+            if (!articleDansPanier) {
+                console.error("Article introuvable dans le panier :", article);
+                return;
+            }
+            if (!stockDeguisement) {
+                console.error("Stock introuvable :", stock);
+                return;
+            }
+            if (articleDansPanier.quantite > 1) {
+                articleDansPanier.quantite = article.quantite;
+                stockDeguisement.quantite = stock.quantite;
+            } else if (articleDansPanier.quantite === 1) {
+                state.panier = state.panier.filter(
+                    panierItem => panierItem.id_costume !== article.id_costume || panierItem.taille !== article.taille
+                );
+                stockDeguisement.quantite = stock.quantite;
             }
         },
-        diminuerQuantite(state, item) {
-            let article = state.panier.find(
-                panierItem => panierItem.id_costume === item.id_costume && panierItem.taille === item.taille
-            );
-            let stock = state.taille_deguisements.find(
-                stockItem => stockItem.id_deguisement === item.id_costume && stockItem.taille === item.taille
-            );
-            if (article && stock) {
-                if (article.quantite > 1) {
-                    article.quantite -= 1;
-                    stock.quantite += 1;
-                } else if (article.quantite === 1) {
-                    const index = state.panier.findIndex(
-                        panierItem => panierItem.id_costume === item.id_costume && panierItem.taille === item.taille
-                    );
-                    if (index !== -1) {
-                        state.panier.splice(index, 1);
-                        stock.quantite += 1;
-                    }
-                }
-            }
-        }
+        locationDeguisement(state, reservation) {
+            state.reservations.push(reservation);
+            state.reservationsId.push(reservation.id_reservation);
+            state.panier = [];
+        },
+        updateLocationDeguisementId(state, reservationsId){
+            state.reservationsId = reservationsId
+        },
     },
     actions: {
         async getAllSoireeBaltrouille({commit}){
@@ -159,15 +157,51 @@ export default ({
         },
         async addDeguisementPanier({commit}, deguisement) {
             console.log("Ajout d'un déguisement au panier")
-            commit('addDeguisement', deguisement);
+            let response = await BaltrouilleService.ajoutDeguisement(deguisement)
+            if (response.error === 0){
+                commit('addDeguisement', deguisement);
+            } else {
+                console.log(response.data)
+            }
         },
-        async incrementerQuantite({commit}, deguisement){
+        async incrementerQuantite({commit}, item){
             console.log("Incrementation de la quantite")
-            commit('incrementerQuantite', deguisement)
+            let response = await BaltrouilleService.incrementerQuantiteDeguisement(item)
+            if (response.error === 0){
+                commit('incrementerQuantite', response.data)
+            } else {
+                console.log(response.data)
+            }
         },
-        async diminuerQuantite({commit}, deguisement){
+        async diminuerQuantite({commit}, item){
             console.log("Diminution de la quantite")
-            commit('diminuerQuantite', deguisement)
-        }
+            let response = await BaltrouilleService.diminuerQuantiteDeguisement(item)
+            if (response.error === 0){
+                commit('diminuerQuantite', response.data)
+            } else {
+                console.log(response.data)
+            }
+        },
+        async addLocationDeguisement({ commit, dispatch }, idUser) {
+            console.log("Ajout d'une reservation pour ID :", idUser);
+            let response = await BaltrouilleService.addLocationDeguisement(idUser)
+            if (response.error === 0) {
+                commit('locationDeguisement', response.data.reservation);
+                dispatch('ProfilStore/updateFunds', response.data.transaction, { root: true });
+                console.log(response.data.transaction)
+            } else {
+                console.error(response.data);
+            }
+        },
+        async getLocationDeguisementById({commit}, utilisateurId){
+            console.log("Récupération des locations de ID :", utilisateurId)
+            let response = await BaltrouilleService.getLocationDeguisementById(utilisateurId)
+            console.log('Response :', response)
+            if (response.error === 0) {
+                commit('updateLocationDeguisementId', response.data);
+            } else {
+                console.log(response.data);
+            }
+        },
     }
 })

@@ -39,7 +39,7 @@ export default ({
         ajouterAuPanier(state, { placeId, nbPlaces, concert, place }) {
             let placeDansPanier = state.panier.find(item => item.placeId === placeId);
             if (placeDansPanier) {
-                placeDansPanier.nbPlaces += nbPlaces;
+                placeDansPanier.nbPlaces = nbPlaces
                 placeDansPanier.prixTotal = placeDansPanier.nbPlaces * place.prix_place;
             } else {
                 state.panier.push({
@@ -51,50 +51,34 @@ export default ({
                 });
             }
         },
-        retirerDuPanier(state, { concertId }) {
-            const placeDansPanier = state.panier.find(item => item.concertId === concertId);
-            const placesConcert = state.places_concert.find(place => place.id_concert === concertId);
+        retirerDuPanier(state, { placeId }) {
+            const placeDansPanier = state.panier.find(item => item.placeId === placeId);
+            const placesConcert = state.places_concert.find(place => place.id_concert === placeId);
             if (placeDansPanier && placesConcert) {
                 placeDansPanier.nbPlaces -= 1;
                 placesConcert.nb_places += 1;
-                placeDansPanier.prixTotal = placeDansPanier.nbPlaces * placeDansPanier.place[0].prix_place;
+                placeDansPanier.prixTotal = placeDansPanier.nbPlaces * placeDansPanier.place.prix_place;
                 if (placeDansPanier.nbPlaces <= 0) {
-                    state.panier = state.panier.filter(item => item.concertId !== concertId);
+                    state.panier = state.panier.filter(item => item.placeId !== placeId);
                 }
-            } else {
-                console.log("Concert non trouvé dans le panier ou dans la liste des concerts.");
             }
         },
-        viderPlace(state, { concertId }) {
-            const placeDansPanier = state.panier.find(item => item.concertId === concertId);
-            const placesConcert = state.places_concert.find(place => place.id_concert === concertId);
+        viderPlace(state, { placeId }) {
+            const placeDansPanier = state.panier.find(item => item.placeId === placeId);
+            const placesConcert = state.places_concert.find(place => place.id_concert === placeId);
             if (placeDansPanier && placesConcert) {
                 placesConcert.nb_places += placeDansPanier.nbPlaces;
                 placeDansPanier.nbPlaces = 0;
                 placeDansPanier.prixTotal = 0;
-                state.panier = state.panier.filter(item => item.concertId !== concertId);
+                state.panier = state.panier.filter(item => item.placeId !== placeId);
             } else {
                 console.log("Concert non trouvé dans le panier.");
             }
         },
-        reserverConcert(state) {
-            let reservation = {
-                id_reservation: state.reservations.length + 1,
-                utilisateurId: state.utilisateurConnecte.id,
-                concerts: state.panier.map(item => ({
-                    placeId: item.placeId,
-                    nbPlaces: item.nbPlaces,
-                    prixTotal: item.prixTotal,
-                    concert: item.concert,
-                    place: item.place
-                })),
-                total: state.panier.reduce((total, item) => total + item.prixTotal, 0),
-                date: new Date().toLocaleString(),
-            };
+        reserverConcert(state, reservation) {
             state.reservations.push(reservation);
             state.reservationsId.push(reservation.id_reservation);
             state.panier = [];
-            console.log("Réservation créée : ", state.reservations);
         },
         updateReservationConcertId(state, reservationsId){
             state.reservationsId = reservationsId
@@ -152,52 +136,32 @@ export default ({
                 console.log(response.data);
             }
         },
-        async retirerDuPanier({ commit }, { concertId }) {
-            let responseConcert = await ConcertService.getPlacesConcertsbyId(concertId);
-            if (responseConcert.error === 0){
-                console.log("Retrait dans le panier");
-                commit("retirerDuPanier", { concertId });
-            }
-        },
-        async viderPlace({ commit }, { concertId }) {
-            let responseConcert = await ConcertService.getPlacesConcertsbyId(concertId);
-            if (responseConcert.error === 0) {
-                console.log("Supression dans le panier");
-                commit("viderPlace", {concertId});
-            }
-        },
-        /*
-        async reserverConcert({ commit, dispatch, rootState, state }) {
-            const totalPanier = state.panier.reduce((total, item) => total + item.prixTotal, 0);
-
-            const utilisateurCo = rootState.ProfilStore.utilisateurConnecte;
-            const soldeUtilisateur = utilisateurCo.solde;
-
-            if (soldeUtilisateur >= totalPanier) {
-                const data = {
-                    idUser: utilisateurCo.id,
-                    amount: -totalPanier,
-                    operation: "Débit place concert",
-                    details: "Réservation concert",
-                };
-                const response = await dispatch('ProfilStore/updateFunds', data, { root: true });
-                if (response.success) {
-                    commit('reserverConcert');
-                    console.log("Réservation réussie !");
-                } else {
-                    console.log("Erreur lors de la mise à jour des fonds :", response.errorMessage || "Erreur inconnue");
-                }
-            } else {
-                console.log("Solde insuffisant pour la réservation.");
-            }
-        },*/
-        async reserverConcert({commit}, idUser){
-            console.log('Ajout d\'une reservation pour ID :', idUser)
-            let response = await ConcertService.addReservationConcert(idUser)
+        async retirerDuPanier({ commit }, { placeId }) {
+            console.log("Retrait dans le panier");
+            let response = await ConcertService.retirerDuPanier(placeId)
             if (response.error === 0){
-                commit('reserverConcert', response.data)
+                commit("retirerDuPanier", response.data);
             } else {
                 console.log(response.data)
+            }
+        },
+        async viderPlace({ commit }, { placeId }) {
+            console.log("Supression dans le panier");
+            let response = await ConcertService.viderPlace(placeId)
+            if (response.error === 0) {
+                commit("viderPlace", response.data);
+            } else {
+                console.log(response.data)
+            }
+        },
+        async reserverConcert({ commit }, idUser) {
+            console.log("Ajout d'une reservation pour ID :", idUser);
+            let response = await ConcertService.addReservationConcert(idUser);
+            if (response.error === 0) {
+                commit('reserverConcert', response.data.newRes);
+                commit('ProfilStore/updateSoldeUtilisateur', response.data.solde, { root: true });
+            } else {
+                console.error(response.data);
             }
         },
         async getReservationConcertById({commit}, utilisateurId){

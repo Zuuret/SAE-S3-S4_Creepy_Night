@@ -1,28 +1,62 @@
 let utilisateurs = [
     {"id":1, "prenom":"John", "nom":"Doe", "dateNaissance":"23-09-1998", "email":"johndoe@gmail.com", "motDePasse":"mdp123", "solde": 100.00, "numCashless": 123456789},
     {"id":2, "prenom":"Jane", "nom":"Doe", "dateNaissance":"03-07-1998", "email":"janedoe@outlook.fr", "motDePasse":"mdp456", "solde": 80.00, "numCashless": 546865430},
-];
+    {"id":3, "prenom":"Alice", "nom":"Smith", "dateNaissance":"12-05-1995", "email":"alicesmith@gmail.com", "motDePasse":"alice123", "solde": 50.00, "numCashless": 654321987},
+    {"id":4, "prenom":"Bob", "nom":"Brown", "dateNaissance":"15-03-1990", "email":"bobbrown@yahoo.com", "motDePasse":"bob456", "solde": 120.00, "numCashless": 789654321},
+    {"id":5, "prenom":"Charlie", "nom":"Davis", "dateNaissance":"18-07-1997", "email":"charliedavis@outlook.com", "motDePasse":"charlie789", "solde": 75.00, "numCashless": 123987654},
+    {"id":6, "prenom":"Diana", "nom":"Wilson", "dateNaissance":"10-10-1988", "email":"dianawilson@gmail.com", "motDePasse":"diana101", "solde": 65.00, "numCashless": 987654321},
+    ];
 
 let organisateurs = [
-    {"id":1, "prenom":"Jean", "nom":"Kherza", "email":"jeankherza@gmail.com", "motDePasse":"mdp123",  "numTelephone": 123456789},
+    {"id":1, "prenom":"Jean", "nom":"Kherza", "email":"jeankherza@gmail.com", "motDePasse":"mdp123", "numTelephone": 123456789},
     {"id":2, "prenom":"Luc", "nom":"Balta", "email":"lucbalta@outlook.fr", "motDePasse":"mdp456", "numTelephone": 546865430},
+    {"id":3, "prenom":"Marie", "nom":"Dupont", "email":"mariedupont@gmail.com", "motDePasse":"mdp789", "numTelephone": 987654321},
+    {"id":4, "prenom":"Paul", "nom":"Durand", "email":"pauldurand@gmail.com", "motDePasse":"paul123", "numTelephone": 765432198},
+    {"id":5, "prenom":"Clara", "nom":"Martin", "email":"claramartin@gmail.com", "motDePasse":"clara456", "numTelephone": 654321987},
+    {"id":6, "prenom":"Lucas", "nom":"Bernard", "email":"lucasbernard@gmail.com", "motDePasse":"lucas789", "numTelephone": 543219876},
+    {"id":7, "prenom":"Emma", "nom":"Morel", "email":"emmamorel@gmail.com", "motDePasse":"emma123", "numTelephone": 432198765},
+    {"id":8, "prenom":"Nathan", "nom":"Simon", "email":"nathansimon@gmail.com", "motDePasse":"nathan456", "numTelephone": 321987654},
+    {"id":9, "prenom":"Alice", "nom":"Girard", "email":"alicegirard@gmail.com", "motDePasse":"alice789", "numTelephone": 219876543},
+    {"id":10, "prenom":"Victor", "nom":"Rousseau", "email":"victorrousseau@gmail.com", "motDePasse":"victor123", "numTelephone": 198765432}
 ];
 
 let demandesOrganisateurs = [
     { id: 1, prenom: "Tim", nom: "Duncan", email: "timduncan@gmail.com", telephone: "0707070707", motDePasse: "mdp" },
     { id: 2, prenom: "Enzo", nom: "Ferrari", email: "enzoferrari@gmail.com", telephone: "0606060606", motDePasse: "mdp" },
     { id: 3, prenom: "Yahia", nom: "Touré", email: "yahiatoure@gmail.com", telephone: "0505050505", motDePasse: "mdp" },
+    { id: 4, prenom: "Sophie", nom: "Leclerc", email: "sophieleclerc@gmail.com", telephone: "0404040404", motDePasse: "mdp" },
+    { id: 5, prenom: "Antoine", nom: "Dumas", email: "antoinedumas@gmail.com", telephone: "0303030303", motDePasse: "mdp" },
+    { id: 6, prenom: "Camille", nom: "Germain", email: "camillegermain@gmail.com", telephone: "0202020202", motDePasse: "mdp" },
+    { id: 7, prenom: "Hugo", nom: "Blanc", email: "hugoblanc@gmail.com", telephone: "0101010101", motDePasse: "mdp" },
+    { id: 8, prenom: "Juliette", nom: "Renard", email: "julietterenard@gmail.com", telephone: "0909090909", motDePasse: "mdp" },
+    { id: 9, prenom: "Aurélien", nom: "Fabre", email: "aurelienfabre@gmail.com", telephone: "0808080808", motDePasse: "mdp" },
+    { id: 10, prenom: "Chloé", nom: "Fontaine", email: "chloefontaine@gmail.com", telephone: "0707070707", motDePasse: "mdp" }
 ];
 
 let prestataires = [
     {"id":1, "societe":"BurgerKing","adresse": "3 rue de japy", "email":"burgerking@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_burgerking.png")},
     {"id":2, "societe":"POP","adresse": "5 rue de belfort", "email":"pop@gmail.com", "motDePasse":"mdp123", "logo": require("../assets/logo_pop.png")},
+    {"id":3, "societe":"McDonald's","adresse": "18 avenue Champs", "email":"mcdonalds@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_pop.png")},
+    {"id":4, "societe":"Starbucks","adresse": "22 place République", "email":"starbucks@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_pop.png")},
+    {"id":5, "societe":"Domino's Pizza","adresse": "45 boulevard Haussmann", "email":"dominos@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_pop.png")},
+    {"id":6, "societe":"Subway","adresse": "8 rue du Commerce", "email":"subway@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_pop.png")},
+    {"id":7, "societe":"Pizza Hut","adresse": "4 allée Centrale", "email":"pizzahut@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_pop.png")},
+    {"id":8, "societe":"Häagen-Dazs","adresse": "10 rue Saint Honoré", "email":"haagen@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_pop.png")},
+    {"id":9, "societe":"Taco Bell","adresse": "9 place Montmartre", "email":"tacobell@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_pop.png")},
+    {"id":10, "societe":"Chipotle","adresse": "6 avenue Opéra", "email":"chipotle@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_pop.png")}
 ];
 
 let demandesPrestataires = [
-    { id: 1, societe: "Société A", adresse: "Adresse A", email: "contact@societea.com", statut: "en attente", motDePasse: "mdp" },
-    { id: 2, societe: "Société B", adresse: "Adresse B", email: "contact@societeb.com", statut: "en attente", motDePasse: "mdp" },
-    { id: 3, societe: "Société C", adresse: "Adresse C", email: "contact@societec.com", statut: "en attente", motDePasse: "mdp" },
+    { id: 1, societe: "Société D", adresse: "Adresse D", email: "contact@societed.com", statut: "en attente", motDePasse: "mdp" },
+    { id: 2, societe: "Société E", adresse: "Adresse E", email: "contact@societee.com", statut: "en attente", motDePasse: "mdp" },
+    { id: 3, societe: "Société F", adresse: "Adresse F", email: "contact@societef.com", statut: "en attente", motDePasse: "mdp" },
+    { id: 4, societe: "Société G", adresse: "Adresse G", email: "contact@societeg.com", statut: "en attente", motDePasse: "mdp" },
+    { id: 5, societe: "Société H", adresse: "Adresse H", email: "contact@societeh.com", statut: "en attente", motDePasse: "mdp" },
+    { id: 6, societe: "Société I", adresse: "Adresse I", email: "contact@societei.com", statut: "en attente", motDePasse: "mdp" },
+    { id: 7, societe: "Société J", adresse: "Adresse J", email: "contact@societej.com", statut: "en attente", motDePasse: "mdp" },
+    { id: 8, societe: "Société K", adresse: "Adresse K", email: "contact@societek.com", statut: "en attente", motDePasse: "mdp" },
+    { id: 9, societe: "Société L", adresse: "Adresse L", email: "contact@societel.com", statut: "en attente", motDePasse: "mdp" },
+    { id: 10, societe: "Société M", adresse: "Adresse M", email: "contact@societem.com", statut: "en attente", motDePasse: "mdp" }
 ];
 
 let livre_DOr = [

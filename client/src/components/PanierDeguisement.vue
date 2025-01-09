@@ -16,7 +16,7 @@
       </div>
       <div class="panier-total">
         <p>Total : {{ total }} €</p>
-        <button @click="validerPanier">Valider la commande</button>
+        <button @click="addLocationDeguisement(utilisateurConnecte.id)">Valider la commande</button>
       </div>
     </div>
     <p v-else>Votre panier est vide.</p>
@@ -30,12 +30,13 @@ export default {
   name: "PanierDeguisement",
   computed: {
     ...mapState('BaltrouilleStore', ['panier']),
+    ...mapState('ProfilStore',['utilisateurConnecte']),
     total() {
       return this.panier.reduce((total, item) => total + item.prix * item.quantite, 0);
     }
   },
   methods: {
-    ...mapActions('BaltrouilleStore',['incrementerQuantite','diminuerQuantite', 'getAllTailleDeguisement']),
+    ...mapActions('BaltrouilleStore',['incrementerQuantite','diminuerQuantite', 'getAllTailleDeguisement','addLocationDeguisement']),
     validerPanier() {
       alert("Commande validée ! Merci de votre achat.");
     }

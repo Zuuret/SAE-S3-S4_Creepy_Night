@@ -21,6 +21,21 @@ async function getTaillesDeguisementByIdFromLocalSource(deguisementId) {
 async function getDeguisementBySoireeFromLocalSource(soireeId) {
     return LocalSource.getDeguisementBySoiree(soireeId)
 }
+async function ajoutDeguisementFromLocalSource(deguisement) {
+    return LocalSource.ajouterDeguisement(deguisement)
+}
+async function incrementerQuantiteDeguisementFromLocalSource(item) {
+    return LocalSource.incrementerQuantiteDeguisement(item)
+}
+async function diminuerQuantiteDeguisementFromLocalSource(item) {
+    return LocalSource.diminuerQuantiteDeguisement(item)
+}
+async function addLocationDeguisementFromLocalSource(idUser){
+    return LocalSource.addLocationDeguisement(idUser)
+}
+async function getLocationDeguisementByIdFromLocalSource(utilisateurId){
+    return LocalSource.getLocationDeguisementById(utilisateurId)
+}
 
 async function getAllSoireeBaltrouille(){
     let response;
@@ -85,6 +100,51 @@ async function getDeguisementBySoiree(soireeId) {
     }
     return response;
 }
+async function ajoutDeguisement(deguisement) {
+    let response;
+    try {
+        response = await ajoutDeguisementFromLocalSource(deguisement)
+    } catch (err) {
+        response = { error: 1, status: 404, data: 'Erreur réseau, impossible de récupérer la liste des déguisements pour cette soirée' };
+    }
+    return response;
+}
+async function incrementerQuantiteDeguisement(item) {
+    let response;
+    try {
+        response = await incrementerQuantiteDeguisementFromLocalSource(item)
+    } catch (err) {
+        response = { error: 1, status: 404, data: 'Erreur réseau, impossible d\'incrémenter la quantité de ce déguisement' };
+    }
+    return response;
+}
+async function diminuerQuantiteDeguisement(item) {
+    let response;
+    try {
+        response = await diminuerQuantiteDeguisementFromLocalSource(item)
+    } catch (err) {
+        response = { error: 1, status: 404, data: 'Erreur réseau, impossible de diminuer la quantité de ce déguisement' };
+    }
+    return response;
+}
+async function addLocationDeguisement(idUser) {
+    let response;
+    try {
+        response = await addLocationDeguisementFromLocalSource(idUser)
+    } catch (err) {
+        response = { error: 1, status: 404, data: 'Erreur réseau, impossible d\'ajouter un/des deguisement(s) a une reservation'};
+    }
+    return response;
+}
+async function getLocationDeguisementById(utilisateurId) {
+    let response;
+    try {
+        response = await getLocationDeguisementByIdFromLocalSource(utilisateurId)
+    } catch (err) {
+        response = { error: 1, status: 404, data: 'Erreur réseau, impossible de récupérer la liste des location pour cet id'};
+    }
+    return response;
+}
 
 export default {
     getAllSoireeBaltrouille,
@@ -94,4 +154,9 @@ export default {
     getDeguisementById,
     getTailleDeguisementById,
     getDeguisementBySoiree,
+    ajoutDeguisement,
+    incrementerQuantiteDeguisement,
+    diminuerQuantiteDeguisement,
+    addLocationDeguisement,
+    getLocationDeguisementById
 }

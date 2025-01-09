@@ -19,15 +19,15 @@
           <td>{{ item.place.prix_place }} €</td>
           <td>{{ item.prixTotal }} €</td>
           <td class="actions">
-            <button @click="retirerDuPanier({ concertId: item.concertId })">Retirer une place</button>
-            <button @click="viderPlace({ concertId: item.concertId })">Supprimer tout</button>
+            <button @click="retirerDuPanier({ placeId: item.placeId })">Retirer une place</button>
+            <button @click="viderPlace({ placeId: item.placeId })">Supprimer tout</button>
           </td>
         </tr>
         </tbody>
       </table>
       <p><strong>Total du panier : {{ totalPanier }} €</strong></p>
       <div v-if="panier.length > 0">
-        <button @click="reserverConcert(utilisateurConnecte.id)">Valider la commande</button>
+        <button @click="panierEnReservation()">Valider la commande</button>
       </div>
     </div>
     <div v-else>
@@ -37,18 +37,24 @@
 </template>
 
 <script>
-import {mapActions, mapMutations, mapState} from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   computed: {
-    ...mapState('ConcertStore',['panier','utilisateurConnecte']),
+    ...mapState('ConcertStore',['panier']),
+    ...mapState('ProfilStore',['utilisateurConnecte']),
     totalPanier() {
       return this.panier.reduce((total, item) => total + item.nbPlaces * item.place.prix_place, 0);
     },
   },
   methods: {
     ...mapActions('ConcertStore', ['retirerDuPanier', 'viderPlace', 'reserverConcert']),
-    ...mapMutations('ProfilStore', ['updateSoldeUtilisateur']),
+    async panierEnReservation(){
+      await this.reserverConcert(this.utilisateurConnecte.id)
+      if (this.utilisateurConnecte.solde < this.totalPanier){
+        alert('Votre solde cashless est inférieur au prix de votre panier')
+      }
+    }
   }
 };
 </script>

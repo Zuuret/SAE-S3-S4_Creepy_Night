@@ -1,25 +1,27 @@
 <template>
-  <div class="orga">
-    <div class="navbar">
-      <NavBar />
-    </div>
-    <h1>Validation de concert</h1>
-    <p>Liste des artistes</p>
+  <div class="orga" style="display: flex; flex-direction: row">
     <div>
-      <p v-if="nbDecision()">Aucune proposition d'artiste.</p>
-      <div v-for="(artiste) in artistes" :key="artiste.id">
-        <li v-if="artiste.decision == 'null'">
-          <div>
-            <div>{{ artiste.nomGroupe }}</div>
-            <div>{{ artiste.nbMembres }}</div>
+      <NavOrganisateur />
+    </div>
+    <div style="margin: 100px 0 0 200px">
+      <h1>Validation de concert</h1>
+      <p>Liste des artistes</p>
+      <div>
+        <p v-if="nbDecision()">Aucune proposition d'artiste.</p>
+        <div v-for="(artiste) in artistes" :key="artiste.id">
+          <li v-if="artiste.decision == 'null'">
             <div>
-              <div class="button-box">
-                <button @click="setDecision(['true', artiste.id])">Accepter</button>
-                <button @click="setDecision(['false', artiste.id])">Refuser</button>
+              <div style="margin: auto">{{ artiste.nomGroupe }}</div>
+              <div style="margin: auto">{{ artiste.nbMembres }}</div>
+              <div style="margin: auto">
+                <div class="button-box">
+                  <button @click="setDecision(['true', artiste.id])">Accepter</button>
+                  <button @click="setDecision(['false', artiste.id])">Refuser</button>
+                </div>
               </div>
             </div>
-          </div>
-        </li>
+          </li>
+        </div>
       </div>
     </div>
   </div>
@@ -27,23 +29,22 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import NavBar from "@/components/NavBar.vue";
-import {artistes} from "@/datasource/data";
+import NavOrganisateur from "@/components/NavOrganisateur.vue";
 
 export default {
   name: 'OrgaValidArtisteView',
-  components: {NavBar},
+  components: {NavOrganisateur},
   data: () => ({
   }),
   computed: {
-    ...mapState(['artistes']),
+    ...mapState('ConcertStore',['artistes']),
   },
   methods: {
-    ...mapActions(['setDecision', 'getArtistes']),
+    ...mapActions('ConcertStore',['setDecision', 'getArtistes']),
     nbDecision(){
       let nbdecis = 0;
-      for (let i in artistes) {
-        if (artistes[i].decision === 'null') nbdecis++;
+      for (let i in this.artistes) {
+        if (this.artistes[i].decision === 'null') nbdecis++;
       }
       return nbdecis < 1;
     }
@@ -62,8 +63,6 @@ export default {
 
 div {
   font-family: Arial, sans-serif;
-  max-width: 600px;
-  margin: auto;
   padding: 20px;
 }
 
@@ -74,6 +73,7 @@ h1 {
 
 p {
   font-size: 1.1em;
+  text-align: center;
   color: #555;
   margin-bottom: 15px;
 }

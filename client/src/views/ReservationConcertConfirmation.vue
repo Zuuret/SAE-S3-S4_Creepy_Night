@@ -30,6 +30,9 @@
           <p><strong>TOTAL :</strong> {{ prixTotal }} €</p>
           <button @click="ajoutAuPanier">AJOUTER AU PANIER</button>
         </div>
+        <router-link to="/cashless">
+          Allez au cashless !!
+        </router-link>
       </div>
       <PanierConcert></PanierConcert>
     </div>

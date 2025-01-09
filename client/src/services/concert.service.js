@@ -70,6 +70,35 @@ async function ajouterAuPanier(concertId, nbPlaces) {
     return response;
 }
 
+async function retirerDuPanierFromLocalSource(placeId){
+    return LocalSource.retirerDuPanier(placeId)
+}
+
+async function retirerDuPanier(placeId) {
+    let response;
+    try {
+        response = await retirerDuPanierFromLocalSource(placeId)
+    } catch (err) {
+        response = { error: 1, status: 404, data: 'erreur réseau, impossible de retirer une panier' };
+    }
+    return response;
+}
+
+async function viderPlaceFromLocalSource(placeId){
+    return LocalSource.viderPlace(placeId)
+}
+
+async function viderPlace(placeId) {
+    let response;
+    try {
+        response = await viderPlaceFromLocalSource(placeId)
+    } catch (err) {
+        response = { error: 1, status: 404, data: 'erreur réseau, impossible d\'enlever ce concert au panier' };
+    }
+    return response;
+}
+
+
 async function addReservationConcertFromLocalSource(idUser){
     return LocalSource.addReservationConcert(idUser)
 }
@@ -104,6 +133,8 @@ export default {
     getAllPlaceConcert,
     getPlacesConcertsbyId,
     ajouterAuPanier,
+    retirerDuPanier,
+    viderPlace,
     addReservationConcert,
     getReservationConcertById
 };
