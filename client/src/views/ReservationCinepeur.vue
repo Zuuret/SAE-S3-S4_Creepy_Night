@@ -3,7 +3,7 @@
     <div><NavBar /></div>
     <h1>Calendrier des films</h1>
     <div class="flex-row">
-      <div class="flex-column" style="margin-top: 43px">
+      <div class="flex-column" style="margin-top: 2.9vw">
         <div v-for="hour in hours" :key="hour" class="heures bordure">
           <p>{{ hour }}</p>
         </div>
@@ -137,11 +137,12 @@ h1 {
 /* Colonne des heures */
 .heures {
   background-color: black;
+  font-size: 0.9vw;
   text-align: center;
   color: darkred;
   font-weight: bold;
-  padding-inline: 10px;
-  height: 150px;
+  padding-inline: 1vw;
+  height: 10vw; /* Taille uniforme */
   border: 1px solid darkred;
   box-shadow: 0 0 15px rgba(255, 0.5, 0.5, 0.6);
   flex: none; /* Taille fixe */
@@ -152,8 +153,8 @@ h1 {
   text-decoration: none;
   display: grid;
   grid-template-columns: repeat(7, 1fr); /* 7 jours */
-  grid-auto-rows: 150px; /* Hauteur uniforme pour chaque cellule */
-  gap: 5px;
+  grid-auto-rows: 1vw; /* Hauteur uniforme pour chaque cellule */
+  gap: 0.3vw;
   margin-left: 10px; /* Sépare la grille des heures */
   background-color: black;
   border: 1px solid darkred;
@@ -162,10 +163,10 @@ h1 {
 
 /* En-tête des jours */
 .grille > div > p {
-  font-size: 1rem;
+  font-size: 0.7vw;
   font-weight: bold;
   text-align: center;
-  padding: 10px;
+  padding: 1vw;
   background-color: black;
   color: darkred;
   border: 1px solid darkred;
@@ -174,7 +175,8 @@ h1 {
 
 /* Cellules */
 .case, .item {
-  height: 150px; /* Taille uniforme */
+  width: 10vw; /* Taille uniforme */
+  height: 10vw; /* Taille uniforme */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -184,14 +186,15 @@ h1 {
 
 /* Cellules "À venir" */
 .case {
-  font-size: 0.9rem;
+  font-size: 0.9vw;
   color: darkred;
   font-style: italic;
 }
 
 /* Cellules occupées */
 .item img {
-  max-width: 7rem;
+  max-width: 5vw;
+  max-height: 5.5vw;
   border-radius: 4px;
 }
 
@@ -201,7 +204,7 @@ h1 {
 
 .item p {
   margin-top: 5px;
-  font-size: 80%;
+  font-size: 0.9vw;
   text-align: center;
   font-weight: bold;
   color: red;
