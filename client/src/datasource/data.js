@@ -315,6 +315,8 @@ let taille_deguisements = [
 
 let panier_deguisement = []
 
+let location_deguisement = []
+
 let carres = [
     {"id_carre":1, "type":"Carré VIP", "prix":100, "prixPersonne":20},
     {"id_carre":2, "type":"Carré Ultra VIP", "prix":150, "prixPersonne":30}
@@ -366,6 +368,7 @@ module.exports = {
     deguisements,
     taille_deguisements,
     panier_deguisement,
+    location_deguisement,
     carres,
     bouteilles,
     reservation_carihorreur,
