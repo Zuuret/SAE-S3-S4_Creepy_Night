@@ -5,9 +5,6 @@
       <div v-for="reservation in reservationsId" :key="reservation.id_reservation" class="reservation-item">
         <div class="reservation-header">
           <p><strong>Réservation #{{ reservation.id_reservation }}</strong></p>
-          <p>Date: {{ reservation.date }}</p>
-          <p>Total: {{ reservation.concerts[0].prixTotal }} €</p>
-        </div>
         <div class="concert-details">
           <h3>Détails des concerts réservés :</h3>
           <ul>
@@ -24,10 +21,11 @@
         </div>
       </div>
     </div>
+  </div>
     <div v-else class="no-reservations">
       <p>Aucune réservation trouvée.</p>
     </div>
-  </div>
+</div>
 </template>
 
 <script>

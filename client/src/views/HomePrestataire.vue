@@ -7,7 +7,7 @@
       <p><strong>{{ message.nomUtilisateur }}</strong> ({{ message.date }})</p>
       <p>{{ message.message }}</p>
       <div class="rating">
-        <span v-for="i in message.evaluation" :key="i">⭐</span>
+        <span v-for="i in parseInt(message.evaluation)" :key="i">⭐</span>
       </div>
     </div>
   </div>

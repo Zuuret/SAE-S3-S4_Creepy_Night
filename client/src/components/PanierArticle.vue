@@ -16,7 +16,7 @@
       </div>
       <div class="panier-total">
         <p>Total : {{ total }} €</p>
-        <button @click="validerPanier">Valider la commande</button>
+        <button @click="reserverArticle(utilisateurConnecte.id)">Valider la commande</button>
       </div>
     </div>
     <p v-else>Votre panier est vide.</p>
@@ -30,20 +30,18 @@ export default {
   name: "PanierDeguisement",
   computed: {
     ...mapState('PrestataireStore', ['panier']),
+    ...mapState('ProfilStore',['utilisateurConnecte']),
     total() {
       return this.panier.reduce((total, item) => total + item.prix * item.quantite, 0);
     }
   },
   methods: {
-    ...mapActions('PrestataireStore',['incrementerQuantite','diminuerQuantite','getAllArticle']),
-    validerPanier() {
-      alert("Commande validée ! Merci de votre achat.");
-    }
+    ...mapActions('PrestataireStore', ['incrementerQuantite', 'diminuerQuantite', 'getAllArticle', 'reserverArticle']),
   },
   mounted() {
     this.getAllArticle()
   }
-};
+}
 </script>
 
 <style scoped>

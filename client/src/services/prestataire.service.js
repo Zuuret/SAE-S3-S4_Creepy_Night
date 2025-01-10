@@ -15,6 +15,21 @@ async function getArticleByIdFromLocalSource(idArticle){
 async function getAllArticleFromLocalSource(){
     return LocalSource.getAllArticle()
 }
+async function ajouterAuPanierArticleFromLocalSource(article) {
+    return LocalSource.ajouterAuPanierArticle(article)
+}
+async function incrementerQuantiteArticleFromLocalSource(item){
+    return LocalSource.incrementerQuantiteArticle(item)
+}
+async function diminuerQuantiteArticleFromLocalSource(item){
+    return LocalSource.diminuerQuantiteArticle(item)
+}
+async function addReservationArticleFromLocalSource(idUser) {
+    return LocalSource.addReservationArticle(idUser)
+}
+async function getReservationArticleByIdFromLocalSource(utilisateurId){
+    return LocalSource.getReservationArticleById(utilisateurId)
+}
 
 async function getLivreDOr(idPrestataire) {
     let response;
@@ -61,11 +76,62 @@ async function getAllArticle() {
     }
     return response
 }
+async function ajouterAuPanierArticle(article) {
+    let response;
+    try {
+        response = await ajouterAuPanierArticleFromLocalSource(article)
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible d'ajouter un article au panier'"  }
+    }
+    return response
+}
+async function incrementerQuantiteArticle(item){
+    let response;
+    try {
+        response = await incrementerQuantiteArticleFromLocalSource(item)
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible d'incrémenter l'article de ce panier'"  }
+    }
+    return response
+}
+async function diminuerQuantiteArticle(item){
+    let response;
+    try {
+        response = await diminuerQuantiteArticleFromLocalSource(item)
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible de diminuer la quantité de l'article de ce panier'"  }
+    }
+    return response
+}
+async function addReservationArticle(idUser){
+    let response;
+    try {
+        response = await addReservationArticleFromLocalSource(idUser)
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible d'ajouter une reservation"  }
+    }
+    return response
+}
+async function getReservationArticleById(utilisateurId){
+    let response;
+    try {
+        response = await getReservationArticleByIdFromLocalSource(utilisateurId)
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible de récupérer les réservations par votre Id"  }
+    }
+    return response
+}
+
 
 export default {
     getLivreDOr,
     ajoutLivreDOr,
     getAllArticlesById,
     getArticleById,
-    getAllArticle
+    getAllArticle,
+    ajouterAuPanierArticle,
+    incrementerQuantiteArticle,
+    diminuerQuantiteArticle,
+    addReservationArticle,
+    getReservationArticleById
 }

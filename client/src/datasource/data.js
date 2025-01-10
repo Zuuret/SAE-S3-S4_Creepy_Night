@@ -72,6 +72,8 @@ let articles = [
 
 let panier_article = []
 
+let reservation_article = []
+
 let artistes = [
     {"id":1, "nomGroupe":"PINK", "nbMembres":5, "decision":"null"},
     {"id":2, "nomGroupe":"KISS", "nbMembres":4, "decision":"null"},
@@ -384,6 +386,7 @@ module.exports = {
     livre_DOr,
     articles,
     panier_article,
+    reservation_article,
     concerts,
     places_concerts,
     panier_concert,

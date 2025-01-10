@@ -47,6 +47,7 @@ import PrestatairePublic from "@/views/PrestatairePublic.vue"
 import PrestataireSpecifique from "@/views/PrestataireSpecifique.vue";
 import PrestataireArticle from "@/views/PrestataireArticle.vue";
 import ArticleSpecifique from "@/views/ArticleSpecifique.vue";
+import ReservationArticle from "@/views/ReservationArticle.vue";
 
 import UberFlippe from "@/views/UberFlippe.vue";
 import UserProfile from '@/views/UserProfile.vue';
@@ -57,6 +58,8 @@ import OrgaPrestataires from "@/views/OrgaPrestataires.vue";
 import OrgaDemandes from "@/views/OrgaDemandes.vue"
 import OrgaProfil from "@/views/OrgaProfil.vue"
 
+import MesReservations from "@/views/MesReservations.vue"
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -65,7 +68,6 @@ const routes = [
   { path: '/connexion', name: 'PageConnexion', component: PageConnexion },
   { path: '/profil', name: 'profil', component: MonProfil },
   { path: '/concert', name: 'calendrierConcert', component: CalendrierConcert },
-  { path: '/concert/reservations', name: 'Reservation', component: reservationConcert},
   { path: '/concert/:id', name: 'reservationConcert', component: ReservationConcertConfirmation },
   { path: '/concert/:id/validate', name: 'validationConcert', component: ValidationReservation },
   { path: '/planning', name: 'Planning', component: ConcertPlanner},
@@ -79,7 +81,6 @@ const routes = [
   { path: '/baltrouille', name: 'baltrouille', component: BalTrouille},
   { path: '/baltrouille/:soireeId/deguisements', name: 'BaltrouilleDeguisement', component: BaltrouilleDeguisement},
   { path: '/baltrouille/:soireeId/deguisements/:deguisementId', name: 'locationDeguisement', component: LocationDeguisement},
-  { path: '/baltrouille/reservations', name: 'BaltrouilleReservations', component: ReservationDeguisement},
   { path: '/cashless', name: 'cashless', component: CashLess},
   { path: '/carihorreur', name: 'carihorreur', component: CariHorreur},
   { path: '/carte-interactive', name: 'carte-interactive', component: CarteInteractive},
@@ -102,6 +103,10 @@ const routes = [
   { path: '/orga-prestataires', name: 'OrgaPrestataires', component: OrgaPrestataires },
   { path: '/orga-demandes', name: 'OrgaDemandes', component: OrgaDemandes },
   { path: '/orga-profil', name: 'OrgaProfil', component: OrgaProfil },
+  { path: '/reservations', name:'Reservations', component: MesReservations},
+  { path: '/reservations/articles', name: 'ReservationsArticles', component: ReservationArticle},
+  { path: '/reservations/baltrouille', name: 'ReservationsBaltrouille', component: ReservationDeguisement},
+  { path: '/reservations/concert', name: 'ReservationConcert', component: reservationConcert},
 ];
 
 const router = new VueRouter({

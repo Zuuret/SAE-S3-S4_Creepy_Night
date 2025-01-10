@@ -26,9 +26,6 @@
         </div>
       </div>
     </div>
-    <router-link class="reservation-button-container" to="/concert/reservations">
-      <button class="reservation-button">Voir mes réservations</button>
-    </router-link>
   </div>
 </template>
 
@@ -207,36 +204,5 @@ h1 {
   left: 50%;
   transform: translate(-50%, -50%);
 }
-.reservation-button-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 30px; /* Ajustez la marge supérieure comme vous le souhaitez */
-}
 
-.reservation-button {
-  display: inline-block;
-  padding: 12px 20px;
-  font-size: 1.2em;
-  font-family: 'Creepster', cursive;
-  text-align: center;
-  background-color: #ff4444;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-}
-
-.reservation-button:hover {
-  background-color: #e63636;
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
-  transform: scale(1.05);
-}
-
-.reservation-button:active {
-  transform: scale(0.98);
-}
 </style>

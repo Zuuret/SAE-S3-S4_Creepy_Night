@@ -8,6 +8,12 @@
       <h3>Stock : {{ article.stock }}</h3>
     </div>
     <button @click="ajouterAuPanier()">Ajouter au panier</button>
+    <router-link to="/cashless">
+      <button>Allez au cashless !!</button>
+    </router-link>
+    <router-link to="/reservations/articles">
+      <button>Voir mes reservations</button>
+    </router-link>
     <PanierArticle/>
   </div>
 </template>
@@ -20,7 +26,7 @@ export default {
   name: 'ArticleSpecifique',
   components: {PanierArticle},
   computed: {
-    ...mapState('PrestataireStore', ['article'])
+    ...mapState('PrestataireStore', ['article']),
   },
   methods: {
     ...mapActions('PrestataireStore', ['getArticleById','addArticlePanier']),
