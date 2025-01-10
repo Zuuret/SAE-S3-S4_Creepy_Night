@@ -10,7 +10,7 @@ exports.savePrestataire = async (req,res) => {
     const adresse = req.body.adresse;
     const email = req.body.email;
     const password = req.body.password;
-    const resultat = await prestataireService.insertPrestataire(societe, adresse, email, password);
+    const resultat = await prestataireService.insertPrestataire(uuid,societe, adresse, email, password);
     if (resultat) {
         return res.status(500).send("ERREUR INTERNE");
     }

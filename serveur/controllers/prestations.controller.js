@@ -5,11 +5,11 @@ const prestationService = require("../services/prestations.services.pg");
 const {FALSE} = require("pg-format/lib/reserved");
 
 exports.savePrestation = async (req,res) => {
-    const nom = req.body.artiste;
-    const prix = req.body.nationalite;
-    const description = req.body.date;
-    const image = req.body.heure;
-    const zone_id = 1;
+    const nom = req.body.nom;
+    const prix = req.body.prix;
+    const description = req.body.description;
+    const image = req.body.image;
+    const zone_id = req.body.zone_id;
     const resultat = await prestationService.insertPrestation(nom, prix, description, image, zone_id);
     if (resultat) {
         return res.status(500).send("ERREUR INTERNE");
@@ -49,11 +49,11 @@ exports.getPrestationById = async (req, res) => {
 exports.updatePrestation = async (req,res) => {
     
     const id = req.params.id;
-    const nom = req.body.artiste;
-    const prix = req.body.nationalite;
-    const description = req.body.date;
-    const image = req.body.heure;
-    const zone_id = 1;
+    const nom = req.body.nom;
+    const prix = req.body.prix;
+    const description = req.body.description;
+    const image = req.body.image;
+    const zone_id = req.body.zone_id;
     const resultat = await prestationService.updatePrestation(id,nom, prix, description, image, zone_id);
     if(resultat){
         return res.status(500).send("ERREUR INTERNE");

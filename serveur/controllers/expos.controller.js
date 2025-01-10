@@ -47,7 +47,7 @@ exports.getExpoById = async (req, res) => {
 };
 
 exports.updateExpo = async (req,res) => {
-    const id = req.body.id
+    const id = req.params.id
     const createur = req.body.createur;
     const email = req.body.email;
     const date_crea = req.body.date_crea;

@@ -48,12 +48,12 @@ const router = express.Router();
  *               maxLength: 8
  *               example: 23:00:00
  *               description: heure
- *             categorie:
+ *             description:
  *              type: string
  *              minLength: 3
  *              maxLength: 33
  *              example: Jersey
- *             scene:
+ *             image:
  *              type: string
  *              minLength: 3
  *              maxLength: 20
@@ -179,7 +179,7 @@ router.get("/:id", expoController.getExpoById);
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.put("/", sessionMiddleware.checkSession, expoController.updateExpo);
+router.put("/:id", sessionMiddleware.checkSession, expoController.updateExpo);
 
 /**
  * @swagger

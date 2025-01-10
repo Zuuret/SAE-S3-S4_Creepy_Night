@@ -11,8 +11,8 @@ exports.saveFilm = async (req,res) => {
     const image = req.body.image;
     const categorie = req.body.categorie;
     const salle = req.body.salle;
-    const nb_places = req.body.scene;
-    const prix = req.body.scene;
+    const nb_places = req.body.nb_places;
+    const prix = req.body.prix;
     const resultat = await filmService.insertFilm(nom, date, duree, image, categorie, salle, nb_places, prix);
     if (resultat) {
         return res.status(500).send("ERREUR INTERNE");
@@ -51,15 +51,15 @@ exports.getFilmById = async (req, res) => {
 
 exports.updateFilm = async (req,res) => {
     
-    const id = req.params.uuid;
+    const id = req.params.id;
     const nom = req.body.nom;
     const date = req.body.date;
-    const duree = req.body.duree;
+    const duree = 2;
     const image = req.body.image;
     const categorie = req.body.categorie;
     const salle = req.body.salle;
-    const nb_places = req.body.scene;
-    const prix = req.body.scene;
+    const nb_places = req.body.nb_places;
+    const prix = req.body.prix;
     const resultat = await filmService.updateFilm(id,nom, date, duree, image, categorie, salle, nb_places, prix);
     if(resultat){
         return res.status(500).send("ERREUR INTERNE");
