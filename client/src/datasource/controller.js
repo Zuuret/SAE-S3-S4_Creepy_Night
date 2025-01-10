@@ -830,21 +830,17 @@ function buyTicketCauchemarathon(data) {
 }
 
 export async function addTransactionToDatabase(paymentDetails) {
-    // Créez un nouvel objet de transaction
     const newTransaction = {
-        id: transactions.length + 1, // Assurez-vous que l'ID est unique
+        id: transactions.length + 1,
         date: new Date().toISOString().split('T')[0] + ' ' + new Date().toTimeString().split(' ')[0],
         operation: 'Achat Billet',
         details: `Achat d'un billet pour le montant de ${paymentDetails.amount} €`,
         amount: -paymentDetails.amount,
         id_utilisateur: paymentDetails.id_utilisateur,
     };
-
-    // Ajoutez la nouvelle transaction à la liste
     transactions.push(newTransaction);
 
     console.log("Transaction ajoutée :", newTransaction);
-    // Simulez une réponse réussie
     return { error: 0, data: "Transaction réussie" };
 }
 

@@ -114,5 +114,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
-/* eslint-disable */
+
 export default router

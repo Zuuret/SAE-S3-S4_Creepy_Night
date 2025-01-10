@@ -70,12 +70,11 @@ export default {
         { id: 3, name: 'VladimirReveur', duration: 60 },
       ],
       days: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
-      hours: Array.from({ length: 7 }, (_, i) => (i + 20) % 24), // De 20h à 2h
-      planning: {}, // Planning initialisé plus bas
+      hours: Array.from({ length: 7 }, (_, i) => (i + 20) % 24),
+      planning: {},
     };
   },
   created() {
-    // Initialise le planning avec des tableaux pour chaque jour et chaque heure
     this.days.forEach(day => {
       this.planning[day] = {};
       this.hours.forEach(hour => {
@@ -88,7 +87,6 @@ export default {
       return { ...concert, id: Date.now() };
     },
     onDropConcert(day, hour) {
-      // Supprime les concerts du tableau initial si déplacés
       this.concerts = this.concerts.filter(concert => !this.planning[day][hour].includes(concert));
     },
   },

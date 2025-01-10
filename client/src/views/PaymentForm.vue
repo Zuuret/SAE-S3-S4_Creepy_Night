@@ -33,7 +33,7 @@
     },
     computed: {
       ticketPrice() {
-        return this.$route.params.price; // Récupérez le prix du ticket à partir des paramètres de la route
+        return this.$route.params.price;
       },
     },
     methods: {
@@ -43,10 +43,8 @@
           date: new Date().toISOString().split('T')[0],
           amount: this.ticketPrice,
           cardNumber: '**** **** **** ' + this.cardNumber.slice(-4),
-          id_utilisateur: 1, // Remplacez par l'ID de l'utilisateur connecté
+          id_utilisateur: 1,
         };
-
-        // Ajoutez la transaction via le store
         await this.addTransaction(paymentDetails);
 
         alert('Paiement fictif effectué avec succès !');

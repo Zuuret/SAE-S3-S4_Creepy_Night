@@ -72,10 +72,8 @@ export default {
     buyTicket(ticketId, price) {
       const utilisateurConnecte = JSON.parse(localStorage.getItem('utilisateurConnecte'));
       if (!utilisateurConnecte) {
-        // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
         this.$router.push({ path: '/connexion' });
       } else {
-        // Redirige vers le formulaire de paiement si l'utilisateur est connecté
         this.$router.push({ name: 'PaymentForm', params: { ticketId, price } });
       }
     },

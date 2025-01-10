@@ -38,6 +38,7 @@
 
 <script>
 import {mapActions, mapState} from "vuex";
+import router from "@/router";
 
 export default {
   computed: {
@@ -49,10 +50,23 @@ export default {
   },
   methods: {
     ...mapActions('ConcertStore', ['retirerDuPanier', 'viderPlace', 'reserverConcert']),
-    async panierEnReservation(){
-      await this.reserverConcert(this.utilisateurConnecte.id)
-      if (this.utilisateurConnecte.solde < this.totalPanier){
-        alert('Votre solde cashless est inférieur au prix de votre panier')
+    async panierEnReservation() {
+      if (this.utilisateurConnecte === null) {
+        alert('Veuillez créer un profil pour continuer.');
+        return router.push('/connexion');
+      }
+      if (this.utilisateurConnecte.solde < this.totalPanier) {
+        return alert('Votre solde cashless est insuffisant pour finaliser cette réservation.');
+      }
+      try {
+        const nouveauSolde = await this.reserverConcert(this.utilisateurConnecte.id);
+        if (nouveauSolde !== undefined) {
+          this.utilisateurConnecte.solde = nouveauSolde;
+        }
+        alert('Réservation réussie. Votre solde a été mis à jour.');
+      } catch (error) {
+        console.error('Erreur lors de la réservation:', error);
+        alert('Une erreur est survenue lors de la réservation. Veuillez réessayer.');
       }
     }
   }

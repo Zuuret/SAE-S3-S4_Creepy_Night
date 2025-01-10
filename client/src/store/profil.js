@@ -123,23 +123,18 @@ export default ({
         
         async enregistrementPrestataire({ commit, state }, data) {
             console.log("Enregistrement d'un nouveau prestataire");
-
-            // Trouver le dernier ID dans le tableau des demandes
             const dernierId = state.demandesPrestataires.length > 0
                 ? Math.max(...state.demandesPrestataires.map(d => d.id))
-                : 0; // Si aucune demande, commencer à 0
-
+                : 0;
             const nouvelleDemandePrestataire = {
-                id: dernierId + 1, // ID de la nouvelle demande
+                id: dernierId + 1,
                 societe: data.societe,
                 adresse: data.adresse,
                 email: data.email,
-                motDePasse: data.motDePasse, // Assurez-vous d'inclure le mot de passe ici
+                motDePasse: data.motDePasse,
             };
-
-            // Ajoutez la demande au tableau des demandes
             commit('addDemandePrestataire', nouvelleDemandePrestataire);
-            return { success: true }; // Retournez un succès ou un échec selon votre logique
+            return { success: true };
         },
 
         async enregistrementOrganisateur({ commit, state }, data) {
@@ -327,11 +322,10 @@ export default ({
                 motDePasse: demande.motDePasse,
             };
 
-            // Afficher les informations du nouveau prestataire dans la console
             console.log(`Nouveau prestataire ajouté : Email: ${nouveauPrestataire.email}, Mot de passe: ${nouveauPrestataire.motDePasse}`);
 
-            commit('addPrestataire', nouveauPrestataire); // Ajoutez le prestataire
-            commit('removeDemandePrestataire', demande.id); // Supprimez la demande
+            commit('addPrestataire', nouveauPrestataire);
+            commit('removeDemandePrestataire', demande.id);
         },
 
         async accepterDemandeOrganisateur({ commit, state }, demande) {

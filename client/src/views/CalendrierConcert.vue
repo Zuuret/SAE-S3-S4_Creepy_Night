@@ -76,13 +76,9 @@ export default {
       }
       const lastDayOfOctober = new Date(year, 9, 31);
       const lastWeek = [];
-
-      // Find the Monday of the week that includes October 31st
       while (lastDayOfOctober.getDay() !== 1) {
         lastDayOfOctober.setDate(lastDayOfOctober.getDate() - 1);
       }
-
-      // Add days from Monday to Sunday
       for (let i = 0; i < 7; i++) {
         lastWeek.push(lastDayOfOctober.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }));
         lastDayOfOctober.setDate(lastDayOfOctober.getDate() + 1);

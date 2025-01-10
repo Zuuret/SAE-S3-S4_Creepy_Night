@@ -8,7 +8,7 @@
     <button>Mes Réservations Concert</button>
   </router-link>
   <router-link to="/reservations/baltrouille">
-    <button>Mes Réservations Concert</button>
+    <button>Mes Réservations Déguisement</button>
   </router-link>
   <router-link to="/reservations/articles">
     <button>Mes Réservations Article Prestataire</button>

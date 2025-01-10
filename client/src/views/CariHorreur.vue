@@ -137,7 +137,7 @@ export default {
       }
     },
     cancelReservation(index) {
-      this.reservations.splice(index, 1); // Suppression locale
+      this.reservations.splice(index, 1);
       alert("Votre réservation a été annulée.");
     },
   },
