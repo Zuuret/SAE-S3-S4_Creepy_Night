@@ -55,7 +55,7 @@ async function deleteExpo(id) {
     const client = await pool.connect();
     let is_error = false;
     try {
-        const query = format('DELETE FROM Expo WHERE id = %L RETURNING *',id);
+        const query = format('DELETE FROM Expo_oeuvre WHERE id = %L RETURNING *',id);
         await client.query(query);
         console.log('SUPPRESSION DU EXPO');
     } catch (error) {

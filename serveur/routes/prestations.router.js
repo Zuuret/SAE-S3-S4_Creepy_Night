@@ -7,20 +7,20 @@ const router = express.Router();
  * @swagger
  * /api/prestations:
  *   post:
- *     summary: Ajouter une nouvelle prestation
- *     description: Permet d'ajouter une nouvelle prestation avec les informations fournies.
+ *     summary: Créer une nouvelle prestation
+ *     description: Utilisé pour créer une nouvelle prestation
  *     tags:
  *       - prestations
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - nom
- *               - prix
- *             properties:
+ *     parameters:
+ *       - in: body
+ *         name: film
+ *         description: Données pour créer un nouveau film
+ *         schema:
+ *           type: object
+ *           required:
+ *             - nom
+ *             - prix
+ *           properties:
  *               nom:
  *                 type: string
  *                 maxLength: 50

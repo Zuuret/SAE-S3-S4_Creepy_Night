@@ -7,21 +7,21 @@ const router = express.Router();
  * @swagger
  * /api/prestataires:
  *   post:
- *     summary: Ajouter un nouveau prestataire
- *     description: Permet d'ajouter un nouveau prestataire avec les informations fournies.
+ *     summary: Créer un nouveau prestataire
+ *     description: Utilisé pour créer un nouveau prestataire
  *     tags:
  *       - prestataires
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - societe
- *               - email
- *               - password
- *             properties:
+ *     parameters:
+ *       - in: body
+ *         name: prestataire
+ *         description: Données pour créer un nouveau prestataire
+ *         schema:
+ *           type: object
+ *           required:
+ *             - societe
+ *             - email
+ *             - password
+ *           properties:
  *               societe:
  *                 type: string
  *                 maxLength: 50

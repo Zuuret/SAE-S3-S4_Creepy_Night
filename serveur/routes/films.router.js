@@ -7,23 +7,23 @@ const router = express.Router();
  * @swagger
  * /api/films:
  *   post:
- *     summary: Ajouter un nouveau film
- *     description: Permet d'ajouter un nouveau film avec les informations fournies.
+ *     summary: Créer un nouveau film
+ *     description: Utilisé pour créer un nouveau film
  *     tags:
  *       - films
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - nom
- *               - date
- *               - duree
- *               - nb_places
- *               - prix
- *             properties:
+ *     parameters:
+ *       - in: body
+ *         name: film
+ *         description: Données pour créer un nouveau film
+ *         schema:
+ *           type: object
+ *           required:
+ *             - nom
+ *             - date
+ *             - duree
+ *             - nb_places
+ *             - prix
+ *           properties:
  *               nom:
  *                 type: string
  *                 maxLength: 50
