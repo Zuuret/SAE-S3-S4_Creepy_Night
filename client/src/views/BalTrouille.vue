@@ -12,7 +12,7 @@
           <h2>{{ soiree.date }}</h2>
           <p>{{ soiree.description }}</p>
           <router-link :to="`/baltrouille/${soiree.id_soiree}/deguisements`">
-            <button @click="acheterPlace(soiree)">Acheter ma place</button>
+            <button>Voir les déguisement louables</button>
           </router-link>
         </div>
       </div>
@@ -37,9 +37,6 @@ export default {
   },
   methods: {
     ...mapActions('BaltrouilleStore', ['getAllSoireeBaltrouille']),
-    acheterPlace(soiree) {
-      alert(`Votre place pour la soirée "${soiree.date}" a bien été achetée !`);
-    },
   },
   mounted() {
     this.getAllSoireeBaltrouille()
