@@ -416,35 +416,37 @@ function getPlacesFilm(places_film) {
 }
 
 function setPlaceFilm(film) {
-    const user = utilisateurs.find(u => u.id === film.idUser);
+    const user = utilisateurs.find(u => u.id === film[0]);
     if (!user) return { error: 1, status: 404, data: 'Utilisateur non trouvé' };
 
-    const res_film = places_films.find(c => c.id_film === film.id);
+    const res_film = places_films.find(c => c.id_film === film[1]);
 
-    if (res_film.nb_places < film.nb_billets) return { error: 1, status: 404, data: 'Pas assez de places disponibles' };
+    if (res_film.nb_places < film[2]) return { error: 1, status: 404, data: 'Pas assez de places disponibles' };
 
-    if (user.solde < film.price) return { error: 1, status: 404, data: 'Solde insuffisant' };
-    user.solde -= film.price
+    if (user.solde < film[3]) return { error: 1, status: 404, data: 'Solde insuffisant' };
+    user.solde -= film[3]
 
     transactions.push({
         id: transactions.length + 1,
         date: new Date().toISOString().split('T')[0] + ' ' + new Date().toTimeString().split(' ')[0],
         operation: 'Achat Billet Cinepeur',
-        details: `Achat de ${film.nb_billets} billets pour Cinepeur`,
-        amount: -film.price,
+        details: `Achat de ${film[2]} billets pour Cinepeur`,
+        amount: -film[3],
         id_utilisateur: user.id
     });
 
     reserve_film.push({
         id_reservation: reserve_film.length + 1,
         id_utilisateur: user.id,
-        id_course: film.id,
-        nb_places: film.nb_billets
+        nom_film: film[4],
+        id_film: film[1],
+        nb_places: film[2],
+        prix_billets: film[3]
     });
 
-    res_film.nb_places -= film.nb_billets;
+    res_film.nb_places -= film[2];
 
-    console.log('Achat de billets pour les films effectué avec succès, il reste', res_film.nb_places, 'places disponibles, solde restant :', user.solde, '€', 'pour l\'utilisateur', user.id, user.prenom, user.nom, film.nb_billets, 'billets achetés, prix total :', film.price, '€, film :', film.nomFilm);
+    console.log('Achat de billets pour les films effectué avec succès, il reste', res_film.nb_places, 'places disponibles, solde restant :', user.solde, '€', 'pour l\'utilisateur', user.id, user.prenom, user.nom, film[2], 'billets achetés, prix total :', film[3], '€, film :', film[4]);
     return { error: 0, status: 200, data: user.solde };
 }
 

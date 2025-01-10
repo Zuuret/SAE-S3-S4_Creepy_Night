@@ -43,7 +43,7 @@
       <div class="bordure">
         <p>Total : {{ prixTotal }}€</p>
         <router-link v-if="prixTotal !== 0 && utilisateurConnecte.solde >= prixTotal" :to="`/cinepeur/`">
-          <button>Obtenir ma place</button>
+          <button @click="setPlaceFilm([utilisateurConnecte.id, filmById.id, quantiteParType['Fosse'], prixTotal, filmById.nomFilm])">Obtenir ma place</button>
         </router-link>
       </div>
     </div>
@@ -63,7 +63,8 @@ export default {
     };
   },
   computed: {
-    ...mapState('CinemaStore',['filmById', 'places_film','utilisateurConnecte']),
+    ...mapState('ProfilStore',['utilisateurConnecte']),
+    ...mapState('CinemaStore',['filmById', 'places_film']),
     prixTotal() {
       let total = 0;
       for (const place of this.places_film) {
