@@ -8,18 +8,21 @@ export default ({
     namespaced: true,
     state: {
         livreDOr: [],
-        commentaire: null,
         articles: [],
         articlesId: [],
         article: null,
         panier: [],
+        reservations: [],
+        reservationsId: []
     },
     mutations: {
         updateLivreDOr(state, livreDOr) {
             state.livreDOr = livreDOr
+            console.log(state.livreDOr)
         },
         ajoutLivreDOr(state, commentaire) {
             state.livreDOr.push(commentaire)
+            console.log(state.livreDOr)
         },
         updateListeArticlesId(state, articlesId){
             state.articlesId = articlesId
@@ -30,41 +33,55 @@ export default ({
         updateListeArticle(state, articles){
             state.articles = articles
         },
-        addArticle(state, article) {
-            let articleGlobal = state.articles.find(art => art.id === article.id);
-            const articleExistant = state.panier.find(item => item.id === article.id);
-            if (articleGlobal.stock > 0) {
-                if (articleExistant) {
-                    articleExistant.quantite += 1;
-                    articleGlobal.stock -= 1;
-                } else {
-                    state.panier.push({...article, quantite: 1});
-                    articleGlobal.stock -= 1;
-                }
+        addArticle(state, article){
+            const existingArticle = state.panier.find(item => item.id === article.id);
+            if (existingArticle) {
+                existingArticle.quantite += 1;
+            } else {
+                state.panier.push({ ...article, quantite: 1 });
             }
         },
-        incrementerQuantite(state, item) {
-            let articleGlobal = state.articles.find(art => art.id === item.id);
-            if (articleGlobal && articleGlobal.stock > 0) {
-                item.quantite += 1;
-                articleGlobal.stock -= 1;
-            } else {
-                alert("Stock insuffisant pour ajouter cet article.");
+        incrementerQuantite(state, { article, stock }) {
+            let articleDansPanier = state.panier.find(panierItem => panierItem.id === article.id);
+            let stockArticle = state.articles.find(stockItem => stockItem.id === stock.id);
+            if (!articleDansPanier) {
+                console.error("Article introuvable dans le panier :", article);
+                return;
+            }
+            if (!stockArticle) {
+                console.error("Stock introuvable :", stock);
+                return;
+            }
+            articleDansPanier.quantite = article.quantite;
+            stockArticle.stock = stock.stock;
+        },
+        diminuerQuantite(state, { article, stock }) {
+            let articleDansPanier = state.panier.find(panierItem => panierItem.id === article.id);
+            let stockArticle = state.articles.find(stockItem => stockItem.id === stock.id);
+            if (!articleDansPanier) {
+                console.error("Article introuvable dans le panier :", article);
+                return;
+            }
+            if (!stockArticle) {
+                console.error("Stock introuvable :", stock);
+                return;
+            }
+            if (articleDansPanier.quantite > 1) {
+                articleDansPanier.quantite = article.quantite;
+                stockArticle.stock = stock.stock;
+            } else if (articleDansPanier.quantite === 1) {
+                state.panier = state.panier.filter(panierItem => panierItem.id !== article.id);
+                stockArticle.stock = stock.stock;
             }
         },
-        diminuerQuantite(state, item) {
-            let articleGlobal = state.articles.find(art => art.id === item.id);
-            if (item.quantite > 1) {
-                item.quantite -= 1;
-                articleGlobal.stock += 1;
-            } else {
-                const index = state.panier.findIndex(panierItem => panierItem.id === item.id);
-                if (index !== -1) {
-                    state.panier.splice(index, 1);
-                    articleGlobal.stock += 1;
-                }
-            }
-        }
+        reservationArticle(state, reservation) {
+            state.reservations.push(reservation);
+            state.reservationsId.push(reservation.id_reservationArticle);
+            state.panier = [];
+        },
+        updateReservationArticleId(state, reservationsId){
+            state.reservationsId = reservationsId
+        },
     },
     actions: {
         async getLivreDOr({commit}, idPrestataire) {
@@ -72,6 +89,7 @@ export default ({
             let response = await PrestaireService.getLivreDOr(idPrestataire)
             if (response.error === 0) {
                 commit('updateLivreDOr', response.data)
+                console.log(response.data)
             } else {
                 console.log(response.data);
             }
@@ -115,15 +133,50 @@ export default ({
         },
         async addArticlePanier({commit}, article) {
             console.log("Ajout d'un article")
-            commit('addArticle', article);
+            let response = await PrestaireService.ajouterAuPanierArticle(article)
+            if (response.error === 0){
+                commit('addArticle', response.data);
+            } else {
+                console.log(response.data)
+            }
         },
-        async incrementerQuantite({commit}, article){
+        async incrementerQuantite({commit}, item) {
             console.log("Incrementation de la quantite")
-            commit('incrementerQuantite', article)
+            let response = await PrestaireService.incrementerQuantiteArticle(item)
+            if (response.error === 0) {
+                commit('incrementerQuantite', response.data)
+                console.log(response.data)
+            } else {
+                console.log(response.data)
+            }
         },
         async diminuerQuantite({commit}, article){
             console.log("Diminution de la quantite")
-            commit('diminuerQuantite', article)
-        }
+            let response = await PrestaireService.diminuerQuantiteArticle(article)
+            if (response.error === 0){
+                commit('diminuerQuantite', response.data)
+            } else {
+                console.log(response.data)
+            }
+        },
+        async reserverArticle({ commit }, idUser) {
+            console.log("Ajout d'une reservation pour ID :", idUser);
+            let response = await PrestaireService.addReservationArticle(idUser)
+            if (response.error === 0) {
+                commit('reservationArticle', response.data.newResAr);
+                commit('ProfilStore/updateSoldeUtilisateur', response.data.solde, { root: true });
+            } else {
+                console.error(response.data);
+            }
+        },
+        async getReservationArticleById({commit}, utilisateurId){
+            console.log("Récupération des articles d'ID :", utilisateurId)
+            let response = await PrestaireService.getReservationArticleById(utilisateurId)
+            if (response.error === 0) {
+                commit('updateReservationArticleId', response.data);
+            } else {
+                console.log(response.data);
+            }
+        },
     }
 })

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-/* eslint-disable */
+
 Vue.use(Vuex)
 
 import ConcertService from "../services/concert.service";
@@ -82,6 +82,7 @@ export default ({
         },
         updateReservationConcertId(state, reservationsId){
             state.reservationsId = reservationsId
+            console.log(reservationsId)
         },
         updateListeArtistes(state, artistes){
             state.artistes = artistes;

@@ -2,18 +2,18 @@
   <div class="reservations-container">
     <h2>Mes réservations</h2>
     <div v-if="reservationsId && reservationsId.length > 0" class="reservations-list">
-      <div v-for="reservation in reservationsId" :key="reservation.id_location" class="reservation-item">
+      <div v-for="reservation in reservationsId" :key="reservation.id_reservationArticle" class="reservation-item">
         <div class="reservation-header">
-          <p><strong>Réservation #{{ reservation.id_location }}</strong></p>
+          <p><strong>Réservation #{{ reservation.id_reservationArticle }}</strong></p>
         </div>
         <div class="concert-details">
           <h3>Détails des concerts réservés :</h3>
           <ul>
-            <li v-for="deguisement in reservation.deguisements" :key="deguisement.id_costume" class="concert-item">
+            <li v-for="article in reservation.articles" :key="article.id" class="concert-item">
               <div class="concert-info">
-                <p><strong>{{ deguisement.nom_costume }}</strong></p>
-                <p>Quantité : {{ deguisement.quantite }}</p>
-                <p>Prix unitaire : {{ deguisement.prix }} €</p>
+                <p><strong>{{ article.nom }}</strong></p>
+                <p>Quantité : {{ article.quantite }}</p>
+                <p>Prix unitaire : {{ article.prix }} €</p>
               </div>
             </li>
           </ul>
@@ -30,23 +30,24 @@
 import {mapActions, mapState} from "vuex";
 
 export default {
-  name: "ReservationDeguisement",
+  name: "ReservationArticle",
   computed: {
-    ...mapState('BaltrouilleStore', ['reservationsId']),
+    ...mapState('PrestataireStore', ['reservationsId']),
     ...mapState('ProfilStore', ['utilisateurConnecte'])
   },
   methods: {
-    ...mapActions('BaltrouilleStore', ['getLocationDeguisementById']),
+    ...mapActions('PrestataireStore', ['getReservationArticleById']),
   },
   mounted() {
     if (this.utilisateurConnecte && this.utilisateurConnecte.id) {
-      this.getLocationDeguisementById(this.utilisateurConnecte.id);
+      this.getReservationArticleById(this.utilisateurConnecte.id);
     }
   }
 }
 </script>
 
 <style scoped>
+/* Conteneur global des réservations */
 .reservations-container {
   margin: 20px;
   font-family: Arial, sans-serif;
@@ -57,6 +58,7 @@ h2 {
   color: #333;
 }
 
+/* Style des éléments de la liste de réservations */
 .reservations-list {
   margin-top: 20px;
 }

@@ -84,8 +84,9 @@ export default ({
         },
         locationDeguisement(state, reservation) {
             state.reservations.push(reservation);
-            state.reservationsId.push(reservation.id_reservation);
+            state.reservationsId.push(reservation.id_location);
             state.panier = [];
+            console.log(state.reservationsId)
         },
         updateLocationDeguisementId(state, reservationsId){
             state.reservationsId = reservationsId
@@ -182,13 +183,12 @@ export default ({
                 console.log(response.data)
             }
         },
-        async addLocationDeguisement({ commit, dispatch }, idUser) {
+        async addLocationDeguisement({ commit }, idUser) {
             console.log("Ajout d'une reservation pour ID :", idUser);
             let response = await BaltrouilleService.addLocationDeguisement(idUser)
             if (response.error === 0) {
-                commit('locationDeguisement', response.data.reservation);
-                dispatch('ProfilStore/updateFunds', response.data.transaction, { root: true });
-                console.log(response.data.transaction)
+                commit('locationDeguisement', response.data.newLoc);
+                commit('ProfilStore/updateSoldeUtilisateur', response.data.solde, { root: true });
             } else {
                 console.error(response.data);
             }
@@ -196,7 +196,6 @@ export default ({
         async getLocationDeguisementById({commit}, utilisateurId){
             console.log("Récupération des locations de ID :", utilisateurId)
             let response = await BaltrouilleService.getLocationDeguisementById(utilisateurId)
-            console.log('Response :', response)
             if (response.error === 0) {
                 commit('updateLocationDeguisementId', response.data);
             } else {

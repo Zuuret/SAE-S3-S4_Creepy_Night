@@ -16,9 +16,6 @@
           </router-link>
         </div>
       </div>
-      <router-link to="/baltrouille/reservations">
-        <button>Voir mes réservations</button>
-      </router-link>
     </div>
   </div>
 </template>

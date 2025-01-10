@@ -1,15 +1,24 @@
 import {
-    concerts, places_concerts, reservation_concert, panier_concert,
+    concerts,
+    places_concerts,
+    reservation_concert,
+    panier_concert,
     coordonnees_bancaire,
     utilisateurs,
-    organisateurs, demandesOrganisateurs,
-    prestataires, demandesPrestataires,
+    organisateurs,
+    demandesOrganisateurs,
+    prestataires,
+    demandesPrestataires,
     artistes,
     transactions,
-    expo_oeuvres, expo_oeuvres_demande,
-    cine_films, places_films, reserve_film,
+    expo_oeuvres,
+    expo_oeuvres_demande,
+    cine_films,
+    places_films,
+    reserve_film,
     signalement,
-    deguisements, taille_deguisements,
+    deguisements,
+    taille_deguisements,
     carres,
     bouteilles,
     reservation_carihorreur,
@@ -17,7 +26,12 @@ import {
     demandeUberFlippe,
     livre_DOr,
     articles,
-    reservations_cauchemarathon, courses_cauchemarathon, panier_deguisement, location_deguisement
+    reservations_cauchemarathon,
+    courses_cauchemarathon,
+    panier_deguisement,
+    location_deguisement,
+    panier_article,
+    reservation_article
 } from './data.js';
 
 function ajoutUtilisateur(data) {
@@ -560,11 +574,10 @@ function addLocationDeguisement(idUser) {
     location_deguisement.push(nouvelleLocation);
     panier_concert.length = 0;
     console.log(location_deguisement)
-    return {error: 0, status: 200, data: {transaction: nouvelleTransaction, reservation: nouvelleLocation}};
+    return {error: 0, status: 200, data: {solde: user.solde, newLoc: nouvelleLocation}};
 }
 function getLocationDeguisementById(utilisateurId) {
     console.log("Utilisateur ID :", utilisateurId);
-    console.log("Réservations existantes :", location_deguisement);
     let location = location_deguisement.filter(loca => loca.utilisateurId === parseInt(utilisateurId));
     return { error: 0, data: location };
 }
@@ -666,6 +679,7 @@ function ajoutLivreDOr(data){
 
     let nouveauCommentaire = {
         id: livre_DOr.length + 1,
+        prestataireId: data.prestataireId,
         nomUtilisateur: data.nomUtilisateur,
         evaluation: data.evaluation,
         message: data.message,
@@ -684,9 +698,102 @@ function getArticleById(idArticle) {
     let articlePresta = articles.find(a => a.id === parseInt(idArticle))
     return {error: 0, data: articlePresta}
 }
-
+function ajouterAuPanierArticle(article) {
+    let stockArticle = articles.find(stockItem => stockItem.id === article.id);
+    let existingArticle = panier_article.find(item => item.id === article.id);
+    if (existingArticle) {
+        stockArticle.stock -= 1;
+        existingArticle.quantite += 1;
+        return { error: 0, data: existingArticle };
+    } else {
+        stockArticle.stock -= 1;
+        let nouveauArticle = { ...article, quantite: 1 }
+        panier_article.push(nouveauArticle)
+        return { error: 0, data: nouveauArticle };
+    }
+}
+function incrementerQuantiteArticle(item) {
+    let stockArticle = articles.find(stockItem => stockItem.id === item.id);
+    let articleDansPanier = panier_article.find(panierItem => panierItem.id === item.id);
+    if (!stockArticle || !articleDansPanier) {return { error: 1, status: 404, data: "Article ou stock introuvable" };}
+    if (stockArticle.stock > 0) {
+        articleDansPanier.quantite += 1;
+        stockArticle.stock -= 1;
+        console.log(panier_article)
+        return {error: 0, status: 200, data: {article: {...articleDansPanier}, stock: {...stockArticle}}};
+    }
+}
+function diminuerQuantiteArticle(item) {
+    let stockArticle = articles.find(stockItem => stockItem.id === item.id);
+    let articleDansPanier = panier_article.find(panierItem => panierItem.id === item.id);
+    if (!articleDansPanier || !stockArticle) {
+        return { error: 1, status: 404, data: "Article ou stock introuvable" };
+    }
+    if (articleDansPanier.quantite > 1) {
+        articleDansPanier.quantite -= 1;
+        stockArticle.stock += 1;
+        return { error: 0, status: 200, data: { article: articleDansPanier, stock: stockArticle } };
+    } else if (articleDansPanier.quantite === 1) {
+        const index = panier_article.findIndex(panierItem => panierItem.id === item.id);
+        if (index !== -1) {
+            articleDansPanier.quantite = panier_deguisement.splice(index, 1);
+            stockArticle.stock += 1;
+            return { error: 0, status: 200, data: { article: articleDansPanier, stock: stockArticle } };
+        }
+    }
+}
 function getAllArticle(){
     return {error: 0, data: articles}
+}
+function addReservationArticle(idUser) {
+    let user = utilisateurs.find(u => u.id === parseInt(idUser));
+    if (!user) {
+        return { error: 1, status: 404, data: 'Utilisateur non trouvé' };
+    }
+    let total_panier = panier_article.reduce((total, item) => total + (item.prix * item.quantite), 0);
+    if (user.solde < total_panier) {
+        return { error: 1, status: 403, data: 'Solde insuffisant' };
+    }
+    user.solde -= total_panier;
+    let nouvelleTransaction = {
+        id: transactions.length + 1,
+        date: new Date().toLocaleDateString('fr-FR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        }) + ' ' + new Date().toLocaleTimeString('fr-FR', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        }),
+        operation: 'Achat reservation',
+        details: 'Réservation Prestarticle',
+        amount: -total_panier,
+        id_utilisateur: user.id
+    };
+    transactions.push(nouvelleTransaction);
+    let nouvelleReservationArticle = {
+        id_reservationArticle: reservation_article.length + 1,
+        utilisateurId: user.id,
+        articles: panier_article.map(item => ({
+            ...item,
+            quantite: item.quantite
+        })),
+        date: new Date().toLocaleDateString('fr-FR', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        })
+    };
+    reservation_article.push(nouvelleReservationArticle);
+    panier_article.length = 0;
+    return {error: 0, status: 200, data: {solde: user.solde, newResAr: nouvelleReservationArticle}};
+}
+function getReservationArticleById(utilisateurId) {
+    console.log("Utilisateur ID :", utilisateurId);
+    let reservation = reservation_article.filter(reser => reser.utilisateurId === parseInt(utilisateurId));
+    return { error: 0, data: reservation };
 }
 
 function buyTicketCauchemarathon(data) {
@@ -842,6 +949,11 @@ export default {
     getAllArticlesById,
     getArticleById,
     getAllArticle,
+    ajouterAuPanierArticle,
+    incrementerQuantiteArticle,
+    diminuerQuantiteArticle,
+    addReservationArticle,
+    getReservationArticleById,
     buyTicketCauchemarathon,
     demandeInscriptionPrestataire,
     demandeInscriptionOrganisateur,

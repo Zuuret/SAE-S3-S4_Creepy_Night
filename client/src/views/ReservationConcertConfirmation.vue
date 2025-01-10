@@ -33,6 +33,9 @@
         <router-link to="/cashless">
           Allez au cashless !!
         </router-link>
+        <router-link to="/reservations/concert">
+          Voir mes réservations
+        </router-link>
       </div>
       <PanierConcert></PanierConcert>
     </div>

@@ -21,7 +21,12 @@
     <button @click="ajouterAuPanier" :disabled="!selectedTaille || stockRestant === 0" class="btn-ajouter">
       Ajouter au panier
     </button>
-
+    <router-link to="/cashless">
+      Allez au cashless !!!
+    </router-link>
+    <router-link to="/reservations/baltrouille">
+      Voir mes reservations
+    </router-link>
     <PanierDeguisement :panier="panier" />
   </div>
 </template>

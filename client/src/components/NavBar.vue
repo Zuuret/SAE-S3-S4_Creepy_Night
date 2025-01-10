@@ -24,6 +24,7 @@
       </div>
 
       <router-link to="/prestataire" @click="closeMenu">Nos prestataires</router-link>
+      <router-link to="/reservations" @click="closeMenu">Mes réservations</router-link>
       <router-link to="/secuflippe" @click="closeMenu">SecuFlippe</router-link>
       <router-link to="/cashless" @click="closeMenu">CashLess</router-link>
     </div>
