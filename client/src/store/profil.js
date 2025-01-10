@@ -112,7 +112,7 @@ export default ({
             let response = await ProfilService.ajoutUtilisateur(data);
             console.log(response)
             if (response.error === 0) {
-                commit('addUtilisateur', response.data);
+                commit('updateListeUtilisateur', response.data);
                 commit('updateErrorMessage', '');
                 return { success: true };
             } else {

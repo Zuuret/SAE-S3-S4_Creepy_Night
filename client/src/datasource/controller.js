@@ -55,7 +55,8 @@ function ajoutUtilisateur(data) {
         solde: 0,
         numCashless: Math.floor(Math.random() * 1000000000)
     };
-    return { error: 0, status: 200, data: nouvelUtilisateur };
+    utilisateurs.push(nouvelUtilisateur)
+    return { error: 0, status: 200, data: utilisateurs };
 }
 function ajoutOrganisateur(data){
     if (!data.prenom) return { error: 1, status: 404, data: 'Aucun prénom fourni' };
