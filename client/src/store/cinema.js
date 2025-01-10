@@ -12,7 +12,6 @@ export default ({
         filmById: null,
         film: [],
         places_film: [],
-        utilisateurConnecte: JSON.parse(localStorage.getItem("utilisateurConnecte")) || null,
     }),
     mutations: {
         updateListeFilms(state, films){
@@ -26,10 +25,6 @@ export default ({
         },
         updateListePlaceFilm(state, places_film){
             state.places_film = places_film;
-        },
-        updateSoldeUtilisateur(state, solde) {
-            state.utilisateurConnecte.solde = solde;
-            localStorage.setItem("utilisateurConnecte", JSON.stringify(state.utilisateurConnecte));
         },
     },
 
@@ -74,7 +69,7 @@ export default ({
             console.log("Création du billet pour le film : ", film);
             let response = await CineFilms.setPlaceFilm(film);
             if (response.error === 0) {
-                commit('updateSoldeUtilisateur', response.data);
+                commit('../ProfilStore/updateSoldeUtilisateur', response.data);
             } else {
                 console.log(response.data);
             }
