@@ -27,7 +27,7 @@
           <p>Nombre de places : {{ place.nb_places }}</p>
           <p>Prix : {{ place.prix_place }} €</p>
           <div>
-            <p v-if="utilisateurConnecte !== null">Votre Cashless : {{ utilisateurConnecte.solde }} €</p>
+            <p v-if="utilisateurConnecte !== null">Votre Cashless : {{ prixCashless }} €</p>
             <label :for="`selection_quantite_${place.type_place}`">
               Quantité :
             </label>
@@ -72,6 +72,9 @@ export default {
         total += place.prix_place * quantite;
       }
       return total;
+    },
+    prixCashless() {
+      return Math.round(this.utilisateurConnecte.solde);
     },
   },
   methods: {

@@ -69,7 +69,8 @@ export default ({
             console.log("Création du billet pour le film : ", film);
             let response = await CineFilms.setPlaceFilm(film);
             if (response.error === 0) {
-                commit('../ProfilStore/updateSoldeUtilisateur', response.data);
+                commit('ProfilStore/updateSoldeUtilisateur', response.data, { root : true });
+                console.log(response.data);
             } else {
                 console.log(response.data);
             }
