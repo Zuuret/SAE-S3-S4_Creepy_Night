@@ -16,7 +16,7 @@
             <h4>{{ icon.title }}</h4>
             <p>{{ icon.description }}</p>
             <img v-if="icon.image2" :src="icon.image2" class="illustration_activites" :alt="icon.title" />
-            <router-link v-if="icon.route" :to="icon.route" class="detail-button">Détail</router-link>
+            <router-link v-if="icon.route" :to="icon.route" class="detail-button">Détails</router-link>
           </div>
         </div>
       </div>
@@ -35,14 +35,14 @@ export default {
       transformOriginX: "50%", 
       transformOriginY: "50%",
       icons: [
-      { x: 17, y: 50, title: "Grande scène", description: "Plongez dans une expérience musicale inoubliable lors des concerts prévus de notre festival !", image: require("@/assets/icone_concert.png"), image2: require("@/assets/concert_carte.jpg") },
-      { x: 30, y: 40, title: "Poste de Secours", description: "Un espace dédié à votre sécurité pour répondre à toute urgence médicale pendant le festival.", image: require("@/assets/icone_secours.png"), },
-      { x: 46.5, y: 44, title: "Exposition", description: "Explorez une exposition captivante qui met en avant des artistes locaux et des œuvres uniques.", image: require("@/assets/icone_expo.png"), image2: require("@/assets/expo-carte.jpg") },
-      { x: 73, y: 38, title: "CinéPeur", description: "Venez frissonner devant des films effrayants dans notre cinéma en plein air, une expérience unique sous les étoiles !", image: require("@/assets/icone_cinema.png") },
-      { x: 70, y: 30, title: "Bal'Trouille", description: "Dansez toute la nuit déguisé(e) dans une ambiance festive et terrifiante pour célébrer Halloween comme jamais auparavant !", image: require("@/assets/icone_baltrouille.png") },
-      { x: 80, y: 22, title: "Poste de Secours", description: "Un espace dédié à votre sécurité pour répondre à toute urgence médicale pendant le festival.", image: require("@/assets/icone_secours.png") },
+      { x: 17, y: 50, title: "Grande scène", description: "Plongez dans une expérience musicale inoubliable lors des concerts prévus de notre festival !", image: require("@/assets/icone_concert.png"), image2: require("@/assets/concert_carte.jpg"), route: "/concert" },
+      { x: 30, y: 40, title: "Poste de Secours", description: "Un espace dédié à votre sécurité pour répondre à toute urgence médicale pendant le festival.", image: require("@/assets/icone_secours.png"), route: "/secuflippe"},
+      { x: 46.5, y: 44, title: "Exposition", description: "Explorez une exposition captivante qui met en avant des artistes locaux et des œuvres uniques.", image: require("@/assets/icone_expo.png"), image2: require("@/assets/expo-carte.jpg"), route: "/expo" },
+      { x: 73, y: 38, title: "CinéPeur", description: "Venez frissonner devant des films effrayants dans notre cinéma en plein air, une expérience unique sous les étoiles !", image: require("@/assets/icone_cinema.png"), route: "/cinepeur" },
+      { x: 70, y: 30, title: "Bal'Trouille", description: "Dansez toute la nuit déguisé(e) dans une ambiance festive et terrifiante pour célébrer Halloween comme jamais auparavant !", image: require("@/assets/icone_baltrouille.png"), route: "/baltrouille" },
+      { x: 80, y: 22, title: "Poste de Secours", description: "Un espace dédié à votre sécurité pour répondre à toute urgence médicale pendant le festival.", image: require("@/assets/icone_secours.png"), route: "/secuflippe" },
       { x: 64, y: 20, title: "Accueil", description: "Retrouvez toutes les informations nécessaires à votre visite et notre équipe prête à vous guider.", image: require("@/assets/icone_accueil.png") },
-      { x: 56, y: 14, title: "Recharge Cashless", description: "Rechargez facilement et rapidement votre bracelet cashless pour profiter pleinement du festival.", image: require("@/assets/icone_cashless.png")},
+      { x: 56, y: 14, title: "Recharge Cashless", description: "Rechargez facilement et rapidement votre bracelet cashless pour profiter pleinement du festival.", image: require("@/assets/icone_cashless.png"), route: "/cashless"},
       { x: 74, y: 15, title: "Restaurant Burger King", image: require("@/assets/icone_burgerking.png"), route: "/prestataire/1"},
       ],
       hoveredIcon: null,
