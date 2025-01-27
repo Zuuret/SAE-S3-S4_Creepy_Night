@@ -11,7 +11,7 @@
       <section class="daily-stats">
         <h2>Chiffres du jour</h2>
         <div class="stat-item">
-          <span class="stat-title">Places vendues aujourd'hui :</span>
+          <span class="stat-title">Places vendues aujourd'hui   :</span>
           <span class="stat-value">{{ billetsAchatAujourdHui }}</span>
         </div>
       </section>
