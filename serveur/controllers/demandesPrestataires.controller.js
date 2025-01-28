@@ -1,7 +1,7 @@
 const { v4 : uuidv4 } = require('uuid');
 const bcrypt = require('bcryptjs');
 
-const demandePrestatairesService = require("../services/demandePrestataires.services.pg");
+const demandesPrestatairesService = require("../services/demandesPrestataires.services.pg");
 const {FALSE} = require("pg-format/lib/reserved");
 
 exports.saveDemandePrestataire = async (req,res) => {
@@ -11,7 +11,7 @@ exports.saveDemandePrestataire = async (req,res) => {
     const email = req.body.email;
     const statut = req.body.statut;
     const password = req.body.password;
-    const resultat = await demandePrestatairesService.insertDemandePrestataire(uuid, societe, adresse, email, statut, password);
+    const resultat = await demandesPrestatairesService.insertDemandePrestataire(uuid, societe, adresse, email, statut, password);
     if (resultat) {
         return res.status(500).send("ERREUR INTERNE");
     }
@@ -19,7 +19,7 @@ exports.saveDemandePrestataire = async (req,res) => {
 }
 
 exports.getDemandesPrestataires = async (req, res) => {
-    const demandesPrestataires = await demandePrestatairesService.getDemandesPrestataires();
+    const demandesPrestataires = await demandesPrestatairesService.getDemandesPrestataires();
     if (!demandesPrestataires) {
         return res.status(500).json({ error: 'ERREUR INTERNE' });
     }
@@ -30,7 +30,7 @@ exports.getDemandePrestataireById = async (req, res) => {
     const uuid = req.params.uuid;
     //console.log(uuid)
     try {
-        const demandesPrestataires = await demandePrestatairesService.getDemandesPrestataires();
+        const demandesPrestataires = await demandesPrestatairesService.getDemandesPrestataires();
         if (!demandesPrestataires) {
             return res.status(500).json({ error: 'ERREUR INTERNE' });
         }
@@ -55,7 +55,7 @@ exports.updateDemandePrestataire = async (req,res) => {
     const email = req.body.email;
     const statut = req.body.statut;
     const password = req.body.password;
-    const resultat = await demandePrestatairesService.updateDemandePrestataire(uuid, societe, adresse, email, statut, password);
+    const resultat = await demandesPrestatairesService.updateDemandePrestataire(uuid, societe, adresse, email, statut, password);
     if(resultat){
         return res.status(500).send("ERREUR INTERNE");
     }
@@ -66,7 +66,7 @@ exports.deleteDemandePrestataire = async (req, res) => {
     const { uuid } = req.params;
 
     try {
-        const result = await demandePrestatairesService.deleteDemandePrestataire(uuid);
+        const result = await demandesPrestatairesService.deleteDemandePrestataire(uuid);
 
         if (!result) {
             return res.status(200).json({ message: 'Demande de prestataire supprimé avec succès' });

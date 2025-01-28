@@ -1,14 +1,14 @@
 const pool = require('../database/db');
 const format = require('pg-format');
 
-async function insertOrganisateur(id, nom, prenom, email, tel, motDePasse) {
+async function insertDemandeOrganisateurs(id, nom, prenom, email, tel, motDePasse) {
     const client = await pool.connect();
     let is_error = false;
     try {
         const data = [
             [id, nom, prenom, email, tel, motDePasse]
         ]
-        const query = format('INSERT INTO Organisateur (id, nom, prenom, email, tel, motDePasse) VALUES %L', data);
+        const query = format('INSERT INTO demandes_organisateurs (id, nom, prenom, email, tel, motDePasse) VALUES %L', data);
         await client.query(query);
         console.log('INSERTIONS AVEC SUCCES');
     } catch (error) {
@@ -20,11 +20,11 @@ async function insertOrganisateur(id, nom, prenom, email, tel, motDePasse) {
     return is_error;
 }
 
-async function getOrganisateurs() {
+async function getDemandesOrganisateurs() {
     const client = await pool.connect();
     let res;
     try {
-        res = await client.query('SELECT * FROM Organisateur');
+        res = await client.query('SELECT * FROM demandes_organisateurs');
         console.log('RECUPERATION DES PRESTATAIRES');
     } catch (error) {
         console.error('Erreur lors de la récupération des prestatairess :', error);
@@ -35,11 +35,11 @@ async function getOrganisateurs() {
     return res.rows || false;
 }
 
-async function updateOrganisateur(id, nom, prenom, email, tel, motDePasse) {
+async function updateDemandeOrganisateurs(id, nom, prenom, email, tel, motDePasse) {
     const client = await pool.connect();
     let is_error = false;
     try {
-        const query = format('UPDATE Organisateur SET societe = %L, adresse = %L, email = %L, tel = %L, motDePasse = %L WHERE id = %L', societe, adresse, email, tel, motDePasse, id);
+        const query = format('UPDATE demandes_organisateurs SET societe = %L, adresse = %L, email = %L, tel = %L, motDePasse = %L WHERE id = %L', societe, adresse, email, tel, motDePasse, id);
         await client.query(query);
         console.log('MISE A JOUR DU PRESTATAIRE');
     } catch (error) {
@@ -51,11 +51,11 @@ async function updateOrganisateur(id, nom, prenom, email, tel, motDePasse) {
     return is_error;
 }
 
-async function deleteOrganisateur(id) {
+async function deleteDemandeOrganisateurs(id) {
     const client = await pool.connect();
     let is_error = false;
     try {
-        const query = format('DELETE FROM Organisateur WHERE id = %L RETURNING *',id);
+        const query = format('DELETE FROM demandes_organisateurs WHERE id = %L RETURNING *',id);
         await client.query(query);
         console.log('SUPPRESSION DU PRESTATAIRE');
     } catch (error) {
@@ -68,8 +68,8 @@ async function deleteOrganisateur(id) {
 }
 
 module.exports = {
-    insertOrganisateur,
-    getOrganisateurs,
-    updateOrganisateur,
-    deleteOrganisateur
+    insertDemandeOrganisateurs,
+    getDemandesOrganisateurs,
+    updateDemandeOrganisateurs,
+    deleteDemandeOrganisateurs
 }
