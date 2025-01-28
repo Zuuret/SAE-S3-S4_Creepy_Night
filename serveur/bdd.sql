@@ -264,7 +264,7 @@ CREATE TABLE demandes_prestataires (
     adresse VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     statut VARCHAR(50) NOT NULL,
-    mot_de_passe VARCHAR(255) NOT NULL
+    motDePasse VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE demandes_organisateurs (
@@ -273,7 +273,7 @@ CREATE TABLE demandes_organisateurs (
     nom VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     telephone CHAR(10) NOT NULL,
-    mot_de_passe VARCHAR(255) NOT NULL
+    motDePasse VARCHAR(255) NOT NULL
 );
 
 

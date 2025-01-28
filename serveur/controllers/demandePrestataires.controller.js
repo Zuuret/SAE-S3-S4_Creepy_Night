@@ -69,12 +69,12 @@ exports.deleteDemandePrestataire = async (req, res) => {
         const result = await demandePrestatairesService.deleteDemandePrestataire(uuid);
 
         if (!result) {
-            return res.status(200).json({ message: 'DemandePrestataire supprimé avec succès' });
+            return res.status(200).json({ message: 'Demande de prestataire supprimé avec succès' });
         } else {
-            return res.status(404).json({ message: 'DemandePrestataire non trouvé' });
+            return res.status(404).json({ message: 'Demande de prestataire non trouvé' });
         }
     } catch (error) {
-        console.error('Erreur lors de la suppression du prestataire:', error);
+        console.error('Erreur lors de la suppression de la demande de prestataire:', error);
         return res.status(500).json({ message: 'Erreur interne du serveur' });
     }
 };
