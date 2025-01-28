@@ -34,16 +34,15 @@ let demandesOrganisateurs = [
 ];
 
 let prestataires = [
-    {"id":1, "societe":"BurgerKing","adresse": "3 rue de japy", "email":"burgerking@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_burgerking.png")},
-    {"id":2, "societe":"POP","adresse": "5 rue de belfort", "email":"pop@gmail.com", "motDePasse":"mdp123", "logo": require("../assets/logo_pop.png")},
-    {"id":3, "societe":"McDonald's","adresse": "18 avenue Champs", "email":"mcdonalds@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_pop.png")},
-    {"id":4, "societe":"Starbucks","adresse": "22 place République", "email":"starbucks@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_pop.png")},
-    {"id":5, "societe":"Domino's Pizza","adresse": "45 boulevard Haussmann", "email":"dominos@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_pop.png")},
-    {"id":6, "societe":"Subway","adresse": "8 rue du Commerce", "email":"subway@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_pop.png")},
-    {"id":7, "societe":"Pizza Hut","adresse": "4 allée Centrale", "email":"pizzahut@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_pop.png")},
-    {"id":8, "societe":"Häagen-Dazs","adresse": "10 rue Saint Honoré", "email":"haagen@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_pop.png")},
-    {"id":9, "societe":"Taco Bell","adresse": "9 place Montmartre", "email":"tacobell@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_pop.png")},
-    {"id":10, "societe":"Chipotle","adresse": "6 avenue Opéra", "email":"chipotle@gmail.com", "motDePasse":"mdp123","logo": require("../assets/logo_pop.png")}
+    {"id":1, "societe":"BurgerKing","adresse": "3 rue de japy", "email":"burgerking@gmail.com", "motDePasse":"mdp123","theme":"Alimentation", "description":"Le meilleur fast-food du monde", "logo": require("../assets/logo_burgerking.png"), "background": require("../assets/background_BK.jpg")},
+    {"id":2, "societe":"POP","adresse": "5 rue de belfort", "email":"pop@gmail.com", "motDePasse":"mdp123","theme":"Goodies", "logo": require("../assets/logo_pop.png"), "background": require("../assets/background_POP.jpg")},
+    {"id":3, "societe":"Starbucks","adresse": "22 place République", "email":"starbucks@gmail.com", "motDePasse":"mdp123","theme":"Alimentation", "logo": require("../assets/logo_pop.png"), "background": require("../assets/background_starbucks.jpg")},
+    {"id":4, "societe":"Domino's Pizza","adresse": "45 boulevard Haussmann", "email":"dominos@gmail.com", "motDePasse":"mdp123","theme":"alimentation", "logo": require("../assets/logo_domino.png"), "background": require("../assets/background_DominosPizza.jpg")},
+    {"id":5, "societe":"Subway","adresse": "8 rue du Commerce", "email":"subway@gmail.com", "motDePasse":"mdp123","theme":"alimentation", "logo": require("../assets/logo_pop.png"), "background": require("../assets/background_BK.jpg")},
+    {"id":6, "societe":"Nike","adresse": "4 allée Centrale", "email":"nike@gmail.com", "motDePasse":"mdp123","theme":"Habits", "logo": require("../assets/logo_nike.png"), "background": require("../assets/background_Nike.jpeg")},
+    {"id":7, "societe":"Häagen-Dazs","adresse": "10 rue Saint Honoré", "email":"haagen@gmail.com", "motDePasse":"mdp123","theme":"alimentation", "logo": require("../assets/logo_haagenDazs.png"), "background": require("../assets/background_HaagenDazs.jpeg")},
+    {"id":8, "societe":"Taco Bell","adresse": "9 place Montmartre", "email":"tacobell@gmail.com", "motDePasse":"mdp123","theme":"alimentation", "logo": require("../assets/logo_pop.png"), "background": require("../assets/background_BK.jpg")},
+    {"id":9, "societe":"Chipotle","adresse": "6 avenue Opéra", "email":"chipotle@gmail.com", "motDePasse":"mdp123","theme":"alimentation", "logo": require("../assets/logo_pop.png"), "background": require("../assets/background_BK.jpg")}
 ];
 
 let demandesPrestataires = [

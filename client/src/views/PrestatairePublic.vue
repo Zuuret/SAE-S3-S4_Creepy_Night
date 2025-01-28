@@ -1,31 +1,36 @@
 <template>
   <div class="carousel">
-    <div class="list">
-      <div class="item" v-for="(slide, index) in slides" :key="index">
-        <img :src="getImage(slide.image)" :alt="slide.title" />
+    <div ref="list" class="list">
+      <div class="item" v-for="prestataire in prestataires" :key="prestataire.id">
+        <img :src="prestataire.background" :alt="prestataire.title" class="background"/>
         <div class="content">
-          <div class="author">{{ slide.author }}</div>
-          <div class="title">{{ slide.title }}</div>
-          <div class="topic">{{ slide.topic }}</div>
-          <div class="description">{{ slide.description }}</div>
+          <img :src="prestataire.logo" :alt="prestataire.title" class="author"/>
+          <div class="title">{{ prestataire.societe }}</div>
+          <div class="topic">{{ prestataire.theme }}</div>
+          <div class="description">{{ prestataire.description }}</div>
           <div class="button">
-            <button @click="onViewMore(slide)">Voir plus</button>
+            <router-link :to="`/prestataire/${prestataire.id}`">
+              <button>Voir plus</button>
+            </router-link>
+            <router-link :to="`/prestataire/${prestataire.id}/articles`">
+              <button>Acheter un produit</button>
+            </router-link>
           </div>
         </div>
       </div>
     </div>
-    <div class="thumbnail">
-      <div class="item" v-for="(thumb, index) in slides" :key="index">
-        <img :src="getImage(thumb.image)" :alt="thumb.title" />
+    <div class="thumbnail" ref="thumbnail">
+      <div class="item" v-for="(thumb, index) in prestataireTrie" :key="index">
+        <img :src="thumb.background" :alt="thumb.societe" class="background"/>
         <div class="content">
-          <div class="title">{{ thumb.title }}</div>
+          <div class="title">{{ thumb.societe }}</div>
           <div class="description">{{ thumb.description }}</div>
         </div>
       </div>
     </div>
     <div class="arrows">
-      <button id="prev" @click="showSlider('prev')" class="nav-arrow">❮</button>
-      <button id="next" @click="showSlider('next')" class="nav-arrow">❯</button>
+      <button @click="showSlider('prev')" class="nav-arrow">❮</button>
+      <button @click="showSlider('next')" class="nav-arrow">❯</button>
     </div>
     <div class="time"></div>
   </div>
@@ -38,68 +43,75 @@ export default {
   name: "PrestataireCarousel",
   data() {
     return {
-      slides: [
-        {
-          image: "background_BK.jpg",
-          author: "LUNDEV",
-          title: "DESIGN SLIDER",
-          topic: "ANIMAL",
-          description: "Lorem ipsum dolor sit amet",
-        },
-        {
-          image: "background_POP.jpg",
-          author: "LUNDEV",
-          title: "DESIGN SLIDER",
-          topic: "ANIMAL",
-          description: "Lorem ipsum dolor sit amet",
-        },
-        {
-          image: "background_starbucks.jpg",
-          author: "LUNDEV",
-          title: "DESIGN SLIDER",
-          topic: "ANIMAL",
-          description: "Lorem ipsum dolor sit amet",
-        },
-      ],
-      currentIndex: 0,
-      timeRunning: 500,
+      runTimeOut: null,
+      autoRun: null,
+      timeRunning: 3000,
+      timeAutoNext: 7000,
     };
   },
   computed: {
     ...mapState("ProfilStore", ["prestataires"]),
+    prestataireTrie() {
+      if (this.prestataires.length > 1) {
+        return this.prestataires.slice(1).concat(this.prestataires[0]);
+      }
+      return this.prestataires;
+    }
   },
   methods: {
     ...mapActions("ProfilStore", ["getAllPrestataire"]),
-    getImage(image) {
-      return require(`@/assets/${image}`);
-    },
-    showSlider(direction) {
-      if (direction === "next") {
-        this.currentIndex =
-            (this.currentIndex + 1) % this.slides.length;
-      } else if (direction === "prev") {
-        this.currentIndex =
-            (this.currentIndex - 1 + this.slides.length) %
-            this.slides.length;
+    showSlider(type) {
+      const list = this.$refs.list;
+      const thumbnail = this.$refs.thumbnail;
+      const carousel = this.$el;
+
+      if (!list || !thumbnail) return;
+
+      const items = Array.from(list.children);
+      const thumbs = Array.from(thumbnail.children);
+
+      if (type === "next") {
+        list.appendChild(items[0]);
+        thumbnail.appendChild(thumbs[0]);
+        carousel.classList.add(type);
+      } else {
+        list.prepend(items[items.length - 1]);
+        thumbnail.prepend(thumbs[thumbs.length - 1]);
+        carousel.classList.add(type);
       }
-    },
-    goToSlide(index) {
-      this.currentIndex = index;
-    },
-    onViewMore(slide) {
-      alert(`Voir plus sur : ${slide.title}`);
-    },
+
+      clearTimeout(this.runTimeOut);
+      this.runTimeOut = setTimeout(() => {
+        carousel.classList.remove("next");
+        carousel.classList.remove("prev");
+      }, this.timeRunning);
+
+      clearTimeout(this.autoRun);
+      this.autoRun = setTimeout(() => {
+        this.showSlider("next");
+      }, this.timeAutoNext);
+    }
+
   },
   mounted() {
     this.getAllPrestataire();
-    this.arrowDirection();
+    this.autoRun = setTimeout(() => {
+      this.showSlider("next");
+    }, this.timeAutoNext);
   },
 };
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+* {
+  margin: 0;
+  font-family: Poppins,serif;
+  font-size: 12px;
+}
 .carousel{
   height: 100vh;
+  margin-top: -50px;
   width: 100vw;
   overflow: hidden;
   position: relative;
@@ -110,7 +122,7 @@ export default {
   position: absolute;
   inset: 0 0 0 0;
 }
-.carousel .list .item img{
+.carousel .list .item .background{
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -127,39 +139,51 @@ export default {
   color: #fff;
   text-shadow: 0 5px 10px #0004;
 }
-.carousel .list .item .author{
-  font-weight: bold;
-  letter-spacing: 10px;
+.carousel .list .item .content .author{
+  width: 200px;
+  height: auto;
 }
-.carousel .list .item .title,
-.carousel .list .item .topic{
+.carousel .list .item .content .title,
+.carousel .list .item .content .topic{
   font-size: 5em;
   font-weight: bold;
   line-height: 1.3em;
 }
-.carousel .list .item .topic{
+.carousel .list .item .content .topic{
   color: #f1683a;
 }
-.carousel .list .item .button{
+.carousel .list .item .content .button {
   display: grid;
-  grid-template-columns: repeat(2, 130px);
-  grid-template-rows: 40px;
-  gap: 5px;
-  margin-top: 20px;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 30px;
+  padding: 10px;
 }
-.carousel .list .item .buttons button{
+.carousel .list .item .content button {
   border: none;
-  background-color: #eee;
-  letter-spacing: 3px;
-  font-family: Poppins,serif;
-  font-weight: 500;
+  background-color: #f1683a;
+  letter-spacing: 1px;
+  font-family: Poppins, serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
-.carousel .list .item .buttons button:nth-child(2){
+.carousel .list .item .content .button button:hover {
+  background-color: #fff;
+  color: #f1683a;
+  transform: scale(1.05);
+}
+.carousel .list .item .content .button button:nth-child(1) {
   background-color: transparent;
   border: 1px solid #fff;
-  color: #eee;
+  color: #fff;
 }
-/* thumbail */
+.carousel .list .item .content .button button:nth-child(1):hover {
+  background-color: #fff;
+  color: #f1683a;
+}
 .thumbnail{
   position: absolute;
   bottom: 50px;
@@ -175,7 +199,7 @@ export default {
   flex-shrink: 0;
   position: relative;
 }
-.thumbnail .item img{
+.thumbnail .item .background{
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -194,7 +218,6 @@ export default {
 .thumbnail .item .content .description{
   font-weight: 300;
 }
-/* arrows */
 .arrows{
   position: absolute;
   top: 80%;
@@ -210,25 +233,20 @@ export default {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #eee4;
+  background-color: rgb(113, 117, 117);
   border: none;
   color: #fff;
   font-family: monospace;
   font-weight: bold;
   transition: .5s;
 }
-.arrows button:hover{
+.arrows button:hover {
   background-color: #fff;
-  color: #000;
+  color: #555;
 }
-
-/* animation */
 .carousel .list .item:nth-child(1){
   z-index: 1;
 }
-
-/* animation text in first item */
-
 .carousel .list .item:nth-child(1) .content .author,
 .carousel .list .item:nth-child(1) .content .title,
 .carousel .list .item:nth-child(1) .content .topic,
@@ -238,7 +256,7 @@ export default {
   transform: translateY(50px);
   filter: blur(20px);
   opacity: 0;
-  animation: showContent .5s 1s linear 1 forwards;
+  animation: showContent 0.5s 1s linear 1 forwards;
 }
 @keyframes showContent{
   to{
@@ -259,15 +277,14 @@ export default {
 .carousel .list .item:nth-child(1) .content .button{
   animation-delay: 1.8s!important;
 }
-/* create animation when next click */
-.carousel.next .list .item:nth-child(1) img{
+.carousel.next .list .item:nth-child(1) .background{
   width: 150px;
   height: 220px;
   position: absolute;
   bottom: 50px;
   left: 50%;
-  border-radius: 30px;
-  animation: showImage .5s linear 1 forwards;
+  border-radius: 20px;
+  animation: showImage 0.5s linear 1 forwards;
 }
 @keyframes showImage{
   to{
@@ -278,12 +295,11 @@ export default {
     border-radius: 0;
   }
 }
-
 .carousel.next .thumbnail .item:nth-last-child(1){
   overflow: hidden;
   animation: showThumbnail .5s linear 1 forwards;
 }
-.carousel.prev .list .item img{
+.carousel.prev .list .item .background{
   z-index: 100;
 }
 @keyframes showThumbnail{
@@ -295,15 +311,11 @@ export default {
 .carousel.next .thumbnail{
   animation: effectNext .5s linear 1 forwards;
 }
-
 @keyframes effectNext{
   from{
     transform: translateX(150px);
   }
 }
-
-/* running time */
-
 .carousel .time{
   position: absolute;
   z-index: 1000;
@@ -322,15 +334,10 @@ export default {
   from{ width: 100%}
   to{width: 0}
 }
-
-
-/* prev click */
-
 .carousel.prev .list .item:nth-child(2){
   z-index: 2;
 }
-
-.carousel.prev .list .item:nth-child(2) img{
+.carousel.prev .list .item:nth-child(2) .background{
   animation: outFrame 0.5s linear 1 forwards;
   position: absolute;
   bottom: 0;
@@ -363,7 +370,6 @@ export default {
 {
   animation: contentOut 1.5s linear 1 forwards!important;
 }
-
 @keyframes contentOut{
   to{
     transform: translateY(-150px);
