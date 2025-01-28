@@ -48,7 +48,7 @@ CREATE TABLE Prestataire (
     societe VARCHAR(50) NOT NULL,
     adresse VARCHAR(150),
     email VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(150) NOT NULL
+    motDePasse VARCHAR(150) NOT NULL
 );
 
 CREATE TABLE Organisateur (
@@ -56,8 +56,8 @@ CREATE TABLE Organisateur (
     nom VARCHAR(50) NOT NULL,
     prenom VARCHAR(50) NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(150) NOT NULL,
-    tel VARCHAR(15)
+    tel VARCHAR(15),
+    motDePasse VARCHAR(150) NOT NULL
 );
 
 CREATE TABLE Transaction (
@@ -264,16 +264,16 @@ CREATE TABLE demandes_prestataires (
     adresse VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     statut VARCHAR(50) NOT NULL,
-    mot_de_passe VARCHAR(255) NOT NULL
+    motDePasse VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE demandes_organisateurs (
     id INT PRIMARY KEY,
-    prenom VARCHAR(255) NOT NULL,
     nom VARCHAR(255) NOT NULL,
+    prenom VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    telephone CHAR(10) NOT NULL,
-    mot_de_passe VARCHAR(255) NOT NULL
+    tel CHAR(10) NOT NULL,
+    motDePasse VARCHAR(255) NOT NULL
 );
 
 
@@ -290,10 +290,10 @@ VALUES
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f1', 'UberFlippe', '1 rue de la peur', 'uberflippe@outlook.fr', 'mpd123'),
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f2', 'Burger&co', '2 rue de la frite', 'burgerandco@gmail.com', 'mpd456');
 
-INSERT INTO organisateur (id ,nom, prenom, email, password, tel)
+INSERT INTO organisateur (id ,nom, prenom, email, tel, motDePasse)
 VALUES
-('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f3', 'Kherza', 'Jean', 'jeankherza@gmail.com', 'mpd123', '0612345678'),
-('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4', 'Balta', 'Luc', 'lucbalta@gmail.com', 'mpd456', '0600000000');
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f3', 'Kherza', 'Jean', 'jeankherza@gmail.com',  '0612345678','mpd123'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4', 'Balta', 'Luc', 'lucbalta@gmail.com', '0600000000', 'mpd456');
 
 INSERT INTO transaction (date, operation, details, montant, utilisateur_id)
 VALUES
