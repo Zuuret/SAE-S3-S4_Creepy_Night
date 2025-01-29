@@ -41,7 +41,7 @@ let prestataires = [
     {"id":5, "societe":"Subway","adresse": "8 rue du Commerce", "email":"subway@gmail.com", "motDePasse":"mdp123","theme":"alimentation", "logo": require("../assets/logo_pop.png"), "background": require("../assets/background_BK.jpg")},
     {"id":6, "societe":"Nike","adresse": "4 allée Centrale", "email":"nike@gmail.com", "motDePasse":"mdp123","theme":"Habits", "logo": require("../assets/logo_nike.png"), "background": require("../assets/background_Nike.jpeg")},
     {"id":7, "societe":"Häagen-Dazs","adresse": "10 rue Saint Honoré", "email":"haagen@gmail.com", "motDePasse":"mdp123","theme":"alimentation", "logo": require("../assets/logo_haagenDazs.png"), "background": require("../assets/background_HaagenDazs.jpeg")},
-    {"id":8, "societe":"Taco Bell","adresse": "9 place Montmartre", "email":"tacobell@gmail.com", "motDePasse":"mdp123","theme":"alimentation", "logo": require("../assets/logo_pop.png"), "background": require("../assets/background_BK.jpg")},
+    {"id":8, "societe":"Taco Bell","adresse": "9 place Montmartre", "email":"tacobell@gmail.com", "motDePasse":"mdp123","theme":"alimentation", "logo": require("../assets/logo_tacoBell.png"), "background": require("../assets/background_tacoBell.jpg")},
     {"id":9, "societe":"Chipotle","adresse": "6 avenue Opéra", "email":"chipotle@gmail.com", "motDePasse":"mdp123","theme":"alimentation", "logo": require("../assets/logo_pop.png"), "background": require("../assets/background_BK.jpg")}
 ];
 
