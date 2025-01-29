@@ -1,8 +1,7 @@
 <template>
   <div class="login-container">
-    <img src="@/assets/fond_login.png" class="background" alt="fond_login" />
+    <img src="@/assets/fond_Accueil.png" class="background" alt="fond_accueil" />
     <div class="login-box">
-      <img src="@/assets/Scream_login.jpg" class="pdp" alt="pdp">
       <h2>Connexion</h2>
       <form @submit.prevent="submitLogin" class="login-form">
         <div class="form-group">
@@ -69,89 +68,82 @@ export default {
 </script>
 
 <style scoped>
-@font-face {
-  font-family: 'whoAsksSatan';
-  src: url('@/assets/fonts/who asks satan.ttf') format('truetype');
-}
+
 .background {
   position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   z-index: -1;
-  filter: brightness(0.8);
+  filter: brightness(0.5);
 }
 
 .login-container {
   width: 100%;
-  position: fixed;
-  top: 200px;
-  right: 90px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  align-item: center;
 }
+
 .login-box {
-  width: 35%;
+  width: 35vw;
   padding: 30px;
-  background-color: rgba(0, 0, 0, 0.6);
-  border: 2px solid black;
+  background-color: white;
   text-align: center;
   position: relative;
+  border-radius: 12px;
+  margin-top: 20vh;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
 }
-.login-box .pdp {
-  top: -80px;
-  width: 25%;
-  height: 42%;
-  border-radius: 75px;
-  left: 50%;
-  transform: translateX(-50%);
-  position: absolute;
-}
+
 h2 {
   font-size: 45px;
-  padding-top: 15px;
-  margin-bottom: 15px;
-  color: #ffffff;
   font-family: 'Creepster', cursive;
 }
+
 .login-form {
   display: flex;
   flex-direction: column;
 }
+
 .form-group {
   margin-bottom: 15px;
 }
+
 input {
-  width: 95%;
-  padding: 10px;
-  border: 2px solid #000000;
-  border-radius: 25px;
-  font-size: 22px;
+  width: 80%;
+  padding: 12px;
+  border: 2px solid #ddd; 
+  border-radius: 8px;
+  font-size: 18px;
   font-family: whoAsksSatan, serif;
   outline: none;
-  background-color: rgba(128, 128, 128, 0.67);
-  color: white;
+  background-color: #f0f0f0; 
+  color: #333;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
+
+input:focus {
+  border-color: #ff0027; 
+  box-shadow: 0 0 5px rgba(255, 0, 39, 0.5);
+}
+
 input::placeholder {
-  color: #ffffff;
-  font-family: whoAsksSatan,serif;
-  font-size: 22px;
+  color: #bbb;
+  font-family: whoAsksSatan, serif;
+  font-size: 18px;
   opacity: 0.8;
 }
-input:focus {
-  border-color: #9f041c;
-  box-shadow: 0 0 5px rgb(255, 0, 40);
-}
+
 .signup-link {
   margin-top: 10px;
 }
+
 .signup-link span {
-  color: #ffffff;
   cursor: pointer;
   font-family: 'Creepster', cursive;
   font-size: 20px;
 }
+
 .submit-button {
   width: 50%;
   padding: 10px;
@@ -168,10 +160,14 @@ input:focus {
   bottom: -51px;
   left: 50%;
   transform: translateX(-50%);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
+
 .submit-button:hover {
-  background-color: #9f041c;
+  background-color: #c4001e;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
 }
+
 .message {
   margin-top: 15px;
   font-size: 14px;
