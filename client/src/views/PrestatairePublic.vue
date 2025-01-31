@@ -1,5 +1,6 @@
 <template>
   <div class="carousel">
+    <NavBar/>
     <div ref="list" class="list">
       <div class="item" v-for="prestataire in prestataires" :key="prestataire.id">
         <img :src="prestataire.background" :alt="prestataire.title" class="background"/>
@@ -24,7 +25,6 @@
         <img :src="thumb.background" :alt="thumb.societe" class="background"/>
         <div class="content">
           <div class="title">{{ thumb.societe }}</div>
-          <div class="description">{{ thumb.description }}</div>
         </div>
       </div>
     </div>
@@ -38,9 +38,11 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: "PrestataireCarousel",
+  components: {NavBar},
   data() {
     return {
       runTimeOut: null,
@@ -111,7 +113,6 @@ export default {
 }
 .carousel{
   height: 100vh;
-  margin-top: -50px;
   width: 100vw;
   overflow: hidden;
   position: relative;
@@ -126,13 +127,14 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  filter: blur(4px);
 }
 .carousel .list .item .content{
   position: absolute;
   top: 20%;
   width: 1140px;
   max-width: 80%;
-  left: 50%;
+  left: 45%;
   transform: translateX(-50%);
   padding-right: 30%;
   box-sizing: border-box;
@@ -153,10 +155,9 @@ export default {
   color: #f1683a;
 }
 .carousel .list .item .content .button {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin-top: 30px;
-  padding: 10px;
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
 .carousel .list .item .content button {
   border: none;
@@ -164,7 +165,7 @@ export default {
   letter-spacing: 1px;
   font-family: Poppins, serif;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 18px;
   color: #fff;
   padding: 12px 20px;
   border-radius: 5px;
@@ -187,7 +188,7 @@ export default {
 .thumbnail{
   position: absolute;
   bottom: 50px;
-  left: 50%;
+  left: 55.5%;
   width: max-content;
   z-index: 100;
   display: flex;
@@ -220,8 +221,8 @@ export default {
 }
 .arrows{
   position: absolute;
-  top: 80%;
-  right: 52%;
+  top: 87%;
+  right: 72.5%;
   z-index: 100;
   width: 300px;
   max-width: 30%;
@@ -282,7 +283,7 @@ export default {
   height: 220px;
   position: absolute;
   bottom: 50px;
-  left: 50%;
+  left: 55.5%;
   border-radius: 20px;
   animation: showImage 0.5s linear 1 forwards;
 }
@@ -321,7 +322,7 @@ export default {
   z-index: 1000;
   width: 0;
   height: 3px;
-  background-color: #f1683a;
+  background-color: #9f041c;
   left: 0;
   top: 0;
 }
@@ -348,7 +349,7 @@ export default {
     width: 150px;
     height: 220px;
     bottom: 50px;
-    left: 50%;
+    left: 55.5%;
     border-radius: 20px;
   }
 }
