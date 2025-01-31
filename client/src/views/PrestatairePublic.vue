@@ -127,7 +127,6 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: blur(4px);
 }
 .carousel .list .item .content{
   position: absolute;
