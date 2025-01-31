@@ -7,6 +7,7 @@
       <span class="time-unit">{{ formatTime(minutes) }}</span> :
       <span class="time-unit">{{ formatTime(seconds) }}</span>
     </p>
+    <p class="current-date">Début du festival : {{ festivalDate }}</p>
   </div>
 </template>
 
@@ -21,6 +22,7 @@ export default {
       minutes: 0,
       seconds: 0,
       intervalId: null,
+      festivalDate: this.getFestivalDate()
     };
   },
   methods: {
@@ -48,12 +50,15 @@ export default {
       }
     },
     setTargetDate() {
-      this.targetDate = new Date(this.currentYear, 9, 25).getTime();
+      this.targetDate = new Date(this.currentYear, 9, 27).getTime();
       this.updateCompteRebours();
     },
     formatTime(unit) {
       return String(unit).padStart(2, '0');
     },
+    getFestivalDate() {
+      return `27 octobre 2025`;
+    }
   },
   mounted() {
     this.setTargetDate();
@@ -61,7 +66,7 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.intervalId);
-  },
+  }
 };
 </script>
 
@@ -69,11 +74,12 @@ export default {
 .compte-rebours {
   text-align: center;
   font-family: 'Creepster', cursive;
-  padding: 5px;
+  padding: 20px;
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
   max-width: 800px;
+  margin: auto;
 }
 
 h1 {
@@ -98,5 +104,16 @@ h1 {
   min-width: 70px;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+}
+
+.current-date {
+  margin-top: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 10px;
+  border-radius: 8px;
+  display: inline-block;
 }
 </style>

@@ -8,35 +8,16 @@
       <div class="compte-rebours">
         <CompteRebours />
       </div>
-      <div class="intro">
-        <h1 class="titre-partie" id="titre-intro">
-          Bienvenue à Creepy Night, le festival
-          incontournable de la peur !
-        </h1>
-        <div class="intro-partie">
-          <div class="description-intro">
-            <p class="introduction">
-              Plongez dans une expérience unique et immersive dédiée à l'univers fascinant de la
-              peur et du mystère. Pendant une semaine, vibrez au rythme d’un programme riche et
-              captivant mêlant expositions, projections cinématographiques, concerts live et bien plus
-              encore. Que vous soyez un amateur de sensations fortes, un passionné de cinéma
-              fantastique ou simplement curieux, Creepy Night vous promet des émotions inoubliables.
-            </p>
-            <router-link class="btn-ticket" to="/billet">Tickets et abonnements</router-link>
-          </div>
-          <div class="image-intro">
-            <img alt="creepynight" src="@/assets/img-intro-1.png" class="image-style">
-            <img alt="creepynight" src="@/assets/img-intro-2.png" class="image-style">
-            <img alt="creepynight" src="@/assets/img-intro-3.png" class="image-style">
-            <img alt="creepynight" src="@/assets/img-intro-4.png" class="image-style">
-            <img alt="creepynight" src="@/assets/img-intro-5.png" class="image-style">
-            <img alt="creepynight" src="@/assets/img-intro-6.png" class="image-style">
-            <img alt="creepynight" src="@/assets/img-intro-7.png" class="image-style">
-            <img alt="creepynight" src="@/assets/img-intro-8.png" class="image-style">
-            <img alt="creepynight" src="@/assets/img-intro-9.png" class="image-style">
-          </div>
+      
+      <div class="PubSection">
+        <div v-if="afficherPubPrestataire">
+            <PubPrestataire />
+        </div>
+        <div v-else>
+            <PubClient />
         </div>
       </div>
+
       <div class="activites">
         <h1 class="titre-partie" id="titre-activite">Un programme terrifiant, et flexible ?!</h1>
         <div class="lamelles-container">
@@ -92,6 +73,8 @@
 <script>
 import CompteRebours from '@/components/CompteRebours.vue';
 import NavBar from "@/components/NavBar.vue";
+import PubClient from "@/components/PubClient.vue";
+import PubPrestataire from "@/components/PubPrestataire.vue";
 
 import cariHorreurImg from "@/assets/carihorreur.jpg";
 import cauchemarathonImg from "@/assets/cauchemarathon.jpg";
@@ -105,11 +88,14 @@ export default {
   components: {
     CompteRebours,
     NavBar,
+    PubClient,
     CarteInteractive,
+    PubPrestataire
   },
   data() {
     return {
       utilisateurConnecte: null,
+      afficherPubPrestataire: this.calculerAffichage(),
       activites: [
         {
           titre: "Carihorreur",
@@ -148,6 +134,14 @@ export default {
     hasAccess() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "utilisateur";
     },
+
+    calculerAffichage() {
+        const dateFestival = new Date("2024-10-27");
+        const dateActuelle = new Date();
+        const differenceMois = (dateFestival.getFullYear() - dateActuelle.getFullYear()) * 12 + (dateFestival.getMonth() - dateActuelle.getMonth());
+        const dateSeuil = new Date("2024-10-02");
+        return differenceMois > 4 || dateActuelle >= dateSeuil;
+    }
   },
   mounted() {
     const utilisateur = localStorage.getItem('utilisateurConnecte');
