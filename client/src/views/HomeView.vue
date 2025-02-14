@@ -169,29 +169,8 @@ export default {
 .compte-rebours {
   position: absolute;
   top: 60%;
-  left: 52%;
+  left: 51%;
   transform: translate(-50%, -50%);
-}
-
-#titre-intro{
-  color: white;
-}
-
-.intro{
-  padding-top: 20px;
-  text-align: center;
-  background-color: #AD0918;
-  height: 100vh;
-}
-
-.intro-partie{
-  display: flex;
-}
-
-.introduction{
-  font-size: 180%;
-  margin: 10%;
-  text-align: justify;
 }
 
 .activites {
@@ -200,125 +179,6 @@ export default {
   background-color: black;
   color: white;
   height: 100vh;
-}
-
-.description-intro{
-  width: 100vw;
-  font-family: Arial, sans-serif;
-  color: white;
-}
-
-.btn-ticket{
-  padding: 12px;
-  border-radius: 8px;
-  background-color: white;
-  color: #AD0918;
-  font-size: 18px;
-  transition: background-color 0.3s, transform 0.3s;
-  text-decoration: none;
-  display: inline-block;
-}
-
-.btn-ticket:hover {
-  background-color: #dbdbdb;
-  transform: scale(1.05);
-}
-
-.image-intro {
-  position: relative;
-  height: 70vh; /* Ajuste la hauteur en fonction de tes besoins */
-  width: 100%; /* Utilise tout l'espace disponible */
-  display: block;
-  margin: auto;
-}
-
-.image-style {
-  position: absolute;
-  height: auto;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-/* Exemples de positions pour chaque image */
-.image-style:nth-child(1) {
-  top: 13%;
-  left: 10%;
-  transform: rotate(-10deg);
-  z-index: 2;
-}
-
-.image-style:nth-child(2) {
-  width: 180px;
-  top: 20%;
-  left: 27%;
-  transform: rotate(15deg);
-  z-index: 1;
-
-}
-
-.image-style:nth-child(3) {
-  top: 38%;
-  left: 20%;
-  transform: rotate(-5deg);
-  z-index: 3;
-
-}
-
-.image-style:nth-child(4) {
-  width: 200px;
-  top: 43%;
-  left: 38%;
-  transform: rotate(5deg);
-  z-index: 4;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-.image-style:nth-child(5) {
-  width: 70px;
-  top: 63%;
-  left: 20%;
-  transform: rotate(-8deg);
-  z-index: 2;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-.image-style:nth-child(6) {
-  width: 200px;
-  top: 21%;
-  left: 45%;
-  transform: rotate(-20deg);
-  z-index: 5;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-.image-style:nth-child(7) {
-  width: 150px;
-  top: 33%;
-  left: 60%;
-  transform: rotate(20deg);
-  z-index: 3;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-.image-style:nth-child(8) {
-  top: 56%;
-  left: 40%;
-  transform: rotate(8deg);
-  z-index: 2;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
-}
-
-.image-style:nth-child(9) {
-  top: 53%;
-  left: 52%;
-  transform: rotate(10deg);
-  z-index: 4;
-}
-
-
-.image-style:hover {
-  transform: scale(1.1) rotate(0deg);
-  z-index: 10;
 }
 
 #titre-activite{
@@ -548,4 +408,196 @@ export default {
   padding-bottom: 50px;
 }
 
+@media (max-width: 768px) {
+  .accueil .accueil_image {
+    margin-top: 10%;
+  }
+
+  .compte-rebours {
+    width: 80%;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .activites {
+    height: auto;
+  }
+
+  .lamelles-container {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .lamelle {
+    width: 80%;
+    height: 200px;
+    margin-bottom: 20px;
+  }
+
+  .lamelle:hover {
+    width: 90%;
+  }
+
+  .titre-partie, .titre-carte {
+    font-size: 200%;
+    padding-top: 20px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .reste-connectes, .contact-info {
+    text-align: center;
+  }
+
+  .social-links a {
+    display: block;
+    margin: 10px 0;
+  }
+
+  .carte-interactive {
+    padding: 20px;
+  }
+
+  .lamelle h2 {
+    font-size: 125%;
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  .lamelle:hover h2 {
+    top: 15%;
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  .description-activite {
+    padding: 10px;
+  }
+
+  .lamelle p {
+    font-size: 100%;
+    margin-top: 35px;
+  }
+
+  .btn-activite {
+    margin-top: 0;
+  }
+
+  .footer {
+    padding: 20px 10px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+  }
+
+  .reste-connectes, .contact-info {
+    text-align: center;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .lamelles-container {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .lamelle {
+    width: 45%;
+    height: 300px;
+    margin-bottom: 20px;
+  }
+
+  .lamelle:hover {
+    width: 50%;
+  }
+
+  .titre-partie, .titre-carte {
+    font-size: 250%;
+    padding-top: 30px;
+  }
+
+  .footer-content {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .compte-rebours {
+    top: 35%;
+  }
+
+  .lamelle h2 {
+    font-size: 180%;
+  }
+
+  .lamelle p {
+    font-size: 120%;
+  }
+
+  .PubSection {
+    padding: 20px;
+  }
+
+  .footer {
+    padding: 30px 20px;
+  }
+
+  .footer-content {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+}
+
+@media (min-width: 1025px) {
+  .lamelles-container {
+    flex-direction: row;
+    gap: 2px;
+  }
+
+  .lamelle {
+    width: 8%;
+    height: 70vh;
+  }
+
+  .lamelle:hover {
+    width: 25%;
+  }
+
+  .titre-partie, .titre-carte {
+    font-size: 300%;
+    padding-top: 50px;
+  }
+
+  .footer-content {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .lamelle h2 {
+    font-size: 200%;
+  }
+
+  .lamelle p {
+    font-size: 150%;
+  }
+
+  .compte-rebours {
+    top: 60%;
+  }
+
+  .PubSection {
+    padding: 30px;
+  }
+
+  .footer {
+    padding: 40px 20px;
+  }
+
+  .footer-content {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
 </style>

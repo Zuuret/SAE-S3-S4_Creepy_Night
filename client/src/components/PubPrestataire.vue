@@ -79,56 +79,6 @@ export default {
   transform: scale(1.05);
 }
 
-.image-intro {
-  position: relative;
-  height: 70vh;
-  width: 100%;
-  display: block;
-  margin: auto;
-}
-
-.image-style {
-  position: absolute;
-  height: auto;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.image-style:nth-child(1) {
-  top: 15%;
-  left: 12%;
-  transform: rotate(-10deg);
-  z-index: 2;
-}
-
-.image-style:nth-child(2) {
-  width: 180px;
-  top: 25%;
-  left: 30%;
-  transform: rotate(15deg);
-  z-index: 1;
-}
-
-.image-style:nth-child(3) {
-  top: 40%;
-  left: 50%;
-  transform: rotate(-5deg);
-  z-index: 3;
-}
-
-.image-style:nth-child(4) {
-  width: 200px;
-  top: 50%;
-  left: 70%;
-  transform: rotate(5deg);
-  z-index: 4;
-}
-
-.image-style:hover {
-  transform: scale(1.1) rotate(0deg);
-  z-index: 10;
-}
-
 .titre-partie{
   font-family: 'Creepster', cursive;
   font-size: 300%;
@@ -136,5 +86,47 @@ export default {
   padding-top: 50px;
   color: white;
   padding: 50px;
+}
+
+@media (max-width: 768px) {
+  .intro {
+    padding-top: 10px;
+    padding-bottom: 30px;
+    height: auto;
+  }
+
+  .titre-partie {
+    font-size: 200%;
+    padding: 20px;
+  }
+
+  .introduction {
+    font-size: 120%;
+    margin: 5%;
+    padding: 15px;
+  }
+
+  .btn-candidature {
+    font-size: 16px;
+    padding: 10px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .titre-partie {
+    font-size: 250%;
+    padding: 30px;
+  }
+
+  .introduction {
+    font-size: 150%;
+    margin: 8%;
+    padding: 18px;
+  }
+
+  .btn-candidature {
+    font-size: 17px;
+    padding: 11px;
+  }
 }
 </style>

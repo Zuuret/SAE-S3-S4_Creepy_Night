@@ -116,4 +116,51 @@ h1 {
   border-radius: 8px;
   display: inline-block;
 }
+
+@media (max-width: 768px) {
+  .compte-rebours {
+    padding: 3px;
+  }
+
+  h1 {
+    font-size: 1rem;
+    margin-bottom: 0;
+  }
+
+  .time-display {
+    font-size: 1rem;
+    gap: 2px;
+  }
+
+  .time-unit {
+    padding: 3px 7px;
+    min-width: 20px;
+  }
+
+  .current-date {
+    margin-top: 0;
+    font-size: 0.8rem;
+    padding: 4px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .time-display {
+    font-size: 2.5rem;
+  }
+
+  .time-unit {
+    padding: 3px 18px;
+    min-width: 50px;
+  }
+
+  .current-date {
+    margin-top: 0;
+    font-size: 1.3rem;
+  }
+}
 </style>

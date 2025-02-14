@@ -99,4 +99,70 @@ export default {
   height: 20px;
   margin-right: 5px;
 }
+
+@media (max-width: 1024px) {
+  .language-selector {
+    font-size: 30px;
+  }
+
+  .selected-option img {
+    width: 25px;
+    height: 25px;
+  }
+
+  .chevron {
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 16px solid #ff0000;
+  }
+
+  .options img {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 768px) {
+  .language-selector {
+    font-size: 25px;
+  }
+
+  .selected-option img {
+    width: 20px;
+    height: 20px;
+  }
+
+  .chevron {
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 12px solid #ff0000;
+  }
+
+  .options img {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .language-selector {
+    font-size: 20px;
+  }
+
+  .selected-option img {
+    width: 15px;
+    height: 15px;
+  }
+
+  .chevron {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid #ff0000;
+  }
+
+  .options img {
+    width: 14px;
+    height: 14px;
+  }
+}
 </style>
