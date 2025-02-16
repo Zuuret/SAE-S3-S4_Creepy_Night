@@ -140,7 +140,7 @@ export default {
 
 .zoom-container {
   position: absolute;
-  top: 0;
+  top: 23%;
   left: 0;
   width: 100%;
   height: 75%;
@@ -163,7 +163,7 @@ export default {
   top: 0;
   left: 0;
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .icon {
@@ -233,6 +233,7 @@ export default {
   background-color: #f5f5f5; 
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 
