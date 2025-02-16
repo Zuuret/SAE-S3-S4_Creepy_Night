@@ -490,6 +490,7 @@ export default {
   }
 
   .footer-content {
+    display: flex;
     flex-direction: column;
   }
 
@@ -499,6 +500,10 @@ export default {
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
+  .activites {
+    height: auto;
+  }
+
   .lamelles-container {
     flex-wrap: wrap;
     justify-content: space-around;
@@ -519,34 +524,27 @@ export default {
     padding-top: 30px;
   }
 
-  .footer-content {
-    flex-direction: row;
-    justify-content: space-around;
-  }
-
   .compte-rebours {
     top: 35%;
   }
 
   .lamelle h2 {
-    font-size: 180%;
+    font-size: 175%;
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .lamelle:hover h2 {
+    top: 18%;
+    transform: translate(-50%, -50%) rotate(0deg);
   }
 
   .lamelle p {
     font-size: 120%;
-  }
-
-  .PubSection {
-    padding: 20px;
+    margin-top: 30px;
   }
 
   .footer {
     padding: 30px 20px;
-  }
-
-  .footer-content {
-    flex-direction: row;
-    justify-content: space-around;
   }
 }
 
@@ -570,11 +568,6 @@ export default {
     padding-top: 50px;
   }
 
-  .footer-content {
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
   .lamelle h2 {
     font-size: 200%;
   }
@@ -587,17 +580,8 @@ export default {
     top: 60%;
   }
 
-  .PubSection {
-    padding: 30px;
-  }
-
   .footer {
     padding: 40px 20px;
-  }
-
-  .footer-content {
-    flex-direction: row;
-    justify-content: space-between;
   }
 }
 </style>
