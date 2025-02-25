@@ -156,6 +156,7 @@
     }
   },
   "dependencies": {
+    "@tinymce/tinymce-vue": "^6.1.0",
     "date-fns": "^4.1.0"
   }
 }
