@@ -1,44 +1,78 @@
 <template>
   <div v-if="hasAccess" class="home-prestataire">
-    <h1>Bienvenue {{ utilisateurConnecte.societe }}</h1>
-    <img :src="utilisateurConnecte.logo" alt="Logo prestataire" class="logo" />
-    <h2>Mon livre d'or</h2>
-    <div v-for="message in livreDOr" :key="message.id" class="message">
-      <p><strong>{{ message.nomUtilisateur }}</strong> ({{ message.date }})</p>
-      <p>{{ message.message }}</p>
-      <div class="rating">
-        <span v-for="i in parseInt(message.evaluation)" :key="i">⭐</span>
-      </div>
-    </div>
+    <h1>Bienvenue {{ utilisateurConnecte?.societe }}</h1>
+
+    <Editor v-model="presentation" :init="editorConfig" />
+
+    <button @click="saveContent">Enregistrer</button>
   </div>
   <p v-else class="error">Accès refusé. Vous n'avez pas les permissions pour voir cette page.</p>
 </template>
 
 <script>
-import {mapActions, mapGetters, mapState} from "vuex";
+import { mapGetters, mapState } from "vuex";
+import Editor from "@tinymce/tinymce-vue";
 
 export default {
   name: "HomePrestataire",
+  components: {
+    Editor,
+  },
   computed: {
     ...mapGetters("ProfilStore", ["utilisateurConnecte"]),
-    ...mapState('PrestataireStore', ['livreDOr']),
+    ...mapState("PrestataireStore", ["livreDOr"]),
     hasAccess() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "prestataire";
     },
   },
+  data() {
+    return {
+      presentation: "",
+      editorConfig: {
+        height: 300,
+        menubar: false,
+        plugins: "image link code",
+        toolbar: "undo redo | bold italic | alignleft aligncenter alignright | image link | code",
+        images_upload_url: "/upload-logo",
+        automatic_uploads: true,
+        images_upload_handler: async (blobInfo, success, failure) => {
+          let formData = new FormData();
+          formData.append("logo", blobInfo.blob());
+
+          try {
+            let response = await fetch("/upload-logo", {
+              method: "POST",
+              body: formData,
+            });
+            let data = await response.json();
+            if (data.success) {
+              success(data.logoUrl);
+            } else {
+              failure("Échec de l'upload");
+            }
+          } catch (error) {
+            failure("Erreur lors de l'upload");
+          }
+        },
+      },
+    };
+  },
   methods: {
-    ...mapActions("PrestataireStore", ['getLivreDOr'])
+    saveContent() {
+      console.log("Contenu enregistré :", this.presentation);
+    },
   },
   mounted() {
     if (!this.utilisateurConnecte) {
-      console.log("Aucun utilisateur connecté, redirection...");
       this.$router.push("/");
     } else if (!this.hasAccess) {
-      console.log("Accès refusé pour cet utilisateur.");
+      console.log("Accès refusé");
     } else {
-      console.log("Accès autorisé, utilisateur :", this.utilisateurConnecte);
+      this.presentation = `
+        <img src="${this.utilisateurConnecte?.logo || ''}" alt="Logo prestataire" class="logo" />
+        <p>Bienvenue sur la page de présentation de ${this.utilisateurConnecte?.societe || 'Votre entreprise'} !</p>
+      `;
     }
-    this.getLivreDOr(this.utilisateurConnecte.id)
   },
 };
 </script>

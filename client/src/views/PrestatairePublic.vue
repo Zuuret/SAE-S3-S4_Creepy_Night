@@ -130,7 +130,7 @@ export default {
 }
 .carousel .list .item .content{
   position: absolute;
-  top: 20%;
+  top: 21%;
   width: 1140px;
   max-width: 80%;
   left: 45%;
@@ -141,17 +141,25 @@ export default {
   text-shadow: 0 5px 10px #0004;
 }
 .carousel .list .item .content .author{
-  width: 200px;
-  height: auto;
+  width: 150px;
+  height: 150px;
 }
+
 .carousel .list .item .content .title,
 .carousel .list .item .content .topic{
   font-size: 5em;
   font-weight: bold;
   line-height: 1.3em;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
 }
 .carousel .list .item .content .topic{
-  color: #f1683a;
+  color: #9f041c;
+  padding-bottom: 5px;
+}
+.carousel .list .item .content .description{
+  font-size: 15px;
+  padding-bottom: 10px;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
 }
 .carousel .list .item .content .button {
   display: flex;
@@ -160,7 +168,7 @@ export default {
 }
 .carousel .list .item .content button {
   border: none;
-  background-color: #f1683a;
+  background-color: #ffffff;
   letter-spacing: 1px;
   font-family: Poppins, serif;
   font-weight: 600;
@@ -169,20 +177,22 @@ export default {
   padding: 12px 20px;
   border-radius: 5px;
   transition: background-color 0.3s ease, transform 0.3s ease;
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
 }
 .carousel .list .item .content .button button:hover {
   background-color: #fff;
-  color: #f1683a;
+  color: #9f041c;
   transform: scale(1.05);
+  text-shadow: none;
 }
 .carousel .list .item .content .button button:nth-child(1) {
   background-color: transparent;
-  border: 1px solid #fff;
+  border: 2px solid #fff;
   color: #fff;
 }
 .carousel .list .item .content .button button:nth-child(1):hover {
   background-color: #fff;
-  color: #f1683a;
+  color: #9f041c;
 }
 .thumbnail{
   position: absolute;
@@ -213,10 +223,10 @@ export default {
   right: 10px;
 }
 .thumbnail .item .content .title{
-  font-weight: 500;
-}
-.thumbnail .item .content .description{
-  font-weight: 300;
+  font-weight: bold;
+  color : #9f041c;
+  font-size: 17px;
+  text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
 }
 .arrows{
   position: absolute;
@@ -242,7 +252,7 @@ export default {
 }
 .arrows button:hover {
   background-color: #fff;
-  color: #555;
+  color: #9f041c;
 }
 .carousel .list .item:nth-child(1){
   z-index: 1;
