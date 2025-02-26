@@ -1,11 +1,17 @@
 <template>
   <div>
-    <h1>Prestataire</h1>
-    <p>Voici la page dédiée aux prestataires.</p>
+    <NavBar/>
     <div v-if="prestataire">
-      <h1>{{ prestataire.societe }}</h1>
-      <p>{{ prestataire.adresse }}</p>
-      <img :src="prestataire.logo" :alt="prestataire.societe" class="prestataire-logo" />
+      <div class="banner">
+        <img :src="prestataire.background2" :alt="prestataire.societe" class="prestataire-background"/>
+        <div class="prestataire-header">
+          <img :src="prestataire.logo" :alt="prestataire.societe" class="prestataire-logo"/>
+          <div class="trait"></div>
+          <h1>Bienvenue chez {{ prestataire.societe }}</h1>
+          <p>Retrouvez nous au {{ prestataire.adresse }}</p>
+        </div>
+      </div>
+      <BoutiquePrestataire/>
       <LivreDOr/>
       <router-link :to="`/prestataire/${prestataire.id}/articles`">
         <button>Nos articles</button>
@@ -14,13 +20,16 @@
   </div>
 </template>
 
+
 <script>
 import {mapActions, mapState} from "vuex";
 import LivreDOr from "@/components/LivreDOr.vue";
+import BoutiquePrestataire from "@/components/BoutiquePrestataire.vue";
+import NavBar from "@/components/NavBar.vue";
 
 export default {
   name: 'PrestataireSpecifique',
-  components:{LivreDOr},
+  components:{NavBar, BoutiquePrestataire, LivreDOr},
   computed: {
     ...mapState('ProfilStore',['prestataire'])
   },
@@ -35,24 +44,63 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Kanit:wght@300;400;600;700&display=swap');
 
-h1 {
-  color: #333;
-  font-size: 2rem;
-  margin-bottom: 10px;
+div {
+  text-align: center;
+  position: relative;
+  background: black;
 }
 
-p {
-  color: #666;
-  font-size: 1rem;
-  margin-bottom: 20px;
+.banner {
+  position: relative;
+  margin-top: 11vh;
 }
-
+.prestataire-background {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  position: relative;
+}
+.prestataire-header {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.68);
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  width: 29%;
+}
 .prestataire-logo {
-  max-width: 50%;
+  width: 100px;
   height: auto;
   border-radius: 8px;
+  margin-bottom: 20px;
+}
+.trait {
+  border-top: 1px solid black;
+  width: 95%;
+}
+h1 {
   margin-top: 10px;
+  color: #333;
+  font-size: 30px;
+  font-family: 'Kanit', sans-serif;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+}
+p {
+  color: #555;
+  font-size: 16px;
+  font-family: 'Kanit', sans-serif;
+  margin: 0;
 }
 </style>
+
+
 

@@ -45,7 +45,6 @@ import PaiementCashLess from "@/views/PaymentFormCashLess.vue";
 import HomePrestataire from "@/views/HomePrestataire.vue";
 import PrestatairePublic from "@/views/PrestatairePublic.vue"
 import PrestataireSpecifique from "@/views/PrestataireSpecifique.vue";
-import PrestataireArticle from "@/views/PrestataireArticle.vue";
 import ArticleSpecifique from "@/views/ArticleSpecifique.vue";
 import ReservationArticle from "@/views/ReservationArticle.vue";
 
@@ -95,7 +94,7 @@ const routes = [
   { path: '/cashless/paiement/', name: 'PaymentFormCashLess', component: PaiementCashLess },
   { path: '/prestataire', name: 'Prestataire', component: PrestatairePublic },
   { path: '/prestataire/:id', name: 'PrestataireSpecifique', component: PrestataireSpecifique },
-  { path: '/prestataire/:id/articles', name: 'PrestataireArticle', component: PrestataireArticle },
+
   { path: '/prestataire/:id/articles/:idArticle', name: 'ArticleSpecifique', component: ArticleSpecifique },
   { path: '/user/:id', name: 'UserProfile', component: UserProfile },
   { path: '/orga-utilisateurs', name: 'OrgaUtilisateurs', component: OrgaUtilisateurs },
