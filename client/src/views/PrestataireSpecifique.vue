@@ -12,10 +12,8 @@
         </div>
       </div>
       <BoutiquePrestataire/>
+      <div class="traitBlanc"></div>
       <LivreDOr/>
-      <router-link :to="`/prestataire/${prestataire.id}/articles`">
-        <button>Nos articles</button>
-      </router-link>
     </div>
   </div>
 </template>
@@ -86,6 +84,15 @@ div {
   border-top: 1px solid black;
   width: 95%;
 }
+.traitBlanc {
+  border-top: 1px solid white;
+  display: flex;
+  justify-content: center;
+  width: 85%;
+  margin: 50px auto 20px auto;
+  padding-top: 10px;
+}
+
 h1 {
   margin-top: 10px;
   color: #333;

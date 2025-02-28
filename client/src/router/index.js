@@ -94,8 +94,8 @@ const routes = [
   { path: '/cashless/paiement/', name: 'PaymentFormCashLess', component: PaiementCashLess },
   { path: '/prestataire', name: 'Prestataire', component: PrestatairePublic },
   { path: '/prestataire/:id', name: 'PrestataireSpecifique', component: PrestataireSpecifique },
+  { path: '/prestataire/:id/:idArticle', name: 'ArticleSpecifique', component: ArticleSpecifique },
 
-  { path: '/prestataire/:id/articles/:idArticle', name: 'ArticleSpecifique', component: ArticleSpecifique },
   { path: '/user/:id', name: 'UserProfile', component: UserProfile },
   { path: '/orga-utilisateurs', name: 'OrgaUtilisateurs', component: OrgaUtilisateurs },
   { path: '/orga-organisateurs', name: 'OrgaOrganisateurs', component: OrgaOrganisateurs },
