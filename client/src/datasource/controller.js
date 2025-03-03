@@ -116,6 +116,10 @@ function loginUser(data, userList, userType) {
             logo: user.logo,
             adresse: user.adresse,
             email: user.email,
+            background: user.background,
+            background2: user.background2,
+            theme : user.theme,
+            description: user.description,
             role: userType
         };
     }

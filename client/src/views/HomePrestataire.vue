@@ -1,10 +1,16 @@
 <template>
   <div v-if="hasAccess" class="home-prestataire">
     <h1>Bienvenue {{ utilisateurConnecte?.societe }}</h1>
+
     <img :src="utilisateurConnecte?.background" :alt="utilisateurConnecte?.title" class="background"/>
 
+    <img :src="utilisateurConnecte?.background2" :alt="utilisateurConnecte?.title" class="background"/>
 
+    <h2>{{utilisateurConnecte?.description}}</h2>
 
+    <h2>{{utilisateurConnecte?.theme}}</h2>
+
+    <!-- Intégration du composant Editor avec v-model -->
     <Editor v-model="presentation" :init="editorConfig" />
 
     <button @click="saveContent">Enregistrer</button>
@@ -12,14 +18,18 @@
   <p v-else class="error">Accès refusé. Vous n'avez pas les permissions pour voir cette page.</p>
 </template>
 
+<!-- Script de l'intégration de TinyMCE -->
+<script src="https://cdn.tiny.cloud/1/mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
 <script>
+// Importation du composant Editor depuis @tinymce/tinymce-vue
+import { Editor } from "@tinymce/tinymce-vue";
 import { mapGetters, mapState } from "vuex";
-import Editor from "@tinymce/tinymce-vue";
 
 export default {
   name: "HomePrestataire",
   components: {
-    Editor,
+    Editor, // Enregistrement du composant Editor
   },
   computed: {
     ...mapGetters("ProfilStore", ["utilisateurConnecte", "prestataires"]),
@@ -34,8 +44,8 @@ export default {
       editorConfig: {
         height: 300,
         menubar: false,
-        plugins: "image link code textcolor",
-        toolbar: "undo redo | bold italic | alignleft aligncenter alignright | image link | code | forecolor backcolor", // Ajoute forecolor et backcolor pour les couleurs de texte
+        plugins: "image link code",
+        toolbar: "undo redo | bold italic | alignleft aligncenter alignright | image link | code",
         images_upload_url: "/upload-logo",
         automatic_uploads: true,
         images_upload_handler: async (blobInfo, success, failure) => {
@@ -57,12 +67,7 @@ export default {
             failure("Erreur lors de l'upload");
           }
         },
-        // Ajout de l'initialisation de TinyMCE sans clé API
-        base_url: '/tinymce', // Optionnel si tu héberges TinyMCE en local
-        content_css: "/path/to/your/custom/styles.css", // Si tu veux personnaliser les styles du contenu dans l'éditeur
-        external_plugins: {
-          // Définir d'autres plugins externes si nécessaire
-        }
+        base_url: "/tinymce",
       },
     };
   },
@@ -96,6 +101,10 @@ h1 {
   font-size: 24px;
   color: #333;
   margin-bottom: 20px;
+}
+
+h2 {
+  color: black;
 }
 
 .logo {
