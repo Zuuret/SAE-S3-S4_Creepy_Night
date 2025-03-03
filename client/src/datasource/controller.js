@@ -748,6 +748,54 @@ function diminuerQuantiteArticle(item) {
 function getAllArticle(){
     return {error: 0, data: articles}
 }
+function setPrestataireArticle(data){
+    /* A deux fonctions :
+     * if -1 -> créer le nouveau produit
+     ** return  le nouveau produit
+     * à la suite -> modification du produit
+     ** return le changement de produit
+     */
+    const user = utilisateurs.find(u => u.id === data.prestataireId);
+    if (!user) return { error: 1, status: 404, data: 'Utilisateur non trouvé' };
+    const article = articles.find(c => (c.id === (data.id || -1)) && c.prestataireId === data.prestataireId);
+    if (!article) return { error: 1, status: 404, data: 'Aucun article à set' };
+
+    if (data.id == -1) {
+        let nouveauProduit = {
+            id: articles.length + 1,
+            prestataireId: user,
+            nom: data.nom,
+            description: data.description,
+            prix: data.prix,
+            stock: data.stock,
+            image: data.image
+        }
+        articles.push(nouveauProduit);
+
+        return { error: 0, status: 200, data: nouveauProduit };
+    }
+
+    article.nom = data.nom
+    article.description = data.description
+    article.prix = data.prix
+    article.stock = data.stock
+    article.image = data.image
+
+    return { error: 0, status: 200, data: data };
+}
+function delPrestataireArticle(idProduit) {
+    // Test si l'artocle à del existe bien
+    const article = articles.find(c => c.id === idProduit);
+    if (!article) return { error: 1, status: 404, data: idProduit }
+    // Puis le supprimer
+    const delArticle = articles.filter(c => c.id !== idProduit);
+    if (!delArticle) return { error: 1, status: 404, data: idProduit }
+    console.log("Taille de liste : ", delArticle.length)
+    for (let i = 0; i < delArticle.length; i++) {
+        console.log(delArticle[i].id)
+    }
+    return { error: 0, status: 200, data: delArticle };
+}
 function addReservationArticle(idUser) {
     let user = utilisateurs.find(u => u.id === parseInt(idUser));
     if (!user) {
@@ -948,6 +996,8 @@ export default {
     getAllArticlesById,
     getArticleById,
     getAllArticle,
+    setPrestataireArticle,
+    delPrestataireArticle,
     ajouterAuPanierArticle,
     incrementerQuantiteArticle,
     diminuerQuantiteArticle,

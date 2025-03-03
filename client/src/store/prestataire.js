@@ -178,5 +178,23 @@ export default ({
                 console.log(response.data);
             }
         },
+        async setPrestataireArticle({commit}, data){
+            console.log("Récupération de l'article d'ID :", data)
+            let response = await PrestaireService.setPrestataireArticle(data)
+            if (response.error === 0) {
+                commit('updateArticleById', response.data);
+            } else {
+                console.log(response.data);
+            }
+        },
+        async delPrestataireArticle({commit}, articleId){
+            console.log("Récupération de l'article d'ID :", articleId)
+            let response = await PrestaireService.delPrestataireArticle(articleId)
+            if (response.error === 0) {
+                commit('updateArticleById', response.data);
+            } else {
+                console.log(response.data);
+            }
+        },
     }
 })
