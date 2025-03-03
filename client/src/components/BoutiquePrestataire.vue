@@ -4,15 +4,19 @@
       <h2>Filtres</h2>
       <div class="filter-group">
         <label for="filtreNom">Nom</label>
-        <input type="text" v-model="filtreNom" id="filternameactive" placeholder="Filtrer par nom" />
+        <input type="text" v-model="filtreNom" id="filtreNom" placeholder="Filtrer par nom" />
       </div>
       <div class="filter-group">
         <label for="filtrePrixMin">Prix minimum</label>
-        <input type="number" v-model.number="filtrePrixMin" id="filterPrixMin" placeholder="Filtrer par prix minimum"/>
+        <input type="number" v-model.number="filtrePrixMin" id="filtrePrixMin" placeholder="Filtrer par prix minimum"/>
       </div>
       <div class="filter-group">
         <label for="filtrePrixMax">Prix maximum</label>
-        <input type="number" v-model.number="filtrePrixMax" id="filterPrixMax" placeholder="Filtrer par prix maximum"/>
+        <input type="number" v-model.number="filtrePrixMax" id="filtrePrixMax" placeholder="Filtrer par prix maximum"/>
+      </div>
+      <div class="filter-group">
+        <label for="filtreStock">En stock</label>
+        <input type="checkbox" v-model="filtreStock" id="filtreStock"/>
       </div>
       <button @click="reinitialiseFiltres">Reinitialiser les filtres</button>
     </div>
@@ -21,7 +25,7 @@
       <h1>NOTRE BOUTIQUE</h1>
       <div class="prestataires-list">
         <div v-if="filteredArticles.length === 0" class="no-articles">
-          <p>Aucun article disponible.</p>
+          <p>Aucun article disponible</p>
         </div>
         <div v-else class="article" v-for="article in filteredArticles" :key="article.id">
           <router-link :to="`articles/${article.id}`">
@@ -49,6 +53,7 @@ export default {
       filtrePrixMin: null,
       filtrePrixMax: null,
       filtreNom: "",
+      filtreStock: false,
     };
   },
   computed: {
@@ -59,8 +64,9 @@ export default {
         const matchPrixMin = this.filtrePrixMin === null || article.prix >= this.filtrePrixMin;
         const matchPrixMax = this.filtrePrixMax === null || article.prix <= this.filtrePrixMax;
         const matchNom = this.filtreNom === "" || article.nom.toLowerCase().includes(this.filtreNom.toLowerCase());
+        const matchStock = this.filtreStock === false || article.stock > 0;
 
-        return matchPrixMin && matchPrixMax && matchNom;
+        return matchPrixMin && matchPrixMax && matchNom && matchStock;
       });
     },
   },
@@ -70,6 +76,7 @@ export default {
       this.filtrePrixMin = null;
       this.filtrePrixMax = null;
       this.filtreNom = "";
+      this.filtreStock = false;
     },
   },
   mounted() {
@@ -103,9 +110,8 @@ export default {
 }
 
 .filters h2 {
-  margin-top: 0;
+  margin: 0;
   text-align: center;
-  margin-bottom: 10px;
 }
 
 .filter-group {
@@ -129,7 +135,8 @@ export default {
 }
 
 button {
-  background-color: #9f041c; /* Rouge sombre */
+  background-color: #9f041c;
+  margin-top: 5px;
   color: white;
   font-family: Kanit, sans-serif;
   font-size: 1rem;
@@ -165,8 +172,9 @@ h1 {
 .no-articles {
   text-align: center;
   color: #555;
-  font-size: 1.2rem;
-  margin-top: 50px;
+  font-size: 45px;
+  margin-top: 100px;
+  font-family: Kanit, sans-serif;
 }
 
 .article {

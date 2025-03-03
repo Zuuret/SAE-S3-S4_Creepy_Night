@@ -1,6 +1,9 @@
 <template>
   <div v-if="hasAccess" class="home-prestataire">
     <h1>Bienvenue {{ utilisateurConnecte?.societe }}</h1>
+    <img :src="utilisateurConnecte?.background" :alt="utilisateurConnecte?.title" class="background"/>
+
+
 
     <Editor v-model="presentation" :init="editorConfig" />
 
@@ -19,7 +22,7 @@ export default {
     Editor,
   },
   computed: {
-    ...mapGetters("ProfilStore", ["utilisateurConnecte"]),
+    ...mapGetters("ProfilStore", ["utilisateurConnecte", "prestataires"]),
     ...mapState("PrestataireStore", ["livreDOr"]),
     hasAccess() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "prestataire";
@@ -31,8 +34,8 @@ export default {
       editorConfig: {
         height: 300,
         menubar: false,
-        plugins: "image link code",
-        toolbar: "undo redo | bold italic | alignleft aligncenter alignright | image link | code",
+        plugins: "image link code textcolor",
+        toolbar: "undo redo | bold italic | alignleft aligncenter alignright | image link | code | forecolor backcolor", // Ajoute forecolor et backcolor pour les couleurs de texte
         images_upload_url: "/upload-logo",
         automatic_uploads: true,
         images_upload_handler: async (blobInfo, success, failure) => {
@@ -54,6 +57,12 @@ export default {
             failure("Erreur lors de l'upload");
           }
         },
+        // Ajout de l'initialisation de TinyMCE sans clé API
+        base_url: '/tinymce', // Optionnel si tu héberges TinyMCE en local
+        content_css: "/path/to/your/custom/styles.css", // Si tu veux personnaliser les styles du contenu dans l'éditeur
+        external_plugins: {
+          // Définir d'autres plugins externes si nécessaire
+        }
       },
     };
   },

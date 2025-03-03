@@ -21,7 +21,7 @@ export default ({
             console.log(state.livreDOr)
         },
         ajoutLivreDOr(state, commentaire) {
-            state.livreDOr.push(commentaire)
+            state.livreDOr.unshift(commentaire)
             console.log(state.livreDOr)
         },
         updateListeArticlesId(state, articlesId){

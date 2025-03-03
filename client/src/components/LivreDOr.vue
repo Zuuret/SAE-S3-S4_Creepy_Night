@@ -16,7 +16,10 @@
     </div>
 
     <div class="droit">
-      <div v-for="message in livreDOr" :key="message.id" class="message">
+      <div v-if="livreDOr.length === 0" class="no-message">
+        <p>Aucun commentaire laissés pour ce prestataire</p>
+      </div>
+      <div v-else class="message" v-for="message in livreDOr" :key="message.id">
         <p><strong>{{ message.nomUtilisateur }}</strong> ({{ message.date }})</p>
         <p>{{ message.message }}</p>
         <div class="rating">
@@ -29,6 +32,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import Swal from 'sweetalert2';
 
 export default {
   data() {
@@ -48,12 +52,25 @@ export default {
     ...mapActions('ProfilStore', ['getPrestairebyId']),
 
     async ajouterMessage() {
+      if (!this.evaluation || this.evaluation === 0) {
+        await Swal.fire({
+          title: 'Erreur',
+          text: "Erreur lors de la publication de votre commentaire. Attribuez un nombre d'étoiles valide pour pouvoir le publier.",
+          icon: 'error',
+          confirmButtonText: 'OK',
+          background: '#900c0c',
+          color: '#fff',
+        });
+        return;
+      }
+
       const date = new Date();
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       let formattedDate = date.toLocaleDateString('fr-FR', options);
 
       const parts = formattedDate.split(' ');
       parts[1] = parts[1].charAt(0).toUpperCase() + parts[1].slice(1);
+
       const newMessage = {
         prestataireId: this.prestataire.id,
         nomUtilisateur: this.nomUtilisateur,
@@ -61,6 +78,7 @@ export default {
         message: this.message,
         date: parts.join(' '),
       };
+
       await this.ajoutCommentaire(newMessage);
 
       this.nomUtilisateur = '';
@@ -104,7 +122,7 @@ export default {
 }
 
 .droit {
-  margin-top: 9.5%;
+  margin-top: 10%;
   width: 35%;
   max-height: 320px;
   overflow-y: auto;
@@ -137,7 +155,7 @@ h3{
 }
 
 .message {
-  margin: 0 0 15px 0;
+  margin: 0 0 5px 0;
   padding: 0 10px 10px 10px;
   background-color: #9f041c;
   border-radius: 10px;
@@ -201,4 +219,12 @@ form textarea:focus {
   border-color: #9f041c;
   outline: none;
 }
+.no-message {
+  text-align: center;
+  color: #555;
+  font-size: 25px;
+  margin-top: 85px;
+  font-family: Kanit, sans-serif;
+}
+
 </style>

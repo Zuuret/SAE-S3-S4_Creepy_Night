@@ -13,9 +13,6 @@
             <router-link :to="`/prestataire/${prestataire.id}`">
               <button>Voir plus</button>
             </router-link>
-            <router-link :to="`/prestataire/${prestataire.id}/articles`">
-              <button>Acheter un produit</button>
-            </router-link>
           </div>
         </div>
       </div>
