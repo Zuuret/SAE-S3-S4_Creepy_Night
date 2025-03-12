@@ -1,14 +1,14 @@
 const pool = require('../database/db');
 const format = require('pg-format');
 
-async function insertLivreDOr(id, ) {
+async function insertLivreDOr(id, prestataireId, nomUtilisateur, evaluation, message, date) {
     const client = await pool.connect();
     let is_error = false;
     try {
         const data = [
-            [id, ]
+            [id, prestataireId, nomUtilisateur, evaluation, message, date]
         ]
-        const query = format('INSERT INTO livre_DOr (id, ) VALUES %L', data);
+        const query = format('INSERT INTO livre_DOr (id, prestataireId, nomUtilisateur, evaluation, message, date) VALUES %L', data);
         await client.query(query);
         console.log('INSERTIONS AVEC SUCCES');
     } catch (error) {
@@ -35,11 +35,11 @@ async function getLivreDOr() {
     return res.rows || false;
 }
 
-async function updateLivreDOr(id, ) {
+async function updateLivreDOr(id, prestataireId, nomUtilisateur, evaluation, message, date) {
     const client = await pool.connect();
     let is_error = false;
     try {
-        const query = format('UPDATE livre_DOr SET societe = %L, adresse = %L, email = %L, tel = %L, motDePasse = %L WHERE id = %L', id);
+        const query = format('UPDATE livre_DOr SET prestataireId = %L, nomUtilisateur = %L, evaluation = %L, message = %L, date = %L WHERE id = %L', prestataireId, nomUtilisateur, evaluation, message, date, id);
         await client.query(query);
         console.log('MISE A JOUR DU PRESTATAIRE');
     } catch (error) {

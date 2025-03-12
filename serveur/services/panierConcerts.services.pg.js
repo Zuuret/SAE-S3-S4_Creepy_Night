@@ -1,14 +1,14 @@
 const pool = require('../database/db');
 const format = require('pg-format');
 
-async function insertDemandeOrganisateurs(id, ) {
+async function insertPanierConcerts(id_place, id_concert, type_place, nb_places, prix_place) {
     const client = await pool.connect();
     let is_error = false;
     try {
         const data = [
-            [id, ]
+            [id_place, id_concert, type_place, nb_places, prix_place]
         ]
-        const query = format('INSERT INTO demandes_organisateurs (id, ) VALUES %L', data);
+        const query = format('INSERT INTO places_concerts (id_place, id_concert, type_place, nb_places, prix_place) VALUES %L', data);
         await client.query(query);
         console.log('INSERTIONS AVEC SUCCES');
     } catch (error) {
@@ -20,11 +20,11 @@ async function insertDemandeOrganisateurs(id, ) {
     return is_error;
 }
 
-async function getDemandesOrganisateurs() {
+async function getPanierConcerts() {
     const client = await pool.connect();
     let res;
     try {
-        res = await client.query('SELECT * FROM demandes_organisateurs');
+        res = await client.query('SELECT * FROM places_concerts');
         console.log('RECUPERATION DES PRESTATAIRES');
     } catch (error) {
         console.error('Erreur lors de la récupération des prestatairess :', error);
@@ -35,11 +35,11 @@ async function getDemandesOrganisateurs() {
     return res.rows || false;
 }
 
-async function updateDemandeOrganisateurs(id, ) {
+async function updatePanierConcerts(id_place, id_concert, type_place, nb_places, prix_place) {
     const client = await pool.connect();
     let is_error = false;
     try {
-        const query = format('UPDATE demandes_organisateurs SET societe = %L, adresse = %L, email = %L, tel = %L, motDePasse = %L WHERE id = %L', id);
+        const query = format('UPDATE places_concerts SET socid_concertiete = %L, type_place = %L, nb_places = %L, prix_place = %L WHERE id = %L', id_concert, type_place, nb_places, prix_place, id_place);
         await client.query(query);
         console.log('MISE A JOUR DU PRESTATAIRE');
     } catch (error) {
@@ -51,11 +51,11 @@ async function updateDemandeOrganisateurs(id, ) {
     return is_error;
 }
 
-async function deleteDemandeOrganisateurs(id) {
+async function deletePanierConcerts(id_place) {
     const client = await pool.connect();
     let is_error = false;
     try {
-        const query = format('DELETE FROM demandes_organisateurs WHERE id = %L RETURNING *', id);
+        const query = format('DELETE FROM places_concerts WHERE id = %L RETURNING *', id_place);
         await client.query(query);
         console.log('SUPPRESSION DU PRESTATAIRE');
     } catch (error) {
@@ -68,8 +68,8 @@ async function deleteDemandeOrganisateurs(id) {
 }
 
 module.exports = {
-    insertDemandeOrganisateurs,
-    getDemandesOrganisateurs,
-    updateDemandeOrganisateurs,
-    deleteDemandeOrganisateurs
+    insertPanierConcerts,
+    getPanierConcerts,
+    updatePanierConcerts,
+    deletePanierConcerts
 }
