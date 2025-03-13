@@ -1,5 +1,4 @@
 import LocalSource from "@/datasource/controller";
-import data from '@/datasource/data.js';
 import { getRequest } from "./axios.service";
 
 async function ajoutUtilisateurFromLocalSource(data){
@@ -25,6 +24,14 @@ async function getAllOrganisateurFromLocalSource() {
 }
 async function getAllPrestataireFromAPI() {
     return await getRequest('prestataires')
+}
+
+async function getAllOrganisateurFromAPI() {
+    return await getRequest('organisateurs')
+}
+
+async function getAllUtilisateurFromAPI() {
+    return await getRequest('users')
 }
 
 async function getUserbyIdFromLocalSource(idUser){
@@ -152,11 +159,21 @@ async function getOrganisateurbyId(idPrestataire){
 }
 
 export async function getAllUtilisateurs() {
-    return { error: 0, data: data.utilisateurs }; 
+    try{
+        let res = await getAllUtilisateurFromAPI();        
+        return {error:0, data:res.data}
+    }catch(error){
+        console.error("get all utilisateurs", error)
+    } 
 }
 
 export async function getAllOrganisateurs() {
-    return { error: 0, data: data.organisateurs }; 
+    try{
+        let res = await getAllOrganisateurFromAPI();        
+        return {error:0, data:res.data}
+    }catch(error){
+        console.error("get all organisateurs", error)
+    } 
 }
 
 export async function getAllPrestataires() {
