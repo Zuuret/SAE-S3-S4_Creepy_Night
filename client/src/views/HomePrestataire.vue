@@ -2,79 +2,74 @@
   <div v-if="hasAccess" class="home-prestataire">
     <h1>Bienvenue {{ utilisateurConnecte?.societe }}</h1>
 
+    <div class="editable-field">
+      <div v-if="!isEditing" @click="startEditing" class="description-display">
+        <h1 class="description-text" v-html="utilisateurConnecte?.description"></h1>
+        <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" />
+      </div>
+
+      <div v-else class="editor-container">
+        <editor
+            ref="tinymceEditor"
+            api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
+            v-model="editableDescription"
+            :init="{
+            height: 200,
+            menubar: false,
+            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code',
+            plugins: 'link lists code',
+            base_url: '/tinymce',
+          }"
+        />
+        <div class="editor-actions">
+          <button @click="saveDescription" class="save-btn">Enregistrer</button>
+          <button @click="cancelEditing" class="cancel-btn">Annuler</button>
+        </div>
+      </div>
+    </div>
+
     <img :src="utilisateurConnecte?.background" :alt="utilisateurConnecte?.title" class="background"/>
-
-    <img :src="utilisateurConnecte?.background2" :alt="utilisateurConnecte?.title" class="background"/>
-
-    <h2>{{utilisateurConnecte?.description}}</h2>
-
-    <h2>{{utilisateurConnecte?.theme}}</h2>
-
-    <!-- Intégration du composant Editor avec v-model -->
-    <Editor v-model="presentation" :init="editorConfig" />
-
-    <button @click="saveContent">Enregistrer</button>
   </div>
   <p v-else class="error">Accès refusé. Vous n'avez pas les permissions pour voir cette page.</p>
 </template>
 
-<!-- Script de l'intégration de TinyMCE -->
-<script src="https://cdn.tiny.cloud/1/mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-
 <script>
-// Importation du composant Editor depuis @tinymce/tinymce-vue
-import { Editor } from "@tinymce/tinymce-vue";
-import { mapGetters, mapState } from "vuex";
+import {mapGetters} from "vuex";
+import Editor from "@tinymce/tinymce-vue";
 
 export default {
   name: "HomePrestataire",
   components: {
-    Editor, // Enregistrement du composant Editor
+    'editor': Editor
+  },
+  data() {
+    return {
+      isEditing: false,
+      editableDescription: ""
+    };
   },
   computed: {
-    ...mapGetters("ProfilStore", ["utilisateurConnecte", "prestataires"]),
-    ...mapState("PrestataireStore", ["livreDOr"]),
+    ...mapGetters("ProfilStore", ["utilisateurConnecte"]),
     hasAccess() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "prestataire";
     },
   },
-  data() {
-    return {
-      presentation: "",
-      editorConfig: {
-        height: 300,
-        menubar: false,
-        plugins: "image link code",
-        toolbar: "undo redo | bold italic | alignleft aligncenter alignright | image link | code",
-        images_upload_url: "/upload-logo",
-        automatic_uploads: true,
-        images_upload_handler: async (blobInfo, success, failure) => {
-          let formData = new FormData();
-          formData.append("logo", blobInfo.blob());
-
-          try {
-            let response = await fetch("/upload-logo", {
-              method: "POST",
-              body: formData,
-            });
-            let data = await response.json();
-            if (data.success) {
-              success(data.logoUrl);
-            } else {
-              failure("Échec de l'upload");
-            }
-          } catch (error) {
-            failure("Erreur lors de l'upload");
-          }
-        },
-        base_url: "/tinymce",
-      },
-    };
-  },
   methods: {
-    saveContent() {
-      console.log("Contenu enregistré :", this.presentation);
+    startEditing() {
+      this.isEditing = true;
+      this.editableDescription = this.utilisateurConnecte?.description || "";
     },
+    saveDescription() {
+      if (this.isEditing) {
+        this.utilisateurConnecte.description = this.editableDescription;
+        console.log("Nouvelle description sauvegardée :", this.editableDescription);
+        this.isEditing = false;
+      }
+    },
+    cancelEditing() {
+      this.isEditing = false;
+      this.editableDescription = this.utilisateurConnecte?.description || "";
+    }
   },
   mounted() {
     if (!this.utilisateurConnecte) {
@@ -93,31 +88,76 @@ export default {
 
 <style scoped>
 .home-prestataire {
-  text-align: center;
+  max-width: 800px;
+  margin: auto;
   padding: 20px;
+  text-align: center;
 }
 
-h1 {
-  font-size: 24px;
-  color: #333;
+
+.editable-field {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 20px;
 }
 
-h2 {
-  color: black;
+.description-display {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background: #f8f8f8;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background 0.3s;
 }
 
-.logo {
-  max-width: 150px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.description-display:hover {
+  background: #e0e0e0;
 }
 
-.error {
-  color: red;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 20px;
-  font-size: 18px;
+.description-text {
+  font-size: 16px;
+  color: #333;
+}
+
+.edit-icon {
+  width: 20px;
+  margin-left: 10px;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.edit-icon:hover {
+  opacity: 1;
+}
+
+.editor-container{
+  width: 100%;
+}
+
+.editor-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.save-btn, .cancel-btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.save-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #dc3545;
+  color: white;
 }
 </style>
