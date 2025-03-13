@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS Expo_oeuvre CASCADE;
 DROP TABLE IF EXISTS Place_concert CASCADE;
 DROP TABLE IF EXISTS Concert CASCADE;
 DROP TABLE IF EXISTS Reservation_prestation CASCADE;
-DROP TABLE IF EXISTS Prestation CASCADE;
+DROP TABLE IF EXISTS prestation CASCADE;
 DROP TABLE IF EXISTS Billet_festival CASCADE;
 DROP TABLE IF EXISTS Evenement CASCADE;
 DROP TABLE IF EXISTS Billet_activite CASCADE;
@@ -26,7 +26,10 @@ DROP TABLE IF EXISTS demandes_organisateurs CASCADE;
 DROP TABLE IF EXISTS Bouteille CASCADE;
 DROP TABLE IF EXISTS Carre CASCADE;
 DROP TABLE IF EXISTS Organisateur CASCADE;
+DROP TABLE IF EXISTS prestataire CASCADE;
 DROP TABLE IF EXISTS Prestataire CASCADE;
+DROP TABLE IF EXISTS Prestation CASCADE;
+
 DROP TABLE IF EXISTS Utilisateur CASCADE;
 
 
@@ -43,7 +46,7 @@ CREATE TABLE Utilisateur (
     est_festivalier BOOLEAN NOT NULL
 );
 
-CREATE TABLE Prestataire (
+CREATE TABLE prestataire (
     id UUID PRIMARY KEY,
     societe VARCHAR(50) NOT NULL,
     adresse VARCHAR(150),
@@ -107,7 +110,7 @@ CREATE TABLE Billet_festival (
     utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE
 );
 
-CREATE TABLE Prestation (
+CREATE TABLE prestation (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
     prix INT NOT NULL,
@@ -120,7 +123,7 @@ CREATE TABLE Reservation_prestation (
     id SERIAL PRIMARY KEY,
     date TIMESTAMP NOT NULL,
     utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE,
-    prestation_id INT REFERENCES Prestation(id) ON DELETE CASCADE
+    prestation_id INT REFERENCES prestation(id) ON DELETE CASCADE
 );
 
 CREATE TABLE Concert (
@@ -221,7 +224,7 @@ CREATE TABLE gere (
 
 CREATE TABLE livre_dor (
     id INT PRIMARY KEY,
-    prestataire_id UUID REFERENCES Prestataire(id) ON DELETE CASCADE,
+    prestataire_id UUID REFERENCES prestataire(id) ON DELETE CASCADE,
     nom_utilisateur VARCHAR(255) NOT NULL,
     evaluation INT CHECK (evaluation BETWEEN 1 AND 5),
     message TEXT NOT NULL,
@@ -230,7 +233,7 @@ CREATE TABLE livre_dor (
 
 CREATE TABLE articles (
     id INT PRIMARY KEY,
-    prestataire_id UUID REFERENCES Prestataire(id) ON DELETE CASCADE,
+    prestataire_id UUID REFERENCES prestataire(id) ON DELETE CASCADE,
     nom VARCHAR(255) NOT NULL,
     description TEXT,
     prix DECIMAL(10, 2) NOT NULL,
@@ -285,7 +288,7 @@ VALUES
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f9', 'lemalfrat', 'harry', '1996-03-07', 'harry.lemalfrat@example.com', 'password3', 600, '8b975371-9be6-47cc-a121-9861430bb269', 'QR1121', FALSE),
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f0', 'lamenace', 'mathéo', '2000-12-25', 'matheo.lamenace@example.com', 'password', 800, '8b975371-9be6-47cc-a121-9861430bb260', 'QR3141', TRUE);
 
-INSERT INTO prestataire (id, societe, adresse, email, password)
+INSERT INTO prestataire (id, societe, adresse, email, motDePasse)
 VALUES
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f1', 'UberFlippe', '1 rue de la peur', 'uberflippe@outlook.fr', 'mpd123'),
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f2', 'Burger&co', '2 rue de la frite', 'burgerandco@gmail.com', 'mpd456');
