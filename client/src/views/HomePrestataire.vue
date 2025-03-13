@@ -2,20 +2,22 @@
   <div class="home-prestataire" v-if="accesPermission">
     <h1>Bienvenue {{ utilisateurConnecte?.societe }}</h1>
 
-    <div class="desactive_edition_description">
-      <div v-if="!isEditingDescription" @click="editerDescription" class="affiche_description">
-        <h1 class="description" v-html="utilisateurConnecte?.description"></h1>
-        <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" />
-      </div>
-      <div v-else class="active_edition_description">
-        <editor
-            ref="tinymceEditorDescription"
-            api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
-            v-model="editableDescription"
-            :init="{
+    <h1>Votre Description</h1>
+    <div v-if="utilisateurConnecte.description">
+      <div class="desactive_edition_description">
+        <div v-if="!isEditingDescription" @click="editerDescription" class="affiche_description">
+          <h1 class="description" v-html="utilisateurConnecte?.description"></h1>
+          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_description" />
+        </div>
+        <div v-else class="active_edition_description">
+          <editor
+              ref="tinymceEditorDescription"
+              api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
+              v-model="editableDescription"
+              :init="{
             height: 200,
             menubar: false,
-            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | image code',
+            toolbar: 'undo redo',
             plugins: 'link lists code image',
             base_url: '/tinymce',
             setup: (editor) => {
@@ -24,28 +26,128 @@
               });
             }
           }"
-        />
-        <div class="action_edition_description">
-          <button @click="sauvegarderDescription" class="sauvegardeDes_btn">Enregistrer</button>
-          <button @click="finEdition" class="finEdition_btn">Annuler</button>
+          />
+          <div class="action_edition_description">
+            <button @click="sauvegarderDescription" class="sauvegarde_btn">Enregistrer</button>
+            <button @click="finEditionDescription" class="finEdition_btn">Annuler</button>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="desactive_edition_theme">
-      <div v-if="!isEditingTheme" @click="editerTheme" class="affiche_theme">
-        <h1 class="theme" v-html="utilisateurConnecte?.theme"></h1>
-        <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" />
-      </div>
-      <div v-else class="active_edition_theme">
-        <editor
-            ref="tinymceEditorTheme"
-            api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
-            v-model="themeEditable"
-            :init="{
+    <div v-else>
+      <div class="desactive_edition_description">
+        <div v-if="!isEditingDescription" @click="editerDescription" class="affiche_description">
+          <h1 class="description-absent">Veuillez ajouter une description à votre prestation</h1>
+          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_description" />
+        </div>
+        <div v-else class="active_edition_description">
+          <editor
+              ref="tinymceEditorDescription"
+              api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
+              v-model="editableDescription"
+              :init="{
             height: 200,
             menubar: false,
-            toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | image code',
+            toolbar: 'undo redo',
+            plugins: 'link lists code image',
+            base_url: '/tinymce',
+            setup: (editor) => {
+              editor.on('init', () => {
+                editor.setContent(this.editableDescription);
+              });
+            }
+          }"
+          />
+          <div class="action_edition_description">
+            <button @click="sauvegarderDescription" class="sauvegarde_btn">Enregistrer</button>
+            <button @click="finEditionDescription" class="finEdition_btn">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h1>Votre nom de société</h1>
+    <div v-if="utilisateurConnecte.societe">
+      <div class="desactive_edition_societe">
+        <div v-if="!isEditingSociete" @click="editerSociete" class="affiche_societe">
+          <h1 class="societe-absent" v-html="utilisateurConnecte?.societe"></h1>
+          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_societe" />
+        </div>
+        <div v-else class="active_edition_societe">
+          <editor
+              ref="tinymceEditorSociete"
+              api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
+              v-model="editableSociete"
+              :init="{
+            height: 200,
+            menubar: false,
+            toolbar: 'undo redo',
+            plugins: 'link lists code image',
+            base_url: '/tinymce',
+            setup: (editor) => {
+              editor.on('init', () => {
+                editor.setContent(this.editableSociete);
+              });
+            }
+          }"
+          />
+          <div class="action_edition_societe">
+            <button @click="sauvegarderSociete" class="sauvegarde_btn">Enregistrer</button>
+            <button @click="finEditionSociete" class="finEdition_btn">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-else>
+      <div class="desactive_edition_societe">
+        <div v-if="!isEditingSociete" @click="editerSociete" class="affiche_societe">
+          <h1 class="societe-absent">Veuillez ajouter un nom à votre société</h1>
+          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_societe" />
+        </div>
+        <div v-else class="active_edition_societe">
+          <editor
+              ref="tinymceEditorSociete"
+              api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
+              v-model="editableSociete"
+              :init="{
+            height: 200,
+            menubar: false,
+            toolbar: 'undo redo',
+            plugins: 'link lists code image',
+            base_url: '/tinymce',
+            setup: (editor) => {
+              editor.on('init', () => {
+                editor.setContent(this.editableSociete);
+              });
+            }
+          }"
+          />
+          <div class="action_edition_societe">
+            <button @click="sauvegarderSociete" class="sauvegarde_btn">Enregistrer</button>
+            <button @click="finEditionSociete" class="finEdition_btn">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h1>Votre Thème</h1>
+    <div v-if="utilisateurConnecte.theme">
+      <div class="desactive_edition_theme">
+        <div v-if="!isEditingTheme" @click="editerTheme" class="affiche_theme">
+          <h1 class="theme" v-html="utilisateurConnecte?.theme"></h1>
+          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_theme" />
+        </div>
+        <div v-else class="active_edition_theme">
+          <editor
+              ref="tinymceEditorTheme"
+              api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
+              v-model="themeEditable"
+              :init="{
+            height: 200,
+            menubar: false,
+            toolbar: 'undo redo',
             plugins: 'link lists code image',
             base_url: '/tinymce',
             setup: (editor) => {
@@ -54,46 +156,316 @@
               });
             }
           }"
-        />
-        <div class="action_edition">
-          <button @click="sauvegarderTheme" class="sauvegardeDes_btn">Enregistrer</button>
-          <button @click="finEdition" class="finEdition_btn">Annuler</button>
+          />
+          <div class="action_edition">
+            <button @click="sauvegarderTheme" class="sauvegarde_btn">Enregistrer</button>
+            <button @click="finEditionTheme" class="finEdition_btn">Annuler</button>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="background-container" @click="editerImage">
-      <img :src="utilisateurConnecte?.background" :alt="utilisateurConnecte?.title" class="background" />
-      <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="utilisateurConnecte?.background"/>
+    <div v-else>
+      <div class="desactive_edition_theme">
+        <div v-if="!isEditingTheme" @click="editerTheme" class="affiche_theme">
+          <h1 class="theme-absent">Veuillez ajouter un thème à votre prestation</h1>
+          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_theme" />
+        </div>
+        <div v-else class="active_edition_theme">
+          <editor
+              ref="tinymceEditorTheme"
+              api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
+              v-model="themeEditable"
+              :init="{
+            height: 200,
+            menubar: false,
+            toolbar: 'undo redo',
+            plugins: 'link lists code image',
+            base_url: '/tinymce',
+            setup: (editor) => {
+              editor.on('init', () => {
+                editor.setContent(this.themeEditable);
+              });
+            }
+          }"
+          />
+          <div class="action_edition">
+            <button @click="sauvegarderTheme" class="sauvegarde_btn">Enregistrer</button>
+            <button @click="finEditionTheme" class="finEdition_btn">Annuler</button>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div v-if="isEditingImage" class="active_edition_image">
-      <editor
-          ref="tinymceEditorImage"
-          api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
-          v-model="imageEditable"
-          :init="{
-          height: 200,
-          menubar: false,
-          toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | image | code',
-          plugins: 'link lists image code',
-          base_url: '/tinymce',
-          setup: (editor) => {
-            editor.on('init', () => {
-              editor.setContent(this.imageEditable);
-      });
-      editor.ui.registry.addButton('image', {
-      text: 'Changer l\'image de fond',
-      onAction: () => {
-      this.uploadImage();
-      }
-      });
-      }
+    <h1>Votre Adresse</h1>
+    <div v-if="utilisateurConnecte.adresse">
+      <div class="desactive_edition_adresse">
+        <div v-if="!isEditingAdresse" @click="editerAdresse" class="affiche_adresse">
+          <h1 class="adresse" v-html="utilisateurConnecte?.adresse"></h1>
+          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_adresse" />
+        </div>
+        <div v-else class="active_edition_adresse">
+          <editor
+              ref="tinymceEditorAdresse"
+              api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
+              v-model="editableAdresse"
+              :init="{
+        height: 200,
+        menubar: false,
+        toolbar: 'undo redo',
+        plugins: 'link lists code image',
+        base_url: '/tinymce',
+        setup: (editor) => {
+          editor.on('init', () => {
+            editor.setContent(this.editableAdresse);
+          });
+        }
       }"
-      />
-      <div class="action_edition">
-        <button @click="sauvegarderImage" class="sauvegardeDes_btn">Enregistrer</button>
-        <button @click="finEditionImage" class="finEdition_btn">Annuler</button>
+          />
+          <div class="action_edition_adresse">
+            <button @click="sauvegarderAdresse" class="sauvegarde_btn">Enregistrer</button>
+            <button @click="finEditionAdresse" class="finEdition_btn">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-else>
+      <div class="desactive_edition_adresse">
+        <div v-if="!isEditingAdresse" @click="editerAdresse" class="affiche_adresse">
+          <h1 class="adresse-absent">Veuillez ajouter une adresse à votre société</h1>
+          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_adresse" />
+        </div>
+        <div v-else class="active_edition_adresse">
+          <editor
+              ref="tinymceEditorAdresse"
+              api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
+              v-model="editableAdresse"
+              :init="{
+        height: 200,
+        menubar: false,
+        toolbar: 'undo redo',
+        plugins: 'link lists code image',
+        base_url: '/tinymce',
+        setup: (editor) => {
+          editor.on('init', () => {
+            editor.setContent(this.editableAdresse);
+          });
+        }
+      }"
+          />
+          <div class="action_edition_adresse">
+            <button @click="sauvegarderAdresse" class="sauvegarde_btn">Enregistrer</button>
+            <button @click="finEditionAdresse" class="finEdition_btn">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h1>Votre Background de slide</h1>
+    <div v-if="utilisateurConnecte.background">
+      <div class="background-container" @click="editerImage">
+        <img v-if="!isEditingImage" :src="utilisateurConnecte?.background" :alt="utilisateurConnecte?.title" class="background" />
+        <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="utilisateurConnecte?.background && !isEditingImage"/>
+      </div>
+
+      <div v-if="isEditingImage" class="active_edition_image">
+        <editor
+            ref="tinymceEditorImage"
+            api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
+            v-model="imageEditable"
+            :init="{
+        height: 200,
+        menubar: false,
+        toolbar: 'image',
+        plugins: 'link lists image code',
+        base_url: '/tinymce',
+        setup: (editor) => {
+          editor.on('init', () => {
+            editor.setContent(`<img src='${this.utilisateurConnecte?.background}' alt='Image de fond' />`);
+          });
+        },
+        file_picker_types: 'image',
+        automatic_uploads: true,
+        file_picker_callback: this.filePickerCallback
+      }"
+        />
+        <div class="action_edition">
+          <button @click="sauvegarderImage" class="sauvegarde_btn">Enregistrer</button>
+          <button @click="finEditionImage" class="finEdition_btn">Annuler</button>
+        </div>
+      </div>
+    </div>
+
+    <div v-else>
+      <div class="background-container" @click="editerImage">
+        <h1 class="background-absent">Veuillez ajouter une image à votre société</h1>
+        <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="utilisateurConnecte?.background && !isEditingImage"/>
+      </div>
+
+      <div v-if="isEditingImage" class="active_edition_image">
+        <editor
+            ref="tinymceEditorImage"
+            api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
+            v-model="imageEditable"
+            :init="{
+        height: 200,
+        menubar: false,
+        toolbar: 'image',
+        plugins: 'link lists image code',
+        base_url: '/tinymce',
+        setup: (editor) => {
+          editor.on('init', () => {
+            editor.setContent(`<img src='${this.utilisateurConnecte?.background}' alt='Image de fond' />`);
+          });
+        },
+        file_picker_types: 'image',
+        automatic_uploads: true,
+        file_picker_callback: this.filePickerCallback
+      }"
+        />
+        <div class="action_edition">
+          <button @click="sauvegarderImage" class="sauvegarde_btn">Enregistrer</button>
+          <button @click="finEditionImage" class="finEdition_btn">Annuler</button>
+        </div>
+      </div>
+    </div>
+
+    <h1>Votre Logo</h1>
+    <div v-if="utilisateurConnecte.logo">
+      <div class="logo-container" @click="editerLogo">
+        <img v-if="!isEditingLogo" :src="utilisateurConnecte?.logo" :alt="utilisateurConnecte?.societe" class="logo" />
+        <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="utilisateurConnecte?.logo && !isEditingLogo"/>
+      </div>
+
+      <div v-if="isEditingLogo" class="active_edition_logo">
+        <editor
+            ref="tinymceEditorLogo"
+            api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
+            v-model="logoEditable"
+            :init="{
+      height: 200,
+      menubar: false,
+      toolbar: 'image',
+      plugins: 'link lists image code',
+      base_url: '/tinymce',
+      setup: (editor) => {
+        editor.on('init', () => {
+          editor.setContent(`<img src='${this.utilisateurConnecte?.logo}' alt='Logo de fond' />`);
+        });
+      },
+      file_picker_types: 'image',
+      automatic_uploads: true,
+      file_picker_callback: this.filePickerCallback
+    }"
+        />
+        <div class="action_edition">
+          <button @click="sauvegarderLogo" class="sauvegarde_btn">Enregistrer</button>
+          <button @click="finEditionLogo" class="finEdition_btn">Annuler</button>
+        </div>
+      </div>
+    </div>
+
+    <div v-else>
+      <div class="logo-container" @click="editerLogo">
+        <h1 class="logo-absent">Veuillez ajouter un logo à votre société</h1>
+        <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="utilisateurConnecte?.logo && !isEditingLogo"/>
+      </div>
+
+      <div v-if="isEditingLogo" class="active_edition_logo">
+        <editor
+            ref="tinymceEditorLogo"
+            api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
+            v-model="logoEditable"
+            :init="{
+      height: 200,
+      menubar: false,
+      toolbar: 'image',
+      plugins: 'link lists image code',
+      base_url: '/tinymce',
+      setup: (editor) => {
+        editor.on('init', () => {
+          editor.setContent(`<img src='${this.utilisateurConnecte?.logo}' alt='Logo de fond' />`);
+        });
+      },
+      file_picker_types: 'image',
+      automatic_uploads: true,
+      file_picker_callback: this.filePickerCallback
+    }"
+        />
+        <div class="action_edition">
+          <button @click="sauvegarderLogo" class="sauvegarde_btn">Enregistrer</button>
+          <button @click="finEditionLogo" class="finEdition_btn">Annuler</button>
+        </div>
+      </div>
+    </div>
+
+    <h1>Votre Bannière</h1>
+    <div v-if="utilisateurConnecte.background2">
+      <div class="background2-container" @click="editerImage2">
+        <img v-if="!isEditingImage2" :src="utilisateurConnecte?.background2" :alt="utilisateurConnecte?.title" class="background2" />
+        <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="utilisateurConnecte?.background && !isEditingImage2"/>
+      </div>
+
+      <div v-if="isEditingImage2" class="active_edition_image2">
+        <editor
+            ref="tinymceEditorImage2"
+            api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
+            v-model="imageEditable2"
+            :init="{
+    height: 200,
+    menubar: false,
+    toolbar: 'image',
+    plugins: 'link lists image code',
+    base_url: '/tinymce',
+    setup: (editor) => {
+      editor.on('init', () => {
+        editor.setContent(`<img src='${this.utilisateurConnecte?.background2}' alt='Image de fond' />`);
+      });
+    },
+    file_picker_types: 'image',
+    automatic_uploads: true,
+    file_picker_callback: this.filePickerCallback
+  }"
+        />
+        <div class="action_edition">
+          <button @click="sauvegarderImage2" class="sauvegarde_btn">Enregistrer</button>
+          <button @click="finEditionImage2" class="finEdition_btn">Annuler</button>
+        </div>
+      </div>
+    </div>
+
+    <div v-else>
+      <div class="background2-container" @click="editerImage2">
+        <h1 class="background2-absent">Veuillez ajouter un logo à votre société</h1>
+        <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="utilisateurConnecte?.background && !isEditingImage2"/>
+      </div>
+
+      <div v-if="isEditingImage2" class="active_edition_image2">
+        <editor
+            ref="tinymceEditorImage2"
+            api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
+            v-model="imageEditable2"
+            :init="{
+    height: 200,
+    menubar: false,
+    toolbar: 'image',
+    plugins: 'link lists image code',
+    base_url: '/tinymce',
+    setup: (editor) => {
+      editor.on('init', () => {
+        editor.setContent(`<img src='${this.utilisateurConnecte?.background2}' alt='Image de fond' />`);
+      });
+    },
+    file_picker_types: 'image',
+    automatic_uploads: true,
+    file_picker_callback: this.filePickerCallback
+  }"
+        />
+        <div class="action_edition">
+          <button @click="sauvegarderImage2" class="sauvegarde_btn">Enregistrer</button>
+          <button @click="finEditionImage2" class="finEdition_btn">Annuler</button>
+        </div>
       </div>
     </div>
   </div>
@@ -102,7 +474,8 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+/* global tinymce */
+import {mapActions, mapGetters} from "vuex";
 import Editor from "@tinymce/tinymce-vue";
 
 export default {
@@ -115,9 +488,17 @@ export default {
       isEditingDescription: false,
       isEditingTheme: false,
       isEditingImage: false,
+      isEditingSociete: false,
+      isEditingAdresse: false,
+      isEditingLogo: false,
+      isEditingImage2: false,
       editableDescription: "",
+      editableSociete: "",
       themeEditable: "",
       imageEditable: "",
+      editableAdresse: "",
+      logoEditable: "",
+      imageEditable2: "",
     };
   },
   computed: {
@@ -127,9 +508,14 @@ export default {
     },
   },
   methods: {
+    ...mapActions('ProfilStore',['updateDescriptionPrestataire','updateSocietePrestataire', 'updateThemePrestataire', 'updateAdressePrestataire', 'updateImagePrestataire', 'updateImage2Prestataire', 'updateLogoPrestataire']),
     editerDescription() {
       this.isEditingDescription = true;
       this.editableDescription = this.utilisateurConnecte?.description || "";
+    },
+    editerSociete() {
+      this.isEditingSociete = true;
+      this.editableSociete = this.utilisateurConnecte?.societe || "";
     },
     editerTheme() {
       this.isEditingTheme = true;
@@ -137,51 +523,142 @@ export default {
     },
     editerImage() {
       this.isEditingImage = true;
+      this.imageEditable = this.utilisateurConnecte?.background || "";
+    },
+    editerLogo() {
+      this.isEditingLogo = true;
+      this.logoEditable = this.utilisateurConnecte?.logo || "";
+    },
+    editerImage2() {
+      this.isEditingImage2 = true;
+      this.imageEditable2 = this.utilisateurConnecte?.background2 || "";
+    },
+    editerAdresse() {
+      this.isEditingAdresse = true;
+      this.editableAdresse = this.utilisateurConnecte?.adresse || "";
     },
     sauvegarderDescription() {
-      const editorInstance = this.$refs.tinymceEditorDescription?.getEditor();
+      let id = this.utilisateurConnecte?.id;
+      let editorInstance = this.$refs.tinymceEditorDescription?.getEditor();
       if (editorInstance) {
-        this.utilisateurConnecte.description = editorInstance.getContent();
+        let nouvelleDescription = editorInstance.getContent({ format: 'text' }).trim();
+        if (id && nouvelleDescription) {
+          this.updateDescriptionPrestataire({ id, nouvelleDescription });
+        }
       }
       this.isEditingDescription = false;
     },
-    sauvegarderTheme() {
-      const editorInstance = this.$refs.tinymceEditorTheme?.getEditor();
+    sauvegarderSociete() {
+      let id = this.utilisateurConnecte?.id;
+      let editorInstance = this.$refs.tinymceEditorSociete?.getEditor();
       if (editorInstance) {
-        this.utilisateurConnecte.theme = editorInstance.getContent();
+        let nouvelleSociete = editorInstance.getContent({ format: 'text' }).trim();
+        if (id && nouvelleSociete) {
+          this.updateSocietePrestataire({ id, nouvelleSociete });
+        }
+      }
+      this.isEditingSociete = false;
+    },
+    sauvegarderTheme() {
+      let id = this.utilisateurConnecte?.id;
+      let editorInstance = this.$refs.tinymceEditorTheme?.getEditor();
+      if (editorInstance) {
+        let nouveauTheme = editorInstance.getContent({ format: 'text' }).trim();
+        if (id && nouveauTheme) {
+          this.updateThemePrestataire({ id, nouveauTheme });
+        }
       }
       this.isEditingTheme = false;
     },
     sauvegarderImage() {
-      const editorInstance = this.$refs.tinymceEditorImage?.getEditor();
+      let id = this.utilisateurConnecte?.id;
+      let editorInstance = this.$refs.tinymceEditorImage?.getEditor();
       if (editorInstance) {
-        const newImageSrc = editorInstance.getContent().match(/src="([^"]+)"/)[1];
-        this.utilisateurConnecte.background = newImageSrc;
+        let nouvelleImage = editorInstance.getContent().match(/src="([^"]+)"/)[1];
+        if (id && nouvelleImage) {
+          this.updateImagePrestataire({ id, nouvelleImage });
+        }
       }
       this.isEditingImage = false;
     },
-    finEdition() {
+    sauvegarderImage2() {
+      let id = this.utilisateurConnecte?.id;
+      let editorInstance = this.$refs.tinymceEditorImage2?.getEditor();
+      if (editorInstance) {
+        let nouvelleImage2 = editorInstance.getContent().match(/src="([^"]+)"/)[1];
+        if (id && nouvelleImage2) {
+          this.updateImage2Prestataire({ id, nouvelleImage2 });
+        }
+      }
+      this.isEditingImage2 = false;
+    },
+    sauvegarderLogo() {
+      let id = this.utilisateurConnecte?.id;
+      let editorInstance = this.$refs.tinymceEditorLogo?.getEditor();
+      if (editorInstance) {
+        let nouveauLogo = editorInstance.getContent().match(/src="([^"]+)"/)[1];
+        if (id && nouveauLogo) {
+          this.updateLogoPrestataire({ id, nouveauLogo });
+        }
+      }
+      this.isEditingLogo = false;
+    },
+    sauvegarderAdresse() {
+      let id = this.utilisateurConnecte?.id;
+      let editorInstance = this.$refs.tinymceEditorAdresse?.getEditor();
+      if (editorInstance) {
+        let nouvelleAdresse = editorInstance.getContent({ format: 'text' }).trim();
+        if (id && nouvelleAdresse) {
+          this.updateAdressePrestataire({ id, nouvelleAdresse });
+        }
+      }
+      this.isEditingAdresse = false;
+    },
+    finEditionDescription() {
       this.isEditingDescription = false;
       this.editableDescription = this.utilisateurConnecte?.description || "";
+    },
+    finEditionTheme() {
+      this.isEditingTheme = false;
+      this.themeEditable = this.utilisateurConnecte?.theme || "";
+    },
+    finEditionAdresse() {
+      this.isEditingAdresse = false;
+      this.editableAdresse = this.utilisateurConnecte?.adresse || "";
+    },
+    finEditionSociete() {
+      this.isEditingSociete = false;
+      this.editableSociete = this.utilisateurConnecte?.societe || "";
     },
     finEditionImage() {
       this.isEditingImage = false;
     },
-    uploadImage() {
+    finEditionImage2() {
+      this.isEditingImage2 = false;
+    },
+    finEditionLogo() {
+      this.isEditingLogo = false;
+    },
+    filePickerCallback(cb) {
       const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      input.onchange = (event) => {
-        const file = event.target.files[0];
+      input.setAttribute('type', 'file');
+      input.setAttribute('accept', 'image/*');
+      input.addEventListener('change', (e) => {
+        const file = e.target.files[0];
         if (file) {
           const reader = new FileReader();
-          reader.onload = (e) => {
-            const imageUrl = e.target.result;
-            this.utilisateurConnecte.background = imageUrl;
+          reader.onload = (readerEvent) => {
+            const id = 'blobid' + (new Date()).getTime();
+            const blobCache = tinymce.activeEditor.editorUpload.blobCache;
+            const base64 = readerEvent.target.result.split(',')[1];
+            const blobInfo = blobCache.create(id, file, base64);
+            blobCache.add(blobInfo);
+
+            cb(blobInfo.blobUri(), { title: file.name });
           };
           reader.readAsDataURL(file);
         }
-      };
+      });
       input.click();
     }
   },
@@ -196,32 +673,160 @@ export default {
 </script>
 
 <style scoped>
-.background-container {
+.home-prestataire {
+  font-family: 'Arial', sans-serif;
+  margin: 20px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 2rem;
+  color: #333;
+}
+
+.desactive_edition_description,
+.desactive_edition_societe,
+.desactive_edition_theme,
+.desactive_edition_adresse {
+  margin-bottom: 20px;
+}
+
+.affiche_description,
+.affiche_societe,
+.affiche_theme,
+.affiche_adresse {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.edit-icon_description,
+.edit-icon_societe,
+.edit-icon_theme,
+.edit-icon_adresse,
+.edit-icon {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.edit-icon_description:hover,
+.edit-icon_societe:hover,
+.edit-icon_theme:hover,
+.edit-icon_adresse:hover,
+.edit-icon:hover {
+  transform: scale(1.2);
+}
+
+.active_edition_description,
+.active_edition_societe,
+.active_edition_theme,
+.active_edition_adresse {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.action_edition_description,
+.action_edition_societe,
+.action_edition,
+.action_edition_adresse {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.sauvegarde_btn,
+.finEdition_btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.sauvegarde_btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.sauvegarde_btn:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+.finEdition_btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.finEdition_btn:hover {
+  background-color: #e53935;
+  transform: scale(1.05);
+}
+
+.background-container,
+.logo-container,
+.background2-container {
   position: relative;
-  display: inline-block;
+  width: 100%;
+  margin-bottom: 30px;
+  cursor: pointer;
+}
+
+.background,
+.logo,
+.background2 {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
 }
 
 .edit-icon {
   position: absolute;
-  top: 10px;
+  bottom: 15px;
   right: 10px;
-  width: 24px;
   cursor: pointer;
-  opacity: 0.7;
+  width: 25px;
+  height: 25px;
+  background-color: rgba(237, 233, 233, 0.6);
+  border-radius: 10%;
+  padding: 5px;
+  transition: background-color 0.3s ease;
 }
 
 .edit-icon:hover {
-  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
-.active_edition_image {
+.error {
+  color: #ff3b3b;
+  font-size: 1.2rem;
+  font-weight: bold;
   margin-top: 20px;
-  width: 100%;
-  max-width: 800px;
-  background: #fff;
-  border: 1px solid #ddd;
+}
+
+.active_edition_image,
+.active_edition_logo,
+.active_edition_image2 {
+  background-color: #ffffff;
+  padding: 20px;
   border-radius: 8px;
-  padding: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 </style>

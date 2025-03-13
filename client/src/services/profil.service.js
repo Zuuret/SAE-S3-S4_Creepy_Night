@@ -34,6 +34,27 @@ async function getPrestatairebyIdFromLocalSource(idPrestataire){
 async function getOrganisateurbyIdFromLocalSource(idOrganisateur){
     return LocalSource.getOrganisateurById(idOrganisateur)
 }
+async function updateDescriptionPrestataireFromLocalSource(id, nouvelleDescription){
+    return LocalSource.updateDescriptionPrestataire(id, nouvelleDescription)
+}
+async function updateSocietePrestataireFromLocalSource(id, nouvelleSociete){
+    return LocalSource.updateSocietePrestataire(id, nouvelleSociete)
+}
+async function updateThemePrestataireFromLocalSource(id, nouveauTheme){
+    return LocalSource.updateThemePrestataire(id, nouveauTheme)
+}
+async function updateAdressePrestataireFromLocalSource(id, nouvelleAdresse){
+    return LocalSource.updateAdressePrestataire(id, nouvelleAdresse)
+}
+async function updateImagePrestataireFromLocalSource(id, nouvelleImage){
+    return LocalSource.updateImagePrestataire(id, nouvelleImage)
+}
+async function updateImage2PrestataireFromLocalSource(id, nouvelleImage2){
+    return LocalSource.updateImage2Prestataire(id, nouvelleImage2)
+}
+async function updateLogoPrestataireFromLocalSource(id, nouveauLogo){
+    return LocalSource.updateLogoPrestataire(id, nouveauLogo)
+}
 
 async function ajoutUtilisateur(data) {
     let response;
@@ -145,6 +166,76 @@ async function getOrganisateurbyId(idPrestataire){
     return response
 }
 
+async function updateDescriptionPrestataire(id, nouvelleDescription){
+    let response;
+    try {
+        response = await updateDescriptionPrestataireFromLocalSource(id, nouvelleDescription)
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible de modifier la description du prestataire" }
+    }
+    return response
+}
+
+async function updateSocietePrestataire(id, nouvelleSociete){
+    let response;
+    try {
+        response = await updateSocietePrestataireFromLocalSource(id, nouvelleSociete)
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible de modifier le nom du prestataire" }
+    }
+    return response
+}
+
+async function updateThemePrestataire(id, nouveauTheme){
+    let response;
+    try {
+        response = await updateThemePrestataireFromLocalSource(id, nouveauTheme)
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible de modifier le theme du prestataire" }
+    }
+    return response
+}
+
+async function updateAdressePrestataire(id, nouvelleAdresse){
+    let response;
+    try {
+        response = await updateAdressePrestataireFromLocalSource(id, nouvelleAdresse)
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible de modifier l'adresse du prestataire" }
+    }
+    return response
+}
+
+async function updateImagePrestataire(id, nouvelleImage){
+    let response;
+    try {
+        response = await updateImagePrestataireFromLocalSource(id, nouvelleImage)
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible de modifier l'image du prestataire" }
+    }
+    return response
+}
+
+async function updateImage2Prestataire(id, nouvelleImage2){
+    let response;
+    try {
+        response = await updateImage2PrestataireFromLocalSource(id, nouvelleImage2)
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible de modifier l'image 2 du prestataire" }
+    }
+    return response
+}
+
+async function updateLogoPrestataire(id, nouveauLogo){
+    let response;
+    try {
+        response = await updateLogoPrestataireFromLocalSource(id, nouveauLogo)
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible de modifier le logo du prestataire" }
+    }
+    return response
+}
+
 export async function getAllUtilisateurs() {
     return { error: 0, data: data.utilisateurs }; 
 }
@@ -189,5 +280,12 @@ export default {
     getAllPrestataire,
     getUserbyId,
     getPrestatairebyId,
-    getOrganisateurbyId
+    getOrganisateurbyId,
+    updateDescriptionPrestataire,
+    updateSocietePrestataire,
+    updateThemePrestataire,
+    updateAdressePrestataire,
+    updateImagePrestataire,
+    updateImage2Prestataire,
+    updateLogoPrestataire
 }
