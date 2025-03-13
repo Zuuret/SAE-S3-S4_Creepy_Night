@@ -29,6 +29,8 @@
 export default {
   data() {
     return {
+      touchStartDistance: null,
+      initialZoom: 1,
       zoomLevel: 1,
       maxZoom: 3,
       minZoom: 1,
@@ -51,6 +53,29 @@ export default {
     };
   },
   methods: {
+    handleTouchStart(e) {
+      if (e.touches.length === 2) {
+        this.touchStartDistance = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+        );
+        this.initialZoom = this.zoomLevel;
+      }
+    },
+
+    handleTouchMove(e) {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const currentDistance = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+        );
+
+        const zoomFactor = currentDistance / this.touchStartDistance;
+        this.zoomLevel = Math.min(this.maxZoom,
+            Math.max(this.minZoom, this.initialZoom * zoomFactor));
+      }
+    },
     onWheel(event) {
       event.preventDefault();
 
@@ -90,6 +115,17 @@ export default {
       this.selectedIcon = null;
     },
   },
+  mounted() {
+    window.addEventListener('resize', this.handleResize);
+    this.$el.addEventListener('touchstart', this.handleTouchStart);
+    this.$el.addEventListener('touchmove', this.handleTouchMove);
+  },
+
+  beforeUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+    this.$el.removeEventListener('touchstart', this.handleTouchStart);
+    this.$el.removeEventListener('touchmove', this.handleTouchMove);
+  },
 };
 </script>
 
@@ -97,25 +133,26 @@ export default {
 .interactive-container {
   position: relative;
   width: 100%;
-  height: 100vh;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
   overflow: hidden;
 }
 
 .zoom-container {
-  position: relative;
+  position: absolute;
+  top: 23%;
+  left: 0;
   width: 100%;
-  height: 100%;
-  cursor: pointer;
-  transition: transform 0.2s ease;
+  height: 75%;
 }
 
-
 .map-image {
-  position: relative;
-  top: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto; 
-  border-radius: 10px;
+  height: 100%;
+  object-fit: contain;
 }
 
 .icon-container {
@@ -126,7 +163,7 @@ export default {
   top: 0;
   left: 0;
   cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .icon {
@@ -144,12 +181,12 @@ export default {
   max-width: 300px;
   position: absolute;
   bottom: 100%;
-  transform: translateY(-10px); 
+  transform: translateY(-10px);
   text-align: center;
   background-color: rgba(0, 0, 0, 0.7);
   color: white;
-  padding: 12px 15px; 
-  border-radius: 8px; 
+  padding: 12px 15px;
+  border-radius: 8px;
   z-index: 10;
   pointer-events: auto;
   transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
@@ -190,12 +227,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center; 
-  width: 90%;
+  width: 95%;
   margin: 0 auto;
-  height: 90vh; 
+  height: 90vh;
   background-color: #f5f5f5; 
   border-radius: 15px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 
 
@@ -247,7 +285,7 @@ export default {
 
 .interactive-container {
   flex-grow: 1; 
-  max-width: 70%; 
+  max-width: 70%;
   position: relative;
   overflow: hidden;
 }
@@ -277,4 +315,127 @@ export default {
   transform: scale(0.95);
 }
 
+@media (max-width: 1024px) {
+  .interactive-map-container {
+    flex-direction: column;
+    height: auto;
+    padding: 20px;
+  }
+
+  .legend {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .legend h3 {
+    margin: 0;
+  }
+
+  .interactive-container {
+    width: 100%;
+    height: auto;
+  }
+
+  .icon {
+    width: 50px;
+    height: 70px;
+  }
+
+  .icon-info {
+    width: 300%;
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .icon-info {
+    bottom: auto !important;
+    top: 100% !important;
+    transform: translateY(10px) !important;
+    width: 90vw;
+    max-width: 200px;
+    left: 50% !important;
+    margin-left: -45vw;
+  }
+
+  .icon-info h4 {
+    font-size: 14px;
+  }
+
+  .icon-info p {
+    font-size: 12px;
+  }
+
+  .legend h3 {
+    font-size: 150%;
+  }
+
+  .legend li {
+    font-size: 14px;
+  }
+
+  .icon-container {
+    transform: scale(0.8);
+  }
+
+  .icon {
+    width: 35px;
+    height: 45px;
+  }
+}
+
+@media (max-width: 480px) {
+  .interactive-map-container {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+
+  .legend {
+    width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    padding: 10px;
+  }
+
+  .interactive-container {
+    width: 100%;
+    height: auto;
+  }
+
+  .detail-button {
+    font-size: 12px;
+    padding: 8px 16px;
+  }
+
+  .legend li {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .legend h3 {
+    font-size: 2.25rem;
+    margin: 0;
+  }
+
+  .icon {
+    width: 15px;
+    height: 30px;
+  }
+
+  .icon-info {
+    width: 450%;
+    max-width: 150px;
+  }
+
+  .icon-info h4 {
+    font-size: 14px;
+  }
+
+  .icon-info p {
+    font-size: 10px;
+  }
+
+}
 </style>

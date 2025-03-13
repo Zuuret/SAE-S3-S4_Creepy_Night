@@ -57,7 +57,6 @@ export default ({
         updateUtilisateurConnecte(state, utilisateur) {
             state.utilisateurConnecte = utilisateur;
             localStorage.setItem("utilisateurConnecte", JSON.stringify(utilisateur));
-            console.log('Utilisateur connecté:');
         },
         updateSoldeUtilisateur(state, solde) {
             state.utilisateurConnecte.solde = solde;

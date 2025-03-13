@@ -8,7 +8,9 @@ const prestationRouter = require("./routes/prestations.router");
 const achatBilletRouter = require("./routes/achat_billet.router");
 const transactionHistoriqueRouter = require("./routes/transactions.router");
 const signalementRouter = require("./routes/signalement.router");
-
+const demandesPrestatairesRouter = require("./routes/demandesPrestataires.router");
+const organisateursRouter = require("./routes/organisateurs.router");
+const demandesOrganisateurRouter = require("./routes/demandesOrganisateurs.router");
 
 
 
@@ -33,6 +35,9 @@ app.use("/api/prestations",prestationRouter);
 app.use("/api/achat",achatBilletRouter);
 app.use("/api/transactions",transactionHistoriqueRouter);
 app.use("/api/signalement",signalementRouter);
+app.use("/api/demandePresta",demandesPrestatairesRouter);
+app.use("/api/organisateurs",organisateursRouter);
+app.use("/api/demandeOrga",demandesOrganisateurRouter);
 
 
 
@@ -50,8 +55,8 @@ const swaggerOption = {
     },
     apis: ["./routes/users.router.js", "./routes/concerts.router.js", "./routes/expos.router.js", "./routes/films.router.js",
         "./routes/prestataires.router.js", "./routes/prestations.router.js", "./routes/achat_billet.router.js",
-        "./routes/transactions.router.js", "./routes/signalement.router.js"
-
+        "./routes/transactions.router.js", "./routes/signalement.router.js", "./routes/demandesPrestataires.router.js",
+        "./routes/organisateurs", "./routes/demandesOrganisateurs.router.js"
     ],
 };
 

@@ -30,6 +30,13 @@ async function addReservationArticleFromLocalSource(idUser) {
 async function getReservationArticleByIdFromLocalSource(utilisateurId){
     return LocalSource.getReservationArticleById(utilisateurId)
 }
+async function setPrestataireArticleFromLocalSource(data){
+    return LocalSource.setPrestataireArticle(data)
+}
+async function delPrestataireArticleFromLocalSource(id){
+    return LocalSource.delPrestataireArticle(id)
+}
+
 
 async function getLivreDOr(idPrestataire) {
     let response;
@@ -121,6 +128,26 @@ async function getReservationArticleById(utilisateurId){
     }
     return response
 }
+async function setPrestataireArticle(data){
+    let response;
+    try {
+        response = await setPrestataireArticleFromLocalSource(data)
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible de modifier l'article de la société" }
+    }
+    return response
+}
+
+async function delPrestataireArticle(id){
+    let response;
+    try {
+        response = await delPrestataireArticleFromLocalSource(id)
+    } catch(err) {
+        console.log(err)
+        response = {error: 1, status: 404, data: "erreur réseau, impossible de supprimer l'article de la société" }
+    }
+    return response
+}
 
 
 export default {
@@ -133,5 +160,7 @@ export default {
     incrementerQuantiteArticle,
     diminuerQuantiteArticle,
     addReservationArticle,
-    getReservationArticleById
+    getReservationArticleById,
+    setPrestataireArticle,
+    delPrestataireArticle,
 }

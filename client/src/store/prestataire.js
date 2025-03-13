@@ -21,7 +21,7 @@ export default ({
             console.log(state.livreDOr)
         },
         ajoutLivreDOr(state, commentaire) {
-            state.livreDOr.push(commentaire)
+            state.livreDOr.unshift(commentaire)
             console.log(state.livreDOr)
         },
         updateListeArticlesId(state, articlesId){
@@ -174,6 +174,24 @@ export default ({
             let response = await PrestaireService.getReservationArticleById(utilisateurId)
             if (response.error === 0) {
                 commit('updateReservationArticleId', response.data);
+            } else {
+                console.log(response.data);
+            }
+        },
+        async setPrestataireArticle({commit}, data){
+            console.log("Récupération de l'article d'ID :", data)
+            let response = await PrestaireService.setPrestataireArticle(data)
+            if (response.error === 0) {
+                commit('updateArticleById', response.data);
+            } else {
+                console.log(response.data);
+            }
+        },
+        async delPrestataireArticle({commit}, articleId){
+            console.log("Récupération de l'article d'ID :", articleId)
+            let response = await PrestaireService.delPrestataireArticle(articleId)
+            if (response.error === 0) {
+                commit('updateArticleById', response.data);
             } else {
                 console.log(response.data);
             }
