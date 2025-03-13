@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors');
 const userRouter = require("./routes/users.router");
 const concertRouter = require("./routes/concerts.router");
 const expoRouter = require("./routes/expos.router");
@@ -21,6 +22,7 @@ const swaggerUi = require("swagger-ui-express");
 
 const PORT = 3000;
 const app = express();
+app.use(cors());
 
 // Middleware traitement JSON 
 app.use(express.json());
