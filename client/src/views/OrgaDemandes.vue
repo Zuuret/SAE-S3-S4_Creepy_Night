@@ -104,18 +104,34 @@
         "fetchDemandesOrganisateurs",
         "accepterDemandePrestataire",
         "accepterDemandeOrganisateur",
+        "deleteDemandePrestataire",
+        "deleteDemandeOrganisateur",
       ]),
       handleAccepterDemandePrestataire(demande) {
         this.accepterDemandePrestataire(demande);
       },
-      rejeterDemandePrestataire(demande) {
-        this.$store.commit("profil/removeDemandePrestataire", demande.id);
+      async rejeterDemandePrestataire(demande) {
+        const confirmDelete = confirm("Êtes-vous sûr de vouloir rejeter cette demande ?");
+        if (confirmDelete) {
+          try {
+            await this.deleteDemandePrestataire(demande.id);
+          } catch (error) {
+            console.error("Erreur lors de la suppression de la demande prestataire", error);
+          }
+        }
+      },
+      async rejeterDemandeOrganisateur(demande) {
+        const confirmDelete = confirm("Êtes-vous sûr de vouloir rejeter cette demande ?");
+        if (confirmDelete) {
+          try {
+            await this.deleteDemandeOrganisateur(demande.id);
+          } catch (error) {
+            console.error("Erreur lors de la suppression de la demande organisateur", error);
+          }
+        }
       },
       handleAccepterDemandeOrganisateur(demande) {
         this.accepterDemandeOrganisateur(demande);
-      },
-      rejeterDemandeOrganisateur(demande) {
-        this.$store.commit("profil/removeDemandeOrganisateur", demande.id);
       },
     },
     mounted() {

@@ -12,6 +12,7 @@ const signalementRouter = require("./routes/signalement.router");
 const demandesPrestatairesRouter = require("./routes/demandesPrestataires.router");
 const organisateursRouter = require("./routes/organisateurs.router");
 const demandesOrganisateurRouter = require("./routes/demandesOrganisateurs.router");
+const livreDOrRouter = require("./routes/livreDOr.router")
 
 
 
@@ -40,6 +41,7 @@ app.use("/api/signalement",signalementRouter);
 app.use("/api/demandePresta",demandesPrestatairesRouter);
 app.use("/api/organisateurs",organisateursRouter);
 app.use("/api/demandeOrga",demandesOrganisateurRouter);
+app.use("/api/livreDOr", livreDOrRouter)
 
 
 
@@ -58,7 +60,7 @@ const swaggerOption = {
     apis: ["./routes/users.router.js", "./routes/concerts.router.js", "./routes/expos.router.js", "./routes/films.router.js",
         "./routes/prestataires.router.js", "./routes/prestations.router.js", "./routes/achat_billet.router.js",
         "./routes/transactions.router.js", "./routes/signalement.router.js", "./routes/demandesPrestataires.router.js",
-        "./routes/organisateurs", "./routes/demandesOrganisateurs.router.js"
+        "./routes/organisateurs", "./routes/demandesOrganisateurs.router.js", "./routes/livreDOr.router.js"
     ],
 };
 

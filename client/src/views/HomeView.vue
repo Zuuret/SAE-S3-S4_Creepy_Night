@@ -9,14 +9,14 @@
         <CompteRebours />
       </div>
       <button class="scroll-down-button" @click="scrollDown">
-      <img src="@/assets/scrolldown.png" alt="Descendre" class="scroll-icon">
-    </button>
+        <img src="@/assets/scrolldown.png" alt="Descendre" class="scroll-icon">
+      </button>
       <div class="PubSection">
         <div v-if="afficherPubPrestataire">
-            <PubPrestataire />
+          <PubPrestataire />
         </div>
         <div v-else>
-            <PubClient />
+          <PubClient />
         </div>
       </div>
 
@@ -32,17 +32,17 @@
             <h2 class="titre-activites">{{ activite.titre }}</h2>
             <p class="description-activite">{{ activite.description }}</p>
             <router-link
-              :to="activite.titre === 'Cinépeur' ? '/cinepeur' :
+                :to="activite.titre === 'Cinépeur' ? '/cinepeur' :
                     activite.titre === 'Concerts' ? '/concert' :
                     activite.titre === 'Bal’trouille' ? '/baltrouille' :
                     activite.titre === 'Expositions' ? '/expo' :
                     `/${activite.titre.toLowerCase().replace(/\s+/g, '')}`"
-              class="btn-activite">Voir l'activité</router-link>
+                class="btn-activite">Voir l'activité</router-link>
           </div>
         </div>
       </div>
       <div class="carte">
-        <h1 class="titre-carte">Découvrez dès maintenant le plan de votre festival Creepynight !</h1> 
+        <h1 class="titre-carte">Découvrez dès maintenant le plan de votre festival Creepynight !</h1>
         <div class="carte-interactive">
           <CarteInteractive />
         </div>
@@ -70,7 +70,7 @@
           <p>Vous êtes un artiste et vous voulez nous rejoindre ?</p>
           <p>Envoyez un mail à : <a href="mailto:pasencore@choisit.com">pasencore@choisit.com</a></p>
         </div>
-        
+
       </div>
     </footer>
   </div>
@@ -139,22 +139,22 @@ export default {
     };
   },
   methods: { scrollDown() {
-    window.scrollBy({
-      top: window.innerHeight * 0.5, // Descend de 50% de la hauteur de l'écran
-      left: 0,
-      behavior: "smooth"
-    });
-  },
+      window.scrollBy({
+        top: window.innerHeight * 0.5, // Descend de 50% de la hauteur de l'écran
+        left: 0,
+        behavior: "smooth"
+      });
+    },
     hasAccess() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "utilisateur";
     },
 
     calculerAffichage() {
-        const dateFestival = new Date("2024-10-27");
-        const dateActuelle = new Date();
-        const differenceMois = (dateFestival.getFullYear() - dateActuelle.getFullYear()) * 12 + (dateFestival.getMonth() - dateActuelle.getMonth());
-        const dateSeuil = new Date("2024-10-02");
-        return differenceMois > 4 || dateActuelle >= dateSeuil;
+      const dateFestival = new Date("2024-10-27");
+      const dateActuelle = new Date();
+      const differenceMois = (dateFestival.getFullYear() - dateActuelle.getFullYear()) * 12 + (dateFestival.getMonth() - dateActuelle.getMonth());
+      const dateSeuil = new Date("2024-10-02");
+      return differenceMois > 4 || dateActuelle >= dateSeuil;
     }
   },
   mounted() {
@@ -195,16 +195,16 @@ export default {
   height: 100vh;
 }
 
-#titre-activite{
+#titre-activite {
   color: white;
 }
 
-.titre-activites{
+.titre-activites {
   font-family: 'Creepster', cursive;
   font-size: 200%;
 }
 
-.description-activite{
+.description-activite {
   color: white;
   font-family: 'Creepster', cursive;
   padding: 25px;
@@ -296,31 +296,31 @@ export default {
   display: none;
   padding: 10px 20px;
   margin-top: 10px;
-  background-color: #AD0918; 
-  color: white; 
-  border: none; 
-  border-radius: 5px; 
+  background-color: #AD0918;
+  color: white;
+  border: none;
+  border-radius: 5px;
   text-align: center;
-  text-decoration: none; 
-  font-size: 16px; 
-  transition: background-color 0.3s, transform 0.3s; 
+  text-decoration: none;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.3s;
   z-index: 2;
 }
 
 .btn-activite:hover {
   background-color: #8A0714;
-  transform: scale(1.05); 
+  transform: scale(1.05);
 }
 
 .btn-activite:active {
-  transform: scale(0.95); 
+  transform: scale(0.95);
 }
 
 .lamelle:hover .btn-activite {
   display: inline-block;
 }
 
-.titre-partie{
+.titre-partie {
   padding-top: 50px;
   margin-bottom: 50px;
   font-family: 'Creepster', cursive;
@@ -328,7 +328,7 @@ export default {
   font-size: 300%;
 }
 
-.pourquoi-venir{
+.pourquoi-venir {
   padding-top: 20px;
   text-align: center;
   background-color: #AD0918;
@@ -336,11 +336,11 @@ export default {
   height: 100vh;
 }
 
-#titre-pourquoi-venir{
+#titre-pourquoi-venir {
   margin-bottom: 11%;
 }
 
-.puce{
+.puce {
   font-size: 200%;
   margin: 80px;
   text-align: justify;
@@ -408,7 +408,7 @@ export default {
   margin-top: 20px;
 }
 
-.titre-carte{
+.titre-carte {
   font-family: 'Creepster', cursive;
   font-size: 300%;
   text-align: center;
@@ -417,7 +417,7 @@ export default {
   padding: 50px;
 }
 
-.carte{
+.carte {
   background-color: #AD0918;
   padding-bottom: 50px;
 }
@@ -598,6 +598,7 @@ export default {
     padding: 40px 20px;
   }
 }
+
 .scroll-down-button {
   position: fixed;
   bottom: 30px;
