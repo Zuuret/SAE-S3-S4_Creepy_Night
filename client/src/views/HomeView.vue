@@ -48,6 +48,9 @@
         </div>
       </div>
     </div>
+    <div class="prestataires-list">
+      <ListePrestataires />
+    </div>
     <footer class="footer">
       <div class="footer-content">
         <div class="reste-connectes">
@@ -78,6 +81,7 @@ import CompteRebours from '@/components/CompteRebours.vue';
 import NavBar from "@/components/NavBar.vue";
 import PubClient from "@/components/PubClient.vue";
 import PubPrestataire from "@/components/PubPrestataire.vue";
+import ListePrestataires from "@/components/ListePrestataires.vue";
 
 import cariHorreurImg from "@/assets/carihorreur.jpg";
 import cauchemarathonImg from "@/assets/cauchemarathon.jpg";
@@ -93,7 +97,8 @@ export default {
     NavBar,
     PubClient,
     CarteInteractive,
-    PubPrestataire
+    PubPrestataire,
+    ListePrestataires
   },
   data() {
     return {
