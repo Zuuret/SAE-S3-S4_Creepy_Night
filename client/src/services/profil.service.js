@@ -56,6 +56,10 @@ async function insertOrganisateurFromAPI(payload) {
     return await postRequest("organisateurs", payload);
 }
 
+async function insertPrestataireFromAPI(payload) {
+    return await postRequest("prestataires", payload);
+}
+
 async function getUserbyIdFromLocalSource(idUser){
     return LocalSource.getUserById(idUser)
 }
@@ -346,6 +350,15 @@ export async function insertOrganisateur(payload) {
     }
   }
   
+export async function insertPrestataire(payload) {
+    try {
+        const res = await insertPrestataireFromAPI(payload);
+        return { error: 0, data: res.data };
+    } catch (error) {
+        console.error("insert prestataire", error);
+        return { error: 1, data: "Erreur lors de l'insertion" };
+    }
+}
 
 export async function demandeInscriptionPrestataire(data) {
     let response;

@@ -137,7 +137,7 @@ router.get("/:uuid", prestataireController.getPrestataireById);
  *               type: string
  *               minLength: 8
  *               maxLength: 150
- *               example: "MotDePasseSecurise123"
+ *               example: "passwordSecurise123"
  *               description: Mot de passe du prestataire
  *               required: true
  *     responses:

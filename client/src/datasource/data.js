@@ -1,61 +1,61 @@
 let utilisateurs = [
-    {"id":1, "prenom":"John", "nom":"Doe", "dateNaissance":"23-09-1998", "email":"johndoe@gmail.com", "motDePasse":"mdp123", "solde": 100.00, "numCashless": 123456789},
-    {"id":2, "prenom":"Jane", "nom":"Doe", "dateNaissance":"03-07-1998", "email":"janedoe@outlook.fr", "motDePasse":"mdp456", "solde": 80.00, "numCashless": 546865430},
-    {"id":3, "prenom":"Alice", "nom":"Smith", "dateNaissance":"12-05-1995", "email":"alicesmith@gmail.com", "motDePasse":"alice123", "solde": 50.00, "numCashless": 654321987},
-    {"id":4, "prenom":"Bob", "nom":"Brown", "dateNaissance":"15-03-1990", "email":"bobbrown@yahoo.com", "motDePasse":"bob456", "solde": 120.00, "numCashless": 789654321},
-    {"id":5, "prenom":"Charlie", "nom":"Davis", "dateNaissance":"18-07-1997", "email":"charliedavis@outlook.com", "motDePasse":"charlie789", "solde": 75.00, "numCashless": 123987654},
-    {"id":6, "prenom":"Diana", "nom":"Wilson", "dateNaissance":"10-10-1988", "email":"dianawilson@gmail.com", "motDePasse":"diana101", "solde": 65.00, "numCashless": 987654321},
+    {"id":1, "prenom":"John", "nom":"Doe", "dateNaissance":"23-09-1998", "email":"johndoe@gmail.com", "password":"mdp123", "solde": 100.00, "numCashless": 123456789},
+    {"id":2, "prenom":"Jane", "nom":"Doe", "dateNaissance":"03-07-1998", "email":"janedoe@outlook.fr", "password":"mdp456", "solde": 80.00, "numCashless": 546865430},
+    {"id":3, "prenom":"Alice", "nom":"Smith", "dateNaissance":"12-05-1995", "email":"alicesmith@gmail.com", "password":"alice123", "solde": 50.00, "numCashless": 654321987},
+    {"id":4, "prenom":"Bob", "nom":"Brown", "dateNaissance":"15-03-1990", "email":"bobbrown@yahoo.com", "password":"bob456", "solde": 120.00, "numCashless": 789654321},
+    {"id":5, "prenom":"Charlie", "nom":"Davis", "dateNaissance":"18-07-1997", "email":"charliedavis@outlook.com", "password":"charlie789", "solde": 75.00, "numCashless": 123987654},
+    {"id":6, "prenom":"Diana", "nom":"Wilson", "dateNaissance":"10-10-1988", "email":"dianawilson@gmail.com", "password":"diana101", "solde": 65.00, "numCashless": 987654321},
     ];
 
 let organisateurs = [
-    {"id":1, "prenom":"Jean", "nom":"Kherza", "email":"jeankherza@gmail.com", "motDePasse":"mdp123", "numTelephone": 123456789},
-    {"id":2, "prenom":"Luc", "nom":"Balta", "email":"lucbalta@outlook.fr", "motDePasse":"mdp456", "numTelephone": 546865430},
-    {"id":3, "prenom":"Marie", "nom":"Dupont", "email":"mariedupont@gmail.com", "motDePasse":"mdp789", "numTelephone": 987654321},
-    {"id":4, "prenom":"Paul", "nom":"Durand", "email":"pauldurand@gmail.com", "motDePasse":"paul123", "numTelephone": 765432198},
-    {"id":5, "prenom":"Clara", "nom":"Martin", "email":"claramartin@gmail.com", "motDePasse":"clara456", "numTelephone": 654321987},
-    {"id":6, "prenom":"Lucas", "nom":"Bernard", "email":"lucasbernard@gmail.com", "motDePasse":"lucas789", "numTelephone": 543219876},
-    {"id":7, "prenom":"Emma", "nom":"Morel", "email":"emmamorel@gmail.com", "motDePasse":"emma123", "numTelephone": 432198765},
-    {"id":8, "prenom":"Nathan", "nom":"Simon", "email":"nathansimon@gmail.com", "motDePasse":"nathan456", "numTelephone": 321987654},
-    {"id":9, "prenom":"Alice", "nom":"Girard", "email":"alicegirard@gmail.com", "motDePasse":"alice789", "numTelephone": 219876543},
-    {"id":10, "prenom":"Victor", "nom":"Rousseau", "email":"victorrousseau@gmail.com", "motDePasse":"victor123", "numTelephone": 198765432}
+    {"id":1, "prenom":"Jean", "nom":"Kherza", "email":"jeankherza@gmail.com", "password":"mdp123", "numTelephone": 123456789},
+    {"id":2, "prenom":"Luc", "nom":"Balta", "email":"lucbalta@outlook.fr", "password":"mdp456", "numTelephone": 546865430},
+    {"id":3, "prenom":"Marie", "nom":"Dupont", "email":"mariedupont@gmail.com", "password":"mdp789", "numTelephone": 987654321},
+    {"id":4, "prenom":"Paul", "nom":"Durand", "email":"pauldurand@gmail.com", "password":"paul123", "numTelephone": 765432198},
+    {"id":5, "prenom":"Clara", "nom":"Martin", "email":"claramartin@gmail.com", "password":"clara456", "numTelephone": 654321987},
+    {"id":6, "prenom":"Lucas", "nom":"Bernard", "email":"lucasbernard@gmail.com", "password":"lucas789", "numTelephone": 543219876},
+    {"id":7, "prenom":"Emma", "nom":"Morel", "email":"emmamorel@gmail.com", "password":"emma123", "numTelephone": 432198765},
+    {"id":8, "prenom":"Nathan", "nom":"Simon", "email":"nathansimon@gmail.com", "password":"nathan456", "numTelephone": 321987654},
+    {"id":9, "prenom":"Alice", "nom":"Girard", "email":"alicegirard@gmail.com", "password":"alice789", "numTelephone": 219876543},
+    {"id":10, "prenom":"Victor", "nom":"Rousseau", "email":"victorrousseau@gmail.com", "password":"victor123", "numTelephone": 198765432}
 ];
 
 let demandesOrganisateurs = [
-    { id: 1, prenom: "Tim", nom: "Duncan", email: "timduncan@gmail.com", telephone: "0707070707", motDePasse: "mdp" },
-    { id: 2, prenom: "Enzouz", nom: "Ferrari", email: "enzoferrari@gmail.com", telephone: "0606060606", motDePasse: "mdp" },
-    { id: 3, prenom: "Yahia", nom: "Touré", email: "yahiatoure@gmail.com", telephone: "0505050505", motDePasse: "mdp" },
-    { id: 4, prenom: "Sophie", nom: "Leclerc", email: "sophieleclerc@gmail.com", telephone: "0404040404", motDePasse: "mdp" },
-    { id: 5, prenom: "Antoine", nom: "Dumas", email: "antoinedumas@gmail.com", telephone: "0303030303", motDePasse: "mdp" },
-    { id: 6, prenom: "Camille", nom: "Germain", email: "camillegermain@gmail.com", telephone: "0202020202", motDePasse: "mdp" },
-    { id: 7, prenom: "Hugo", nom: "Blanc", email: "hugoblanc@gmail.com", telephone: "0101010101", motDePasse: "mdp" },
-    { id: 8, prenom: "Juliette", nom: "Renard", email: "julietterenard@gmail.com", telephone: "0909090909", motDePasse: "mdp" },
-    { id: 9, prenom: "Aurélien", nom: "Fabre", email: "aurelienfabre@gmail.com", telephone: "0808080808", motDePasse: "mdp" },
-    { id: 10, prenom: "Chloé", nom: "Fontaine", email: "chloefontaine@gmail.com", telephone: "0707070707", motDePasse: "mdp" }
+    { id: 1, prenom: "Tim", nom: "Duncan", email: "timduncan@gmail.com", telephone: "0707070707", password: "mdp" },
+    { id: 2, prenom: "Enzouz", nom: "Ferrari", email: "enzoferrari@gmail.com", telephone: "0606060606", password: "mdp" },
+    { id: 3, prenom: "Yahia", nom: "Touré", email: "yahiatoure@gmail.com", telephone: "0505050505", password: "mdp" },
+    { id: 4, prenom: "Sophie", nom: "Leclerc", email: "sophieleclerc@gmail.com", telephone: "0404040404", password: "mdp" },
+    { id: 5, prenom: "Antoine", nom: "Dumas", email: "antoinedumas@gmail.com", telephone: "0303030303", password: "mdp" },
+    { id: 6, prenom: "Camille", nom: "Germain", email: "camillegermain@gmail.com", telephone: "0202020202", password: "mdp" },
+    { id: 7, prenom: "Hugo", nom: "Blanc", email: "hugoblanc@gmail.com", telephone: "0101010101", password: "mdp" },
+    { id: 8, prenom: "Juliette", nom: "Renard", email: "julietterenard@gmail.com", telephone: "0909090909", password: "mdp" },
+    { id: 9, prenom: "Aurélien", nom: "Fabre", email: "aurelienfabre@gmail.com", telephone: "0808080808", password: "mdp" },
+    { id: 10, prenom: "Chloé", nom: "Fontaine", email: "chloefontaine@gmail.com", telephone: "0707070707", password: "mdp" }
 ];
 
 let prestataires = [
-    {"id":1, "societe":"Burger King","adresse": "3 rue de Japy", "email":"burgerking@gmail.com", "motDePasse":"mdp123","theme":"Alimentation", "description":"Pour le Creepy Night Festival, nous avons revisité nos classiques avec une touche effrayante ! Des recettes revisitées aux couleurs de l’horreur, des saveurs audacieuses et une ambiance qui fait frissonner. Oserez-vous y goûter ?", "logo": require("../assets/logo_burgerking.png"), "background": require("../assets/background_BK.jpg"), "background2": require("../assets/background2_BK.jpg")},
-    {"id":2, "societe":"POP","adresse": "5 rue de Belfort", "email":"pop@gmail.com", "motDePasse":"mdp123","theme":"Goodies", "description":"Les icônes de l’horreur prennent vie dans notre collection spéciale Creepy Night ! Retrouvez vos personnages cultes sous forme de figurines, dans des éditions effrayantes et exclusives. Une touche de frisson à collectionner !", "logo": require("../assets/logo_pop.png"), "background": require("../assets/background_POP.jpg"), "background2": require("../assets/background2_POP.jpg")},
-    {"id":3, "societe":"Starbucks","adresse": "22 place de la République", "email":"starbucks@gmail.com", "motDePasse":"mdp123","theme":"Alimentation","description":"Plongez dans un univers ensorcelé avec nos boissons aux notes mystérieuses et envoûtantes. Entre saveurs automnales et créations surprises, chaque gorgée vous emmène dans l’ambiance inquiétante du festival.", "logo": require("../assets/logo_starbucks.png"), "background": require("../assets/background_starbucks.jpg"), "background2": require("../assets/background2_starbucks.jpg")},
-    {"id":4, "societe":"Domino's Pizza","adresse": "45 boulevard Haussmann", "email":"dominos@gmail.com", "motDePasse":"mdp123","theme":"Alimentation", "description":"Nos recettes prennent une allure terrifiante pour l’occasion ! Des ingrédients surprenants, des associations audacieuses et une touche infernale dans chaque bouchée. Préparez-vous à une expérience gustative hors du commun","logo": require("../assets/logo_domino.png"), "background": require("../assets/background_DominosPizza.jpg"), "background2": require("../assets/background2_DominosPizza.jpg")},
-    {"id":5, "societe":"Ricard","adresse": "8 rue du Commerce", "email":"ricard@gmail.com", "motDePasse":"mdp123","theme":"Boisson", "description":"Nos créations inédites pour le festival vous feront frissonner de plaisir. Des associations surprenantes, des couleurs sombres et un goût inimitable pour accompagner cette nuit d’épouvante","logo": require("../assets/logo_ricard.png"), "background": require("../assets/background_Ricard.jpg"), "background2": require("../assets/background2_Ricard.jpg")},
-    {"id":6, "societe":"Nike","adresse": "4 allée Centrale", "email":"nike@gmail.com", "motDePasse":"mdp123","theme":"Goodies", "description":"Parce que l’horreur n’attend pas, nous vous accompagnons avec des modèles spécialement conçus pour braver la nuit. Styles sombres, détails lumineux et confort optimal, parfaits pour parcourir les allées du festival sans crainte.","logo": require("../assets/logo_nike.png"), "background": require("../assets/background_Nike.jpeg"), "background2": require("../assets/background2_Nike.jpeg")},
-    {"id":7, "societe":"Magnum","adresse": "10 rue Saint Honoré", "email":"magnum@gmail.com", "motDePasse":"mdp123","theme":"Alimentation","description":"Succombez à des douceurs glacées aux saveurs envoûtantes. Entre contrastes saisissants et textures surprenantes, nos créations spéciales Creepy Night vous réservent des sensations inédites.", "logo": require("../assets/logo_haagenDazs.png"), "background": require("../assets/background_magnum.jpg"), "background2": require("../assets/background2_magnum.jpg")},
-    {"id":8, "societe":"Taco Bell","adresse": "9 place Montmartre", "email":"tacobell@gmail.com", "motDePasse":"mdp123","theme":"Alimentation","description":"Le piquant et l’étrange se rencontrent dans nos plats spécialement imaginés pour le festival. Une explosion de saveurs relevées, des couleurs sombres et une expérience qui réveillera les esprits… et vos papilles !", "logo": require("../assets/logo_tacoBell.png"), "background": require("../assets/background_tacoBell.jpg"), "background2": require("../assets/background2_tacoBell.jpg")},
-    {"id":9, "societe":"MicroMania","adresse": "6 avenue Opéra", "email":"micromania@gmail.com", "motDePasse":"mdp123","theme":"Goodies","description":"Plongez dans le frisson du jeu vidéo avec notre sélection spéciale d’univers terrifiants. Défis, tournois et surprises vous attendent pour une immersion totale dans le monde du gaming horrifique.", "logo": require("../assets/logo_micromania.png"), "background": require("../assets/background_microMania.jpg"), "background2": require("../assets/background2_microMania.jpg")}
+    {"id":1, "societe":"Burger King","adresse": "3 rue de Japy", "email":"burgerking@gmail.com", "password":"mdp123","theme":"Alimentation", "description":"Pour le Creepy Night Festival, nous avons revisité nos classiques avec une touche effrayante ! Des recettes revisitées aux couleurs de l’horreur, des saveurs audacieuses et une ambiance qui fait frissonner. Oserez-vous y goûter ?", "logo": require("../assets/logo_burgerking.png"), "background": require("../assets/background_BK.jpg"), "background2": require("../assets/background2_BK.jpg")},
+    {"id":2, "societe":"POP","adresse": "5 rue de Belfort", "email":"pop@gmail.com", "password":"mdp123","theme":"Goodies", "description":"Les icônes de l’horreur prennent vie dans notre collection spéciale Creepy Night ! Retrouvez vos personnages cultes sous forme de figurines, dans des éditions effrayantes et exclusives. Une touche de frisson à collectionner !", "logo": require("../assets/logo_pop.png"), "background": require("../assets/background_POP.jpg"), "background2": require("../assets/background2_POP.jpg")},
+    {"id":3, "societe":"Starbucks","adresse": "22 place de la République", "email":"starbucks@gmail.com", "password":"mdp123","theme":"Alimentation","description":"Plongez dans un univers ensorcelé avec nos boissons aux notes mystérieuses et envoûtantes. Entre saveurs automnales et créations surprises, chaque gorgée vous emmène dans l’ambiance inquiétante du festival.", "logo": require("../assets/logo_starbucks.png"), "background": require("../assets/background_starbucks.jpg"), "background2": require("../assets/background2_starbucks.jpg")},
+    {"id":4, "societe":"Domino's Pizza","adresse": "45 boulevard Haussmann", "email":"dominos@gmail.com", "password":"mdp123","theme":"Alimentation", "description":"Nos recettes prennent une allure terrifiante pour l’occasion ! Des ingrédients surprenants, des associations audacieuses et une touche infernale dans chaque bouchée. Préparez-vous à une expérience gustative hors du commun","logo": require("../assets/logo_domino.png"), "background": require("../assets/background_DominosPizza.jpg"), "background2": require("../assets/background2_DominosPizza.jpg")},
+    {"id":5, "societe":"Ricard","adresse": "8 rue du Commerce", "email":"ricard@gmail.com", "password":"mdp123","theme":"Boisson", "description":"Nos créations inédites pour le festival vous feront frissonner de plaisir. Des associations surprenantes, des couleurs sombres et un goût inimitable pour accompagner cette nuit d’épouvante","logo": require("../assets/logo_ricard.png"), "background": require("../assets/background_Ricard.jpg"), "background2": require("../assets/background2_Ricard.jpg")},
+    {"id":6, "societe":"Nike","adresse": "4 allée Centrale", "email":"nike@gmail.com", "password":"mdp123","theme":"Goodies", "description":"Parce que l’horreur n’attend pas, nous vous accompagnons avec des modèles spécialement conçus pour braver la nuit. Styles sombres, détails lumineux et confort optimal, parfaits pour parcourir les allées du festival sans crainte.","logo": require("../assets/logo_nike.png"), "background": require("../assets/background_Nike.jpeg"), "background2": require("../assets/background2_Nike.jpeg")},
+    {"id":7, "societe":"Magnum","adresse": "10 rue Saint Honoré", "email":"magnum@gmail.com", "password":"mdp123","theme":"Alimentation","description":"Succombez à des douceurs glacées aux saveurs envoûtantes. Entre contrastes saisissants et textures surprenantes, nos créations spéciales Creepy Night vous réservent des sensations inédites.", "logo": require("../assets/logo_haagenDazs.png"), "background": require("../assets/background_magnum.jpg"), "background2": require("../assets/background2_magnum.jpg")},
+    {"id":8, "societe":"Taco Bell","adresse": "9 place Montmartre", "email":"tacobell@gmail.com", "password":"mdp123","theme":"Alimentation","description":"Le piquant et l’étrange se rencontrent dans nos plats spécialement imaginés pour le festival. Une explosion de saveurs relevées, des couleurs sombres et une expérience qui réveillera les esprits… et vos papilles !", "logo": require("../assets/logo_tacoBell.png"), "background": require("../assets/background_tacoBell.jpg"), "background2": require("../assets/background2_tacoBell.jpg")},
+    {"id":9, "societe":"MicroMania","adresse": "6 avenue Opéra", "email":"micromania@gmail.com", "password":"mdp123","theme":"Goodies","description":"Plongez dans le frisson du jeu vidéo avec notre sélection spéciale d’univers terrifiants. Défis, tournois et surprises vous attendent pour une immersion totale dans le monde du gaming horrifique.", "logo": require("../assets/logo_micromania.png"), "background": require("../assets/background_microMania.jpg"), "background2": require("../assets/background2_microMania.jpg")}
 ];
 
 let demandesPrestataires = [
-    { id: 1, societe: "Société DD", adresse: "Adresse D", email: "contact@societed.com", statut: "en attente", motDePasse: "mdp" },
-    { id: 2, societe: "Société E", adresse: "Adresse E", email: "contact@societee.com", statut: "en attente", motDePasse: "mdp" },
-    { id: 3, societe: "Société F", adresse: "Adresse F", email: "contact@societef.com", statut: "en attente", motDePasse: "mdp" },
-    { id: 4, societe: "Société G", adresse: "Adresse G", email: "contact@societeg.com", statut: "en attente", motDePasse: "mdp" },
-    { id: 5, societe: "Société H", adresse: "Adresse H", email: "contact@societeh.com", statut: "en attente", motDePasse: "mdp" },
-    { id: 6, societe: "Société I", adresse: "Adresse I", email: "contact@societei.com", statut: "en attente", motDePasse: "mdp" },
-    { id: 7, societe: "Société J", adresse: "Adresse J", email: "contact@societej.com", statut: "en attente", motDePasse: "mdp" },
-    { id: 8, societe: "Société K", adresse: "Adresse K", email: "contact@societek.com", statut: "en attente", motDePasse: "mdp" },
-    { id: 9, societe: "Société L", adresse: "Adresse L", email: "contact@societel.com", statut: "en attente", motDePasse: "mdp" },
-    { id: 10, societe: "Société M", adresse: "Adresse M", email: "contact@societem.com", statut: "en attente", motDePasse: "mdp" }
+    { id: 1, societe: "Société DD", adresse: "Adresse D", email: "contact@societed.com", statut: "en attente", password: "mdp" },
+    { id: 2, societe: "Société E", adresse: "Adresse E", email: "contact@societee.com", statut: "en attente", password: "mdp" },
+    { id: 3, societe: "Société F", adresse: "Adresse F", email: "contact@societef.com", statut: "en attente", password: "mdp" },
+    { id: 4, societe: "Société G", adresse: "Adresse G", email: "contact@societeg.com", statut: "en attente", password: "mdp" },
+    { id: 5, societe: "Société H", adresse: "Adresse H", email: "contact@societeh.com", statut: "en attente", password: "mdp" },
+    { id: 6, societe: "Société I", adresse: "Adresse I", email: "contact@societei.com", statut: "en attente", password: "mdp" },
+    { id: 7, societe: "Société J", adresse: "Adresse J", email: "contact@societej.com", statut: "en attente", password: "mdp" },
+    { id: 8, societe: "Société K", adresse: "Adresse K", email: "contact@societek.com", statut: "en attente", password: "mdp" },
+    { id: 9, societe: "Société L", adresse: "Adresse L", email: "contact@societel.com", statut: "en attente", password: "mdp" },
+    { id: 10, societe: "Société M", adresse: "Adresse M", email: "contact@societem.com", statut: "en attente", password: "mdp" }
 ];
 
 let livre_DOr = [

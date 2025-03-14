@@ -51,7 +51,7 @@ CREATE TABLE prestataire (
     societe VARCHAR(50) NOT NULL,
     adresse VARCHAR(150),
     email VARCHAR(50) UNIQUE NOT NULL,
-    motDePasse VARCHAR(150) NOT NULL
+    password VARCHAR(150) NOT NULL
 );
 
 CREATE TABLE Organisateur (
@@ -60,7 +60,7 @@ CREATE TABLE Organisateur (
     prenom VARCHAR(50) NOT NULL,
     email VARCHAR(50) UNIQUE NOT NULL,
     tel VARCHAR(15),
-    motDePasse VARCHAR(150) NOT NULL
+    password VARCHAR(150) NOT NULL
 );
 
 CREATE TABLE Transaction (
@@ -267,7 +267,7 @@ CREATE TABLE demandes_prestataires (
     adresse VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     statut VARCHAR(50) NOT NULL,
-    motDePasse VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE demandes_organisateurs (
@@ -276,7 +276,7 @@ CREATE TABLE demandes_organisateurs (
     prenom VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     tel CHAR(10) NOT NULL,
-    motDePasse VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL
 );
 
 
@@ -288,17 +288,17 @@ VALUES
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f9', 'lemalfrat', 'harry', '1996-03-07', 'harry.lemalfrat@example.com', 'password3', 600, '8b975371-9be6-47cc-a121-9861430bb269', 'QR1121', FALSE),
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f0', 'lamenace', 'mathéo', '2000-12-25', 'matheo.lamenace@example.com', 'password', 800, '8b975371-9be6-47cc-a121-9861430bb260', 'QR3141', TRUE);
 
-INSERT INTO prestataire (id, societe, adresse, email, motDePasse)
+INSERT INTO prestataire (id, societe, adresse, email, password)
 VALUES
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f1', 'UberFlippe', '1 rue de la peur', 'uberflippe@outlook.fr', 'mpd123'),
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f2', 'Burger&co', '2 rue de la frite', 'burgerandco@gmail.com', 'mpd456');
 
-INSERT INTO organisateur (id ,nom, prenom, email, tel, motDePasse)
+INSERT INTO organisateur (id ,nom, prenom, email, tel, password)
 VALUES
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f3', 'Kherza', 'Jean', 'jeankherza@gmail.com',  '0612345678','mpd123'),
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4', 'Balta', 'Luc', 'lucbalta@gmail.com', '0600000000', 'mpd456');
 
-INSERT INTO demandes_organisateurs (id, nom, prenom, email, tel, motDePasse) VALUES
+INSERT INTO demandes_organisateurs (id, nom, prenom, email, tel, password) VALUES
 (1, 'Duncan', 'Tim', 'timduncan@gmail.com', '0707070707', 'mdp'),
 (2, 'Ferrari', 'Enzo', 'enzoferrari@gmail.com', '0606060606', 'mdp'),
 (3, 'Touré', 'Yahia', 'yahiatoure@gmail.com', '0505050505', 'mdp'),
@@ -310,7 +310,7 @@ INSERT INTO demandes_organisateurs (id, nom, prenom, email, tel, motDePasse) VAL
 (9, 'Fabre', 'Aurélien', 'aurelienfabre@gmail.com', '0808080808', 'mdp'),
 (10, 'Fontaine', 'Chloé', 'chloefontaine@gmail.com', '0707070707', 'mdp');
 
-INSERT INTO demandes_prestataires (id, societe, adresse, email, statut, motDePasse) VALUES
+INSERT INTO demandes_prestataires (id, societe, adresse, email, statut, password) VALUES
 (1, 'Société D', 'Adresse D', 'contact@societed.com', 'en attente', 'mdp'),
 (2, 'Société E', 'Adresse E', 'contact@societee.com', 'en attente', 'mdp'),
 (3, 'Société F', 'Adresse F', 'contact@societef.com', 'en attente', 'mdp'),
