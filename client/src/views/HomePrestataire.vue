@@ -2,6 +2,59 @@
   <div class="home-prestataire" v-if="accesPermission">
     <h1>Bienvenue {{ utilisateurConnecte?.societe }}</h1>
 
+    <h2>Gestion des articles</h2>
+    <div v-for="(article,index) in articles" :key="index">
+      <div v-if="utilisateurConnecte.id === articles[index].prestataireId">
+        <tr>
+          <td>
+            {{ article.nom }}
+          </td>
+          <td>
+            {{ article.description }}
+          </td>
+          <td>
+            {{ article.prix }}
+          </td>
+          <td>
+            {{ article.stock }}
+          </td>
+          <td>
+            <img :src="article.image" alt="Image de produit">
+          </td>
+          <td>
+            <button @click="openModal(article)">
+              <h5>Modifier</h5>
+            </button>
+          </td>
+          <td>
+            <button @click="delPrestaArticle(article.id)">
+              <h5>Supprimer</h5>
+            </button>
+          </td>
+        </tr>
+      </div>
+    </div>
+    <button @click="openModal(undefined)">
+      <h5>Ajouter</h5>
+    </button>
+    <div v-if="showModal">
+      <div class="modal-content">
+        <h3>{{ modalTitle }}</h3>
+        <label>Nom :</label>
+        <input v-model="nom" min="0" step="0.01"/><br>
+        <label>Description :</label>
+        <input v-model="description" min="0" step="0.01"/><br>
+        <label>Prix :</label>
+        <input v-model="prix" min="0" step="0.01"/><br>
+        <label>Stock :</label>
+        <input v-model="stock" min="0" step="0.01"/><br>
+        <label>Image :</label>
+        <input v-model="image" min="0" step="0.01"/><br>
+        <button @click="acceptArticle(id)">{{ modalButton }}</button>
+        <button @click="closeModal">Annuler</button>
+      </div>
+    </div>
+
     <h1>Votre Description</h1>
     <div v-if="utilisateurConnecte.description">
       <div class="desactive_edition_description">
@@ -475,7 +528,7 @@
 
 <script>
 /* global tinymce */
-import {mapActions, mapGetters} from "vuex";
+import {mapActions, mapGetters, mapState} from "vuex";
 import Editor from "@tinymce/tinymce-vue";
 
 export default {
@@ -499,9 +552,19 @@ export default {
       editableAdresse: "",
       logoEditable: "",
       imageEditable2: "",
+      id: null,
+      nom: '',
+      description: '',
+      prix: '',
+      stock: '',
+      image: null,
+      showModal: false,
+      modalTitle: '',
+      modalButton: '',
     };
   },
   computed: {
+    ...mapState("PrestataireStore", ["articles"]),
     ...mapGetters("ProfilStore", ["utilisateurConnecte"]),
     accesPermission() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "prestataire";
@@ -509,6 +572,7 @@ export default {
   },
   methods: {
     ...mapActions('ProfilStore',['updateDescriptionPrestataire','updateSocietePrestataire', 'updateThemePrestataire', 'updateAdressePrestataire', 'updateImagePrestataire', 'updateImage2Prestataire', 'updateLogoPrestataire']),
+    ...mapActions('PrestataireStore',['getAllArticle', 'setPrestataireArticle', 'delPrestataireArticle']),
     editerDescription() {
       this.isEditingDescription = true;
       this.editableDescription = this.utilisateurConnecte?.description || "";
@@ -660,9 +724,56 @@ export default {
         }
       });
       input.click();
-    }
+    },
+    openModal(data) {
+      if (this.showModal === false) this.showModal = true;
+      if (data === undefined) {
+        this.modalTitle = 'Ajouter';
+        this.modalButton = 'Ajouter';
+        this.id = -1;
+        this.nom = '';
+        this.description = '';
+        this.prix = '';
+        this.stock = '';
+        this.image = null;
+      } else {
+        this.modalTitle = 'Modifier';
+        this.modalButton = 'Modifier';
+        this.id = data.id;
+        this.nom = data.nom;
+        this.description = data.description;
+        this.prix = data.prix;
+        this.stock = data.stock;
+        this.image = data.image;
+      }
+    },
+    closeModal() {
+      if (this.showModal === true) this.showModal = false;
+      this.modalTitle = '';
+      this.modalButton = '';
+    },
+    acceptArticle(idProduit) {
+      if (this.nom !== '' && this.description !== '' && this.prix !== '' && this.stock !== '') {
+        let data = {
+          id: idProduit,
+          prestataireId: this.utilisateurConnecte.id,
+          nom: this.nom,
+          description: this.description,
+          prix: this.prix,
+          stock: this.stock,
+          image: this.image,
+        }
+        this.showModal = false;
+        this.setPrestataireArticle(data);
+      }
+      else{console.log('Aucun argument donné')}
+    },
+    delPrestaArticle(id) {
+      this.delPrestataireArticle(id);
+    },
   },
   mounted() {
+    this.getAllArticle();
     if (!this.utilisateurConnecte) {
       this.$router.push("/");
     } else if (!this.accesPermission) {
@@ -828,5 +939,13 @@ h1 {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+img {
+  max-width: 100px;
+}
+
+td {
+  padding: 20px
 }
 </style>
