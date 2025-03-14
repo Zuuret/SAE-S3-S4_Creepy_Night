@@ -105,6 +105,7 @@
         "accepterDemandePrestataire",
         "accepterDemandeOrganisateur",
         "deleteDemandePrestataire",
+        "deleteDemandeOrganisateur",
       ]),
       handleAccepterDemandePrestataire(demande) {
         this.accepterDemandePrestataire(demande);
@@ -113,9 +114,19 @@
         const confirmDelete = confirm("Êtes-vous sûr de vouloir rejeter cette demande ?");
         if (confirmDelete) {
           try {
-            await this.deleteDemandePrestataire(demande.id);  // Appel à l'action Vuex pour supprimer la demande
+            await this.deleteDemandePrestataire(demande.id);
           } catch (error) {
             console.error("Erreur lors de la suppression de la demande prestataire", error);
+          }
+        }
+      },
+      async rejeterDemandeOrganisateur(demande) {
+        const confirmDelete = confirm("Êtes-vous sûr de vouloir rejeter cette demande ?");
+        if (confirmDelete) {
+          try {
+            await this.deleteDemandeOrganisateur(demande.id);
+          } catch (error) {
+            console.error("Erreur lors de la suppression de la demande organisateur", error);
           }
         }
       },

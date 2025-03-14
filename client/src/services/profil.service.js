@@ -47,6 +47,10 @@ async function deleteDemandePrestataireFromAPI(id) {
     return await deleteRequest(`demandePresta/${id}`);
 }
 
+async function deleteDemandeOrganisateurFromAPI(id) {
+    return await deleteRequest(`demandeOrga/${id}`);
+}
+
 async function getUserbyIdFromLocalSource(idUser){
     return LocalSource.getUserById(idUser)
 }
@@ -313,6 +317,16 @@ export async function deleteDemandePrestataire(id) {
         return { error: 0, data: res.data };
     } catch (error) {
         console.error("delete demandes prestataires", error);
+        return { error: 1, data: "Erreur lors de la suppression" };
+    }
+}
+
+export async function deleteDemandeOrganisateur(id) {
+    try {
+        const res = await deleteDemandeOrganisateurFromAPI(id);
+        return { error: 0, data: res.data };
+    } catch (error) {
+        console.error("delete demandes organisateur", error);
         return { error: 1, data: "Erreur lors de la suppression" };
     }
 }
