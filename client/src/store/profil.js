@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import ProfilService from '../services/profil.service';
 import CashLessService from '../services/cashless.service';
-import { getAllUtilisateurs, getAllOrganisateurs, getAllPrestataires, getDemandesOrganisateurs, getDemandesPrestataires } from "@/services/profil.service";
+import { getAllUtilisateurs, getAllOrganisateurs, getAllPrestataires, getDemandesOrganisateurs, getDemandesPrestataires, deleteDemandePrestataire } from "@/services/profil.service";
 import {demandesPrestataires as initialDemandesPrestataires} from '../datasource/data';
 import { demandesOrganisateurs as initialDemandesOrganisateurs } from '../datasource/data';
 
@@ -88,6 +88,9 @@ export default ({
         },
         SET_DEMANDES_ORGANISATEURS(state, demandes) {
             state.demandesOrganisateurs = demandes;
+        },
+        DELETE_DEMANDE_PRESTATAIRE(state, demandeId) {
+            state.demandesPrestataires = state.demandesPrestataires.filter(d => d.id !== demandeId);
         },
         removeDemandePrestataire(state, demandeId) {
             state.demandesPrestataires = state.demandesPrestataires.filter(d => d.id !== demandeId);
@@ -336,6 +339,17 @@ export default ({
             }
         },
 
+        async deleteDemandePrestataire({ commit }, demandeId) {
+            try {
+                const response = await deleteDemandePrestataire(demandeId);
+                if (response.error === 0) {
+                    commit('DELETE_DEMANDE_PRESTATAIRE', demandeId);
+                }
+            } catch (error) {
+                console.error("Erreur suppression demande prestataire", error);
+            }
+        },
+        
         async accepterDemandePrestataire({ commit, state }, demande) {
 
             const dernierIdPrestataire = state.prestataires.length > 0

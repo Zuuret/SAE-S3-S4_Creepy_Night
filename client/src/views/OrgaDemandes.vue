@@ -104,18 +104,23 @@
         "fetchDemandesOrganisateurs",
         "accepterDemandePrestataire",
         "accepterDemandeOrganisateur",
+        "deleteDemandePrestataire",
       ]),
       handleAccepterDemandePrestataire(demande) {
         this.accepterDemandePrestataire(demande);
       },
-      rejeterDemandePrestataire(demande) {
-        this.$store.commit("profil/removeDemandePrestataire", demande.id);
+      async rejeterDemandePrestataire(demande) {
+        const confirmDelete = confirm("Êtes-vous sûr de vouloir rejeter cette demande ?");
+        if (confirmDelete) {
+          try {
+            await this.deleteDemandePrestataire(demande.id);  // Appel à l'action Vuex pour supprimer la demande
+          } catch (error) {
+            console.error("Erreur lors de la suppression de la demande prestataire", error);
+          }
+        }
       },
       handleAccepterDemandeOrganisateur(demande) {
         this.accepterDemandeOrganisateur(demande);
-      },
-      rejeterDemandeOrganisateur(demande) {
-        this.$store.commit("profil/removeDemandeOrganisateur", demande.id);
       },
     },
     mounted() {
