@@ -28,7 +28,7 @@
                   <td>{{ demande.nom }}</td>
                   <td>{{ demande.prenom }}</td>
                   <td>{{ demande.email }}</td>
-                  <td>{{ demande.telephone }}</td>
+                  <td>{{ demande.tel }}</td>
                   <td>
                     <button @click="handleAccepterDemandeOrganisateur(demande)">
                       Accepter
@@ -101,6 +101,7 @@
       ...mapActions("transactions", ["fetchBilletsAchatAujourdHui"]),
       ...mapActions("profil", [
         "fetchDemandesPrestataires",
+        "fetchDemandesOrganisateurs",
         "accepterDemandePrestataire",
         "accepterDemandeOrganisateur",
       ]),
@@ -127,6 +128,7 @@
         this.fetchUtilisateurs();
         this.fetchOrganisateurs();
         this.fetchPrestataires();
+        this.fetchDemandesOrganisateurs();
         this.fetchDemandesPrestataires();
         this.fetchBilletsAchatAujourdHui();
       }

@@ -298,6 +298,30 @@ VALUES
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f3', 'Kherza', 'Jean', 'jeankherza@gmail.com',  '0612345678','mpd123'),
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4', 'Balta', 'Luc', 'lucbalta@gmail.com', '0600000000', 'mpd456');
 
+INSERT INTO demandes_organisateurs (id, nom, prenom, email, tel, motDePasse) VALUES
+(1, 'Duncan', 'Tim', 'timduncan@gmail.com', '0707070707', 'mdp'),
+(2, 'Ferrari', 'Enzo', 'enzoferrari@gmail.com', '0606060606', 'mdp'),
+(3, 'Touré', 'Yahia', 'yahiatoure@gmail.com', '0505050505', 'mdp'),
+(4, 'Leclerc', 'Sophie', 'sophieleclerc@gmail.com', '0404040404', 'mdp'),
+(5, 'Dumas', 'Antoine', 'antoinedumas@gmail.com', '0303030303', 'mdp'),
+(6, 'Germain', 'Camille', 'camillegermain@gmail.com', '0202020202', 'mdp'),
+(7, 'Blanc', 'Hugo', 'hugoblanc@gmail.com', '0101010101', 'mdp'),
+(8, 'Renard', 'Juliette', 'julietterenard@gmail.com', '0909090909', 'mdp'),
+(9, 'Fabre', 'Aurélien', 'aurelienfabre@gmail.com', '0808080808', 'mdp'),
+(10, 'Fontaine', 'Chloé', 'chloefontaine@gmail.com', '0707070707', 'mdp');
+
+INSERT INTO demandes_prestataires (id, societe, adresse, email, statut, motDePasse) VALUES
+(1, 'Société D', 'Adresse D', 'contact@societed.com', 'en attente', 'mdp'),
+(2, 'Société E', 'Adresse E', 'contact@societee.com', 'en attente', 'mdp'),
+(3, 'Société F', 'Adresse F', 'contact@societef.com', 'en attente', 'mdp'),
+(4, 'Société G', 'Adresse G', 'contact@societeg.com', 'en attente', 'mdp'),
+(5, 'Société H', 'Adresse H', 'contact@societeh.com', 'en attente', 'mdp'),
+(6, 'Société I', 'Adresse I', 'contact@societei.com', 'en attente', 'mdp'),
+(7, 'Société J', 'Adresse J', 'contact@societej.com', 'en attente', 'mdp'),
+(8, 'Société K', 'Adresse K', 'contact@societek.com', 'en attente', 'mdp'),
+(9, 'Société L', 'Adresse L', 'contact@societel.com', 'en attente', 'mdp'),
+(10, 'Société M', 'Adresse M', 'contact@societem.com', 'en attente', 'mdp');
+
 INSERT INTO transaction (date, operation, details, montant, utilisateur_id)
 VALUES
 ('2024-11-05 15:30:00', 'Remboursement', 'Remboursement de 10.00 €', 10.00, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6'),

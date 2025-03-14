@@ -34,6 +34,14 @@ async function getAllUtilisateurFromAPI() {
     return await getRequest('users')
 }
 
+async function getDemandesOrganisateursFromAPI() {
+    return await getRequest('demandeOrga')
+}
+
+async function getDemandesPrestatairesFromAPI() {
+    return await getRequest('demandePresta')
+}
+
 async function getUserbyIdFromLocalSource(idUser){
     return LocalSource.getUserById(idUser)
 }
@@ -276,6 +284,24 @@ export async function getAllPrestataires() {
     }
 }
 
+export async function getDemandesOrganisateurs() {
+    try{
+        let res = await getDemandesOrganisateursFromAPI();        
+        return {error:0, data:res.data}
+    }catch(error){
+        console.error("get demandes organisateurs", error)
+    }
+}
+
+export async function getDemandesPrestataires() {
+    try{
+        let res = await getDemandesPrestatairesFromAPI();        
+        return {error:0, data:res.data}
+    }catch(error){
+        console.error("get demandes prestataires", error)
+    }
+}
+
 export async function demandeInscriptionPrestataire(data) {
     let response;
     try {
@@ -306,6 +332,8 @@ export default {
     getAllUtilisateur,
     getAllOrganisateur,
     getAllPrestataire,
+    getDemandesOrganisateurs,
+    getDemandesPrestataires,
     getUserbyId,
     getPrestatairebyId,
     getOrganisateurbyId,
