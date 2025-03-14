@@ -8,7 +8,9 @@
       <div class="compte-rebours">
         <CompteRebours />
       </div>
-      
+      <button class="scroll-down-button" @click="scrollDown">
+      <img src="@/assets/scrolldown.png" alt="Descendre" class="scroll-icon">
+    </button>
       <div class="PubSection">
         <div v-if="afficherPubPrestataire">
             <PubPrestataire />
@@ -65,6 +67,7 @@
           <p>Vous êtes un artiste et vous voulez nous rejoindre ?</p>
           <p>Envoyez un mail à : <a href="mailto:pasencore@choisit.com">pasencore@choisit.com</a></p>
         </div>
+        
       </div>
     </footer>
   </div>
@@ -130,7 +133,13 @@ export default {
       ],
     };
   },
-  methods: {
+  methods: { scrollDown() {
+    window.scrollBy({
+      top: window.innerHeight * 0.5, // Descend de 50% de la hauteur de l'écran
+      left: 0,
+      behavior: "smooth"
+    });
+  },
     hasAccess() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "utilisateur";
     },
@@ -584,4 +593,34 @@ export default {
     padding: 40px 20px;
   }
 }
+.scroll-down-button {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  background-color: transparent;
+  border: none;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 0;
+  overflow: hidden;
+}
+
+.scroll-down-button:hover .scroll-icon {
+  transform: scale(1.2);
+  transition: transform 0.3s ease;
+}
+
+.scroll-icon {
+  width: 50%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
 </style>

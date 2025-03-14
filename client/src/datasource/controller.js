@@ -764,7 +764,7 @@ function setPrestataireArticle(data){
     const article = articles.find(c => (c.id === (data.id || -1)) && c.prestataireId === data.prestataireId);
     if (!article) return { error: 1, status: 404, data: 'Aucun article à set' };
 
-    if (data.id == -1) {
+    if (data.id === -1) {
         let nouveauProduit = {
             id: articles.length + 1,
             prestataireId: user,
@@ -939,6 +939,77 @@ function demandeInscriptionOrganisateur(data) {
     return { error: 0, status: 200, data: nouvelleDemande };
 }
 
+function updateDescriptionPrestataire(id, nouvelleDescription) {
+    const prestataireIndex = prestataires.findIndex(p => p.id === id);
+    if (prestataireIndex !== -1) {
+        prestataires[prestataireIndex].description = nouvelleDescription;
+        return { error: 0, data: nouvelleDescription };
+    } else {
+        return { error: 1, message: "Prestataire non trouvé" };
+    }
+}
+
+function updateSocietePrestataire(id, nouvelleSociete) {
+    const prestataireIndex = prestataires.findIndex(p => p.id === id);
+    if (prestataireIndex !== -1) {
+        prestataires[prestataireIndex].societe = nouvelleSociete;
+        return { error: 0, data: nouvelleSociete };
+    } else {
+        return { error: 1, message: "Prestataire non trouvé" };
+    }
+}
+
+function updateThemePrestataire(id, nouveauTheme) {
+    const prestataireIndex = prestataires.findIndex(p => p.id === id);
+    if (prestataireIndex !== -1) {
+        prestataires[prestataireIndex].theme = nouveauTheme;
+               return { error: 0, data: nouveauTheme };
+    } else {
+        return { error: 1, message: "Prestataire non trouvé" };
+    }
+}
+
+function updateAdressePrestataire(id, nouvelleAdresse) {
+    const prestataireIndex = prestataires.findIndex(p => p.id === id);
+    if (prestataireIndex !== -1) {
+        prestataires[prestataireIndex].adresse = nouvelleAdresse;
+        return { error: 0, data: nouvelleAdresse };
+    } else {
+        return { error: 1, message: "Prestataire non trouvé" };
+    }
+}
+
+function updateImagePrestataire(id, nouvelleImage) {
+    const prestataireIndex = prestataires.findIndex(p => p.id === id);
+    if (prestataireIndex !== -1) {
+        prestataires[prestataireIndex].background = nouvelleImage;
+        return { error: 0, data: nouvelleImage };
+    } else {
+        return { error: 1, message: "Prestataire non trouvé" };
+    }
+}
+
+function updateImage2Prestataire(id, nouvelleImage2) {
+    const prestataireIndex = prestataires.findIndex(p => p.id === id);
+    if (prestataireIndex !== -1) {
+        prestataires[prestataireIndex].background2 = nouvelleImage2;
+        return { error: 0, data: nouvelleImage2 };
+    } else {
+        return { error: 1, message: "Prestataire non trouvé" };
+    }
+}
+
+function updateLogoPrestataire(id, nouveauLogo) {
+    const prestataireIndex = prestataires.findIndex(p => p.id === id);
+    if (prestataireIndex !== -1) {
+        prestataires[prestataireIndex].logo = nouveauLogo;
+        return { error: 0, data: nouveauLogo };
+    } else {
+        return { error: 1, message: "Prestataire non trouvé" };
+    }
+}
+
+
 export default {
     ajoutUtilisateur,
     ajoutOrganisateur,
@@ -1010,4 +1081,11 @@ export default {
     buyTicketCauchemarathon,
     demandeInscriptionPrestataire,
     demandeInscriptionOrganisateur,
+    updateDescriptionPrestataire,
+    updateSocietePrestataire,
+    updateThemePrestataire,
+    updateAdressePrestataire,
+    updateImagePrestataire,
+    updateImage2Prestataire,
+    updateLogoPrestataire
 };
