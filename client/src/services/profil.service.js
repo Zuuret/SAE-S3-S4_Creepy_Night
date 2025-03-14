@@ -1,5 +1,6 @@
 import LocalSource from "@/datasource/controller";
 import { getRequest } from "./axios.service";
+import { deleteRequest } from "./axios.service";
 
 async function ajoutUtilisateurFromLocalSource(data){
     return LocalSource.ajoutUtilisateur(data)
@@ -32,6 +33,22 @@ async function getAllOrganisateurFromAPI() {
 
 async function getAllUtilisateurFromAPI() {
     return await getRequest('users')
+}
+
+async function getDemandesOrganisateursFromAPI() {
+    return await getRequest('demandeOrga')
+}
+
+async function getDemandesPrestatairesFromAPI() {
+    return await getRequest('demandePresta')
+}
+
+async function deleteDemandePrestataireFromAPI(id) {
+    return await deleteRequest(`demandePresta/${id}`);
+}
+
+async function deleteDemandeOrganisateurFromAPI(id) {
+    return await deleteRequest(`demandeOrga/${id}`);
 }
 
 async function getUserbyIdFromLocalSource(idUser){
@@ -276,6 +293,44 @@ export async function getAllPrestataires() {
     }
 }
 
+export async function getDemandesOrganisateurs() {
+    try{
+        let res = await getDemandesOrganisateursFromAPI();        
+        return {error:0, data:res.data}
+    }catch(error){
+        console.error("get demandes organisateurs", error)
+    }
+}
+
+export async function getDemandesPrestataires() {
+    try{
+        let res = await getDemandesPrestatairesFromAPI();        
+        return {error:0, data:res.data}
+    }catch(error){
+        console.error("get demandes prestataires", error)
+    }
+}
+
+export async function deleteDemandePrestataire(id) {
+    try {
+        const res = await deleteDemandePrestataireFromAPI(id);
+        return { error: 0, data: res.data };
+    } catch (error) {
+        console.error("delete demandes prestataires", error);
+        return { error: 1, data: "Erreur lors de la suppression" };
+    }
+}
+
+export async function deleteDemandeOrganisateur(id) {
+    try {
+        const res = await deleteDemandeOrganisateurFromAPI(id);
+        return { error: 0, data: res.data };
+    } catch (error) {
+        console.error("delete demandes organisateur", error);
+        return { error: 1, data: "Erreur lors de la suppression" };
+    }
+}
+
 export async function demandeInscriptionPrestataire(data) {
     let response;
     try {
@@ -306,6 +361,8 @@ export default {
     getAllUtilisateur,
     getAllOrganisateur,
     getAllPrestataire,
+    getDemandesOrganisateurs,
+    getDemandesPrestataires,
     getUserbyId,
     getPrestatairebyId,
     getOrganisateurbyId,

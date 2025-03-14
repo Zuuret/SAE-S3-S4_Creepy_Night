@@ -27,7 +27,7 @@
                   <td>{{ utilisateur.id }}</td>
                   <td>{{ utilisateur.prenom }}</td>
                   <td>{{ utilisateur.nom }}</td>
-                  <td>{{ utilisateur.email }}</td>
+                  <td>{{ utilisateur.mail }}</td>
                   <td>
                     <router-link
                       class="profile-link"

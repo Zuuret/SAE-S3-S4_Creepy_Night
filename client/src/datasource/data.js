@@ -22,7 +22,7 @@ let organisateurs = [
 
 let demandesOrganisateurs = [
     { id: 1, prenom: "Tim", nom: "Duncan", email: "timduncan@gmail.com", telephone: "0707070707", motDePasse: "mdp" },
-    { id: 2, prenom: "Enzo", nom: "Ferrari", email: "enzoferrari@gmail.com", telephone: "0606060606", motDePasse: "mdp" },
+    { id: 2, prenom: "Enzouz", nom: "Ferrari", email: "enzoferrari@gmail.com", telephone: "0606060606", motDePasse: "mdp" },
     { id: 3, prenom: "Yahia", nom: "Touré", email: "yahiatoure@gmail.com", telephone: "0505050505", motDePasse: "mdp" },
     { id: 4, prenom: "Sophie", nom: "Leclerc", email: "sophieleclerc@gmail.com", telephone: "0404040404", motDePasse: "mdp" },
     { id: 5, prenom: "Antoine", nom: "Dumas", email: "antoinedumas@gmail.com", telephone: "0303030303", motDePasse: "mdp" },
@@ -46,7 +46,7 @@ let prestataires = [
 ];
 
 let demandesPrestataires = [
-    { id: 1, societe: "Société D", adresse: "Adresse D", email: "contact@societed.com", statut: "en attente", motDePasse: "mdp" },
+    { id: 1, societe: "Société DD", adresse: "Adresse D", email: "contact@societed.com", statut: "en attente", motDePasse: "mdp" },
     { id: 2, societe: "Société E", adresse: "Adresse E", email: "contact@societee.com", statut: "en attente", motDePasse: "mdp" },
     { id: 3, societe: "Société F", adresse: "Adresse F", email: "contact@societef.com", statut: "en attente", motDePasse: "mdp" },
     { id: 4, societe: "Société G", adresse: "Adresse G", email: "contact@societeg.com", statut: "en attente", motDePasse: "mdp" },

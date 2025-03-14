@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import ProfilService from '../services/profil.service';
 import CashLessService from '../services/cashless.service';
-import { getAllUtilisateurs, getAllOrganisateurs, getAllPrestataires } from "@/services/profil.service";
+import { getAllUtilisateurs, getAllOrganisateurs, getAllPrestataires, getDemandesOrganisateurs, getDemandesPrestataires, deleteDemandePrestataire, deleteDemandeOrganisateur } from "@/services/profil.service";
 import {demandesPrestataires as initialDemandesPrestataires} from '../datasource/data';
 import { demandesOrganisateurs as initialDemandesOrganisateurs } from '../datasource/data';
 
@@ -88,6 +88,12 @@ export default ({
         },
         SET_DEMANDES_ORGANISATEURS(state, demandes) {
             state.demandesOrganisateurs = demandes;
+        },
+        DELETE_DEMANDE_PRESTATAIRE(state, demandeId) {
+            state.demandesPrestataires = state.demandesPrestataires.filter(d => d.id !== demandeId);
+        },
+        DELETE_DEMANDE_ORGANISATEUR(state, demandeId) {
+            state.demandesOrganisateurs = state.demandesOrganisateurs.filter(d => d.id !== demandeId);
         },
         removeDemandePrestataire(state, demandeId) {
             state.demandesPrestataires = state.demandesPrestataires.filter(d => d.id !== demandeId);
@@ -323,11 +329,39 @@ export default ({
             }
         },
         async fetchDemandesPrestataires({ commit }) {
-            commit('SET_DEMANDES_PRESTATAIRES', initialDemandesPrestataires);
+            const response = await getDemandesPrestataires();
+            if (response.error === 0) {
+                commit('SET_DEMANDES_PRESTATAIRES', response.data);
+            }
         },
 
         async fetchDemandesOrganisateurs({ commit }) {
-            commit('SET_DEMANDES_PRESTATAIRES', initialDemandesOrganisateurs);
+            const response = await getDemandesOrganisateurs();
+            if (response.error === 0) {
+                commit('SET_DEMANDES_ORGANISATEURS', response.data);
+            }
+        },
+
+        async deleteDemandePrestataire({ commit }, demandeId) {
+            try {
+                const response = await deleteDemandePrestataire(demandeId);
+                if (response.error === 0) {
+                    commit('DELETE_DEMANDE_PRESTATAIRE', demandeId);
+                }
+            } catch (error) {
+                console.error("Erreur suppression demande prestataire", error);
+            }
+        },
+
+        async deleteDemandeOrganisateur({ commit }, demandeId) {
+            try {
+                const response = await deleteDemandeOrganisateur(demandeId);
+                if (response.error === 0) {
+                    commit('DELETE_DEMANDE_ORGANISATEUR', demandeId);
+                }
+            } catch (error) {
+                console.error("Erreur suppression demande organisateur", error);
+            }
         },
 
         async accepterDemandePrestataire({ commit, state }, demande) {
