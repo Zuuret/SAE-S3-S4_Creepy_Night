@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import ProfilService from '../services/profil.service';
 import CashLessService from '../services/cashless.service';
-import { getAllUtilisateurs, getAllOrganisateurs, getAllPrestataires, getDemandesOrganisateurs, getDemandesPrestataires, deleteDemandePrestataire, deleteDemandeOrganisateur } from "@/services/profil.service";
+import { getAllUtilisateurs, getAllOrganisateurs, getAllPrestataires, getDemandesOrganisateurs, getDemandesPrestataires, deleteDemandePrestataire, deleteDemandeOrganisateur, insertOrganisateur, } from "@/services/profil.service";
 import {demandesPrestataires as initialDemandesPrestataires} from '../datasource/data';
 import { demandesOrganisateurs as initialDemandesOrganisateurs } from '../datasource/data';
 
@@ -384,25 +384,30 @@ export default ({
             commit('removeDemandePrestataire', demande.id);
         },
 
-        async accepterDemandeOrganisateur({ commit, state }, demande) {
-
-            const dernierIdOrganisateur = state.organisateurs.length > 0
-                ? Math.max(...state.organisateurs.map(p => p.id))
-                : 0;
-
-            const nouveauOrganisateur = {
-                id: dernierIdOrganisateur + 1,
-                prenom: demande.prenom,
+        async accepterDemandeOrganisateur({ commit }, demande) {
+            try {
+              const insertResponse = await insertOrganisateur({
+                id: demande.id,
                 nom: demande.nom,
+                prenom: demande.prenom,
                 email: demande.email,
-                telephone: demande.telephone,
-                motDePasse: demande.motDePasse,
-            };
-
-            console.log(`Nouvel Organisateur ajouté : Email: ${nouveauOrganisateur.email}, Mot de passe: ${nouveauOrganisateur.motDePasse}`);
-
-            commit('addOrganisateur', nouveauOrganisateur);
-            commit('removeDemandeOrganisateur', demande.id);
+                tel: demande.tel,
+                motDePasse: demande.motDePasse || "defaultpassword"
+              });
+        
+              if (insertResponse.error === 0) {
+                const deleteResponse = await deleteDemandeOrganisateur(demande.id);
+                if (deleteResponse.error === 0) {
+                  commit("DELETE_DEMANDE_ORGANISATEUR", demande.id);
+                } else {
+                  console.error("Erreur lors de la suppression de la demande.");
+                }
+              } else {
+                console.error("Erreur lors de l'insertion de l'organisateur.");
+              }
+            } catch (error) {
+              console.error("Erreur dans accepterDemandeOrganisateur :", error);
+            }
         },
 
         async updateDescriptionPrestataire({ commit }, { id, nouvelleDescription }) {

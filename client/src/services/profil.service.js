@@ -1,6 +1,7 @@
 import LocalSource from "@/datasource/controller";
 import { getRequest } from "./axios.service";
 import { deleteRequest } from "./axios.service";
+import { postRequest } from "./axios.service";
 
 async function ajoutUtilisateurFromLocalSource(data){
     return LocalSource.ajoutUtilisateur(data)
@@ -49,6 +50,10 @@ async function deleteDemandePrestataireFromAPI(id) {
 
 async function deleteDemandeOrganisateurFromAPI(id) {
     return await deleteRequest(`demandeOrga/${id}`);
+}
+
+async function insertOrganisateurFromAPI(payload) {
+    return await postRequest("organisateurs", payload);
 }
 
 async function getUserbyIdFromLocalSource(idUser){
@@ -330,6 +335,17 @@ export async function deleteDemandeOrganisateur(id) {
         return { error: 1, data: "Erreur lors de la suppression" };
     }
 }
+
+export async function insertOrganisateur(payload) {
+    try {
+      const res = await insertOrganisateurFromAPI(payload);
+      return { error: 0, data: res.data };
+    } catch (error) {
+      console.error("insert organisateur", error);
+      return { error: 1, data: "Erreur lors de l'insertion" };
+    }
+  }
+  
 
 export async function demandeInscriptionPrestataire(data) {
     let response;
