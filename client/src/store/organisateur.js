@@ -35,8 +35,10 @@ const actions = {
         const response = await getAllPrestataires();
         if (response.error === 0) {
             commit('SET_PRESTATAIRES', response.data);
+        } else {
+            console.error("Impossible de récupérer les prestataires.");
         }
-    },
+    }
 };
 
 const getters = {

@@ -13,7 +13,7 @@ export default ({
         article: null,
         panier: [],
         reservations: [],
-        reservationsId: []
+        reservationsId: [],
     },
     mutations: {
         updateLivreDOr(state, livreDOr) {

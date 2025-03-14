@@ -3,7 +3,7 @@ import Vuex from 'vuex';
 import ProfilService from '../services/profil.service';
 import CashLessService from '../services/cashless.service';
 import { getAllUtilisateurs, getAllOrganisateurs, getAllPrestataires } from "@/services/profil.service";
-import { demandesPrestataires as initialDemandesPrestataires } from '../datasource/data';
+import {demandesPrestataires as initialDemandesPrestataires} from '../datasource/data';
 import { demandesOrganisateurs as initialDemandesOrganisateurs } from '../datasource/data';
 
 Vue.use(Vuex);
@@ -41,6 +41,7 @@ export default ({
         },
         updatePrestatairebyId(state, prestataire) {
             state.prestataire = prestataire;
+            console.log(prestataire)
         },
         updateListeUtilisateur(state, utilisateurs) {
             state.utilisateurs = utilisateurs;
@@ -66,12 +67,6 @@ export default ({
             state.utilisateurConnecte = null;
             localStorage.removeItem("utilisateurConnecte");
             console.log('Utilisateur déconnecté');
-        },
-        updateLogo(state, logo) {
-            if (state.utilisateurConnecte) {
-                state.utilisateurConnecte.logo = logo;
-                localStorage.setItem("utilisateurConnecte", JSON.stringify(state.utilisateurConnecte));
-            }
         },
         SET_UTILISATEURS(state, utilisateurs) {
             state.utilisateurs = utilisateurs;
@@ -99,6 +94,34 @@ export default ({
         },
         removeDemandeOrganisateur(state, demandeId) {
             state.demandesOrganisateurs = state.demandesOrganisateurs.filter(d => d.id !== demandeId);
+        },
+        updateDescription(state, nouvelleDescription) {
+            state.utilisateurConnecte.description = nouvelleDescription;
+            localStorage.setItem("utilisateurConnecte", JSON.stringify(state.utilisateurConnecte));
+        },
+        updateSociete(state, nouvelleSociete) {
+            state.utilisateurConnecte.societe = nouvelleSociete;
+            localStorage.setItem("utilisateurConnecte", JSON.stringify(state.utilisateurConnecte));
+        },
+        updateTheme(state, nouveauTheme) {
+            state.utilisateurConnecte.theme = nouveauTheme;
+            localStorage.setItem("utilisateurConnecte", JSON.stringify(state.utilisateurConnecte));
+        },
+        updateAdresse(state, nouvelleAdresse) {
+            state.utilisateurConnecte.adresse = nouvelleAdresse;
+            localStorage.setItem("utilisateurConnecte", JSON.stringify(state.utilisateurConnecte));
+        },
+        updateImage(state, nouvelleImage) {
+            state.utilisateurConnecte.background = nouvelleImage;
+            localStorage.setItem("utilisateurConnecte", JSON.stringify(state.utilisateurConnecte));
+        },
+        updateImage2(state, nouvelleImage2) {
+            state.utilisateurConnecte.background2 = nouvelleImage2;
+            localStorage.setItem("utilisateurConnecte", JSON.stringify(state.utilisateurConnecte));
+        },
+        updateLogo(state, nouveauLogo) {
+            state.utilisateurConnecte.logo = nouveauLogo;
+            localStorage.setItem("utilisateurConnecte", JSON.stringify(state.utilisateurConnecte));
         },
     },
 
@@ -347,6 +370,76 @@ export default ({
             commit('addOrganisateur', nouveauOrganisateur);
             commit('removeDemandeOrganisateur', demande.id);
         },
+
+        async updateDescriptionPrestataire({ commit }, { id, nouvelleDescription }) {
+            console.log("Mis a jour de la description pour : ", nouvelleDescription, "de l'id : ", id);
+            let response = await ProfilService.updateDescriptionPrestataire(id, nouvelleDescription);
+            if (response.error === 0) {
+                commit('updateDescription', nouvelleDescription);
+            } else {
+                console.error(response.data);
+            }
+        },
+
+        async updateSocietePrestataire({ commit }, { id, nouvelleSociete }) {
+            console.log("Mis a jour du nom de societe pour : ", nouvelleSociete, "de l'id : ", id);
+            let response = await ProfilService.updateSocietePrestataire(id, nouvelleSociete);
+            if (response.error === 0) {
+                commit('updateSociete', nouvelleSociete);
+            } else {
+                console.error(response.data);
+            }
+        },
+
+        async updateThemePrestataire({ commit }, { id, nouveauTheme }) {
+            console.log("Mis a jour du theme pour : ", nouveauTheme, "de l'id : ", id);
+            let response = await ProfilService.updateThemePrestataire(id, nouveauTheme);
+            if (response.error === 0) {
+                commit('updateTheme', nouveauTheme);
+            } else {
+                console.error(response.data);
+            }
+        },
+
+        async updateAdressePrestataire({ commit }, { id, nouvelleAdresse }) {
+            console.log("Mis a jour de l'adresse pour : ", nouvelleAdresse, "de l'id : ", id);
+            let response = await ProfilService.updateAdressePrestataire(id, nouvelleAdresse);
+            if (response.error === 0) {
+                commit('updateAdresse', nouvelleAdresse);
+            } else {
+                console.error(response.data);
+            }
+        },
+
+        async updateImagePrestataire({ commit }, { id, nouvelleImage }) {
+            console.log("Mis a jour de l'image pour : ", nouvelleImage, "de l'id : ", id);
+            let response = await ProfilService.updateImagePrestataire(id, nouvelleImage);
+            if (response.error === 0) {
+                commit('updateImage', nouvelleImage);
+            } else {
+                console.error(response.data);
+            }
+        },
+
+        async updateImage2Prestataire({ commit }, { id, nouvelleImage2 }) {
+            console.log("Mis a jour de l'image pour : ", nouvelleImage2, "de l'id : ", id);
+            let response = await ProfilService.updateImage2Prestataire(id, nouvelleImage2);
+            if (response.error === 0) {
+                commit('updateImage2', nouvelleImage2);
+            } else {
+                console.error(response.data);
+            }
+        },
+
+        async updateLogoPrestataire({ commit }, { id, nouveauLogo }) {
+            console.log("Mis a jour de l'image pour : ", nouveauLogo, "de l'id : ", id);
+            let response = await ProfilService.updateLogoPrestataire(id, nouveauLogo);
+            if (response.error === 0) {
+                commit('updateLogo', nouveauLogo);
+            } else {
+                console.error(response.data);
+            }
+        }
 
     },
     getters: {

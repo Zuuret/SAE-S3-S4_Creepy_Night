@@ -22,7 +22,9 @@
     </div>
 
     <nav :class="{ 'navbar': true, 'hidden': isNavbarHidden }">
-      <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo">
+        <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo" style="width: 20%; cursor: pointer;">
+        <router-link to="/" class="logo-overlay" @click.stop></router-link>
+
       <div class="selection-language">
         <SelecteurLanguage />
       </div>
@@ -92,7 +94,25 @@ export default {
   padding: 0;
   text-decoration: none;
 }
+.logo-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  z-index: 10;
+  display: block;
+}
+.menu-burger {
+  position: relative;
+  z-index: 20;
+}
 
+.selection-language {
+  position: relative;
+  z-index: 20;
+}
 .navbar {
   position: fixed;
   top: 0;

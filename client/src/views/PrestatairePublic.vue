@@ -2,7 +2,7 @@
   <div class="carousel">
     <NavBar/>
     <div ref="list" class="list">
-      <div class="item" v-for="prestataire in prestataires" :key="prestataire.id">
+      <div class="item" v-for="prestataire in filteredPrestataires" :key="prestataire.id">
         <img :src="prestataire.background" :alt="prestataire.title" class="background"/>
         <div class="content">
           <img :src="prestataire.logo" :alt="prestataire.title" class="author"/>
@@ -50,6 +50,11 @@ export default {
   },
   computed: {
     ...mapState("ProfilStore", ["prestataires"]),
+    filteredPrestataires() {
+      return this.prestataires.filter(prestataire => {
+        return prestataire.background && prestataire.logo && prestataire.societe && prestataire.theme && prestataire.description && prestataire.background2;
+      });
+    },
     prestataireTrie() {
       if (this.prestataires.length > 1) {
         return this.prestataires.slice(1).concat(this.prestataires[0]);
