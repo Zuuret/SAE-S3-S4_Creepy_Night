@@ -15,9 +15,6 @@ const demandesOrganisateurRouter = require("./routes/demandesOrganisateurs.route
 const livreDOrRouter = require("./routes/livreDOr.router")
 
 
-
-
-
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
@@ -27,7 +24,6 @@ app.use(cors());
 
 // Middleware traitement JSON 
 app.use(express.json());
-
 
 app.use("/api/users",userRouter);
 app.use("/api/concerts",concertRouter);
