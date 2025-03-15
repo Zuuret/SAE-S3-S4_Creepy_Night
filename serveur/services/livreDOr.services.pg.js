@@ -1,16 +1,15 @@
 const pool = require('../database/db');
 const format = require('pg-format');
 
-async function insertLivreDOr(id, prestataireId, nomUtilisateur, evaluation, message, date) {
+async function insertLivreDOr(prestataire_id, nom_utilisateur, evaluation, message, date) {
     const client = await pool.connect();
     let is_error = false;
     try {
-        const data = [
-            [id, prestataireId, nomUtilisateur, evaluation, message, date]
-        ]
-        const query = format('INSERT INTO livre_DOr (id, prestataireId, nomUtilisateur, evaluation, message, date) VALUES %L', data);
+        const query = format(
+            'INSERT INTO livre_dor (prestataire_id, nom_utilisateur, evaluation, message, date) VALUES (%L, %L, %L, %L, %L)',
+            prestataire_id, nom_utilisateur, evaluation, message, date
+        );
         await client.query(query);
-        console.log('INSERTIONS AVEC SUCCES');
     } catch (error) {
         console.error('Erreur : ', error);
         is_error = true;
@@ -20,14 +19,15 @@ async function insertLivreDOr(id, prestataireId, nomUtilisateur, evaluation, mes
     return is_error;
 }
 
-async function getLivreDOr() {
+
+async function getAllLivreDOr() {
     const client = await pool.connect();
     let res;
     try {
-        res = await client.query('SELECT * FROM livre_DOr');
-        console.log('RECUPERATION DES PRESTATAIRES');
+        res = await client.query('SELECT * FROM livre_dor');
+        console.log('RECUPERATION DES LIVRES D\'OR');
     } catch (error) {
-        console.error('Erreur lors de la récupération des prestatairess :', error);
+        console.error('Erreur lors de la récupération des livres d\'or :', error);
         res = false;
     } finally {
         client.release();
@@ -35,15 +35,29 @@ async function getLivreDOr() {
     return res.rows || false;
 }
 
-async function updateLivreDOr(id, prestataireId, nomUtilisateur, evaluation, message, date) {
+async function getLivreDOrById(prestataire_id) {
+    const client = await pool.connect();
+    let res;
+    try {
+        res = await client.query('SELECT * FROM livre_dor WHERE prestataire_id = $1', [prestataire_id]);
+        console.log('RÉCUPÉRATION DU LIVRE D\'OR POUR LE PRESTATAIRE : ', prestataire_id);
+    } catch (error) {
+        console.error('Erreur lors de la récupération du livre d\'or :', error);
+        res = false;
+    } finally {
+        client.release();
+    }
+    return res.rows || false;
+}
+
+async function deleteCommentaire(id) {
     const client = await pool.connect();
     let is_error = false;
     try {
-        const query = format('UPDATE livre_DOr SET prestataireId = %L, nomUtilisateur = %L, evaluation = %L, message = %L, date = %L WHERE id = %L', prestataireId, nomUtilisateur, evaluation, message, date, id);
-        await client.query(query);
-        console.log('MISE A JOUR DU PRESTATAIRE');
+        await client.query('DELETE FROM livre_dor WHERE id = $1', [id]);
+        console.log('SUPPRESSION DU COMMENTAIRE AVEC ID :', id);
     } catch (error) {
-        console.error('Erreur lors de la mise à jour du prestataire :', error);
+        console.error('Erreur lors de la suppression du commentaire :', error);
         is_error = true;
     } finally {
         client.release();
@@ -51,25 +65,10 @@ async function updateLivreDOr(id, prestataireId, nomUtilisateur, evaluation, mes
     return is_error;
 }
 
-async function deleteLivreDOr(id) {
-    const client = await pool.connect();
-    let is_error = false;
-    try {
-        const query = format('DELETE FROM livre_DOr WHERE id = %L RETURNING *', id);
-        await client.query(query);
-        console.log('SUPPRESSION DU PRESTATAIRE');
-    } catch (error) {
-        console.error('Erreur lors de la suppression du prestataire :', error);
-        is_error = true;
-    } finally {
-        client.release();
-    }
-    return is_error;
-}
 
 module.exports = {
     insertLivreDOr,
-    getLivreDOr,
-    updateLivreDOr,
-    deleteLivreDOr
+    getAllLivreDOr,
+    getLivreDOrById,
+    deleteCommentaire
 }

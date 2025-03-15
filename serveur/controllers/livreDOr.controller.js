@@ -1,62 +1,46 @@
-const { v4: uuidv4 } = require('uuid');
-const bcrypt = require('bcryptjs');
-
 const livreDOrService = require("../services/livreDOr.services.pg");
 
 exports.saveLivreDOr = async (req, res) => {
-    const uuid = uuidv4();
-    const {} = req.body;
-    const resultat = await livreDOrService.insertLivreDOr(uuid, );
+    const prestataire_id = req.params.prestataire_id;
+    const nom_utilisateur = req.body.nom_utilisateur;
+    const evaluation = req.body.evaluation;
+    const message = req.body.message;
+    const date = req.body.date;
+    const resultat = await livreDOrService.insertLivreDOr(prestataire_id, nom_utilisateur, evaluation, message, date);
     if (resultat) {
         return res.status(500).send("ERREUR INTERNE");
     }
     return res.status(200).send("INSERTION AVEC SUCCÈS");
 };
 
-exports.getLivreDOr = async (req, res) => {
-    const livreDOrs = await livreDOrService.getLivreDOr();
-    if (!livreDOrs) {
+exports.getAllLivreDOr = async (req, res) => {
+    const livreDOr = await livreDOrService.getAllLivreDOr();
+    if (!livreDOr) {
         return res.status(500).json({ error: 'ERREUR INTERNE' });
     }
-    return res.status(200).json({ data: livreDOrs });
+    return res.status(200).json({ data: livreDOr });
 };
 
 exports.getLivreDOrById = async (req, res) => {
-    const uuid = req.params.uuid;
-    try {
-        const livreDOrs = await livreDOrService.getLivreDOr();
-        const livreDOr = livreDOrs.find(u => u.id == uuid);
-        if (!livreDOr) {
-            return res.status(404).json({ error: 'LivreDOr non trouvé' });
-        }
-        return res.status(200).json({ data: livreDOr });
-    } catch (error) {
-        console.error('Erreur lors de la récupération de la livreDOr :', error);
+    const prestataire_id = req.params.prestataire_id;
+    const livreDOrSpecifique = await livreDOrService.getLivreDOrById(prestataire_id);
+    if (!livreDOrSpecifique) {
         return res.status(500).json({ error: 'ERREUR INTERNE' });
     }
+    return res.status(200).json({ data: livreDOrSpecifique });
 };
 
-exports.updateLivreDOr = async (req, res) => {
-    const uuid = req.params.uuid;
-    const {} = req.body;
-    const resultat = await livreDOrService.updateLivreDOr(uuid, );
-    if (resultat) {
-        return res.status(500).send("ERREUR INTERNE");
-    }
-    return res.status(200).send("MODIFICATION ENREGISTRÉE");
-};
-
-exports.deleteLivreDOr = async (req, res) => {
-    const { uuid } = req.params;
+exports.deleteCommentaire = async (req, res) => {
+    const id = req.params.id;
     try {
-        const result = await livreDOrService.deleteLivreDOr(uuid);
+        const result = await livreDOrService.deleteCommentaire(id);
         if (!result) {
-            return res.status(200).json({ message: 'LivreDOr supprimé avec succès' });
+            return res.status(200).json({ message: 'Commentaire supprimé avec succès' });
         } else {
-            return res.status(404).json({ message: 'LivreDOr non trouvé' });
+            return res.status(404).json({ message: 'Commentaire non trouvé' });
         }
     } catch (error) {
-        console.error('Erreur lors de la suppression de la livreDOr :', error);
+        console.error('Erreur lors de la suppression du commentaire :', error);
         return res.status(500).json({ message: 'Erreur interne du serveur' });
     }
 };
