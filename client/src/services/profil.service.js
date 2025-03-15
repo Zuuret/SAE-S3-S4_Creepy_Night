@@ -36,6 +36,10 @@ async function getAllUtilisateurFromAPI() {
     return await getRequest('users')
 }
 
+async function getUserByIdFromAPI(uuid) {
+    return await getRequest(`users/${uuid}`);
+}
+
 async function getDemandesOrganisateursFromAPI() {
     return await getRequest('demandeOrga')
 }
@@ -60,9 +64,6 @@ async function insertPrestataireFromAPI(payload) {
     return await postRequest("prestataires", payload);
 }
 
-async function getUserbyIdFromLocalSource(idUser){
-    return LocalSource.getUserById(idUser)
-}
 async function getPrestatairebyIdFromLocalSource(idPrestataire){
     return LocalSource.getPrestataireById(idPrestataire)
 }
@@ -176,15 +177,21 @@ async function getAllPrestataire() {
     }
     return response
 }
-async function getUserbyId(idUser){
+
+export async function getUserById(uuid) {
     let response;
     try {
-        response = await getUserbyIdFromLocalSource(idUser)
-    } catch(err) {
-        response = {error: 1, status: 404, data: "erreur réseau, impossible de récupérer l'id de l'utilisateur" }
+        response = await getUserByIdFromAPI(uuid);
+    } catch (err) {
+        response = {
+            error: 1,
+            status: 404,
+            data: "Erreur réseau, impossible de récupérer l'utilisateur."
+        };
     }
-    return response
+    return response;
 }
+
 async function getPrestatairebyId(idPrestataire){
     let response;
     try {
@@ -392,7 +399,6 @@ export default {
     getAllPrestataire,
     getDemandesOrganisateurs,
     getDemandesPrestataires,
-    getUserbyId,
     getPrestatairebyId,
     getOrganisateurbyId,
     updateDescriptionPrestataire,
