@@ -488,5 +488,5 @@ VALUES
 
 INSERT INTO livre_dor (prestataire_id, nom_utilisateur, evaluation, message, date)
 VALUES
-('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f1', 'John Doe', 5, 'Excellent service, j''adore !', '2025-10-3O'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f1', 'John Doe', 5, 'Excellent service, j''adore !', '2025-10-30'),
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f1', 'Le festifroussard', 5, 'Je me suis péter le bide !', '2025-10-31');
