@@ -8,8 +8,7 @@
         <router-link to="/orga-utilisateurs" class="nav-item">Utilisateurs</router-link>
         <router-link to="/orga-organisateurs" class="nav-item">Organisateurs</router-link>
         <router-link to="/orga-prestataires" class="nav-item">Prestataires</router-link>
-        <router-link to="/orga-demandes" class="nav-item">Demandes</router-link>       
-        <router-link to="/planning" class="nav-item">Placer concert</router-link>
+        <router-link to="/orga-demandes" class="nav-item">Demandes</router-link>
         <router-link to="/organisateur/validartiste" class="nav-item" >Valider concert</router-link>
         <router-link to="/orga-profil" class="nav-item">Profil</router-link>
         </nav>

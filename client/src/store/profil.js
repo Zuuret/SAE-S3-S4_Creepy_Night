@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import ProfilService, { insertPrestataire } from '../services/profil.service';
 import CashLessService from '../services/cashless.service';
-import { getAllUtilisateurs, getAllOrganisateurs, getAllPrestataires, getDemandesOrganisateurs, getDemandesPrestataires, deleteDemandePrestataire, deleteDemandeOrganisateur, insertOrganisateur } from "@/services/profil.service";
+import { getAllUtilisateurs, getAllOrganisateurs, getAllPrestataires, getDemandesOrganisateurs, getDemandesPrestataires, deleteDemandePrestataire, deleteDemandeOrganisateur, insertOrganisateur, getUserById } from "@/services/profil.service";
 import {demandesPrestataires as initialDemandesPrestataires} from '../datasource/data';
 import { demandesOrganisateurs as initialDemandesOrganisateurs } from '../datasource/data';
 
@@ -70,6 +70,9 @@ export default ({
         },
         SET_UTILISATEURS(state, utilisateurs) {
             state.utilisateurs = utilisateurs;
+        },
+        SET_UTILISATEUR(state, utilisateur) {
+            state.utilisateur = utilisateur;
         },
         SET_ORGANISATEURS(state, organisateurs) {
             state.organisateurs = organisateurs;
@@ -266,13 +269,10 @@ export default ({
                 console.log(response.data);
             }
         },
-        async getUserbyId({ commit }, idUser) {
-            console.log("Récupération de l'id de l'utilisateur");
-            let response = await ProfilService.getUserbyId(idUser);
+        async getUserById({ commit }, uuid) {
+            const response = await getUserById(uuid);
             if (response.error === 0) {
-                commit('updateUtilisateurbyId', response.data);
-            } else {
-                console.log(response.data);
+                commit('SET_UTILISATEUR', response.data);
             }
         },
         async getPrestairebyId({ commit }, idPrestataire) {
