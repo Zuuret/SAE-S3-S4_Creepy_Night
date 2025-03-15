@@ -1,15 +1,15 @@
 <template>
-    <div class="user-profile">
+    <div class="user-profile" v-if="utilisateur && utilisateur.prenom">
       <h1>Détails de l'utilisateur</h1>
       <div class="card-container">
         <div class="user-info-card">
           <h2>Informations de l'utilisateur</h2>
           <p><strong>Prénom :</strong> {{ utilisateur.prenom }}</p>
           <p><strong>Nom :</strong> {{ utilisateur.nom }}</p>
-          <p><strong>Date de Naissance :</strong> {{ utilisateur.dateNaissance }}</p>
-          <p><strong>Email :</strong> {{ utilisateur.email }}</p>
+          <p><strong>Date de Naissance :</strong> {{ utilisateur.date_naissance }}</p>
+          <p><strong>Email :</strong> {{ utilisateur.mail }}</p>
           <p><strong>Solde Actuel :</strong> {{ utilisateur.solde }} €</p>
-          <p><strong>Numéro Cashless :</strong> {{ utilisateur.numCashless }}</p>
+          <p><strong>Numéro Cashless :</strong> {{ utilisateur.num_cashless }}</p>
         </div>
   
         <div class="transaction-history-card">
@@ -35,6 +35,9 @@
         </div>
       </div>
     </div>
+    <div v-else>
+      Chargement de l'utilisateur...
+    </div>
   </template>
   
   <script>
@@ -58,9 +61,17 @@
     },
     mounted() {
       this.getAllTransactions();
+      console.log("Utilisateurs:", this.utilisateurs);
+      console.log("ID depuis l'URL:", this.$route.params.id);
       const userId = this.$route.params.id;
-      this.utilisateur = this.utilisateurs.find(user => user.id === parseInt(userId));
-    }
+      this.utilisateur = this.utilisateurs.find(user => user.id === userId);
+    },
+    watch: {
+      utilisateurs(newUsers) {
+        const userId = parseInt(this.$route.params.id);
+        this.utilisateur = newUsers.find(user => user.id === userId);
+      }
+    },
   };
   </script>
   
