@@ -111,7 +111,7 @@ function loginUser(data, userList, userType) {
         };
     } else if (userType === "prestataire") {
         userData = {
-            id: user.id,
+            uuid: user.uuid,
             societe: user.societe,
             logo: user.logo,
             adresse: user.adresse,
