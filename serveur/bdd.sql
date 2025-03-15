@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS gere CASCADE;
+/*DROP TABLE IF EXISTS gere CASCADE;
 DROP TABLE IF EXISTS organise CASCADE;
 DROP TABLE IF EXISTS Signalement CASCADE;
 DROP TABLE IF EXISTS panier_article CASCADE;
@@ -485,3 +485,393 @@ INSERT INTO gere (evenement_id, organisateur_id)
 VALUES
 (1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f3'),
 (1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4');
+*/
+DROP TABLE IF EXISTS reservation_carihorreur_bouteilles;
+DROP TABLE IF EXISTS reservation_carihorreur;
+DROP TABLE IF EXISTS soireeBaltrouille_deguisements;
+DROP TABLE IF EXISTS soireeBaltrouille;
+DROP TABLE IF EXISTS reserve_film;
+DROP TABLE IF EXISTS places_films;
+DROP TABLE IF EXISTS cine_films;
+DROP TABLE IF EXISTS reservations_cauchemarathon;
+DROP TABLE IF EXISTS demandeUberFlippe;
+DROP TABLE IF EXISTS bouteilles;
+DROP TABLE IF EXISTS carres;
+DROP TABLE IF EXISTS location_deguisement;
+DROP TABLE IF EXISTS panier_deguisement;
+DROP TABLE IF EXISTS taille_deguisements;
+DROP TABLE IF EXISTS deguisements;
+DROP TABLE IF EXISTS expo_oeuvres_demande;
+DROP TABLE IF EXISTS expo_oeuvres;
+DROP TABLE IF EXISTS transactions;
+DROP TABLE IF EXISTS coordonnees_bancaire;
+DROP TABLE IF EXISTS reservation_concert;
+DROP TABLE IF EXISTS panier_concert;
+DROP TABLE IF EXISTS places_concerts;
+DROP TABLE IF EXISTS concerts;
+DROP TABLE IF EXISTS artistes;
+DROP TABLE IF EXISTS reservation_article;
+DROP TABLE IF EXISTS panier_article;
+DROP TABLE IF EXISTS articles;
+DROP TABLE IF EXISTS demandesPrestataires;
+DROP TABLE IF EXISTS prestataires;
+DROP TABLE IF EXISTS demandesOrganisateurs;
+DROP TABLE IF EXISTS organisateurs;
+DROP TABLE IF EXISTS utilisateurs;
+DROP TABLE IF EXISTS signalement;
+DROP TABLE IF EXISTS courses_cauchemarathon;
+
+
+CREATE TABLE utilisateurs (
+    id INT PRIMARY KEY,
+    prenom VARCHAR(255),
+    nom VARCHAR(255),
+    dateNaissance VARCHAR(10),  -- format dd-mm-yyyy (ou vous pouvez utiliser DATE en convertissant le format)
+    email VARCHAR(255),
+    motDePasse VARCHAR(255),
+    solde DECIMAL(10,2),
+    numCashless INT
+);
+
+-- Table des organisateurs
+CREATE TABLE organisateurs (
+    id INT PRIMARY KEY,
+    prenom VARCHAR(255),
+    nom VARCHAR(255),
+    email VARCHAR(255),
+    motDePasse VARCHAR(255),
+    numTelephone VARCHAR(20)
+);
+
+-- Table des demandes d'organisateurs
+CREATE TABLE demandesOrganisateurs (
+    id INT PRIMARY KEY,
+    prenom VARCHAR(255),
+    nom VARCHAR(255),
+    email VARCHAR(255),
+    telephone VARCHAR(20),
+    motDePasse VARCHAR(255)
+);
+
+-- Table des prestataires
+CREATE TABLE prestataires (
+    id INT PRIMARY KEY,
+    societe VARCHAR(255),
+    adresse VARCHAR(255),
+    email VARCHAR(255),
+    motDePasse VARCHAR(255),
+    theme VARCHAR(255),
+    description TEXT,
+    logo VARCHAR(255),
+    background VARCHAR(255),
+    background2 VARCHAR(255)
+);
+
+-- Table des demandes de prestataires
+CREATE TABLE demandesPrestataires (
+    id INT PRIMARY KEY,
+    societe VARCHAR(255),
+    adresse VARCHAR(255),
+    email VARCHAR(255),
+    statut VARCHAR(255),
+    motDePasse VARCHAR(255)
+);
+
+-- Table du livre d'or
+CREATE TABLE livre_DOr (
+    id INT PRIMARY KEY,
+    prestataireId INT,
+    nomUtilisateur VARCHAR(255),
+    evaluation INT,
+    message TEXT,
+    date VARCHAR(50),
+    FOREIGN KEY (prestataireId) REFERENCES prestataires(id)
+);
+
+-- Table des articles
+CREATE TABLE articles (
+    id INT PRIMARY KEY,
+    prestataireId INT,
+    nom VARCHAR(255),
+    description TEXT,
+    prix DECIMAL(10,2),
+    stock INT,
+    image VARCHAR(255),
+    FOREIGN KEY (prestataireId) REFERENCES prestataires(id)
+);
+
+-- Table du panier pour les articles
+CREATE TABLE panier_article (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    utilisateurId INT,
+    articleId INT,
+    quantite INT,
+    FOREIGN KEY (utilisateurId) REFERENCES utilisateurs(id),
+    FOREIGN KEY (articleId) REFERENCES articles(id)
+);
+
+-- Table des réservations d'articles
+CREATE TABLE reservation_article (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    utilisateurId INT,
+    articleId INT,
+    quantite INT,
+    dateReservation DATETIME,
+    FOREIGN KEY (utilisateurId) REFERENCES utilisateurs(id),
+    FOREIGN KEY (articleId) REFERENCES articles(id)
+);
+
+-- Table des artistes
+CREATE TABLE artistes (
+    id INT PRIMARY KEY,
+    nomGroupe VARCHAR(255),
+    nbMembres INT,
+    decision VARCHAR(255)  -- peut être NULL
+);
+
+-- Table des concerts
+CREATE TABLE concerts (
+    id INT PRIMARY KEY,
+    artiste VARCHAR(255),
+    nationalite VARCHAR(100),
+    date VARCHAR(20),       -- format "10-27-2025", à convertir si besoin
+    heure VARCHAR(20),
+    duree VARCHAR(10),
+    image VARCHAR(255),
+    categorie VARCHAR(100),
+    scene VARCHAR(255)
+);
+
+-- Table des places pour les concerts
+CREATE TABLE places_concerts (
+    id_place INT PRIMARY KEY,
+    id_concert INT,
+    type_place VARCHAR(100),
+    nb_places INT,
+    prix_place DECIMAL(10,2),
+    FOREIGN KEY (id_concert) REFERENCES concerts(id)
+);
+
+-- Table du panier pour les concerts
+CREATE TABLE panier_concert (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    utilisateurId INT,
+    concertId INT,
+    quantite INT,
+    FOREIGN KEY (utilisateurId) REFERENCES utilisateurs(id),
+    FOREIGN KEY (concertId) REFERENCES concerts(id)
+);
+
+-- Table des réservations de concerts
+CREATE TABLE reservation_concert (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    utilisateurId INT,
+    concertId INT,
+    nb_places INT,
+    dateReservation DATETIME,
+    FOREIGN KEY (utilisateurId) REFERENCES utilisateurs(id),
+    FOREIGN KEY (concertId) REFERENCES concerts(id)
+);
+
+-- Table des coordonnées bancaires
+CREATE TABLE coordonnees_bancaire (
+    nom VARCHAR(255),
+    numero_carte VARCHAR(50) PRIMARY KEY,
+    date_expiration VARCHAR(10),
+    cvv VARCHAR(10)
+);
+
+-- Table des transactions
+CREATE TABLE transactions (
+    id INT PRIMARY KEY,
+    date VARCHAR(50),
+    operation VARCHAR(255),
+    details TEXT,
+    amount DECIMAL(10,2),
+    id_utilisateur INT,
+    FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id)
+);
+
+-- Table des expositions d’œuvres
+CREATE TABLE expo_oeuvres (
+    id INT PRIMARY KEY,
+    createur VARCHAR(255),
+    email VARCHAR(255),
+    dateCrea VARCHAR(20),
+    description TEXT,
+    image VARCHAR(255)
+);
+
+-- Table des demandes d'expositions (structure similaire à expo_oeuvres)
+CREATE TABLE expo_oeuvres_demande (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    createur VARCHAR(255),
+    email VARCHAR(255),
+    dateCrea VARCHAR(20),
+    description TEXT,
+    image VARCHAR(255)
+);
+
+-- Table des courses "Cauchemarathon"
+CREATE TABLE courses_cauchemarathon (
+    id INT PRIMARY KEY,
+    nomCircuit VARCHAR(255),
+    date VARCHAR(50),
+    heure VARCHAR(20),
+    nb_places INT
+);
+
+-- Table des films de cinéma
+CREATE TABLE cine_films (
+    id INT PRIMARY KEY,
+    nomFilm VARCHAR(255),
+    date VARCHAR(20),
+    heure VARCHAR(20),
+    duree VARCHAR(10),
+    image VARCHAR(255),
+    salle VARCHAR(100)
+);
+
+-- Table des places pour les films (clé composite)
+CREATE TABLE places_films (
+    id_film INT,
+    type_place VARCHAR(100),
+    nb_places INT,
+    prix_place DECIMAL(10,2),
+    PRIMARY KEY (id_film, type_place),
+    FOREIGN KEY (id_film) REFERENCES cine_films(id)
+);
+
+-- Table des réservations de places de films
+CREATE TABLE reserve_film (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nb_places_prises INT,
+    type_place_prises VARCHAR(100)
+);
+
+-- Table des signalements (exemple de structure)
+CREATE TABLE signalement (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    utilisateurId INT,
+    description TEXT,
+    date DATETIME
+);
+
+-- Table des soirées Baltrouille
+CREATE TABLE soireeBaltrouille (
+    id_soiree INT PRIMARY KEY,
+    date DATE,
+    description TEXT
+);
+
+-- Table de jonction pour lier une soirée à plusieurs déguisements
+CREATE TABLE soireeBaltrouille_deguisements (
+    id_soiree INT,
+    id_deguisement INT,
+    PRIMARY KEY (id_soiree, id_deguisement),
+    FOREIGN KEY (id_soiree) REFERENCES soireeBaltrouille(id_soiree),
+    FOREIGN KEY (id_deguisement) REFERENCES deguisements(id_costume)
+);
+
+-- Table des déguisements
+CREATE TABLE deguisements (
+    id_costume INT PRIMARY KEY,
+    nom_costume VARCHAR(255),
+    prix DECIMAL(10,2),
+    image VARCHAR(255)
+);
+
+-- Table des tailles disponibles pour les déguisements (clé composite)
+CREATE TABLE taille_deguisements (
+    id_taille_deguisement INT PRIMARY KEY,
+    id_deguisement INT,
+    taille VARCHAR(10),
+    quantite INT,
+    PRIMARY KEY (id_deguisement, taille),
+    FOREIGN KEY (id_deguisement) REFERENCES deguisements(id_costume)
+);
+
+-- Table du panier pour les déguisements
+CREATE TABLE panier_deguisement (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    utilisateurId INT,
+    id_deguisement INT,
+    quantite INT
+    FOREIGN KEY (utilisateurId) REFERENCES utilisateurs(id),
+    FOREIGN KEY (id_deguisement) REFERENCES deguisements(id_costume)
+);
+
+-- Table de location de déguisements
+CREATE TABLE location_deguisement (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    utilisateurId INT,
+    id_deguisement INT,
+    dateLocation DATE,
+    quantite INT
+    FOREIGN KEY (utilisateurId) REFERENCES utilisateurs(id),
+    FOREIGN KEY (id_deguisement) REFERENCES deguisements(id_costume)
+);
+
+-- Table des carrés (espaces VIP par exemple)
+CREATE TABLE carres (
+    id_carre INT PRIMARY KEY,
+    type VARCHAR(255),
+    prix DECIMAL(10,2),
+    prixPersonne DECIMAL(10,2)
+);
+
+-- Table des bouteilles (ex : champagne)
+CREATE TABLE bouteilles (
+    id_bouteille INT PRIMARY KEY,
+    type VARCHAR(255),
+    prix DECIMAL(10,2)
+);
+
+-- Table des réservations pour un carré dans un "carihorreur"
+CREATE TABLE reservation_carihorreur (
+    id_reservation INT PRIMARY KEY,
+    id_utilisateur INT,
+    dateCarre DATE,
+    id_carre INT,
+    nbPersonne INT
+    FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id),
+    FOREIGN KEY (id_carre) REFERENCES carres(id_carre)
+);
+
+-- Table de jonction pour associer des bouteilles à une réservation de carré
+CREATE TABLE reservation_carihorreur_bouteilles (
+    id_reservation INT,
+    id_bouteille INT,
+    quantite INT,
+    PRIMARY KEY (id_reservation, id_bouteille)
+    FOREIGN KEY (id_reservation) REFERENCES reservation_carihorreur(id_reservation),
+    FOREIGN KEY (id_bouteille) REFERENCES bouteilles(id_bouteille)
+);
+
+-- Table des demandes UberFlippe
+CREATE TABLE demandeUberFlippe (
+    id_demande INT PRIMARY KEY,
+    zone VARCHAR(255),
+    nbPersonne INT,
+    description TEXT
+);
+
+-- Table des réservations pour le Cauchemarathon
+CREATE TABLE reservations_cauchemarathon (
+    id_reservation INT PRIMARY KEY,
+    id_utilisateur INT,
+    id_course INT,
+    nb_places INT
+    FOREIGN KEY (id_utilisateur) REFERENCES utilisateurs(id),
+    FOREIGN KEY (id_course) REFERENCES courses_cauchemarathon(id)
+);
+
+-- Insertion d'un organisateur
+INSERT INTO `organisateurs` (`id`, `prenom`, `nom`, `email`, `motDePasse`, `numTelephone`)
+VALUES (1, 'Jean', 'Dupont', 'jean.dupont@example.com', 'MotDePasse123!', '0612345678');
+
+-- Insertion de deux demandes de prestataires
+INSERT INTO `demandesPrestataires` (`id`, `societe`, `adresse`, `email`, `statut`, `motDePasse`)
+VALUES 
+    (1, 'HorreurEvents', '13 Rue de l’Épouvante, 75001 Paris', 'contact@horreurevents.com', 'En attente', 'PassHorreur123!'),
+    (2, 'FreakyShow', '42 Avenue des Cauchemars, 69002 Lyon', 'info@freakyshow.fr', 'Approuvée', 'FreakyPass456!');
