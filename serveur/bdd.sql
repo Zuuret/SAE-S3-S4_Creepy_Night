@@ -223,10 +223,10 @@ CREATE TABLE gere (
 );
 
 CREATE TABLE livre_dor (
-    id INT PRIMARY KEY,
-    prestataire_id UUID REFERENCES prestataire(id) ON DELETE CASCADE,
+    id SERIAL PRIMARY KEY,
+    prestataire_id UUID NOT NULL REFERENCES prestataire(id) ON DELETE CASCADE,
     nom_utilisateur VARCHAR(255) NOT NULL,
-    evaluation INT CHECK (evaluation BETWEEN 1 AND 5),
+    evaluation INT CHECK (evaluation BETWEEN 1 AND 5) NOT NULL ,
     message TEXT NOT NULL,
     date DATE NOT NULL
 );
@@ -485,3 +485,8 @@ INSERT INTO gere (evenement_id, organisateur_id)
 VALUES
 (1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f3'),
 (1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4');
+
+INSERT INTO livre_dor (prestataire_id, nom_utilisateur, evaluation, message, date)
+VALUES
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f1', 'John Doe', 5, 'Excellent service, j''adore !', '2025-10-3O'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f1', 'Le festifroussard', 5, 'Je me suis péter le bide !', '2025-10-31');
