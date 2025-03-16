@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS Place_concert CASCADE;
 DROP TABLE IF EXISTS Concert CASCADE;
 DROP TABLE IF EXISTS Reservation_prestation CASCADE;
 DROP TABLE IF EXISTS prestation CASCADE;
-DROP TABLE IF EXISTS Billet_festival CASCADE;
+DROP TABLE IF EXISTS billet_festival CASCADE;
 DROP TABLE IF EXISTS Evenement CASCADE;
 DROP TABLE IF EXISTS Billet_activite CASCADE;
 DROP TABLE IF EXISTS Activite CASCADE;
@@ -103,7 +103,7 @@ CREATE TABLE Evenement (
     lieu VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE Billet_festival (
+CREATE TABLE billet_festival (
     id SERIAL PRIMARY KEY,
     date_achat TIMESTAMP NOT NULL,
     evenement_id INT REFERENCES Evenement(id) ON DELETE CASCADE,
@@ -521,7 +521,7 @@ DROP TABLE IF EXISTS Place_concert;
 DROP TABLE IF EXISTS Concert;
 DROP TABLE IF EXISTS Reservation_prestation;
 DROP TABLE IF EXISTS prestation;
-DROP TABLE IF EXISTS Billet_festival;
+DROP TABLE IF EXISTS billet_festival;
 DROP TABLE IF EXISTS Evenement;
 DROP TABLE IF EXISTS Billet_activite;
 DROP TABLE IF EXISTS Activite;
@@ -613,10 +613,10 @@ CREATE TABLE Evenement (
     lieu VARCHAR(50) NOT NULL
 );
 
--- Table Billet_festival
-CREATE TABLE Billet_festival (
+-- Table billet_festival
+CREATE TABLE billet_festival (
     id SERIAL PRIMARY KEY,
-    date_achat TIMESTAMP NOT NULL,
+    date_achat TIMESTAMPTZ NOT NULL,
     evenement_id INT REFERENCES Evenement(id) ON DELETE CASCADE,
     utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE
 );
@@ -1000,11 +1000,13 @@ VALUES
 
 INSERT INTO billet_festival (date_achat, evenement_id, utilisateur_id)
 VALUES
-('2024-10-01', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6'),
-('2024-10-02', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7'),
-('2024-10-03', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f8'),
-('2024-10-04', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f9'),
-('2024-10-05', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f0');
+('2025-03-16T00:00:00+00:00', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6'),
+('2025-03-16T00:00:00+00:00', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f9'),
+('2025-03-16T00:00:00+00:00', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7'),
+('2024-10-02T00:00:00+00:00', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7'),
+('2024-10-03T00:00:00+00:00', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f8'),
+('2024-10-04T00:00:00+00:00', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f9'),
+('2024-10-05T00:00:00+00:00', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f0');
 
 INSERT INTO prestation (nom, prix, description, image, zone_id)
 VALUES

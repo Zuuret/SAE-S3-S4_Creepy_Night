@@ -88,4 +88,21 @@ async function acheterBillet(utilisateurId, activiteId) {
     return isError;
 };
 
-module.exports = { acheterBillet };
+async function getBilletsFestival() {
+    const client = await pool.connect();
+    let res;
+    try {
+        res = await client.query('SELECT * FROM billet_festival');
+        console.log('RECUPERATION DES Billets du festival');
+    } catch (error) {
+        console.error('Erreur lors de la récupération des billets du festival :', error);
+        res = false;
+    } finally {
+        client.release();
+    }
+    return res.rows || false;
+}
+
+
+
+module.exports = { acheterBillet, getBilletsFestival };
