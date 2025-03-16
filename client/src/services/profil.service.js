@@ -1,7 +1,6 @@
 import LocalSource from "@/datasource/controller";
 import { getRequest } from "./axios.service";
 import { deleteRequest } from "./axios.service";
-import { postRequest } from "./axios.service";
 
 async function ajoutUtilisateurFromLocalSource(data){
     return LocalSource.ajoutUtilisateur(data)
@@ -36,10 +35,6 @@ async function getAllUtilisateurFromAPI() {
     return await getRequest('users')
 }
 
-async function getUserByIdFromAPI(uuid) {
-    return await getRequest(`users/${uuid}`);
-}
-
 async function getDemandesOrganisateursFromAPI() {
     return await getRequest('demandeOrga')
 }
@@ -56,14 +51,9 @@ async function deleteDemandeOrganisateurFromAPI(id) {
     return await deleteRequest(`demandeOrga/${id}`);
 }
 
-async function insertOrganisateurFromAPI(payload) {
-    return await postRequest("organisateurs", payload);
+async function getUserbyIdFromLocalSource(idUser){
+    return LocalSource.getUserById(idUser)
 }
-
-async function insertPrestataireFromAPI(payload) {
-    return await postRequest("prestataires", payload);
-}
-
 async function getPrestatairebyIdFromLocalSource(idPrestataire){
     return LocalSource.getPrestataireById(idPrestataire)
 }
@@ -177,21 +167,15 @@ async function getAllPrestataire() {
     }
     return response
 }
-
-export async function getUserById(uuid) {
+async function getUserbyId(idUser){
     let response;
     try {
-        response = await getUserByIdFromAPI(uuid);
-    } catch (err) {
-        response = {
-            error: 1,
-            status: 404,
-            data: "Erreur réseau, impossible de récupérer l'utilisateur."
-        };
+        response = await getUserbyIdFromLocalSource(idUser)
+    } catch(err) {
+        response = {error: 1, status: 404, data: "erreur réseau, impossible de récupérer l'id de l'utilisateur" }
     }
-    return response;
+    return response
 }
-
 async function getPrestatairebyId(idPrestataire){
     let response;
     try {
@@ -284,25 +268,25 @@ async function updateLogoPrestataire(id, nouveauLogo){
 
 export async function getAllUtilisateurs() {
     try{
-        let res = await getAllUtilisateurFromAPI();        
+        let res = await getAllUtilisateurFromAPI();
         return {error:0, data:res.data}
     }catch(error){
         console.error("get all utilisateurs", error)
-    } 
+    }
 }
 
 export async function getAllOrganisateurs() {
     try{
-        let res = await getAllOrganisateurFromAPI();        
+        let res = await getAllOrganisateurFromAPI();
         return {error:0, data:res.data}
     }catch(error){
         console.error("get all organisateurs", error)
-    } 
+    }
 }
 
 export async function getAllPrestataires() {
     try{
-        let res = await getAllPrestataireFromAPI();        
+        let res = await getAllPrestataireFromAPI();
         return {error:0, data:res.data}
     }catch(error){
         console.error("get all prestataires", error)
@@ -311,7 +295,7 @@ export async function getAllPrestataires() {
 
 export async function getDemandesOrganisateurs() {
     try{
-        let res = await getDemandesOrganisateursFromAPI();        
+        let res = await getDemandesOrganisateursFromAPI();
         return {error:0, data:res.data}
     }catch(error){
         console.error("get demandes organisateurs", error)
@@ -320,7 +304,7 @@ export async function getDemandesOrganisateurs() {
 
 export async function getDemandesPrestataires() {
     try{
-        let res = await getDemandesPrestatairesFromAPI();        
+        let res = await getDemandesPrestatairesFromAPI();
         return {error:0, data:res.data}
     }catch(error){
         console.error("get demandes prestataires", error)
@@ -344,26 +328,6 @@ export async function deleteDemandeOrganisateur(id) {
     } catch (error) {
         console.error("delete demandes organisateur", error);
         return { error: 1, data: "Erreur lors de la suppression" };
-    }
-}
-
-export async function insertOrganisateur(payload) {
-    try {
-      const res = await insertOrganisateurFromAPI(payload);
-      return { error: 0, data: res.data };
-    } catch (error) {
-      console.error("insert organisateur", error);
-      return { error: 1, data: "Erreur lors de l'insertion" };
-    }
-  }
-  
-export async function insertPrestataire(payload) {
-    try {
-        const res = await insertPrestataireFromAPI(payload);
-        return { error: 0, data: res.data };
-    } catch (error) {
-        console.error("insert prestataire", error);
-        return { error: 1, data: "Erreur lors de l'insertion" };
     }
 }
 
@@ -399,6 +363,7 @@ export default {
     getAllPrestataire,
     getDemandesOrganisateurs,
     getDemandesPrestataires,
+    getUserbyId,
     getPrestatairebyId,
     getOrganisateurbyId,
     updateDescriptionPrestataire,

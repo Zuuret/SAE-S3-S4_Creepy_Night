@@ -40,12 +40,12 @@
             <input type="email" v-model="utilisateur.confirmEmail" id="confirmEmailUtilisateur" placeholder="Confirmez votre email" required>
           </div>
           <div class="form-group">
-            <label for="passwordUtilisateur">Mot de passe :</label>
-            <input type="password" v-model="utilisateur.password" id="passwordUtilisateur" placeholder="Entrez votre mot de passe" required>
+            <label for="motDePasseUtilisateur">Mot de passe :</label>
+            <input type="password" v-model="utilisateur.motDePasse" id="motDePasseUtilisateur" placeholder="Entrez votre mot de passe" required>
           </div>
           <p class="error" v-if="errorMessage">{{ errorMessage }}</p>
           <p class="login-link">
-            Déjà un compte Creepynight ? 
+            Déjà un compte Creepynight ?
             <router-link to="/connexion" class="link">Connectez-vous</router-link>
           </p>
           <div class="form-actions">
@@ -78,12 +78,12 @@
             <input type="email" v-model="organisateur.confirmEmail" id="confirmEmailOrganisateur" placeholder="Confirmez votre email" required>
           </div>
           <div class="form-group">
-            <label for="passwordOrganisateur">Mot de passe :</label>
-            <input type="password" v-model="organisateur.password" id="passwordOrganisateur" placeholder="Entrez votre mot de passe" required>
+            <label for="motDePasseOrganisateur">Mot de passe :</label>
+            <input type="password" v-model="organisateur.motDePasse" id="motDePasseOrganisateur" placeholder="Entrez votre mot de passe" required>
           </div>
           <p class="error" v-if="errorMessage">{{ errorMessage }}</p>
           <p class="login-link">
-            Déjà un compte Creepynight ? 
+            Déjà un compte Creepynight ?
             <router-link to="/connexion" class="link">Connectez-vous</router-link>
           </p>
 
@@ -113,12 +113,12 @@
             <input type="email" v-model="prestataire.confirmEmail" id="confirmEmailPrestataire" placeholder="Confirmez votre email" required>
           </div>
           <div class="form-group">
-            <label for="passwordPrestataire">Mot de passe :</label>
-            <input type="password" v-model="prestataire.password" id="passwordPrestataire" placeholder="Entrez votre mot de passe" required>
+            <label for="motDePassePrestataire">Mot de passe :</label>
+            <input type="password" v-model="prestataire.motDePasse" id="motDePassePrestataire" placeholder="Entrez votre mot de passe" required>
           </div>
           <p class="error" v-if="errorMessage">{{ errorMessage }}</p>
           <p class="login-link">
-            Déjà un compte Creepynight ? 
+            Déjà un compte Creepynight ?
             <router-link to="/connexion" class="link">Connectez-vous</router-link>
           </p>
           <div class="form-actions">
@@ -144,7 +144,7 @@ export default {
       dateNaissance: '',
       email: '',
       confirmEmail: '',
-      password: '',
+      motDePasse: '',
     },
     organisateur: {
       prenom: '',
@@ -152,14 +152,14 @@ export default {
       numTelephone: '',
       email: '',
       confirmEmail: '',
-      password: '',
+      motDePasse: '',
     },
     prestataire: {
       societe: '',
       adresse: '',
       email: '',
       confirmEmail: '',
-      password: '',
+      motDePasse: '',
     },
   }),
   computed: {
@@ -170,20 +170,20 @@ export default {
     resetForm(type) {
       this.updateErrorMessage('');
       if (type === 'utilisateur') {
-        this.utilisateur = { prenom: '', nom: '', dateNaissance: '', email: '', confirmEmail: '', password: '' };
+        this.utilisateur = { prenom: '', nom: '', dateNaissance: '', email: '', confirmEmail: '', motDePasse: '' };
       } else if (type === 'organisateur') {
-        this.organisateur = { prenom: '', nom: '', numTelephone: '', email: '', confirmEmail: '', password: '' };
+        this.organisateur = { prenom: '', nom: '', numTelephone: '', email: '', confirmEmail: '', motDePasse: '' };
       } else if (type === 'prestataire') {
-        this.prestataire = { societe: '', adresse: '', email: '', confirmEmail: '', password: '' };
+        this.prestataire = { societe: '', adresse: '', email: '', confirmEmail: '', motDePasse: '' };
       }
     },
     async submitFormUtilisateur() {
-      const { prenom, nom, dateNaissance, email, confirmEmail, password } = this.utilisateur;
+      const { prenom, nom, dateNaissance, email, confirmEmail, motDePasse } = this.utilisateur;
       if (email !== confirmEmail) {
         this.updateErrorMessage('Les adresses email ne correspondent pas');
         return;
       }
-      const result = await this.enregistrementUtilisateur({ nom, prenom, dateNaissance, email, password });
+      const result = await this.enregistrementUtilisateur({ nom, prenom, dateNaissance, email, motDePasse });
       console.log(result)
       if (result.success) {
         alert("Votre compte utilisateur est créé");
@@ -191,24 +191,24 @@ export default {
       }
     },
     async submitFormOrganisateur() {
-      const { prenom, nom, numTelephone, email, confirmEmail, password } = this.organisateur;
+      const { prenom, nom, numTelephone, email, confirmEmail, motDePasse } = this.organisateur;
       if (email !== confirmEmail) {
         this.updateErrorMessage('Les adresses email ne correspondent pas');
         return;
       }
-      const result = await this.enregistrementOrganisateur({ nom, prenom, numTelephone, email, password });
+      const result = await this.enregistrementOrganisateur({ nom, prenom, numTelephone, email, motDePasse });
       if (result.success) {
         alert("Votre compte organisateur est créé");
         await this.$router.push('/connexion');
       }
     },
     async submitFormPrestataire() {
-      const { societe, adresse, email, confirmEmail, password } = this.prestataire;
+      const { societe, adresse, email, confirmEmail, motDePasse } = this.prestataire;
       if (email !== confirmEmail) {
         this.updateErrorMessage('Les adresses email ne correspondent pas');
         return;
       }
-      const result = await this.enregistrementPrestataire({ societe, adresse, email, password });
+      const result = await this.enregistrementPrestataire({ societe, adresse, email, motDePasse });
       if (result.success) {
         alert("Votre demande a été envoyée !");
         await this.$router.push('/connexion');

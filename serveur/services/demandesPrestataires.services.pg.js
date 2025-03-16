@@ -1,14 +1,15 @@
+
 const pool = require('../database/db');
 const format = require('pg-format');
 
-async function insertDemandePrestataire(id, societe, adresse, email, statut, password) {
+async function insertDemandePrestataire(id, societe, adresse, email, statut, motDePasse) {
     const client = await pool.connect();
     let is_error = false;
     try {
         const data = [
-            [id, societe, adresse, email, statut, password]
+            [id, societe, adresse, email, statut, motDePasse]
         ]
-        const query = format('INSERT INTO demandes_prestataires (id, societe, adresse, email, statut, password) VALUES %L', data);
+        const query = format('INSERT INTO demandes_prestataires (id, societe, adresse, email, statut, motDePasse) VALUES %L', data);
         await client.query(query);
         console.log('INSERTIONS AVEC SUCCES');
     } catch (error) {
@@ -35,11 +36,11 @@ async function getDemandesPrestataires() {
     return res.rows || false;
 }
 
-async function updateDemandePrestataire(uuid, societe, adresse, email, statut, password) {
+async function updateDemandePrestataire(uuid, societe, adresse, email, statut, motDePasse) {
     const client = await pool.connect();
     let is_error = false;
     try {
-        const query = format('UPDATE demandes_prestataires SET societe = %L, adresse = %L, email = %L, statut = %L, password = %L WHERE id = %L', societe, adresse, email, statut, password, uuid);
+        const query = format('UPDATE demandes_prestataires SET societe = %L, adresse = %L, email = %L, statut = %L, motDePasse = %L WHERE id = %L', societe, adresse, email, statut, motDePasse, uuid);
         await client.query(query);
         console.log('MISE A JOUR DU PRESTATAIRE');
     } catch (error) {

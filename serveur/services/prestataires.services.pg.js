@@ -1,19 +1,16 @@
 const pool = require('../database/db');
 const format = require('pg-format');
 
-async function insertPrestataire(id, societe, adresse, email, password) {
+async function insertPrestataire(id,societe, adresse, email, password) {
     const client = await pool.connect();
     let is_error = false;
     try {
         const data = [
-            [id, societe, adresse, email, password]
-        ];
-        const query = format(
-            'INSERT INTO Prestataire (id, societe, adresse, email, password) VALUES %L',
-            data
-        );
+            [id,societe, adresse, email, password]
+        ]
+        const query = format('INSERT INTO Prestataire (id,societe, adresse, email, password) VALUES %L', data);
         await client.query(query);
-        console.log('INSERTIONS AVEC SUCCÈS');
+        console.log('INSERTIONS AVEC SUCCES');
     } catch (error) {
         console.error('Erreur : ', error);
         is_error = true;

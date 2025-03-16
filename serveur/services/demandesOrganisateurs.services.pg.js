@@ -1,14 +1,14 @@
 const pool = require('../database/db');
 const format = require('pg-format');
 
-async function insertDemandeOrganisateurs(id, nom, prenom, email, tel, password) {
+async function insertDemandeOrganisateurs(id, nom, prenom, email, tel, motDePasse) {
     const client = await pool.connect();
     let is_error = false;
     try {
         const data = [
-            [id, nom, prenom, email, tel, password]
+            [id, nom, prenom, email, tel, motDePasse]
         ]
-        const query = format('INSERT INTO demandes_organisateurs (id, nom, prenom, email, tel, password) VALUES %L', data);
+        const query = format('INSERT INTO demandes_organisateurs (id, nom, prenom, email, tel, motDePasse) VALUES %L', data);
         await client.query(query);
         console.log('INSERTIONS AVEC SUCCES');
     } catch (error) {
@@ -35,11 +35,11 @@ async function getDemandesOrganisateurs() {
     return res.rows || false;
 }
 
-async function updateDemandeOrganisateurs(id, nom, prenom, email, tel, password) {
+async function updateDemandeOrganisateurs(id, nom, prenom, email, tel, motDePasse) {
     const client = await pool.connect();
     let is_error = false;
     try {
-        const query = format('UPDATE demandes_organisateurs SET societe = %L, adresse = %L, email = %L, tel = %L, password = %L WHERE id = %L', societe, adresse, email, tel, password, id);
+        const query = format('UPDATE demandes_organisateurs SET societe = %L, adresse = %L, email = %L, tel = %L, motDePasse = %L WHERE id = %L', societe, adresse, email, tel, motDePasse, id);
         await client.query(query);
         console.log('MISE A JOUR DU PRESTATAIRE');
     } catch (error) {

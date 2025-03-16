@@ -8,7 +8,7 @@
           <input type="email" v-model="email" id="email" placeholder="Entrez votre email" required/>
         </div>
         <div class="form-group">
-          <input type="password" v-model="password" id="password" placeholder="Entrez votre mot de passe" required/>
+          <input type="password" v-model="motDePasse" id="motDePasse" placeholder="Entrez votre mot de passe" required/>
         </div>
         <button type="submit" class="submit-button">Se connecter</button>
       </form>
@@ -30,7 +30,7 @@ export default {
   name: "PageConnexion",
   data: () => ({
     email: "",
-    password: "",
+    motDePasse: "",
   }),
   computed: {
     ...mapState('ProfilStore', ['errorMessage'])
@@ -40,7 +40,7 @@ export default {
 
     async submitLogin() {
       let userLogged = await this.loginUser({
-        data: { email: this.email, password: this.password },
+        data: { email: this.email, motDePasse: this.motDePasse },
         userType: 'utilisateur',
       });
       if (userLogged.success) {
@@ -48,7 +48,7 @@ export default {
         return;
       }
       let orgLogged = await this.loginUser({
-        data: { email: this.email, password: this.password },
+        data: { email: this.email, motDePasse: this.motDePasse },
         userType: 'organisateur',
       });
       if (orgLogged.success) {
@@ -56,7 +56,7 @@ export default {
         return;
       }
       let prestLogged = await this.loginUser({
-        data: { email: this.email, password: this.password },
+        data: { email: this.email, motDePasse: this.motDePasse },
         userType: 'prestataire',
       });
       if (prestLogged.success) {
@@ -92,7 +92,7 @@ export default {
   position: relative;
   border-radius: 12px;
   margin-top: 20vh;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 h2 {
@@ -112,18 +112,18 @@ h2 {
 input {
   width: 80%;
   padding: 12px;
-  border: 2px solid #ddd; 
+  border: 2px solid #ddd;
   border-radius: 8px;
   font-size: 18px;
   font-family: whoAsksSatan, serif;
   outline: none;
-  background-color: #f0f0f0; 
+  background-color: #f0f0f0;
   color: #333;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input:focus {
-  border-color: #ff0027; 
+  border-color: #ff0027;
   box-shadow: 0 0 5px rgba(255, 0, 39, 0.5);
 }
 
@@ -165,7 +165,7 @@ input::placeholder {
 
 .submit-button:hover {
   background-color: #c4001e;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .message {

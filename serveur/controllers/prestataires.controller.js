@@ -1,78 +1,79 @@
 const { v4 : uuidv4 } = require('uuid');
 const bcrypt = require('bcryptjs');
 
-const prestataireService = require("../services/prestataires.services.pg");
+const organisateursService = require("../services/organisateurs.services.pg");
 const {FALSE} = require("pg-format/lib/reserved");
 
-exports.savePrestataire = async (req,res) => {
+exports.saveOrganisateur = async (req,res) => {
     const uuid = uuidv4()
-    const societe = req.body.societe;
-    const adresse = req.body.adresse;
+    const nom = req.body.nom;
+    const prenom = req.body.prenom;
     const email = req.body.email;
-    const password = req.body.password;
-    const resultat = await prestataireService.insertPrestataire(uuid,societe, adresse, email, password);
+    const tel = req.body.tel;
+    const motDePasse = req.body.motDePasse;
+    const resultat = await organisateursService.insertOrganisateur(uuid, nom, prenom, email, tel, motDePasse);
     if (resultat) {
         return res.status(500).send("ERREUR INTERNE");
     }
     return res.status(200).send("INSERTION AVEC SUCCES");
 }
 
-exports.getPrestataires = async (req, res) => {
-    const prestataires = await prestataireService.getPrestataires();
-    if (!prestataires) {
+exports.getOrganisateurs = async (req, res) => {
+    const organisateurs = await organisateursService.getOrganisateurs();
+    if (!organisateurs) {
         return res.status(500).json({ error: 'ERREUR INTERNE' });
     }
-    return res.status(200).json({ data: prestataires });
+    return res.status(200).json({ data: organisateurs });
 };
 
-exports.getPrestataireById = async (req, res) => {
+exports.getOrganisateurById = async (req, res) => {
     const uuid = req.params.uuid;
     //console.log(uuid)
     try {
-        const prestataires = await prestataireService.getPrestataires();
-        if (!prestataires) {
+        const organisateurs = await organisateursService.getOrganisateurs();
+        if (!organisateurs) {
             return res.status(500).json({ error: 'ERREUR INTERNE' });
         }
-        //console.log(prestataires)
-        const prestataire = prestataires.find(prestataire => prestataire.id == uuid);
-        //console.log(prestataire)
-        if (!prestataire) {
-            return res.status(404).json({ error: 'Prestataire non trouvé' });
+        //console.log(organisateurs)
+        const organisateur = organisateurs.find(organisateur => organisateur.id == uuid);
+        //console.log(organisateur)
+        if (!organisateur) {
+            return res.status(404).json({ error: 'Organisateur non trouvé' });
         }
-        return res.status(200).json({ data: prestataire });
+        return res.status(200).json({ data: organisateur });
     } catch (error) {
-        console.error('Erreur lors de la récupération du prestataire :', error);
+        console.error('Erreur lors de la récupération du organisateur :', error);
         return res.status(500).json({ error: 'ERREUR INTERNE' });
     }
 };
 
-exports.updatePrestataire = async (req,res) => {
-    
+exports.updateOrganisateur = async (req,res) => {
     const uuid = req.params.uuid;
-    const societe = req.body.societe;
-    const adresse = req.body.adresse;
+    const nom = req.body.nom;
+    const prenom = req.body.prenom;
     const email = req.body.email;
-    const password = req.body.password;
-    const resultat = await prestataireService.updatePrestataire(uuid,societe, adresse, email, password);
+    const tel = req.body.tel;
+    const motDePasse = req.body.motDePasse;
+    const resultat = await organisateursService.updateOrganisateur(uuid, nom, prenom, email, tel, motDePasse);
     if(resultat){
         return res.status(500).send("ERREUR INTERNE");
     }
     return res.status(200).send("MODIFICATION ENREGISTREE");
 };
 
-exports.deletePrestataire = async (req, res) => {
+exports.deleteOrganisateur = async (req, res) => {
     const { uuid } = req.params;
 
     try {
-        const result = await prestataireService.deletePrestataire(uuid);
+        const result = await organisateursService.deleteOrganisateur(uuid);
 
         if (!result) {
-            return res.status(200).json({ message: 'Prestataire supprimé avec succès' });
+            return res.status(200).json({ message: 'Organisateur supprimé avec succès' });
         } else {
-            return res.status(404).json({ message: 'Prestataire non trouvé' });
+            return res.status(404).json({ message: 'Organisateur non trouvé' });
         }
     } catch (error) {
-        console.error('Erreur lors de la suppression du prestataire:', error);
+        console.error('Erreur lors de la suppression de l\'organisation :', error);
         return res.status(500).json({ message: 'Erreur interne du serveur' });
     }
 };

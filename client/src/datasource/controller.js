@@ -39,7 +39,7 @@ function ajoutUtilisateur(data) {
     if (!data.nom) return { error: 1, status: 404, data: 'Aucun nom fourni' };
     if (!data.dateNaissance) return { error: 1, status: 404, data: 'Aucune date de naissance fournie' };
     if (!data.email) return { error: 1, status: 404, data: 'Aucun email fourni' };
-    if (!data.password) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
+    if (!data.motDePasse) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
     const emailExiste = utilisateurs.some(user => user.email === data.email);
     if (emailExiste) {
         return { error: 1, status: 409, data: 'Cet email est déjà utilisé' };
@@ -51,7 +51,7 @@ function ajoutUtilisateur(data) {
         nom: data.nom,
         dateNaissance: data.dateNaissance,
         email: data.email,
-        password: data.password,
+        motDePasse: data.motDePasse,
         solde: 0,
         numCashless: Math.floor(Math.random() * 1000000000)
     };
@@ -63,7 +63,7 @@ function ajoutOrganisateur(data){
     if (!data.nom) return { error: 1, status: 404, data: 'Aucun nom fourni' };
     if (!data.numTelephone) return { error: 1, status: 404, data: 'Aucune numéro de téléphone fournie' };
     if (!data.email) return { error: 1, status: 404, data: 'Aucun email fourni' };
-    if (!data.password) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
+    if (!data.motDePasse) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
 
     const emailExiste = organisateurs.some(organisateur => organisateur.email === data.email);
     if (emailExiste) {
@@ -76,16 +76,16 @@ function ajoutOrganisateur(data){
         nom: data.nom,
         numTelephone: data.numTelephone,
         email: data.email,
-        password: data.password,
+        motDePasse: data.motDePasse,
     };
     return { error: 0, status: 200, data: nouvelOrganisateur };
 }
 
 function loginUser(data, userList, userType) {
-    if (!data.email || !data.password) {
+    if (!data.email || !data.motDePasse) {
         return { error: 1, status: 404, data: 'Email ou mot de passe non fourni.' };
     }
-    const user = userList.find(u => u.email === data.email && u.password === data.password);
+    const user = userList.find(u => u.email === data.email && u.motDePasse === data.motDePasse);
     if (!user) {
         return { error: 1, status: 404, data: 'Email ou mot de passe incorrect.' };
     }
@@ -148,8 +148,7 @@ function getUserById(idUser){
     return {error: 0, data:user}
 }
 function getPrestataireById(idPrestataire){
-    let presta = prestataires.find(u => u.id === idPrestataire)
-    console.log(idPrestataire)
+    let presta = prestataires.find(u => u.id === parseInt(idPrestataire))
     return {error: 0, data:presta}
 }
 
@@ -904,14 +903,14 @@ function demandeInscriptionPrestataire(data) {
     if (!data.societe) return { error: 1, status: 404, data: 'Aucune société fournie' };
     if (!data.adresse) return { error: 1, status: 404, data: 'Aucune adresse fournie' };
     if (!data.email) return { error: 1, status: 404, data: 'Aucun email fourni' };
-    if (!data.password) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
+    if (!data.motDePasse) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
 
     let nouvelleDemande = {
         id: demandesPrestataires.length + 1,
         societe: data.societe,
         adresse: data.adresse,
         email: data.email,
-        password: data.password,
+        motDePasse: data.motDePasse,
         statut: 'en attente'
     };
 
@@ -924,7 +923,7 @@ function demandeInscriptionOrganisateur(data) {
     if (!data.prenom) return { error: 1, status: 404, data: 'Aucun prenom fourni' };
     if (!data.email) return { error: 1, status: 404, data: 'Aucun email fourni' };
     if (!data.telephone) return { error: 1, status: 404, data: 'Aucun telephone fourni' };
-    if (!data.password) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
+    if (!data.motDePasse) return { error: 1, status: 404, data: 'Aucun mot de passe fourni' };
 
     let nouvelleDemande = {
         id: demandesOrganisateurs.length + 1,
@@ -932,7 +931,7 @@ function demandeInscriptionOrganisateur(data) {
         prenom: data.prenom,
         email: data.email,
         telephone: data.telephone,
-        password: data.password,
+        motDePasse: data.motDePasse,
         statut: 'en attente'
     };
 
@@ -964,7 +963,7 @@ function updateThemePrestataire(id, nouveauTheme) {
     const prestataireIndex = prestataires.findIndex(p => p.id === id);
     if (prestataireIndex !== -1) {
         prestataires[prestataireIndex].theme = nouveauTheme;
-               return { error: 0, data: nouveauTheme };
+        return { error: 0, data: nouveauTheme };
     } else {
         return { error: 1, message: "Prestataire non trouvé" };
     }

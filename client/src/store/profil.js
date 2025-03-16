@@ -1,8 +1,9 @@
+
 import Vue from 'vue';
 import Vuex from 'vuex';
-import ProfilService, { insertPrestataire } from '../services/profil.service';
+import ProfilService from '../services/profil.service';
 import CashLessService from '../services/cashless.service';
-import { getAllUtilisateurs, getAllOrganisateurs, getAllPrestataires, getDemandesOrganisateurs, getDemandesPrestataires, deleteDemandePrestataire, deleteDemandeOrganisateur, insertOrganisateur, getUserById } from "@/services/profil.service";
+import { getAllUtilisateurs, getAllOrganisateurs, getAllPrestataires, getDemandesOrganisateurs, getDemandesPrestataires, deleteDemandePrestataire, deleteDemandeOrganisateur } from "@/services/profil.service";
 import {demandesPrestataires as initialDemandesPrestataires} from '../datasource/data';
 import { demandesOrganisateurs as initialDemandesOrganisateurs } from '../datasource/data';
 
@@ -70,9 +71,6 @@ export default ({
         },
         SET_UTILISATEURS(state, utilisateurs) {
             state.utilisateurs = utilisateurs;
-        },
-        SET_UTILISATEUR(state, utilisateur) {
-            state.utilisateur = utilisateur;
         },
         SET_ORGANISATEURS(state, organisateurs) {
             state.organisateurs = organisateurs;
@@ -151,7 +149,7 @@ export default ({
                 return { success: false };
             }
         },
-        
+
         async enregistrementPrestataire({ commit, state }, data) {
             console.log("Enregistrement d'un nouveau prestataire");
             const dernierId = state.demandesPrestataires.length > 0
@@ -162,7 +160,7 @@ export default ({
                 societe: data.societe,
                 adresse: data.adresse,
                 email: data.email,
-                password: data.password,
+                motDePasse: data.motDePasse,
             };
             commit('addDemandePrestataire', nouvelleDemandePrestataire);
             return { success: true };
@@ -176,16 +174,16 @@ export default ({
                 : 0;
 
             const nouvelleDemandeOrganisateur = {
-                id: dernierId + 1, 
+                id: dernierId + 1,
                 nom: data.nom,
                 prenom: data.prenom,
                 email: data.email,
                 telephone: data.telephone,
-                password: data.password,
+                motDePasse: data.motDePasse,
             };
 
             commit('addDemandeOrganisateur', nouvelleDemandeOrganisateur);
-            return { success: true }; 
+            return { success: true };
         },
 
         async loginUser({ commit }, { data, userType }) {
@@ -200,6 +198,10 @@ export default ({
 
             if (response.error === 0) {
                 commit('updateUtilisateurConnecte', response.data);
+                if (userType === 'prestataire' && response.data.logo instanceof File) {
+                    const logoUrl = URL.createObjectURL(response.data.logo);
+                    commit('updateLogo', logoUrl);
+                }
                 commit('updateErrorMessage', '');
                 return { success: true };
             } else {
@@ -265,10 +267,13 @@ export default ({
                 console.log(response.data);
             }
         },
-        async getUserById({ commit }, uuid) {
-            const response = await getUserById(uuid);
+        async getUserbyId({ commit }, idUser) {
+            console.log("Récupération de l'id de l'utilisateur");
+            let response = await ProfilService.getUserbyId(idUser);
             if (response.error === 0) {
-                commit('SET_UTILISATEUR', response.data);
+                commit('updateUtilisateurbyId', response.data);
+            } else {
+                console.log(response.data);
             }
         },
         async getPrestairebyId({ commit }, idPrestataire) {
@@ -360,55 +365,45 @@ export default ({
             }
         },
 
-        async accepterDemandeOrganisateur({ commit }, demande) {
-            try {
-              const insertResponse = await insertOrganisateur({
-                id: demande.id,
-                nom: demande.nom,
-                prenom: demande.prenom,
+        async accepterDemandePrestataire({ commit, state }, demande) {
+
+            const dernierIdPrestataire = state.prestataires.length > 0
+                ? Math.max(...state.prestataires.map(p => p.id))
+                : 0;
+
+            const nouveauPrestataire = {
+                id: dernierIdPrestataire + 1,
+                societe: demande.societe,
+                adresse: demande.adresse,
                 email: demande.email,
-                tel: demande.tel,
-                password: demande.password || "defaultpassword"
-              });
-        
-              if (insertResponse.error === 0) {
-                const deleteResponse = await deleteDemandeOrganisateur(demande.id);
-                if (deleteResponse.error === 0) {
-                  commit("DELETE_DEMANDE_ORGANISATEUR", demande.id);
-                } else {
-                  console.error("Erreur lors de la suppression de la demande.");
-                }
-              } else {
-                console.error("Erreur lors de l'insertion de l'organisateur.");
-              }
-            } catch (error) {
-              console.error("Erreur dans accepterDemandeOrganisateur :", error);
-            }
+                motDePasse: demande.motDePasse,
+            };
+
+            console.log(`Nouveau prestataire ajouté : Email: ${nouveauPrestataire.email}, Mot de passe: ${nouveauPrestataire.motDePasse}`);
+
+            commit('addPrestataire', nouveauPrestataire);
+            commit('removeDemandePrestataire', demande.id);
         },
 
-        async accepterDemandePrestataire({ commit }, demande) {
-            try {
-                const insertResponse = await insertPrestataire({
-                    id: demande.id,
-                    societe: demande.societe,
-                    adresse: demande.adresse,
-                    email: demande.email,
-                    password: demande.password || "defaultpassword", 
-                  });
-        
-              if (insertResponse.error === 0) {
-                const deleteResponse = await deleteDemandePrestataire(demande.id);
-                if (deleteResponse.error === 0) {
-                  commit("DELETE_DEMANDE_PRESTATAIRE", demande.id);
-                } else {
-                  console.error("Erreur lors de la suppression de la demande.");
-                }
-              } else {
-                console.error("Erreur lors de l'insertion du prestataire.");
-              }
-            } catch (error) {
-              console.error("Erreur dans accepterDemandePrestataire :", error);
-            }
+        async accepterDemandeOrganisateur({ commit, state }, demande) {
+
+            const dernierIdOrganisateur = state.organisateurs.length > 0
+                ? Math.max(...state.organisateurs.map(p => p.id))
+                : 0;
+
+            const nouveauOrganisateur = {
+                id: dernierIdOrganisateur + 1,
+                prenom: demande.prenom,
+                nom: demande.nom,
+                email: demande.email,
+                telephone: demande.telephone,
+                motDePasse: demande.motDePasse,
+            };
+
+            console.log(`Nouvel Organisateur ajouté : Email: ${nouveauOrganisateur.email}, Mot de passe: ${nouveauOrganisateur.motDePasse}`);
+
+            commit('addOrganisateur', nouveauOrganisateur);
+            commit('removeDemandeOrganisateur', demande.id);
         },
 
         async updateDescriptionPrestataire({ commit }, { id, nouvelleDescription }) {
@@ -486,4 +481,3 @@ export default ({
         utilisateurConnecte: state => state.utilisateurConnecte,
     },
 });
-

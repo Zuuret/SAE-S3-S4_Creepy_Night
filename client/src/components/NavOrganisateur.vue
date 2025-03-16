@@ -1,41 +1,42 @@
-<template>    
-    <aside class="sidebar">
-        <header class="sidebar-header">
-        <h1>Festival Admin</h1>
-        </header>
-        <nav class="nav">
-        <router-link to="/home-organisateur" class="nav-item">Tableau de bord</router-link>
-        <router-link to="/orga-utilisateurs" class="nav-item">Utilisateurs</router-link>
-        <router-link to="/orga-organisateurs" class="nav-item">Organisateurs</router-link>
-        <router-link to="/orga-prestataires" class="nav-item">Prestataires</router-link>
-        <router-link to="/orga-demandes" class="nav-item">Demandes</router-link>
-        <router-link to="/organisateur/validartiste" class="nav-item" >Valider concert</router-link>
-        <router-link to="/orga-profil" class="nav-item">Profil</router-link>
-        </nav>
-    </aside>
+<template>
+  <aside class="sidebar">
+    <header class="sidebar-header">
+      <h1>Festival Admin</h1>
+    </header>
+    <nav class="nav">
+      <router-link to="/home-organisateur" class="nav-item">Tableau de bord</router-link>
+      <router-link to="/orga-utilisateurs" class="nav-item">Utilisateurs</router-link>
+      <router-link to="/orga-organisateurs" class="nav-item">Organisateurs</router-link>
+      <router-link to="/orga-prestataires" class="nav-item">Prestataires</router-link>
+      <router-link to="/orga-demandes" class="nav-item">Demandes</router-link>
+      <router-link to="/planning" class="nav-item">Placer concert</router-link>
+      <router-link to="/organisateur/validartiste" class="nav-item" >Valider concert</router-link>
+      <router-link to="/orga-profil" class="nav-item">Profil</router-link>
+    </nav>
+  </aside>
 </template>
 <script>
 export default{
-    name: "NavOrganisateur",
+  name: "NavOrganisateur",
 }
-    
+
 </script>
 <style scoped>
 .sidebar {
-    width: 300px;
-    height: 100vh;
-    background-color: #2c3e50;
-    color: #fff;
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    position: fixed;
+  width: 300px;
+  height: 100vh;
+  background-color: #2c3e50;
+  color: #fff;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: fixed;
 }
 
 .sidebar-header {
-    text-align: center;
-    margin-bottom: 30px;
+  text-align: center;
+  margin-bottom: 30px;
 }
 
 .sidebar-header h1 {
