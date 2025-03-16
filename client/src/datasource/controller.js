@@ -111,7 +111,7 @@ function loginUser(data, userList, userType) {
         };
     } else if (userType === "prestataire") {
         userData = {
-            uuid: user.uuid,
+            id: user.id,
             societe: user.societe,
             logo: user.logo,
             adresse: user.adresse,
@@ -148,7 +148,8 @@ function getUserById(idUser){
     return {error: 0, data:user}
 }
 function getPrestataireById(idPrestataire){
-    let presta = prestataires.find(u => u.id === parseInt(idPrestataire))
+    let presta = prestataires.find(u => u.id === idPrestataire)
+    console.log(idPrestataire)
     return {error: 0, data:presta}
 }
 

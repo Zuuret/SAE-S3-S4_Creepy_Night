@@ -37,6 +37,7 @@ export default {
   mounted() {
     const prestaireId = parseInt(this.$route.params.id);
     this.getPrestairebyId(prestaireId)
+    console.log('Vue :', prestaireId)
   }
 }
 </script>
