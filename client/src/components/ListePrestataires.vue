@@ -55,7 +55,8 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("profil/getAllPrestataire");
+    //this.$store.dispatch("profil/getAllPrestataire");
+    this.$store.dispatch("profil/getAllPrestataireFromAPI");
   }
 };
 </script>

@@ -24,7 +24,7 @@ async function getAllOrganisateurFromLocalSource() {
     return LocalSource.getAllOrganisateur()
 }
 async function getAllPrestataireFromAPI() {
-    return await getRequest('prestataires')
+    return await getRequest('prestataire', 'prestataire')
 }
 
 async function getAllOrganisateurFromAPI() {
