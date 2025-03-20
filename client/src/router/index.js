@@ -58,6 +58,7 @@ import OrgaDemandes from "@/views/OrgaDemandes.vue"
 import OrgaProfil from "@/views/OrgaProfil.vue"
 
 import MesReservations from "@/views/MesReservations.vue"
+import OrgaTexteAccueil from '@/views/OrgaTexteAccueil.vue';
 
 Vue.use(VueRouter);
 
@@ -102,6 +103,7 @@ const routes = [
   { path: '/orga-prestataires', name: 'OrgaPrestataires', component: OrgaPrestataires },
   { path: '/orga-demandes', name: 'OrgaDemandes', component: OrgaDemandes },
   { path: '/orga-profil', name: 'OrgaProfil', component: OrgaProfil },
+  { path: '/orga-texte-accueil', name: 'TexteAccueilOrga', component:OrgaTexteAccueil},
   { path: '/reservations', name:'Reservations', component: MesReservations},
   { path: '/reservations/articles', name: 'ReservationsArticles', component: ReservationArticle},
   { path: '/reservations/baltrouille', name: 'ReservationsBaltrouille', component: ReservationDeguisement},

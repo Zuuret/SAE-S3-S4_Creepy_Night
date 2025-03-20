@@ -16,6 +16,7 @@ import CarihorreurStore from "@/store/carihorreur";
 import organisateur from '../store/organisateur'; 
 import profil from '../store/profil';
 import transactions from '../store/transactions';
+import texte_accueil from '../store/texte_accueil'
 
 export default new Vuex.Store({
   modules: {
@@ -31,6 +32,7 @@ export default new Vuex.Store({
     PrestataireStore,
     organisateur,
     profil,
-    transactions
+    transactions,
+    texte_accueil
   }
 })

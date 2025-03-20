@@ -1,13 +1,4 @@
-import data from '@/datasource/data.js';
 import { getRequest } from './axios.service';
-
-export async function getAllOrganisateurs() {
-    return { error: 0, data: data.organisateurs }; 
-}
-
-export async function getAllPrestataires() {
-    return { error: 0, data: data.prestataires };
-}
 
 async function getAllBilletsFromAPI() {
     return await getRequest('achat')

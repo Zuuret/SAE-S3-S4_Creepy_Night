@@ -487,6 +487,7 @@ VALUES
 (1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4');
 */
 -- Table Utilisateur
+DROP TABLE IF EXISTS texte_accueil;
 DROP TABLE IF EXISTS reservation_carihorreur_bouteilles;
 DROP TABLE IF EXISTS reservations_cauchemarathon;
 DROP TABLE IF EXISTS reservation_carihorreur;
@@ -920,6 +921,12 @@ CREATE TABLE reservations_cauchemarathon (
     nb_places INT NOT NULL
 );
 
+CREATE TABLE texte_accueil (
+    id INT PRIMARY KEY DEFAULT 1,
+    titre VARCHAR(255) NOT NULL,
+    contenu TEXT NOT NULL,
+    date_maj TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 INSERT INTO utilisateur (id, nom, prenom, date_naissance, mail, password, solde, num_cashless, qr_code, est_festivalier)
 VALUES
@@ -1128,3 +1135,9 @@ INSERT INTO gere (evenement_id, organisateur_id)
 VALUES
 (1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f3'),
 (1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4');
+
+INSERT INTO texte_accueil (id, titre, contenu) VALUES (
+  1,
+  'Bienvenue au Festival de l’Horreur',
+  'Préparez-vous pour une expérience terrifiante et inoubliable...'
+);
