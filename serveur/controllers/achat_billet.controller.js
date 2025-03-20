@@ -21,3 +21,11 @@ exports.acheterBillet = async (req, res) => {
     }
 };
 
+exports.getBilletsFestival = async (req,res) => {
+    const billets = await acheterBilletService.getBilletsFestival();
+    if (!billets) {
+        return res.status(500).json({ error: 'ERREUR INTERNE' });
+    }
+    return res.status(200).json({ data: billets });
+}
+

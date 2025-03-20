@@ -11,13 +11,9 @@
       <button class="scroll-down-button" @click="scrollDown">
         <img src="@/assets/scrolldown.png" alt="Descendre" class="scroll-icon">
       </button>
-      <div class="PubSection">
-        <div v-if="afficherPubPrestataire">
-          <PubPrestataire />
-        </div>
-        <div v-else>
-          <PubClient />
-        </div>
+      <div class="PubSection" v-if="texteAccueil.titre || texteAccueil.contenu">
+        <h1 class="texte-accueil-titre">{{ texteAccueil.titre }}</h1>
+        <div class="texte-accueil-contenu" v-html="texteAccueil.contenu"></div>
       </div>
 
       <div class="activites">
@@ -79,8 +75,6 @@
 <script>
 import CompteRebours from '@/components/CompteRebours.vue';
 import NavBar from "@/components/NavBar.vue";
-import PubClient from "@/components/PubClient.vue";
-import PubPrestataire from "@/components/PubPrestataire.vue";
 import ListePrestataires from "@/components/ListePrestataires.vue";
 
 import cariHorreurImg from "@/assets/carihorreur.jpg";
@@ -90,14 +84,13 @@ import concertsImg from "@/assets/concert.jpg";
 import balTrouilleImg from "@/assets/baltrouille.jpg";
 import expoImg from "@/assets/expo.jpg";
 import CarteInteractive from './CarteInteractive.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
     CompteRebours,
     NavBar,
-    PubClient,
     CarteInteractive,
-    PubPrestataire,
     ListePrestataires
   },
   data() {
@@ -138,6 +131,15 @@ export default {
       ],
     };
   },
+  computed: {
+    ...mapGetters('texte_accueil', ['titreAccueil', 'contenuAccueil']),
+    texteAccueil() {
+      return {
+        titre: this.titreAccueil,
+        contenu: this.contenuAccueil
+      };
+    }
+  },
   methods: { scrollDown() {
       window.scrollBy({
         top: window.innerHeight * 0.5, // Descend de 50% de la hauteur de l'écran
@@ -162,6 +164,7 @@ export default {
     if (utilisateur) {
       this.utilisateurConnecte = JSON.parse(utilisateur);
     }
+    this.$store.dispatch('texte_accueil/fetchTexteAccueil');
   }
 };
 </script>

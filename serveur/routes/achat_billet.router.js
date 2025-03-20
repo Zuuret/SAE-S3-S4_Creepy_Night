@@ -75,4 +75,6 @@ const router = express.Router();
  */
 router.post("/", sessionMiddleware.checkSession, acheterBilletController.acheterBillet);
 
+router.get("/", acheterBilletController.getBilletsFestival);
+
 module.exports = router;

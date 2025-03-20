@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS Place_concert CASCADE;
 DROP TABLE IF EXISTS Concert CASCADE;
 DROP TABLE IF EXISTS Reservation_prestation CASCADE;
 DROP TABLE IF EXISTS prestation CASCADE;
-DROP TABLE IF EXISTS Billet_festival CASCADE;
+DROP TABLE IF EXISTS billet_festival CASCADE;
 DROP TABLE IF EXISTS Evenement CASCADE;
 DROP TABLE IF EXISTS Billet_activite CASCADE;
 DROP TABLE IF EXISTS Activite CASCADE;
@@ -103,7 +103,7 @@ CREATE TABLE Evenement (
     lieu VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE Billet_festival (
+CREATE TABLE billet_festival (
     id SERIAL PRIMARY KEY,
     date_achat TIMESTAMP NOT NULL,
     evenement_id INT REFERENCES Evenement(id) ON DELETE CASCADE,
@@ -487,6 +487,7 @@ VALUES
 (1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4');
 */
 -- Table Utilisateur
+DROP TABLE IF EXISTS texte_accueil;
 DROP TABLE IF EXISTS reservation_carihorreur_bouteilles;
 DROP TABLE IF EXISTS reservations_cauchemarathon;
 DROP TABLE IF EXISTS reservation_carihorreur;
@@ -521,7 +522,7 @@ DROP TABLE IF EXISTS Place_concert;
 DROP TABLE IF EXISTS Concert;
 DROP TABLE IF EXISTS Reservation_prestation;
 DROP TABLE IF EXISTS prestation;
-DROP TABLE IF EXISTS Billet_festival;
+DROP TABLE IF EXISTS billet_festival;
 DROP TABLE IF EXISTS Evenement;
 DROP TABLE IF EXISTS Billet_activite;
 DROP TABLE IF EXISTS Activite;
@@ -544,6 +545,7 @@ CREATE TABLE Utilisateur (
     est_festivalier BOOLEAN NOT NULL
 );
 
+-- Table prestataire (ajout des colonnes theme, description, logo, background, background2)
 CREATE TABLE prestataire (
     id UUID PRIMARY KEY,
     societe VARCHAR(50) NOT NULL,
@@ -557,6 +559,7 @@ CREATE TABLE prestataire (
     background2 VARCHAR(100)
 );
 
+-- Table Organisateur
 CREATE TABLE Organisateur (
     id UUID PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
@@ -566,6 +569,7 @@ CREATE TABLE Organisateur (
     password VARCHAR(150) NOT NULL
 );
 
+-- Table Transaction
 CREATE TABLE Transaction (
     id SERIAL PRIMARY KEY,
     date TIMESTAMP NOT NULL,
@@ -575,11 +579,13 @@ CREATE TABLE Transaction (
     utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE
 );
 
+-- Table Zone
 CREATE TABLE Zone (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(50) UNIQUE NOT NULL
 );
 
+-- Table Activite
 CREATE TABLE Activite (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
@@ -590,6 +596,7 @@ CREATE TABLE Activite (
     zone_id INT REFERENCES Zone(id) ON DELETE CASCADE
 );
 
+-- Table Billet_activite
 CREATE TABLE Billet_activite (
     id SERIAL PRIMARY KEY,
     date_achat TIMESTAMP NOT NULL,
@@ -597,6 +604,7 @@ CREATE TABLE Billet_activite (
     activite_id INT REFERENCES Activite(id) ON DELETE CASCADE
 );
 
+-- Table Evenement
 CREATE TABLE Evenement (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
@@ -606,13 +614,15 @@ CREATE TABLE Evenement (
     lieu VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE Billet_festival (
+-- Table billet_festival
+CREATE TABLE billet_festival (
     id SERIAL PRIMARY KEY,
-    date_achat TIMESTAMP NOT NULL,
+    date_achat TIMESTAMPTZ NOT NULL,
     evenement_id INT REFERENCES Evenement(id) ON DELETE CASCADE,
     utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE
 );
 
+-- Table prestation
 CREATE TABLE prestation (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
@@ -622,6 +632,7 @@ CREATE TABLE prestation (
     zone_id INT REFERENCES Zone(id) ON DELETE CASCADE
 );
 
+-- Table Reservation_prestation
 CREATE TABLE Reservation_prestation (
     id SERIAL PRIMARY KEY,
     date TIMESTAMP NOT NULL,
@@ -629,6 +640,7 @@ CREATE TABLE Reservation_prestation (
     prestation_id INT REFERENCES prestation(id) ON DELETE CASCADE
 );
 
+-- Table Concert
 CREATE TABLE Concert (
     id SERIAL PRIMARY KEY,
     artiste VARCHAR(100) NOT NULL,
@@ -640,6 +652,7 @@ CREATE TABLE Concert (
     scene VARCHAR(50)
 );
 
+-- Table Place_concert
 CREATE TABLE Place_concert (
     id SERIAL PRIMARY KEY,
     id_concert INT REFERENCES Concert(id) ON DELETE CASCADE,
@@ -648,6 +661,7 @@ CREATE TABLE Place_concert (
     prix_place DECIMAL NOT NULL
 );
 
+-- Table Expo_oeuvre
 CREATE TABLE Expo_oeuvre (
     id SERIAL PRIMARY KEY,
     createur VARCHAR(50),
@@ -657,6 +671,7 @@ CREATE TABLE Expo_oeuvre (
     image VARCHAR(50)
 );
 
+-- Table Course_cauchemarathon
 CREATE TABLE Course_cauchemarathon (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
@@ -665,6 +680,7 @@ CREATE TABLE Course_cauchemarathon (
     prix DECIMAL DEFAULT 0
 );
 
+-- Table Films
 CREATE TABLE Films (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
@@ -677,6 +693,7 @@ CREATE TABLE Films (
     prix DECIMAL DEFAULT 0
 );
 
+-- Table Deguisement
 CREATE TABLE Deguisement (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
@@ -684,6 +701,7 @@ CREATE TABLE Deguisement (
     image VARCHAR(50)
 );
 
+-- Table Taille_deguisement
 CREATE TABLE Taille_deguisement (
     id SERIAL PRIMARY KEY,
     taille VARCHAR(50) NOT NULL,
@@ -691,6 +709,7 @@ CREATE TABLE Taille_deguisement (
     deguisement_id INT REFERENCES Deguisement(id) ON DELETE CASCADE
 );
 
+-- Table Carre
 CREATE TABLE Carre (
     id SERIAL PRIMARY KEY,
     type VARCHAR(50) NOT NULL,
@@ -698,12 +717,14 @@ CREATE TABLE Carre (
     prixPersonne INT NOT NULL
 );
 
+-- Table Bouteille
 CREATE TABLE Bouteille (
     id SERIAL PRIMARY KEY,
     type VARCHAR(50) NOT NULL,
     prix INT NOT NULL
 );
 
+-- Table Signalement
 CREATE TABLE Signalement (
     id SERIAL PRIMARY KEY,
     typeIncident VARCHAR(50) NOT NULL,
@@ -713,18 +734,21 @@ CREATE TABLE Signalement (
     date TIMESTAMP NOT NULL
 );
 
+-- Table organise (liaison Activite - Organisateur)
 CREATE TABLE organise (
     activite_id INT REFERENCES Activite(id) ON DELETE CASCADE,
     organisateur_id UUID REFERENCES Organisateur(id) ON DELETE CASCADE,
     PRIMARY KEY (activite_id, organisateur_id)
 );
 
+-- Table gere (liaison Evenement - Organisateur)
 CREATE TABLE gere (
     evenement_id INT REFERENCES Evenement(id) ON DELETE CASCADE,
     organisateur_id UUID REFERENCES Organisateur(id) ON DELETE CASCADE,
     PRIMARY KEY (evenement_id, organisateur_id)
 );
 
+-- Table livre_dor
 CREATE TABLE livre_dor (
     id INT PRIMARY KEY,
     prestataire_id UUID REFERENCES prestataire(id) ON DELETE CASCADE,
@@ -734,6 +758,7 @@ CREATE TABLE livre_dor (
     date DATE NOT NULL
 );
 
+-- Table articles
 CREATE TABLE articles (
     id INT PRIMARY KEY,
     prestataire_id UUID REFERENCES prestataire(id) ON DELETE CASCADE,
@@ -744,12 +769,14 @@ CREATE TABLE articles (
     image VARCHAR(255)
 );
 
+-- Table panier_article
 CREATE TABLE panier_article (
     id INT PRIMARY KEY,
     article_id INT REFERENCES articles(id) ON DELETE CASCADE,
     quantite INT NOT NULL
 );
 
+-- Table coordonnees_bancaire
 CREATE TABLE coordonnees_bancaire (
     nom VARCHAR(255) NOT NULL,
     numero_carte CHAR(16) NOT NULL,
@@ -757,6 +784,7 @@ CREATE TABLE coordonnees_bancaire (
     cvv CHAR(3) NOT NULL
 );
 
+-- Table demande_uber_flippe
 CREATE TABLE demande_uber_flippe (
     id_demande INT PRIMARY KEY,
     zone VARCHAR(255) NOT NULL,
@@ -764,6 +792,7 @@ CREATE TABLE demande_uber_flippe (
     description TEXT NOT NULL
 );
 
+-- Table demandes_prestataires
 CREATE TABLE demandes_prestataires (
     id INT PRIMARY KEY,
     societe VARCHAR(255) NOT NULL,
@@ -773,6 +802,7 @@ CREATE TABLE demandes_prestataires (
     password VARCHAR(255) NOT NULL
 );
 
+-- Table demandes_organisateurs
 CREATE TABLE demandes_organisateurs (
     id INT PRIMARY KEY,
     nom VARCHAR(255) NOT NULL,
@@ -782,6 +812,11 @@ CREATE TABLE demandes_organisateurs (
     password VARCHAR(255) NOT NULL
 );
 
+------------------------------------------------------------
+-- Tables ajoutées depuis le data.js (non présentes dans le script initial)
+------------------------------------------------------------
+
+-- Table reservation_article (pour réserver un article)
 CREATE TABLE reservation_article (
     id SERIAL PRIMARY KEY,
     utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE,
@@ -790,6 +825,7 @@ CREATE TABLE reservation_article (
     date_reservation TIMESTAMP NOT NULL
 );
 
+-- Table artistes
 CREATE TABLE artistes (
     id SERIAL PRIMARY KEY,
     nomGroupe VARCHAR(50) NOT NULL,
@@ -797,6 +833,7 @@ CREATE TABLE artistes (
     decision VARCHAR(50)
 );
 
+-- Table panier_concert (panier pour réserver des places de concert)
 CREATE TABLE panier_concert (
     id SERIAL PRIMARY KEY,
     utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE,
@@ -804,6 +841,7 @@ CREATE TABLE panier_concert (
     quantite INT NOT NULL
 );
 
+-- Table reservation_concert (réservation de places pour un concert)
 CREATE TABLE reservation_concert (
     id SERIAL PRIMARY KEY,
     utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE,
@@ -812,6 +850,7 @@ CREATE TABLE reservation_concert (
     date_reservation TIMESTAMP NOT NULL
 );
 
+-- Table places_films (pour les places dans les films)
 CREATE TABLE places_films (
     id_film INT REFERENCES Films(id) ON DELETE CASCADE,
     type_place VARCHAR(50) NOT NULL,
@@ -820,24 +859,28 @@ CREATE TABLE places_films (
     PRIMARY KEY (id_film, type_place)
 );
 
+-- Table reserve_film (réservation de places dans un film)
 CREATE TABLE reserve_film (
     id SERIAL PRIMARY KEY,
     nb_places_prises INT NOT NULL,
     type_place_prises VARCHAR(50) NOT NULL
 );
 
+-- Table soireeBaltrouille (soirées spéciales)
 CREATE TABLE soireeBaltrouille (
     id_soiree SERIAL PRIMARY KEY,
     date DATE NOT NULL,
     description TEXT NOT NULL
 );
 
+-- Table de liaison soireeBaltrouille_deguisements (association d’une soirée à plusieurs déguisements)
 CREATE TABLE soireeBaltrouille_deguisements (
     id_soiree INT REFERENCES soireeBaltrouille(id_soiree) ON DELETE CASCADE,
     deguisement_id INT REFERENCES Deguisement(id) ON DELETE CASCADE,
     PRIMARY KEY (id_soiree, deguisement_id)
 );
 
+-- Table panier_deguisement (panier pour les déguisements)
 CREATE TABLE panier_deguisement (
     id SERIAL PRIMARY KEY,
     utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE,
@@ -845,6 +888,7 @@ CREATE TABLE panier_deguisement (
     quantite INT NOT NULL
 );
 
+-- Table location_deguisement (location de déguisements)
 CREATE TABLE location_deguisement (
     id SERIAL PRIMARY KEY,
     utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE,
@@ -853,6 +897,7 @@ CREATE TABLE location_deguisement (
     quantite INT NOT NULL
 );
 
+-- Table reservation_carihorreur (réservation d’un carré dans l’espace « carihorreur »)
 CREATE TABLE reservation_carihorreur (
     id_reservation SERIAL PRIMARY KEY,
     utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE,
@@ -860,8 +905,7 @@ CREATE TABLE reservation_carihorreur (
     id_carre INT REFERENCES Carre(id) ON DELETE CASCADE,
     nbPersonne INT NOT NULL
 );
-
-
+-- Table de liaison reservation_carihorreur_bouteilles (bouteilles associées à une réservation de carré)
 CREATE TABLE reservation_carihorreur_bouteilles (
     id_reservation INT REFERENCES reservation_carihorreur(id_reservation) ON DELETE CASCADE,
     id_bouteille INT REFERENCES Bouteille(id) ON DELETE CASCADE,
@@ -869,6 +913,7 @@ CREATE TABLE reservation_carihorreur_bouteilles (
     PRIMARY KEY (id_reservation, id_bouteille)
 );
 
+-- Table reservations_cauchemarathon (réservation pour le Cauchemarathon)
 CREATE TABLE reservations_cauchemarathon (
     id_reservation SERIAL PRIMARY KEY,
     utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE,
@@ -876,6 +921,12 @@ CREATE TABLE reservations_cauchemarathon (
     nb_places INT NOT NULL
 );
 
+CREATE TABLE texte_accueil (
+    id INT PRIMARY KEY DEFAULT 1,
+    titre VARCHAR(255) NOT NULL,
+    contenu TEXT NOT NULL,
+    date_maj TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 INSERT INTO utilisateur (id, nom, prenom, date_naissance, mail, password, solde, num_cashless, qr_code, est_festivalier)
 VALUES
@@ -956,11 +1007,13 @@ VALUES
 
 INSERT INTO billet_festival (date_achat, evenement_id, utilisateur_id)
 VALUES
-('2024-10-01', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6'),
-('2024-10-02', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7'),
-('2024-10-03', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f8'),
-('2024-10-04', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f9'),
-('2024-10-05', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f0');
+('2025-03-16T00:00:00+00:00', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6'),
+('2025-03-16T00:00:00+00:00', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f9'),
+('2025-03-16T00:00:00+00:00', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7'),
+('2024-10-02T00:00:00+00:00', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7'),
+('2024-10-03T00:00:00+00:00', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f8'),
+('2024-10-04T00:00:00+00:00', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f9'),
+('2024-10-05T00:00:00+00:00', 1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f0');
 
 INSERT INTO prestation (nom, prix, description, image, zone_id)
 VALUES
@@ -1082,3 +1135,9 @@ INSERT INTO gere (evenement_id, organisateur_id)
 VALUES
 (1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f3'),
 (1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4');
+
+INSERT INTO texte_accueil (id, titre, contenu) VALUES (
+  1,
+  'Bienvenue au Festival de l’Horreur',
+  'Préparez-vous pour une expérience terrifiante et inoubliable...'
+);

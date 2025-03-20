@@ -31,13 +31,13 @@ export default {
   },
   computed: {
     ...mapGetters("ProfilStore", ["utilisateurConnecte", "getUtilisateurs"]),
-    ...mapState("transactions", ["billetsAchatAujourdHui"]),
+    ...mapState("organisateur", ["billetsAchatAujourdHui"]),
     hasAccess() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "organisateur";
     },
   },
   methods: {
-    ...mapActions("transactions", ["fetchBilletsAchatAujourdHui"]),
+    ...mapActions("organisateur", ["fetchBilletsAchatAujourdhui"]),
   },
   mounted() {
     if (!this.utilisateurConnecte) {
@@ -46,7 +46,7 @@ export default {
     } else if (!this.hasAccess) {
       console.log("Accès refusé pour cet utilisateur.");
     } else {
-      this.fetchBilletsAchatAujourdHui();
+      this.fetchBilletsAchatAujourdhui();
     }
   },
 };

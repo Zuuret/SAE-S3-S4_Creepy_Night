@@ -23,7 +23,7 @@ async function getHistoriqueTransactions(utilisateurId) {
                     FROM Transaction t
                     LEFT JOIN Billet_activite ba ON t.utilisateur_id = ba.utilisateur_id AND ba.activite_id IS NOT NULL
                     LEFT JOIN Reservation_prestation rp ON t.utilisateur_id = rp.utilisateur_id AND rp.prestation_id IS NOT NULL
-                    LEFT JOIN Billet_festival bf ON t.utilisateur_id = bf.utilisateur_id AND bf.evenement_id IS NOT NULL
+                    LEFT JOIN billet_festival bf ON t.utilisateur_id = bf.utilisateur_id AND bf.evenement_id IS NOT NULL
                     WHERE t.utilisateur_id = %L
                     ORDER BY t.date DESC;
         `, utilisateurId);
