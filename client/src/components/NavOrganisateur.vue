@@ -6,6 +6,7 @@
         <nav class="nav">
         <router-link to="/home-organisateur" class="nav-item">Tableau de bord</router-link>
         <router-link to="/orga-texte-accueil" class="nav-item">Edit accueil</router-link>
+        <router-link to="/orga-carte" class="nav-item">Carte</router-link>
         <router-link to="/orga-utilisateurs" class="nav-item">Utilisateurs</router-link>
         <router-link to="/orga-organisateurs" class="nav-item">Organisateurs</router-link>
         <router-link to="/orga-prestataires" class="nav-item">Prestataires</router-link>

@@ -16,6 +16,9 @@ const livreDOrRouter = require("./routes/livreDOr.router");
 const texteAccueilRoutes = require('./routes/texte_accueil.router');
 
 
+const emplacementRouter = require("./routes/emplacement.router");
+const iconeCarteRouter = require("./routes/iconeCarte.router");
+
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
@@ -40,6 +43,8 @@ app.use("/api/organisateurs",organisateursRouter);
 app.use("/api/demandeOrga",demandesOrganisateurRouter);
 app.use("/api/livreDOr", livreDOrRouter);
 app.use('/api/texte-accueil', texteAccueilRoutes);
+app.use('/api/emplacement', emplacementRouter);
+app.use('/api/icone-carte', iconeCarteRouter);
 
 
 
@@ -58,7 +63,8 @@ const swaggerOption = {
     apis: ["./routes/users.router.js", "./routes/concerts.router.js", "./routes/expos.router.js", "./routes/films.router.js",
         "./routes/prestataires.router.js", "./routes/prestations.router.js", "./routes/achat_billet.router.js",
         "./routes/transactions.router.js", "./routes/signalement.router.js", "./routes/demandesPrestataires.router.js",
-        "./routes/organisateurs", "./routes/demandesOrganisateurs.router.js", "./routes/livreDOr.router.js", "./routes/texte_accueil.router.js"
+        "./routes/organisateurs", "./routes/demandesOrganisateurs.router.js", "./routes/livreDOr.router.js", "./routes/texte_accueil.router.js",
+        "./routes/emplacement.router.js", "./routes/iconeCarte.router.js"
     ],
 };
 

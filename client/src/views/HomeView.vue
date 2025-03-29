@@ -11,9 +11,11 @@
       <button class="scroll-down-button" @click="scrollDown">
         <img src="@/assets/scrolldown.png" alt="Descendre" class="scroll-icon">
       </button>
-      <div class="PubSection" v-if="texteAccueil.titre || texteAccueil.contenu">
-        <h1 class="texte-accueil-titre">{{ texteAccueil.titre }}</h1>
-        <div class="texte-accueil-contenu" v-html="texteAccueil.contenu"></div>
+      <div class="PubSection" id="texte-accueil" v-if="texteAccueil.titre || texteAccueil.contenu">
+        <div class="texte-accueil-container">
+          <h1 class="texte-accueil-titre">{{ texteAccueil.titre }}</h1>
+          <div class="texte-accueil-contenu" v-html="texteAccueil.contenu"></div>
+        </div>
       </div>
 
       <div class="activites">
@@ -631,5 +633,38 @@ export default {
   object-fit: cover;
 }
 
+.PubSection {
+  height: 100vh;
+  width: 100%;
+  background-color: #AD0918;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  position: relative;
+  scroll-margin-top: 100px;
+}
+
+.texte-accueil-container {
+  max-width: 1000px;
+  width: 100%;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+.texte-accueil-titre {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+.texte-accueil-contenu {
+  font-size: 1.2em;
+  color: #333;
+  line-height: 1.6;
+}
 
 </style>

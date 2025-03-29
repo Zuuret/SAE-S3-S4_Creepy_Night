@@ -529,6 +529,8 @@ DROP TABLE IF EXISTS Activite;
 DROP TABLE IF EXISTS Zone;
 DROP TABLE IF EXISTS Transaction;
 DROP TABLE IF EXISTS Organisateur;
+DROP TABLE IF EXISTS emplacement;
+DROP TABLE IF EXISTS icone_carte;
 DROP TABLE IF EXISTS prestataire;
 DROP TABLE IF EXISTS Utilisateur;
 
@@ -559,6 +561,19 @@ CREATE TABLE prestataire (
     background2 VARCHAR(100)
 );
 
+CREATE TABLE icone_carte(
+    id SERIAL PRIMARY KEY,
+    nom_image VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE emplacement (
+    id SERIAL PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    coord_x INT NOT NULL,
+    coord_y INT NOT NULL,
+    prestataire_id UUID REFERENCES prestataire(id) ON DELETE SET NULL,
+    icone_id INTEGER REFERENCES icone_carte(id) ON DELETE SET NULL
+);
 -- Table Organisateur
 CREATE TABLE Organisateur (
     id UUID PRIMARY KEY,
@@ -947,6 +962,30 @@ VALUES
     ('77777777-7777-7777-7777-777777777777', 'Magnum', '10 rue Saint Honoré', 'magnum@gmail.com', 'mdp123', 'Alimentation', 'Succombez à des douceurs glacées aux saveurs envoûtantes. Entre contrastes saisissants et textures surprenantes, nos créations spéciales Creepy Night vous réservent des sensations inédites.', 'logo_haagenDazs.png', 'background_magnum.jpg', 'background2_magnum.jpg'),
     ('88888888-8888-8888-8888-888888888888', 'Taco Bell', '9 place Montmartre', 'tacobell@gmail.com', 'mdp123', 'Alimentation', 'Le piquant et l’étrange se rencontrent dans nos plats spécialement imaginés pour le festival. Une explosion de saveurs relevées, des couleurs sombres et une expérience qui réveillera les esprits… et vos papilles !', 'logo_tacoBell.png', 'background_tacoBell.jpg', 'background2_tacoBell.jpg'),
     ('99999999-9999-9999-9999-999999999999', 'MicroMania', '6 avenue Opéra', 'micromania@gmail.com', 'mdp123', 'Goodies', 'Plongez dans le frisson du jeu vidéo avec notre sélection spéciale d’univers terrifiants. Défis, tournois et surprises vous attendent pour une immersion totale dans le monde du gaming horrifique.', 'logo_micromania.png', 'background_microMania.jpg', 'background2_microMania.jpg');
+
+INSERT INTO icone_carte (nom_image)
+VALUES
+('icone_concert.png'),
+('icone_secours.png'),
+('icone_expo.png'),
+('icone_cinema.png'),
+('icone_baltrouille.png'),
+('icone_accueil.png'),
+('icone_cashless.png'),
+('icone_burgerking.png');
+
+
+INSERT INTO Emplacement (nom, coord_x, coord_y, prestataire_id, icone_id) 
+VALUES
+('Emplacement 1', 22, 60, NULL, 1),
+('Emplacement 2', 32, 46, NULL, 2),
+('Emplacement 3', 48, 58, NULL, 3),
+('Emplacement 4', 76, 46, NULL, 4),
+('Emplacement 5', 73, 38, NULL, 5),
+('Emplacement 6', 84, 28, NULL, 2),
+('Emplacement 7', 67, 23, NULL, 6),
+('Emplacement 8', 60, 14, NULL, 7),
+('Emplacement 9', 78, 19, NULL, 8);
 
 INSERT INTO organisateur (id ,nom, prenom, email, tel, password)
 VALUES
