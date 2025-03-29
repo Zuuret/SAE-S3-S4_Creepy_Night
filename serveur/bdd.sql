@@ -970,15 +970,15 @@ VALUES
 
 INSERT INTO Emplacement (nom, coord_x, coord_y, prestataire_id, icone_id) 
 VALUES
-('Emplacement 1', 17, 50, NULL, 1),
-('Emplacement 2', 30, 40, NULL, 2),
-('Emplacement 3', 46.5, 44, NULL, 3),
-('Emplacement 4', 73, 38, NULL, 4),
-('Emplacement 5', 70, 30, NULL, 5),
-('Emplacement 6', 80, 22, NULL, 2),
-('Emplacement 7', 64, 20, NULL, 6),
-('Emplacement 8', 56, 14, NULL, 7),
-('Emplacement 9', 74, 15, NULL, 8);
+('Emplacement 1', 22, 60, NULL, 1),
+('Emplacement 2', 32, 46, NULL, 2),
+('Emplacement 3', 48, 58, NULL, 3),
+('Emplacement 4', 76, 46, NULL, 4),
+('Emplacement 5', 73, 38, NULL, 5),
+('Emplacement 6', 84, 28, NULL, 2),
+('Emplacement 7', 67, 23, NULL, 6),
+('Emplacement 8', 60, 14, NULL, 7),
+('Emplacement 9', 78, 19, NULL, 8);
 
 INSERT INTO organisateur (id ,nom, prenom, email, tel, password)
 VALUES

@@ -9,15 +9,15 @@ exports.getEmplacement = async (req, res) => {
 };
 
 exports.updateEmplacement = async (req, res) => {
-    const nom = req.body.nom;
-    const coord_x = req.body.coord_x;
-    const coord_y = req.body.coord_y;
-    const prestataire_id = req.body.prestataire_id;
-    const icone_id = req.body.icone_id;
+    const { id, nom, coord_x, coord_y, prestataire_id, icone_id } = req.body;
 
-    const resultat = await emplacementService.updateEmplacement(nom, coord_x, coord_y, prestataire_id, icone_id);
-    if (resultat) {
-        return res.status(500).send("ERREUR INTERNE");
+    if (!id) {
+        return res.status(400).json({ error: 'ID de l\'emplacement manquant' });
     }
-    return res.status(200).send("MODIFICATION ENREGISTREE");
+
+    const resultat = await emplacementService.updateEmplacement(id, nom, coord_x, coord_y, prestataire_id, icone_id);
+    if (resultat) {
+        return res.status(500).json({ error: 'ERREUR INTERNE' });
+    }
+    return res.status(200).json({ message: 'MODIFICATION ENREGISTREE' });
 };

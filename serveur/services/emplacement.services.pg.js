@@ -16,17 +16,18 @@ async function getEmplacement() {
     return res.rows || [];
 }
 
-async function updateEmplacement(nom, coord_x, coord_y, prestataire_id, icone_id) {
+async function updateEmplacement(id, nom, coord_x, coord_y, prestataire_id, icone_id) {
     const client = await pool.connect();
     let is_error = false;
     try {
         const query = format(
-            'UPDATE emplacement SET nom = %L, coord_x = %L, coord_y = %L, prestataire_id = %L, icone_id = %L',
+            'UPDATE emplacement SET nom = %L, coord_x = %L, coord_y = %L, prestataire_id = %L, icone_id = %L WHERE id = %L',
             nom,
             coord_x,
             coord_y,
             prestataire_id,
             icone_id,
+            id
         );
         await client.query(query);
         console.log('EMPLACEMENT MIS À JOUR');

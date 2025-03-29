@@ -23,14 +23,17 @@ export async function getEmplacement() {
     }
 }
 
-export async function updateEmplacement(nom, coord_x, coord_y, prestataire_id, icone_id) {
+export async function updateEmplacement(id, nom, coord_x, coord_y, prestataire_id, icone_id) {
     try {
-        const res = await updateEmplacementFromAPI({ nom, coord_x, coord_y, prestataire_id, icone_id });
+        const res = await updateEmplacementFromAPI({ id, nom, coord_x, coord_y, prestataire_id, icone_id });
         console.log("Emplacement mis à jour:", res.data);
         return { error: 0, data: res.data };
     } catch (error) {
         console.error("Erreur lors de la mise à jour de l'emplacement", error);
-        return { error: 1, message: "Erreur lors de la mise à jour de l'emplacement" };
+        return { 
+            error: 1, 
+            message: error.response?.data?.error || "Erreur lors de la mise à jour de l'emplacement" 
+        };
     }
 }
 
