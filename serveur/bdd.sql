@@ -529,6 +529,8 @@ DROP TABLE IF EXISTS Activite;
 DROP TABLE IF EXISTS Zone;
 DROP TABLE IF EXISTS Transaction;
 DROP TABLE IF EXISTS Organisateur;
+DROP TABLE IF EXISTS emplacement;
+DROP TABLE IF EXISTS icone_carte;
 DROP TABLE IF EXISTS prestataire;
 DROP TABLE IF EXISTS Utilisateur;
 
@@ -559,6 +561,19 @@ CREATE TABLE prestataire (
     background2 VARCHAR(100)
 );
 
+CREATE TABLE icone_carte(
+    id SERIAL PRIMARY KEY,
+    nom_image VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE emplacement (
+    id SERIAL PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    coord_x INT NOT NULL,
+    coord_y INT NOT NULL,
+    prestataire_id UUID REFERENCES prestataire(id) ON DELETE SET NULL,
+    icone_id INTEGER REFERENCES icone_carte(id) ON DELETE SET NULL
+);
 -- Table Organisateur
 CREATE TABLE Organisateur (
     id UUID PRIMARY KEY,
@@ -940,6 +955,30 @@ INSERT INTO prestataire (id, societe, adresse, email, password)
 VALUES
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f1', 'UberFlippe', '1 rue de la peur', 'uberflippe@outlook.fr', 'mpd123'),
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f2', 'Burger&co', '2 rue de la frite', 'burgerandco@gmail.com', 'mpd456');
+
+INSERT INTO icone_carte (nom_image)
+VALUES
+('icone_concert.png'),
+('icone_secours.png'),
+('icone_expo.png'),
+('icone_cinema.png'),
+('icone_baltrouille.png'),
+('icone_accueil.png'),
+('icone_cashless.png'),
+('icone_burgerking.png');
+
+
+INSERT INTO Emplacement (nom, coord_x, coord_y, prestataire_id, icone_id) 
+VALUES
+('Emplacement 1', 17, 50, NULL, 1),
+('Emplacement 2', 30, 40, NULL, 2),
+('Emplacement 3', 46.5, 44, NULL, 3),
+('Emplacement 4', 73, 38, NULL, 4),
+('Emplacement 5', 70, 30, NULL, 5),
+('Emplacement 6', 80, 22, NULL, 2),
+('Emplacement 7', 64, 20, NULL, 6),
+('Emplacement 8', 56, 14, NULL, 7),
+('Emplacement 9', 74, 15, NULL, 8);
 
 INSERT INTO organisateur (id ,nom, prenom, email, tel, password)
 VALUES
