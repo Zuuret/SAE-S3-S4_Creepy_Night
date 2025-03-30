@@ -1,6 +1,7 @@
 import LocalSource from "@/datasource/controller";
 import { getRequest } from "./axios.service";
 import { deleteRequest } from "./axios.service";
+import { postRequest } from "./axios.service";
 
 async function ajoutUtilisateurFromLocalSource(data){
     return LocalSource.ajoutUtilisateur(data)
@@ -24,7 +25,7 @@ async function getAllOrganisateurFromLocalSource() {
     return LocalSource.getAllOrganisateur()
 }
 async function getAllPrestataireFromAPI() {
-    return await getRequest('prestataire', 'prestataire')
+    return await getRequest('prestataires')
 }
 
 async function getAllOrganisateurFromAPI() {
@@ -49,6 +50,14 @@ async function deleteDemandePrestataireFromAPI(id) {
 
 async function deleteDemandeOrganisateurFromAPI(id) {
     return await deleteRequest(`demandeOrga/${id}`);
+}
+
+async function insertOrganisateurFromAPI(payload) {
+    return await postRequest("organisateurs", payload);
+}
+
+async function insertPrestataireFromAPI(payload) {
+    return await postRequest("prestataires", payload);
 }
 
 async function getUserbyIdFromLocalSource(idUser){
@@ -285,11 +294,36 @@ export async function getAllOrganisateurs() {
 }
 
 export async function getAllPrestataires() {
-    try{
-        let res = await getAllPrestataireFromAPI();
-        return {error:0, data:res.data}
-    }catch(error){
-        console.error("get all prestataires", error)
+    try {
+        const res = await getAllPrestataireFromAPI();
+        
+        // La réponse est directement le tableau des prestataires
+        if (Array.isArray(res)) {
+            return { 
+                error: 0, 
+                data: res // Utilise directement le tableau comme data
+            };
+        }
+        
+        // Si la réponse a déjà le format attendu
+        if (res && res.data) {
+            return res;
+        }
+        
+        console.error("Format de réponse inattendu:", res);
+        return { 
+            error: 1, 
+            message: "Format de réponse API inattendu",
+            data: [] 
+        };
+        
+    } catch(error) {
+        console.error("Erreur dans getAllPrestataires:", error);
+        return { 
+            error: 1, 
+            message: error.message || "Erreur lors de la récupération des prestataires",
+            data: [] 
+        };
     }
 }
 
@@ -328,6 +362,26 @@ export async function deleteDemandeOrganisateur(id) {
     } catch (error) {
         console.error("delete demandes organisateur", error);
         return { error: 1, data: "Erreur lors de la suppression" };
+    }
+}
+
+export async function insertOrganisateur(payload) {
+    try {
+      const res = await insertOrganisateurFromAPI(payload);
+      return { error: 0, data: res.data };
+    } catch (error) {
+      console.error("insert organisateur", error);
+      return { error: 1, data: "Erreur lors de l'insertion" };
+    }
+  }
+  
+export async function insertPrestataire(payload) {
+    try {
+        const res = await insertPrestataireFromAPI(payload);
+        return { error: 0, data: res.data };
+    } catch (error) {
+        console.error("insert prestataire", error);
+        return { error: 1, data: "Erreur lors de l'insertion" };
     }
 }
 

@@ -1,16 +1,19 @@
 const pool = require('../database/db');
 const format = require('pg-format');
 
-async function insertPrestataire(id,societe, adresse, email, password) {
+async function insertPrestataire(id, societe, adresse, email, password, theme, description, logo, background, background2) {
     const client = await pool.connect();
     let is_error = false;
     try {
         const data = [
-            [id,societe, adresse, email, password]
-        ]
-        const query = format('INSERT INTO Prestataire (id,societe, adresse, email, password) VALUES %L', data);
+            [id, societe, adresse, email, password, theme, description, logo, background, background2]
+        ];
+        const query = format(
+            'INSERT INTO Prestataire (id, societe, adresse, email, password, theme, description, logo, background, background2) VALUES %L',
+            data
+        );
         await client.query(query);
-        console.log('INSERTIONS AVEC SUCCES');
+        console.log('INSERTIONS AVEC SUCCÈS');
     } catch (error) {
         console.error('Erreur : ', error);
         is_error = true;
@@ -22,24 +25,22 @@ async function insertPrestataire(id,societe, adresse, email, password) {
 
 async function getPrestataires() {
     const client = await pool.connect();
-    let res;
     try {
-        res = await client.query('SELECT * FROM prestataire');
-        console.log('RECUPERATION DES PRESTATAIRES');
+        const res = await client.query('SELECT * FROM Prestataire'); 
+        return res.rows;
     } catch (error) {
-        console.error('Erreur lors de la récupération des prestatairess :', error);
-        res = false;
+        console.error('Erreur lors de la récupération des prestataires:', error);
+        throw error;
     } finally {
         client.release();
     }
-    return res.rows || false;
 }
 
-async function updatePrestataire(uuid,societe, adresse, email, password) {
+async function updatePrestataire(uuid,societe, adresse, email, password, theme, description, logo, background, background2) {
     const client = await pool.connect();
     let is_error = false;
     try {
-        const query = format('UPDATE Prestataire SET societe = %L,adresse = %L, email = %L, password = %L WHERE id = %L', societe, adresse, email, password, uuid);
+        const query = format('UPDATE Prestataire SET societe = %L,adresse = %L, email = %L, password = %L, theme = %L, description = %L, logo = %L, background = %L, background2 = %L WHERE id = %L', societe, adresse, email, password, theme, description, logo, background, background2, uuid);
         await client.query(query);
         console.log('MISE A JOUR DU PRESTATAIRE');
     } catch (error) {

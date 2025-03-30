@@ -8,7 +8,7 @@
           <input type="email" v-model="email" id="email" placeholder="Entrez votre email" required/>
         </div>
         <div class="form-group">
-          <input type="password" v-model="motDePasse" id="motDePasse" placeholder="Entrez votre mot de passe" required/>
+          <input type="password" v-model="password" id="password" placeholder="Entrez votre mot de passe" required/>
         </div>
         <button type="submit" class="submit-button">Se connecter</button>
       </form>
@@ -30,7 +30,7 @@ export default {
   name: "PageConnexion",
   data: () => ({
     email: "",
-    motDePasse: "",
+    password: "",
   }),
   computed: {
     ...mapState('ProfilStore', ['errorMessage'])
@@ -40,7 +40,7 @@ export default {
 
     async submitLogin() {
       let userLogged = await this.loginUser({
-        data: { email: this.email, motDePasse: this.motDePasse },
+        data: { email: this.email, password: this.password },
         userType: 'utilisateur',
       });
       if (userLogged.success) {
@@ -48,7 +48,7 @@ export default {
         return;
       }
       let orgLogged = await this.loginUser({
-        data: { email: this.email, motDePasse: this.motDePasse },
+        data: { email: this.email, password: this.password },
         userType: 'organisateur',
       });
       if (orgLogged.success) {
@@ -56,7 +56,7 @@ export default {
         return;
       }
       let prestLogged = await this.loginUser({
-        data: { email: this.email, motDePasse: this.motDePasse },
+        data: { email: this.email, password: this.password },
         userType: 'prestataire',
       });
       if (prestLogged.success) {

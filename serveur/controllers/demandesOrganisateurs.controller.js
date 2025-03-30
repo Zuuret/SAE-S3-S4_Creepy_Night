@@ -10,8 +10,8 @@ exports.saveDemandeOrganisateurs = async (req,res) => {
     const prenom = req.body.prenom;
     const email = req.body.email;
     const tel = req.body.tel;
-    const motDePasse = req.body.motDePasse;
-    const resultat = await demandeOrganisateursService.insertDemandeOrganisateurs(uuid, nom, prenom, email, tel, motDePasse);
+    const password = req.body.password;
+    const resultat = await demandeOrganisateursService.insertDemandeOrganisateurs(uuid, nom, prenom, email, tel, password);
     if (resultat) {
         return res.status(500).send("ERREUR INTERNE");
     }
@@ -53,8 +53,8 @@ exports.updateDemandeOrganisateurs = async (req,res) => {
     const prenom = req.body.prenom;
     const email = req.body.email;
     const tel = req.body.tel;
-    const motDePasse = req.body.motDePasse;
-    const resultat = await demandeOrganisateursService.updateDemandeOrganisateurs(uuid, nom, prenom, email, tel, motDePasse);
+    const password = req.body.password;
+    const resultat = await demandeOrganisateursService.updateDemandeOrganisateurs(uuid, nom, prenom, email, tel, password);
     if(resultat){
         return res.status(500).send("ERREUR INTERNE");
     }
