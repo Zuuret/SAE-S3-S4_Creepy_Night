@@ -15,6 +15,7 @@ const demandesOrganisateurRouter = require("./routes/demandesOrganisateurs.route
 const livreDOrRouter = require("./routes/livreDOr.router");
 const texteAccueilRoutes = require('./routes/texte_accueil.router');
 const loginRouter = require("./routes/login.router")
+const articlesRouter = require('./routes/articles.router');
 
 
 const emplacementRouter = require("./routes/emplacement.router");
@@ -47,7 +48,7 @@ app.use('/api/texte-accueil', texteAccueilRoutes);
 app.use('/api/emplacement', emplacementRouter);
 app.use('/api/icone-carte', iconeCarteRouter);
 app.use('/api/login', loginRouter);
-
+app.use('/api/articles', articlesRouter);
 
 
 /** Swagger Initialization - START */

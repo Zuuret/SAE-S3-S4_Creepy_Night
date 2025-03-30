@@ -3,9 +3,9 @@
     <NavBar/>
     <div v-if="prestataire">
       <div class="banner">
-        <img :src="prestataire.background2" :alt="prestataire.societe" class="prestataire-background"/>
+        <img :src=getImageUrl(prestataire.background2) :alt="prestataire.societe" class="prestataire-background"/>
         <div class="prestataire-header">
-          <img :src="prestataire.logo" :alt="prestataire.societe" class="prestataire-logo"/>
+          <img :src=getImageUrl(prestataire.logo) :alt="prestataire.societe" class="prestataire-logo"/>
           <div class="trait"></div>
           <h1>Bienvenue chez {{ prestataire.societe }}</h1>
           <p>Retrouvez nous au {{ prestataire.adresse }}</p>
@@ -32,11 +32,14 @@ export default {
     ...mapState('ProfilStore',['prestataire'])
   },
   methods: {
-    ...mapActions('ProfilStore',['getPrestataireById'])
+    ...mapActions('ProfilStore',['getPrestataireById']),
+    getImageUrl(image) {
+      return require(`@/assets/${image}`);
+    },
   },
   async mounted() {
-    const prestaireId = this.$route.params.id;
-    await this.getPrestataireById(prestaireId)
+    const prestataireId = this.$route.params.id;
+    await this.getPrestataireById(prestataireId)
   }
 }
 </script>

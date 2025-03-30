@@ -30,7 +30,7 @@
         <div v-else class="article" v-for="article in filteredArticles" :key="article.id">
           <router-link :to="`articles/${article.id}`">
             <div class="article-item">
-              <img :src="article.image" :alt="article.nom" class="article_image" />
+              <img :src=getImageUrl(article.image) :alt="article.nom" class="article_image" />
               <div class="prestataire-details">
                 <h3>{{ article.nom }}</h3>
                 <p>{{ article.prix }} €</p>
@@ -78,10 +78,13 @@ export default {
       this.filtreNom = "";
       this.filtreStock = false;
     },
+    getImageUrl(image) {
+      return require(`../assets/${image}`);
+    },
   },
-  mounted() {
-    const prestataireId = parseInt(this.$route.params.id);
-    this.getAllArticlesById(prestataireId);
+  async mounted() {
+    const prestataireId = this.$route.params.id;
+    await this.getAllArticlesById(prestataireId);
   },
 };
 </script>

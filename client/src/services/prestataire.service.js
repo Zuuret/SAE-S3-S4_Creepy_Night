@@ -1,154 +1,177 @@
-import LocalSource from '../datasource/controller'
+import { getRequest, postRequest, putRequest, deleteRequest } from "@/services/axios.service";
 
-async function getLivreDOrFromLocalSource(idPrestataire){
-    return LocalSource.getLivreDOr(idPrestataire)
-}
-async function ajoutLivreDOrFromLocalSource(data){
-    return LocalSource.ajoutLivreDOr(data)
-}
-async function getAllArticlesByIdFromLocalSource(idPrestataire){
-    return LocalSource.getAllArticlesById(idPrestataire)
-}
-async function getArticleByIdFromLocalSource(idArticle){
-    return LocalSource.getArticleById(idArticle)
-}
-async function getAllArticleFromLocalSource(){
-    return LocalSource.getAllArticle()
-}
-async function ajouterAuPanierArticleFromLocalSource(article) {
-    return LocalSource.ajouterAuPanierArticle(article)
-}
-async function incrementerQuantiteArticleFromLocalSource(item){
-    return LocalSource.incrementerQuantiteArticle(item)
-}
-async function diminuerQuantiteArticleFromLocalSource(item){
-    return LocalSource.diminuerQuantiteArticle(item)
-}
-async function addReservationArticleFromLocalSource(idUser) {
-    return LocalSource.addReservationArticle(idUser)
-}
-async function getReservationArticleByIdFromLocalSource(utilisateurId){
-    return LocalSource.getReservationArticleById(utilisateurId)
-}
-async function setPrestataireArticleFromLocalSource(data){
-    return LocalSource.setPrestataireArticle(data)
-}
-async function delPrestataireArticleFromLocalSource(id){
-    return LocalSource.delPrestataireArticle(id)
-}
 
+async function getLivreDOrFromAPI(idPrestataire) {
+    return await getRequest(`livreDOr/${idPrestataire}`);
+}
 
 async function getLivreDOr(idPrestataire) {
     let response;
     try {
-        response = await getLivreDOrFromLocalSource(idPrestataire)
+        response = await getLivreDOrFromAPI(idPrestataire);
     } catch(err) {
-        response = {error: 1, status: 404, data: "erreur réseau, impossible de récupérer le livre d'or"  }
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible de récupérer le livre d'or" };
     }
-    return response
+    return response;
 }
+
+async function ajoutLivreDOrFromAPI(data) {
+    return await postRequest(`livreDOr`, data);
+}
+
 async function ajoutLivreDOr(data) {
     let response;
     try {
-        response = await ajoutLivreDOrFromLocalSource(data)
+        response = await ajoutLivreDOrFromAPI(data);
     } catch(err) {
-        response = {error: 1, status: 404, data: "erreur réseau, impossible d'ajouter un commentaire au livre d'or'"  }
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible d'ajouter un commentaire au livre d'or" };
     }
-    return response
+    return response;
 }
+
+
+async function getAllArticlesByIdFromAPI(idPrestataire) {
+    return await getRequest(`articles/prestataire/${idPrestataire}`);
+}
+
 async function getAllArticlesById(idPrestataire) {
     let response;
     try {
-        response = await getAllArticlesByIdFromLocalSource(idPrestataire)
+        response = await getAllArticlesByIdFromAPI(idPrestataire);
     } catch(err) {
-        response = {error: 1, status: 404, data: "erreur réseau, impossible de récupérer les articles"  }
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible de récupérer les articles" };
     }
-    return response
+    return response;
 }
+
+async function getArticleByIdFromAPI(idArticle) {
+    return await getRequest(`articles/${idArticle}`);
+}
+
 async function getArticleById(idArticle) {
     let response;
     try {
-        response = await getArticleByIdFromLocalSource(idArticle)
+        response = await getArticleByIdFromAPI(idArticle);
     } catch(err) {
-        response = {error: 1, status: 404, data: "erreur réseau, impossible de récupérer 'article'"  }
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible de récupérer l'article" };
     }
-    return response
+    return response;
 }
+
+async function getAllArticleFromAPI() {
+    return await getRequest(`articles`);
+}
+
 async function getAllArticle() {
     let response;
     try {
-        response = await getAllArticleFromLocalSource()
+        response = await getAllArticleFromAPI();
     } catch(err) {
-        response = {error: 1, status: 404, data: "erreur réseau, impossible de récupérer 'article'"  }
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible de récupérer les articles" };
     }
-    return response
+    return response;
 }
+
+
+async function ajouterAuPanierArticleFromAPI(article) {
+    return await postRequest(`articles/cart`, article);
+}
+
 async function ajouterAuPanierArticle(article) {
     let response;
     try {
-        response = await ajouterAuPanierArticleFromLocalSource(article)
+        response = await ajouterAuPanierArticleFromAPI(article);
     } catch(err) {
-        response = {error: 1, status: 404, data: "erreur réseau, impossible d'ajouter un article au panier'"  }
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible d'ajouter un article au panier" };
     }
-    return response
+    return response;
 }
+
+async function incrementerQuantiteArticleFromAPI(item){
+    return await putRequest(`articles/cart/increment`, item);
+}
+
 async function incrementerQuantiteArticle(item){
     let response;
     try {
-        response = await incrementerQuantiteArticleFromLocalSource(item)
+        response = await incrementerQuantiteArticleFromAPI(item);
     } catch(err) {
-        response = {error: 1, status: 404, data: "erreur réseau, impossible d'incrémenter l'article de ce panier'"  }
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible d'incrémenter l'article du panier" };
     }
-    return response
+    return response;
 }
+
+async function diminuerQuantiteArticleFromAPI(item){
+    return await putRequest(`articles/cart/decrement`, item);
+}
+
 async function diminuerQuantiteArticle(item){
     let response;
     try {
-        response = await diminuerQuantiteArticleFromLocalSource(item)
+        response = await diminuerQuantiteArticleFromAPI(item);
     } catch(err) {
-        response = {error: 1, status: 404, data: "erreur réseau, impossible de diminuer la quantité de l'article de ce panier'"  }
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible de diminuer la quantité de l'article du panier" };
     }
-    return response
+    return response;
 }
+
+
+async function addReservationArticleFromAPI(idUser){
+    return await postRequest(`articles/reservation`, { idUser });
+}
+
 async function addReservationArticle(idUser){
     let response;
     try {
-        response = await addReservationArticleFromLocalSource(idUser)
+        response = await addReservationArticleFromAPI(idUser);
     } catch(err) {
-        response = {error: 1, status: 404, data: "erreur réseau, impossible d'ajouter une reservation"  }
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible d'ajouter une réservation" };
     }
-    return response
+    return response;
 }
+
+async function getReservationArticleByIdFromAPI(utilisateurId){
+    return await getRequest(`articles/reservation/${utilisateurId}`);
+}
+
 async function getReservationArticleById(utilisateurId){
     let response;
     try {
-        response = await getReservationArticleByIdFromLocalSource(utilisateurId)
+        response = await getReservationArticleByIdFromAPI(utilisateurId);
     } catch(err) {
-        response = {error: 1, status: 404, data: "erreur réseau, impossible de récupérer les réservations par votre Id"  }
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible de récupérer les réservations" };
     }
-    return response
+    return response;
 }
+
+
+async function setPrestataireArticleFromAPI(data){
+    return await putRequest(`articles/prestataire`, data);
+}
+
 async function setPrestataireArticle(data){
     let response;
     try {
-        response = await setPrestataireArticleFromLocalSource(data)
+        response = await setPrestataireArticleFromAPI(data);
     } catch(err) {
-        response = {error: 1, status: 404, data: "erreur réseau, impossible de modifier l'article de la société" }
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible de modifier l'article du prestataire" };
     }
-    return response
+    return response;
+}
+
+async function delPrestataireArticleFromAPI(id){
+    return await deleteRequest(`articles/prestataire/${id}`);
 }
 
 async function delPrestataireArticle(id){
     let response;
     try {
-        response = await delPrestataireArticleFromLocalSource(id)
+        response = await delPrestataireArticleFromAPI(id);
     } catch(err) {
-        console.log(err)
-        response = {error: 1, status: 404, data: "erreur réseau, impossible de supprimer l'article de la société" }
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible de supprimer l'article du prestataire" };
     }
-    return response
+    return response;
 }
-
 
 export default {
     getLivreDOr,
@@ -163,4 +186,4 @@ export default {
     getReservationArticleById,
     setPrestataireArticle,
     delPrestataireArticle,
-}
+};
