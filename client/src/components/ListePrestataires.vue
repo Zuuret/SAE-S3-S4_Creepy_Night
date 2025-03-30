@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   data() {
@@ -42,9 +42,10 @@ export default {
     };
   },
   methods: {
+    ...mapActions("profil", ["fetchPrestataires"]),
     getImageUrl(image) {
       return require(`@/assets/${image}`);
-    }
+    },
   },
   computed: {
     ...mapState("profil", ["prestataires"]),
@@ -68,7 +69,7 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("profil/fetchPrestataires");
+    this.fetchPrestataires();
   }
 };
 </script>

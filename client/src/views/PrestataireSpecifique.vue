@@ -32,12 +32,11 @@ export default {
     ...mapState('ProfilStore',['prestataire'])
   },
   methods: {
-    ...mapActions('ProfilStore',['getPrestairebyId'])
+    ...mapActions('ProfilStore',['getPrestataireById'])
   },
-  mounted() {
-    const prestaireId = parseInt(this.$route.params.id);
-    this.getPrestairebyId(prestaireId)
-    console.log('Vue :', prestaireId)
+  async mounted() {
+    const prestaireId = this.$route.params.id;
+    await this.getPrestataireById(prestaireId)
   }
 }
 </script>

@@ -52,12 +52,12 @@ exports.getPrestataireById = async (req, res) => {
             return res.status(500).json({ error: 'ERREUR INTERNE' });
         }
         //console.log(prestataires)
-        const prestataire = prestataires.find(prestataire => prestataire.id == uuid);
+        const prestataire = prestataires.find(prestataire => prestataire.id === uuid);
         //console.log(prestataire)
         if (!prestataire) {
             return res.status(404).json({ error: 'Prestataire non trouvé' });
         }
-        return res.status(200).json({ data: prestataire });
+        return res.status(200).json({ data: prestataire, error: 0 });
     } catch (error) {
         console.error('Erreur lors de la récupération du prestataire :', error);
         return res.status(500).json({ error: 'ERREUR INTERNE' });
