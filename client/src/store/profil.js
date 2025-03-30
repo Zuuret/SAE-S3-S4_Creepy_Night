@@ -3,7 +3,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import ProfilService from '../services/profil.service';
 import CashLessService from '../services/cashless.service';
-import { getAllUtilisateurs, getAllOrganisateurs, getAllPrestataires, getDemandesOrganisateurs, getDemandesPrestataires, deleteDemandePrestataire, deleteDemandeOrganisateur, insertOrganisateur, insertPrestataire } from "@/services/profil.service";
+import { getAllUtilisateurs, getPrestataireById, getUserById , getAllOrganisateurs, getAllPrestataires, getDemandesOrganisateurs, getDemandesPrestataires, deleteDemandePrestataire, deleteDemandeOrganisateur, insertOrganisateur, insertPrestataire } from "@/services/profil.service";
 import {demandesPrestataires as initialDemandesPrestataires} from '../datasource/data';
 import { demandesOrganisateurs as initialDemandesOrganisateurs } from '../datasource/data';
 
@@ -71,6 +71,12 @@ export default ({
         },
         SET_UTILISATEURS(state, utilisateurs) {
             state.utilisateurs = utilisateurs;
+        },
+        SET_UTILISATEUR(state, utilisateur) {
+            state.utilisateur = utilisateur;
+        },
+        SET_PRESTATAIRE(state, prestataire) {
+            state.prestataire = prestataire;
         },
         SET_ORGANISATEURS(state, organisateurs) {
             state.organisateurs = organisateurs;
@@ -267,22 +273,16 @@ export default ({
                 console.log(response.data);
             }
         },
-        async getUserbyId({ commit }, idUser) {
-            console.log("Récupération de l'id de l'utilisateur");
-            let response = await ProfilService.getUserbyId(idUser);
+        async getUserById({ commit }, uuid) {
+            const response = await getUserById(uuid);
             if (response.error === 0) {
-                commit('updateUtilisateurbyId', response.data);
-            } else {
-                console.log(response.data);
+                commit('SET_UTILISATEUR', response.data);
             }
         },
-        async getPrestairebyId({ commit }, idPrestataire) {
-            console.log("Récupération de l'id du prestataire");
-            let response = await ProfilService.getPrestatairebyId(idPrestataire);
+        async getPrestataireById({ commit }, uuid) {
+            const response = await getPrestataireById(uuid);
             if (response.error === 0) {
-                commit('updatePrestatairebyId', response.data);
-            } else {
-                console.log(response.data);
+                commit('SET_PRESTATAIRE', response.data);
             }
         },
         async logoutUser({commit}){

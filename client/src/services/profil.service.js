@@ -60,11 +60,16 @@ async function insertPrestataireFromAPI(payload) {
     return await postRequest("prestataires", payload);
 }
 
+async function getUserByIdFromAPI(uuid) {
+    return await getRequest(`users/${uuid}`);
+}
+
+async function getPrestataireByIdFromAPI(uuid) {
+    return await getRequest(`prestataires/${uuid}`);
+}
+
 async function getUserbyIdFromLocalSource(idUser){
     return LocalSource.getUserById(idUser)
-}
-async function getPrestatairebyIdFromLocalSource(idPrestataire){
-    return LocalSource.getPrestataireById(idPrestataire)
 }
 async function getOrganisateurbyIdFromLocalSource(idOrganisateur){
     return LocalSource.getOrganisateurById(idOrganisateur)
@@ -185,14 +190,33 @@ async function getUserbyId(idUser){
     }
     return response
 }
-async function getPrestatairebyId(idPrestataire){
+
+export async function getUserById(uuid) {
     let response;
     try {
-        response = await getPrestatairebyIdFromLocalSource(idPrestataire)
-    } catch(err) {
-        response = {error: 1, status: 404, data: "erreur réseau, impossible de récupérer l'id du prestataire" }
+        response = await getUserByIdFromAPI(uuid);
+    } catch (err) {
+        response = {
+            error: 1,
+            status: 404,
+            data: "Erreur réseau, impossible de récupérer l'utilisateur."
+        };
     }
-    return response
+    return response;
+}
+
+export async function getPrestataireById(uuid) {
+    let response;
+    try {
+        response = await getPrestataireByIdFromAPI(uuid);
+    } catch (err) {
+        response = {
+            error: 1,
+            status: 404,
+            data: "Erreur réseau, impossible de récupérer l'utilisateur."
+        };
+    }
+    return response;
 }
 
 async function getOrganisateurbyId(idPrestataire){
@@ -418,7 +442,6 @@ export default {
     getDemandesOrganisateurs,
     getDemandesPrestataires,
     getUserbyId,
-    getPrestatairebyId,
     getOrganisateurbyId,
     updateDescriptionPrestataire,
     updateSocietePrestataire,
