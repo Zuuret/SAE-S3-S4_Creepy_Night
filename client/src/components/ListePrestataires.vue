@@ -1,25 +1,32 @@
 <template>
   <div class="prestataires-container">
-    <h1 class="titre-section">Découvrez nos Prestataires</h1>
+    <h1 class="titre-section">Nos Prestataires</h1>
 
     <div class="search-sort">
-      <input v-model="searchQuery" placeholder="Rechercher un prestataire..." class="search-input"/>
+      <input v-model="searchQuery" placeholder="Rechercher..." class="search-input"/>
 
       <select v-model="sortOption" class="sort-select">
-        <option value="name">Trier par Nom</option>
-        <option value="popularite">Trier par Popularité</option>
+        <option value="name">Trier par nom</option>
+        <option value="categorie">Trier par catégorie</option>
       </select>
+    </div>
+
+    <div v-if="sortOption === 'categorie'" class="category-filters">
+      <label v-for="categorie in uniqueCategories" :key="categorie" class="category-label">
+        <input type="checkbox" :value="categorie" v-model="selectedCategories" class="category-checkbox"/>
+        {{ categorie }}
+      </label>
     </div>
 
     <div v-if="filteredPrestataires.length > 0" class="prestataire-list">
       <div v-for="prestataire in filteredPrestataires" :key="prestataire.id" class="prestataire-card">
-        <img :src="prestataire.logo || 'default-logo.png'" alt="Logo" class="prestataire-logo"/>
-        <h3>{{ prestataire.societe }}</h3>
-        <p>{{ prestataire.description }}</p>
+        <img :src="getImageUrl(prestataire.logo)" alt="Logo" class="prestataire-logo"/>
+        <h3 class="prestataire-nom">{{ prestataire.societe }}</h3>
+        <p class="prestataire-description">{{ prestataire.description }}</p>
         <router-link :to="'/prestataire/' + prestataire.id" class="btn-details">Voir Profil</router-link>
       </div>
     </div>
-    <p v-else>Aucun prestataire ne correspond à votre recherche.</p>
+    <p v-else class="no-result">Aucun prestataire ne correspond à votre recherche.</p>
   </div>
 </template>
 
@@ -31,41 +38,55 @@ export default {
     return {
       searchQuery: "",
       sortOption: "name",
+      selectedCategories: [],
     };
+  },
+  methods: {
+    getImageUrl(image) {
+      return require(`@/assets/${image}`);
+    }
   },
   computed: {
     ...mapState("profil", ["prestataires"]),
-
+    uniqueCategories() {
+      return [...new Set(this.prestataires.map(p => p.theme))];
+    },
     filteredPrestataires() {
       let result = this.prestataires;
-
       if (this.searchQuery) {
         result = result.filter(prestataire =>
             prestataire.societe.toLowerCase().includes(this.searchQuery.toLowerCase())
         );
       }
-
+      if (this.sortOption === "categorie" && this.selectedCategories.length > 0) {
+        result = result.filter(prestataire => this.selectedCategories.includes(prestataire.theme));
+      }
       if (this.sortOption === "name") {
         result.sort((a, b) => a.societe.localeCompare(b.societe));
-      } else if (this.sortOption === "popularite") {
-        result.sort((a, b) => (b.popularite || 0) - (a.popularite || 0));
       }
-
       return result;
     }
   },
   mounted() {
-    //this.$store.dispatch("profil/getAllPrestataire");
-    this.$store.dispatch("profil/getAllPrestataireFromAPI");
+    this.$store.dispatch("profil/fetchPrestataires");
   }
 };
 </script>
 
 <style scoped>
 .prestataires-container {
-  margin: 40px auto;
   padding: 20px;
   text-align: center;
+  background-color: #111;
+  color: white;
+  box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
+}
+
+.titre-section {
+  font-size: 2.5em;
+  font-family: 'Creepster', cursive;
+  color: #e74c3c;
+  margin-bottom: 20px;
 }
 
 .search-sort {
@@ -75,17 +96,29 @@ export default {
   margin-bottom: 20px;
 }
 
-.search-input {
+.search-input, .sort-select {
   padding: 10px;
-  width: 250px;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: none;
+  background: black;
+  color: white;
+  font-size: 1em;
+  border: #ffffff 1px solid;
 }
 
-.sort-select {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+.category-filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.category-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #e74c3c;
+  font-size: 1.1em;
 }
 
 .prestataire-list {
@@ -96,33 +129,56 @@ export default {
 }
 
 .prestataire-card {
-  width: 250px;
+  width: 280px;
   padding: 15px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  background: white;
+  background: black;
+  box-shadow: 0 0 15px rgba(231, 76, 60, 0.5);
   text-align: center;
+  transition: transform 0.3s;
+}
+
+.prestataire-card:hover {
+  transform: scale(1.05);
 }
 
 .prestataire-logo {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   object-fit: cover;
   border-radius: 50%;
   margin-bottom: 10px;
 }
 
+.prestataire-nom {
+  font-size: 1.4em;
+  color: #e74c3c;
+}
+
+.prestataire-description {
+  font-size: 1em;
+  color: white;
+  opacity: 0.8;
+}
+
 .btn-details {
-  display: block;
+  display: inline-block;
   margin-top: 10px;
-  padding: 8px;
+  padding: 8px 15px;
   background-color: #e74c3c;
   color: white;
   text-decoration: none;
   border-radius: 5px;
+  transition: background 0.3s;
 }
 
 .btn-details:hover {
   background-color: #c0392b;
+}
+
+.no-result {
+  color: #e74c3c;
+  font-size: 1.2em;
+  margin-top: 20px;
 }
 </style>
