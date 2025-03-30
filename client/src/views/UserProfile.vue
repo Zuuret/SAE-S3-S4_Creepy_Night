@@ -1,10 +1,12 @@
 <template>
   <div class="user-profile" v-if="utilisateur && utilisateur.prenom">
+    <!-- Flèche de retour moderne -->
     <button class="back-arrow" @click="$router.push('/orga-utilisateurs')">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M15 18L9 12L15 6" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
+    
     <h1>Détails de l'utilisateur</h1>
     <div class="card-container">
       <div class="user-info-card">
@@ -19,8 +21,17 @@
 
       <div class="transaction-history-card">
         <h2>Historique des transactions</h2>
-        <ul class="transactions-list">
-          <li v-for="transaction in filteredTransactions" :key="transaction.id" class="transaction-item">
+        <div v-if="loadingTransactions" class="loading-transactions">
+          Chargement des transactions...
+        </div>
+        <div v-else-if="transactionsError" class="transactions-error">
+          {{ transactionsError }}
+        </div>
+        <ul v-else class="transactions-list">
+          <li v-if="filteredTransactions.length === 0" class="no-transactions">
+            Aucune transaction trouvée pour cet utilisateur.
+          </li>
+          <li v-else v-for="transaction in filteredTransactions" :key="transaction.id" class="transaction-item">
             <p class="transaction-date">{{ formatDate(transaction.date) }}</p>
             <div class="transaction-details">
               <span class="transaction-operation">{{ transaction.operation }}</span>
@@ -33,7 +44,7 @@
       </div>
     </div>
   </div>
-  <div v-else>
+  <div v-else class="loading-user">
     Chargement de l'utilisateur...
   </div>
 </template>
@@ -44,13 +55,19 @@ import { mapState, mapActions } from 'vuex';
 export default {
   data() {
     return {
-      utilisateur: {}
+      utilisateur: {},
+      loadingTransactions: false,
+      transactionsError: null
     };
   },
   computed: {
     ...mapState("profil", ["utilisateurs"]),
     ...mapState("CashLessStore", ["transactions", "transactionsUser"]),
     filteredTransactions() {
+      // Vérifie que transactionsUser est bien un tableau avant d'utiliser map
+      if (!Array.isArray(this.transactionsUser)) {
+        return [];
+      }
       return this.transactionsUser.map(tx => ({
         ...tx,
         montant: Number(tx.montant) || 0,
@@ -74,12 +91,28 @@ export default {
     formatAmount(montant) {
       if (!montant || isNaN(Number(montant))) return "0.00 €";
       return `${montant > 0 ? "+" : ""}${Number(montant).toFixed(2)} €`;
+    },
+    async loadUserTransactions(userId) {
+      this.loadingTransactions = true;
+      this.transactionsError = null;
+      try {
+        await this.getUserTransactions(userId);
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          this.transactionsError = "Aucune transaction trouvée pour cet utilisateur.";
+        } else {
+          this.transactionsError = "Erreur lors du chargement des transactions.";
+          console.error("Erreur de chargement des transactions:", error);
+        }
+      } finally {
+        this.loadingTransactions = false;
+      }
     }
   },
   async mounted() {
     const userId = this.$route.params.id;
-    await this.getUserTransactions(userId);
     this.utilisateur = this.utilisateurs.find(user => user.id === userId);
+    await this.loadUserTransactions(userId);
   },
   watch: {
     utilisateurs(newUsers) {
@@ -209,5 +242,18 @@ strong {
 
 .back-arrow:hover svg {
   transform: scale(1.1);
+}
+
+.no-transactions {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-style: italic;
+}
+
+.transactions-error {
+  color: #e74c3c;
+  text-align: center;
+  padding: 20px;
 }
 </style>
