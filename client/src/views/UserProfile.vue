@@ -1,5 +1,10 @@
 <template>
   <div class="user-profile" v-if="utilisateur && utilisateur.prenom">
+    <button class="back-arrow" @click="$router.push('/orga-utilisateurs')">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15 18L9 12L15 6" stroke="#333333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
     <h1>Détails de l'utilisateur</h1>
     <div class="card-container">
       <div class="user-info-card">
@@ -13,25 +18,18 @@
       </div>
 
       <div class="transaction-history-card">
-        <h2>Historique des Paiements</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Opération</th>
-              <th>Montant</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="transaction in filteredTransactions" :key="transaction.id">
-              <td>{{ transaction.date }}</td>
-              <td>{{ transaction.operation }}</td>
-              <td :class="{ positive: transaction.amount > 0, negative: transaction.amount < 0 }">
-                {{ transaction.amount > 0 ? '+' : '' }}{{ parseFloat(transaction.amount).toFixed(2) }} €
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <h2>Historique des transactions</h2>
+        <ul class="transactions-list">
+          <li v-for="transaction in filteredTransactions" :key="transaction.id" class="transaction-item">
+            <p class="transaction-date">{{ formatDate(transaction.date) }}</p>
+            <div class="transaction-details">
+              <span class="transaction-operation">{{ transaction.operation }}</span>
+              <span :class="{ positive: transaction.montant > 0, negative: transaction.montant < 0 }">
+                {{ formatAmount(transaction.montant) }}
+              </span>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -51,19 +49,36 @@ export default {
   },
   computed: {
     ...mapState("profil", ["utilisateurs"]),
-    ...mapState("CashLessStore", ["transactions"]),
+    ...mapState("CashLessStore", ["transactions", "transactionsUser"]),
     filteredTransactions() {
-      return this.transactions.filter(transaction => transaction.id_utilisateur === this.utilisateur.id);
+      return this.transactionsUser.map(tx => ({
+        ...tx,
+        montant: Number(tx.montant) || 0,
+      }));
     },
   },
   methods: {
-    ...mapActions('CashLessStore', ['getAllTransactions']),
+    ...mapActions('CashLessStore', ['getUserTransactions']),
+    formatDate(dateString) {
+      if (!dateString) return "Date inconnue";
+      const date = new Date(dateString);
+      return date.toLocaleString("fr-FR", {
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    },
+    formatAmount(montant) {
+      if (!montant || isNaN(Number(montant))) return "0.00 €";
+      return `${montant > 0 ? "+" : ""}${Number(montant).toFixed(2)} €`;
+    }
   },
-  mounted() {
-    this.getAllTransactions();
-    console.log("Utilisateurs:", this.utilisateurs);
-    console.log("ID depuis l'URL:", this.$route.params.id);
+  async mounted() {
     const userId = this.$route.params.id;
+    await this.getUserTransactions(userId);
     this.utilisateur = this.utilisateurs.find(user => user.id === userId);
   },
   watch: {
@@ -90,6 +105,7 @@ h1 {
   text-align: center;
   color: #333;
   margin-bottom: 20px;
+  padding-top: 20px; /* Ajouté pour l'espace avec la flèche */
 }
 
 .card-container {
@@ -128,42 +144,70 @@ strong {
   color: #222;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border-radius: 10px;
-  overflow: hidden;
+/* Styles pour les transactions */
+.transactions-list {
+  list-style: none;
+  padding: 0;
 }
 
-th, td {
-  padding: 15px;
-  text-align: left;
-  font-size: 1rem;
-  color: #555;
+.transaction-item {
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
 }
 
-th {
-  background-color: #f4f4f4;
-  font-weight: bold;
+.transaction-date {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 5px;
 }
 
-td {
-  border-bottom: 1px solid #ddd;
+.transaction-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-td.positive {
+.transaction-operation {
+  font-weight: 500;
+}
+
+.positive {
   color: #27ae60;
   font-weight: bold;
 }
 
-td.negative {
+.negative {
   color: #e74c3c;
   font-weight: bold;
 }
 
-tr:hover {
-  background-color: #f1f1f1;
+.back-arrow {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  background: white;
+  border: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
+.back-arrow:hover {
+  background: #f5f5f5;
+  transform: translateX(-3px);
+}
+
+.back-arrow svg {
+  transition: transform 0.3s ease;
+}
+
+.back-arrow:hover svg {
+  transform: scale(1.1);
+}
 </style>
