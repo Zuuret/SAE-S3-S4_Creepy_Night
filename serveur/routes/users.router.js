@@ -1,6 +1,7 @@
 const express = require("express");
 const userController = require("../controllers/users.controller");
 const sessionMiddleware = require("../middlewares/session.middleware");
+const {authVerif} = require("../middlewares/session.middleware");
 
 var router = express.Router();
 
@@ -111,7 +112,7 @@ router.get("/", userController.getUsers);
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.get('/:uuid', userController.getUserById);
+router.get('/:uuid', sessionMiddleware.authVerif(), userController.getUserById);
 
 
 

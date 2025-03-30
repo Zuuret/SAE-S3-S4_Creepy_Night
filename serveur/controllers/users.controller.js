@@ -41,9 +41,9 @@ exports.getUserById = async (req, res) => {
         if (!user) {
             return res.status(404).json({ error: 'Utilisateur non trouvé' });
         }
-        return res.status(200).json({ data: user });
+        return res.status(200).json({ error : 0, data: user });
     } catch (error) {
-        console.error('Erreur lors de la récupération de l\'utilisateur :', error);
+        console.log('Erreur lors de la récupération de l\'utilisateur :', error);
         return res.status(500).json({ error: 'ERREUR INTERNE' });
     }
 };

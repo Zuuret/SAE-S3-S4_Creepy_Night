@@ -24,15 +24,15 @@ async function getUsers() {
     const client = await pool.connect();
     let res;
     try {
-        res = await client.query('SELECT * FROM Utilisateur');
+        res = await client.query(format('SELECT * FROM Utilisateur'));
         console.log('RECUPERATION DES UTILISATEURS');
     } catch (error) {
         console.error('Erreur lors de la récupération des utilisateurs :', error);
-        res = false;
+        return false;
     } finally {
         client.release();
     }
-    return res.rows || false;
+    return res.rows;
 }
 
 async function updateUser(uuid, name, firstname, birthdate, email, password, est_festivalier) {
