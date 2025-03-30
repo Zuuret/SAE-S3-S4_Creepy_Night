@@ -52,12 +52,12 @@
         <h2>Mes dernières transactions :</h2>
         <ul>
           <li v-for="transaction in filteredTransactions" :key="transaction.id" class="transaction-item">
-            <p>{{ transaction.date }}</p>
+            <p>{{ formatDate(transaction.date) }}</p>
             <div class="transaction-details">
               <span>{{ transaction.operation }}</span>
-              <span :class="{ positive: transaction.amount > 0, negative: transaction.amount < 0 }">
-                {{ transaction.amount > 0 ? '+' : '' }}{{ parseFloat(transaction.amount).toFixed(2) }} €
-              </span>
+              <span :class="{ positive: transaction.montant > 0, negative: transaction.montant < 0 }">
+              {{ formatAmount(transaction.montant) }}
+            </span>
             </div>
           </li>
         </ul>
@@ -92,18 +92,20 @@ export default {
   },
   components: { NavBar },
   computed: {
-    ...mapState('CashLessStore',['transactions']),
+    ...mapState('CashLessStore',['transactions','transactionsUser']),
     ...mapState('ProfilStore',['utilisateurConnecte']),
     filteredTransactions() {
-      return this.transactions.filter((transaction) => transaction.id_utilisateur === this.utilisateurConnecte.id);
-    },
-    soldeAffiche() {
+      return this.transactionsUser.map(tx => ({
+        ...tx,
+        montant: Number(tx.montant) || 0,
+      }));
+    },soldeAffiche() {
       const solde = this.utilisateurConnecte?.solde || 0;
       return Number(solde);
     },
   },
   methods: {
-    ...mapActions('CashLessStore',['getAllTransactions']),
+    ...mapActions('CashLessStore',['getUserTransactions']),
     openModal(type) {
       this.showModal = true;
       this.transactionType = type;
@@ -129,9 +131,28 @@ export default {
         query: { type: this.transactionType, amount: this.transactionAmount },
       });
     },
+    formatDate(dateString) {
+      if (!dateString) return "Date inconnue";
+      const date = new Date(dateString);
+      return date.toLocaleString("fr-FR", {
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    },
+    formatAmount(montant) {
+      if (!montant || isNaN(Number(montant))) return "0.00 €";
+      return `${montant > 0 ? "+" : ""}${Number(montant).toFixed(2)} €`;
+    }
+
   },
-  mounted() {
-    this.getAllTransactions();
+  async mounted() {
+    if (this.utilisateurConnecte?.id) {
+      await this.getUserTransactions(this.utilisateurConnecte.id);
+    }
   },
 };
 </script>
@@ -226,7 +247,7 @@ export default {
   border-radius: 10px;
   color: #ccc;
   padding: 20px;
-  width: 450px;
+  width: 550px;
 }
 
 .wallet h2, .transactions h2 {

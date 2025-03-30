@@ -11,6 +11,7 @@ async function getHistoriqueTransactions(utilisateurId) {
                            t.date, 
                            t.montant, 
                            t.details,
+                           t.operation,
                            CASE
                                WHEN ba.activite_id IS NOT NULL THEN 'Activité'
                                WHEN rp.prestation_id IS NOT NULL THEN 'Prestation'
@@ -29,14 +30,16 @@ async function getHistoriqueTransactions(utilisateurId) {
         `, utilisateurId);
 
         const result = await client.query(query);
-        transactions = result.rows;
+        console.log('TRANSACTION HISTORIQUE RÉCUPÉRÉ');
+        transactions = result;
+
     } catch (error) {
         console.error("Erreur lors de la récupération de l'historique des transactions :", error);
-        throw new Error("Erreur lors de la récupération des transactions");
+        res = false;
     } finally {
         client.release();
     }
-    return transactions;
+    return transactions.rows || false;
 }
 
 module.exports = { getHistoriqueTransactions };
