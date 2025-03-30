@@ -9,6 +9,7 @@ async function ajoutUtilisateurFromLocalSource(data){
 async function ajoutOrganisateurFromLocalSource(data){
     return LocalSource.ajoutOrganisateur(data)
 }
+/*
 async function loginSiteUtilisateurFromLocalSource(data){
     return LocalSource.loginSiteUtilisateur(data)
 }
@@ -18,12 +19,29 @@ async function loginSiteOrganisateurFromLocalSource(data){
 async function loginSitePrestataireFromLocalSource(data){
     return LocalSource.loginSitePrestataire(data)
 }
+
+ */
 async function getAllUtilisateurFromLocalSource() {
     return LocalSource.getAllUtilisateur()
 }
 async function getAllOrganisateurFromLocalSource() {
     return LocalSource.getAllOrganisateur()
 }
+
+/////////////////////////// API //////////////////////////////////
+
+async function loginSiteUtilisateurFromAPI(data){
+    return postRequest('login/user/', data, 'LOGINUSER')
+}
+
+async function loginSiteOrganisateurFromAPI(data){
+    return  postRequest('login/orga/', data, 'LOGINPRESTA')
+}
+
+async function loginSitePrestataireFromAPI(data){
+    return  postRequest('login/presta/', data, 'LOGINORGA')
+}
+
 async function getAllPrestataireFromAPI() {
     return await getRequest('prestataires')
 }
@@ -53,7 +71,7 @@ async function deleteDemandeOrganisateurFromAPI(id) {
 }
 
 async function insertOrganisateurFromAPI(payload) {
-    return await postRequest("organisateurs", payload);
+    return await postRequest("organisateurs", payload, '');
 }
 
 async function insertPrestataireFromAPI(payload) {
@@ -61,7 +79,7 @@ async function insertPrestataireFromAPI(payload) {
 }
 
 async function getUserByIdFromAPI(uuid) {
-    return await getRequest(`users/${uuid}`);
+    return await getRequest(`users/${uuid}`, 'USERBYID');
 }
 
 async function getPrestataireByIdFromAPI(uuid) {
@@ -130,7 +148,7 @@ async function ajoutPrestataire(data) {
 async function loginSiteUtilisateur(data) {
     let response;
     try {
-        response = await loginSiteUtilisateurFromLocalSource(data)
+        response = await loginSiteUtilisateurFromAPI(data)
     } catch(err) {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de se loguer'  }
     }
@@ -139,7 +157,7 @@ async function loginSiteUtilisateur(data) {
 async function loginSiteOrganisateur(data) {
     let response;
     try {
-        response = await loginSiteOrganisateurFromLocalSource(data)
+        response = await loginSiteOrganisateurFromAPI(data)
     } catch(err) {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de se loguer'  }
     }
@@ -148,7 +166,7 @@ async function loginSiteOrganisateur(data) {
 async function loginSitePrestataire(data) {
     let response;
     try {
-        response = await loginSitePrestataireFromLocalSource(data)
+        response = await loginSitePrestataireFromAPI(data)
     } catch(err) {
         response = {error: 1, status: 404, data: 'erreur réseau, impossible de se loguer'  }
     }

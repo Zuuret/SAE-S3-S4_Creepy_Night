@@ -1,9 +1,25 @@
 <template>
   <div class="login-container">
     <img src="@/assets/fond_Accueil.png" class="background" alt="fond_accueil" />
+
     <div class="login-box">
       <h2>Connexion</h2>
-      <form @submit.prevent="submitLogin" class="login-form">
+      <div class="radio-buttons">
+        <label class="custom-radio" :class="{ selected: userType === 'utilisateur' }">
+          <input type="radio" name="userType" value="utilisateur" v-model="userType" @click="updateErrorMessage('')">
+          <span>Utilisateur</span>
+        </label>
+        <label class="custom-radio" :class="{ selected: userType === 'prestataire' }">
+          <input type="radio" name="userType" value="prestataire" v-model="userType" @click="updateErrorMessage('')">
+          <span>Prestataire</span>
+        </label>
+        <label class="custom-radio" :class="{ selected: userType === 'organisateur' }">
+          <input type="radio" name="userType" value="organisateur" v-model="userType" @click="updateErrorMessage('')">
+          <span>Organisateur</span>
+        </label>
+      </div>
+
+      <form @submit.prevent="submitLogin(userType)" class="login-form">
         <div class="form-group">
           <input type="email" v-model="email" id="email" placeholder="Entrez votre email" required/>
         </div>
@@ -29,6 +45,7 @@ import {mapState, mapActions} from "vuex";
 export default {
   name: "PageConnexion",
   data: () => ({
+    userType: 'utilisateur',
     email: "",
     password: "",
   }),
@@ -36,34 +53,34 @@ export default {
     ...mapState('ProfilStore', ['errorMessage'])
   },
   methods: {
-    ...mapActions('ProfilStore', ['loginUser']),
+    ...mapActions('ProfilStore', ['loginUser', 'updateErrorMessage']),
 
-    async submitLogin() {
-      let userLogged = await this.loginUser({
+    async submitLogin(type) {
+      let logged = await this.loginUser({
         data: { email: this.email, password: this.password },
-        userType: 'utilisateur',
+        userType: type,
       });
-      if (userLogged.success) {
-        this.$router.push('/');
-        return;
+
+      if (type === 'utilisateur'){
+        if (logged.success) {
+          this.$router.push('/');
+          return;
+        }
       }
-      let orgLogged = await this.loginUser({
-        data: { email: this.email, password: this.password },
-        userType: 'organisateur',
-      });
-      if (orgLogged.success) {
-        this.$router.push('/home-organisateur');
-        return;
+      if (type === 'organisateur') {
+        if (logged.success) {
+          this.$router.push('/home-organisateur');
+          return;
+        }
       }
-      let prestLogged = await this.loginUser({
-        data: { email: this.email, password: this.password },
-        userType: 'prestataire',
-      });
-      if (prestLogged.success) {
-        this.$router.push('/home-prestataire');
+
+      if (type === 'prestataire') {
+        if (logged.success) {
+          this.$router.push('/home-prestataire');
+        }
       }
     }
-  }
+  },
 }
 </script>
 
@@ -132,6 +149,13 @@ input::placeholder {
   font-family: whoAsksSatan, serif;
   font-size: 18px;
   opacity: 0.8;
+}
+
+.radio-buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 10px;
 }
 
 .signup-link {
