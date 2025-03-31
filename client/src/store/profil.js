@@ -282,9 +282,12 @@ export default ({
         async getPrestataireById({ commit }, uuid) {
             const response = await getPrestataireById(uuid);
             if (response.error === 0) {
-                commit('SET_PRESTATAIRE', response.data);
+              commit('SET_PRESTATAIRE', response.data);
+              return response.data;
             }
+            return null;
         },
+
         async logoutUser({commit}){
             commit('clearUtilisateurConnecte')
         },
