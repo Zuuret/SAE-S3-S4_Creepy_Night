@@ -86,7 +86,7 @@ router.get("/", prestataireController.getPrestataires);
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.get("/:uuid", sessionMiddleware.authVerif, prestataireController.getPrestataireById);
+router.get("/:uuid", prestataireController.getPrestataireById);
 
 /**
  * @swagger
