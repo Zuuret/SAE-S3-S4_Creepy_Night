@@ -6,13 +6,14 @@ async function insertLivreDOr(prestataire_id, nom_utilisateur, evaluation, messa
     let is_error = false;
     try {
         const query = format(
-            'INSERT INTO livre_dor (prestataire_id, nom_utilisateur, evaluation, message, date) VALUES (%L, %L, %L, %L, %L)',
+            'INSERT INTO livre_dor (prestataire_id, nom_utilisateur, evaluation, message, date) VALUES (%L, %L, %L, %L, %L) RETURNING *',
             prestataire_id, nom_utilisateur, evaluation, message, date
         );
-        await client.query(query);
+        const result = await client.query(query);
+        return result.rows[0];
     } catch (error) {
         console.error('Erreur : ', error);
-        is_error = true;
+        is_error = 1;
     } finally {
         client.release();
     }
@@ -39,8 +40,7 @@ async function getLivreDOrById(prestataire_id) {
     const client = await pool.connect();
     let res;
     try {
-        res = await client.query('SELECT * FROM livre_dor WHERE prestataire_id = $1', [prestataire_id]);
-        console.log('RÉCUPÉRATION DU LIVRE D\'OR POUR LE PRESTATAIRE : ', prestataire_id);
+        res = await client.query('SELECT * FROM livre_dor WHERE prestataire_id = $1 ORDER BY date DESC', [prestataire_id]);
     } catch (error) {
         console.error('Erreur lors de la récupération du livre d\'or :', error);
         res = false;

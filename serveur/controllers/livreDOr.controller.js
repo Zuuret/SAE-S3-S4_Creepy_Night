@@ -7,10 +7,10 @@ exports.saveLivreDOr = async (req, res) => {
     const message = req.body.message;
     const date = req.body.date;
     const resultat = await livreDOrService.insertLivreDOr(prestataire_id, nom_utilisateur, evaluation, message, date);
-    if (resultat) {
-        return res.status(500).send("ERREUR INTERNE");
+    if (resultat === 1) {
+        return res.status(500).send({data :"ERREUR INTERNE", error: 1});
     }
-    return res.status(200).send("INSERTION AVEC SUCCÈS");
+    return res.status(200).send({data : resultat, error: 0});
 };
 
 exports.getAllLivreDOr = async (req, res) => {
@@ -27,7 +27,7 @@ exports.getLivreDOrById = async (req, res) => {
     if (!livreDOrSpecifique) {
         return res.status(500).json({ error: 'ERREUR INTERNE' });
     }
-    return res.status(200).json({ data: livreDOrSpecifique });
+    return res.status(200).json({ data: livreDOrSpecifique, error: 0 });
 };
 
 exports.deleteCommentaire = async (req, res) => {

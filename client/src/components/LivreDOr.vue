@@ -20,7 +20,7 @@
         <p>Aucun commentaire laissés pour ce prestataire</p>
       </div>
       <div v-else class="message" v-for="message in livreDOr" :key="message.id">
-        <p><strong>{{ message.nomUtilisateur }}</strong> ({{ message.date }})</p>
+        <p><strong>{{ message.nom_utilisateur }}</strong> ({{ formatDate(message.date) }})</p>
         <p>{{ message.message }}</p>
         <div class="rating">
           <span v-for="i in parseInt(message.evaluation)" :key="i" class="etoile">⭐</span>
@@ -65,18 +65,14 @@ export default {
       }
 
       const date = new Date();
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      let formattedDate = date.toLocaleDateString('fr-FR', options);
-
-      const parts = formattedDate.split(' ');
-      parts[1] = parts[1].charAt(0).toUpperCase() + parts[1].slice(1);
+      const formattedDate = date.toISOString().split('T')[0];
 
       const newMessage = {
-        prestataireId: this.prestataire.id,
-        nomUtilisateur: this.nomUtilisateur,
+        prestataire_id: this.prestataire.id,
+        nom_utilisateur: this.nomUtilisateur,
         evaluation: this.evaluation,
         message: this.message,
-        date: parts.join(' '),
+        date: formattedDate,
       };
 
       await this.ajoutCommentaire(newMessage);
@@ -96,10 +92,20 @@ export default {
     setRating(rating) {
       this.evaluation = rating;
       this.tempEvaluation = rating;
-    }
+    },
+    formatDate(dateString) {
+      if (!dateString) return "Date inconnue";
+      const date = new Date(dateString);
+      return date.toLocaleString("fr-FR", {
+        weekday: "long",
+        day: "2-digit",
+        month: "long",
+        year: "numeric"
+      });
+    },
   },
   mounted() {
-    const prestataireId = parseInt(this.$route.params.id);
+    const prestataireId = this.$route.params.id;
     this.getPrestairebyId(prestataireId);
     this.getLivreDOr(prestataireId);
   }

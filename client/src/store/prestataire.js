@@ -18,11 +18,9 @@ export default ({
     mutations: {
         updateLivreDOr(state, livreDOr) {
             state.livreDOr = livreDOr
-            console.log(state.livreDOr)
         },
         ajoutLivreDOr(state, commentaire) {
             state.livreDOr.unshift(commentaire)
-            console.log(state.livreDOr)
         },
         updateListeArticlesId(state, articlesId){
             state.articlesId = articlesId

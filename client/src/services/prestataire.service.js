@@ -16,7 +16,7 @@ async function getLivreDOr(idPrestataire) {
 }
 
 async function ajoutLivreDOrFromAPI(data) {
-    return await postRequest(`livreDOr`, data);
+    return await postRequest(`livreDOr/${data.prestataire_id}`, data);
 }
 
 async function ajoutLivreDOr(data) {
