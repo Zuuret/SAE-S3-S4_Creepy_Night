@@ -697,7 +697,7 @@ function ajoutLivreDOr(data){
 }
 
 function getAllArticlesById(idPrestataire){
-    let articlesPresta = articles.filter(article => article.prestataireId === parseInt(idPrestataire));
+    let articlesPresta = getAllArticlesById(idPrestataire);
     return { error: 0, data: articlesPresta };
 }
 
