@@ -111,7 +111,7 @@ router.get("/", userController.getUsers);
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.get('/:uuid', sessionMiddleware.authVerif, userController.getUserById);
+router.get('/:uuid',  sessionMiddleware.authVerif(), userController.getUserById);
 
 
 
@@ -191,7 +191,7 @@ router.get('/:uuid', sessionMiddleware.authVerif, userController.getUserById);
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.put('/:uuid', sessionMiddleware.authVerif, userController.updateUser);
+router.put('/:uuid',  sessionMiddleware.authVerif(), userController.updateUser);
 
 
 /**
@@ -223,7 +223,7 @@ router.put('/:uuid', sessionMiddleware.authVerif, userController.updateUser);
  *       500:
  *         description: Erreur interne du serveur
  */
-router.delete('/:uuid', sessionMiddleware.authVerif, userController.deleteUser);
+router.delete('/:uuid',  sessionMiddleware.authVerif(), userController.deleteUser);
 /*
 router.delete('/:uuid', async (req, res) => {
  const { uuid } = req.params;

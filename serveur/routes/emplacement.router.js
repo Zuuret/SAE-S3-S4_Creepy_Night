@@ -6,6 +6,6 @@ const router = express.Router();
 
 router.get("/", emplacementController.getEmplacement);
 
-router.put("/", sessionMiddleware.authVerif, emplacementController.updateEmplacement);
+router.put("/",  sessionMiddleware.authVerif(), emplacementController.updateEmplacement);
 
 module.exports = router;
