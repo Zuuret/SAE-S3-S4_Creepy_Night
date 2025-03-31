@@ -3,9 +3,9 @@
     <NavBar/>
     <div ref="list" class="list">
       <div class="item" v-for="prestataire in filteredPrestataires" :key="prestataire.id">
-        <img :src="prestataire.background" :alt="prestataire.title" class="background"/>
+        <img :src=getImageUrl(prestataire.background) :alt="prestataire.title" class="background"/>
         <div class="content">
-          <img :src="prestataire.logo" :alt="prestataire.title" class="author"/>
+          <img :src=getImageUrl(prestataire.logo) :alt="prestataire.title" class="author"/>
           <div class="title">{{ prestataire.societe }}</div>
           <div class="topic">{{ prestataire.theme }}</div>
           <div class="description">{{ prestataire.description }}</div>
@@ -19,7 +19,7 @@
     </div>
     <div class="thumbnail" ref="thumbnail">
       <div class="item" v-for="(thumb, index) in prestataireTrie" :key="index">
-        <img :src="thumb.background" :alt="thumb.societe" class="background"/>
+        <img :src=getImageUrl(thumb.background) :alt="thumb.societe" class="background"/>
         <div class="content">
           <div class="title">{{ thumb.societe }}</div>
         </div>
@@ -63,7 +63,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions("ProfilStore", ["getAllPrestataire"]),
+    ...mapActions("ProfilStore", ["fetchPrestataire"]),
+    getImageUrl(image) {
+      return require(`@/assets/${image}`);
+    },
     showSlider(type) {
       const list = this.$refs.list;
       const thumbnail = this.$refs.thumbnail;
@@ -98,7 +101,7 @@ export default {
 
   },
   mounted() {
-    this.getAllPrestataire();
+    this.fetchPrestataire();
     this.autoRun = setTimeout(() => {
       this.showSlider("next");
     }, this.timeAutoNext);
