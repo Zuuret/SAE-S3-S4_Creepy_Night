@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import PrestaireService from '../services/prestataire.service'
+import PrestataireService from '../services/prestataire.service'
 
 Vue.use(Vuex);
 
@@ -86,7 +86,7 @@ export default ({
     actions: {
         async getLivreDOr({commit}, idPrestataire) {
             console.log("Récupération du livre d'or ID :", idPrestataire)
-            let response = await PrestaireService.getLivreDOr(idPrestataire)
+            let response = await PrestataireService.getLivreDOr(idPrestataire)
             if (response.error === 0) {
                 commit('updateLivreDOr', response.data)
                 console.log(response.data)
@@ -96,7 +96,7 @@ export default ({
         },
         async ajoutCommentaire({commit}, data) {
             console.log("Enregistrement d'un nouveau commentaire");
-            let response = await PrestaireService.ajoutLivreDOr(data);
+            let response = await PrestataireService.ajoutLivreDOr(data);
             console.log(response)
             if (response.error === 0) {
                 commit('ajoutLivreDOr', response.data);
@@ -106,7 +106,7 @@ export default ({
         },
         async getAllArticlesById({commit}, idPrestataire) {
             console.log("Récupération des articles pour le prestataire ID :", idPrestataire)
-            let response = await PrestaireService.getAllArticlesById(idPrestataire)
+            let response = await PrestataireService.getAllArticlesById(idPrestataire)
             if (response.error === 0) {
                 commit('updateListeArticlesId', response.data)
             } else {
@@ -115,7 +115,7 @@ export default ({
         },
         async getArticleById({commit}, idArticle) {
             console.log("Récupération de l'article ID :", idArticle)
-            let response = await PrestaireService.getArticleById(idArticle)
+            let response = await PrestataireService.getArticleById(idArticle)
             if (response.error === 0) {
                 commit('updateArticleById', response.data)
             } else {
@@ -124,7 +124,7 @@ export default ({
         },
         async getAllArticle({commit}){
             console.log("Récupération de tout les articles :")
-            let response = await PrestaireService.getAllArticle()
+            let response = await PrestataireService.getAllArticle()
             if (response.error === 0) {
                 commit('updateListeArticle', response.data)
             } else {
@@ -133,7 +133,7 @@ export default ({
         },
         async addArticlePanier({commit}, article) {
             console.log("Ajout d'un article")
-            let response = await PrestaireService.ajouterAuPanierArticle(article)
+            let response = await PrestataireService.ajouterAuPanierArticle(article)
             if (response.error === 0){
                 commit('addArticle', response.data);
             } else {
@@ -142,7 +142,7 @@ export default ({
         },
         async incrementerQuantite({commit}, item) {
             console.log("Incrementation de la quantite")
-            let response = await PrestaireService.incrementerQuantiteArticle(item)
+            let response = await PrestataireService.incrementerQuantiteArticle(item)
             if (response.error === 0) {
                 commit('incrementerQuantite', response.data)
                 console.log(response.data)
@@ -152,7 +152,7 @@ export default ({
         },
         async diminuerQuantite({commit}, article){
             console.log("Diminution de la quantite")
-            let response = await PrestaireService.diminuerQuantiteArticle(article)
+            let response = await PrestataireService.diminuerQuantiteArticle(article)
             if (response.error === 0){
                 commit('diminuerQuantite', response.data)
             } else {
@@ -161,7 +161,7 @@ export default ({
         },
         async reserverArticle({ commit }, idUser) {
             console.log("Ajout d'une reservation pour ID :", idUser);
-            let response = await PrestaireService.addReservationArticle(idUser)
+            let response = await PrestataireService.addReservationArticle(idUser)
             if (response.error === 0) {
                 commit('reservationArticle', response.data.newResAr);
                 commit('ProfilStore/updateSoldeUtilisateur', response.data.solde, { root: true });
@@ -171,7 +171,7 @@ export default ({
         },
         async getReservationArticleById({commit}, utilisateurId){
             console.log("Récupération des articles d'ID :", utilisateurId)
-            let response = await PrestaireService.getReservationArticleById(utilisateurId)
+            let response = await PrestataireService.getReservationArticleById(utilisateurId)
             if (response.error === 0) {
                 commit('updateReservationArticleId', response.data);
             } else {
@@ -180,7 +180,7 @@ export default ({
         },
         async setPrestataireArticle({commit}, data){
             console.log("Récupération de l'article d'ID :", data)
-            let response = await PrestaireService.setPrestataireArticle(data)
+            let response = await PrestataireService.setPrestataireArticle(data)
             if (response.error === 0) {
                 commit('updateArticleById', response.data);
             } else {
@@ -189,7 +189,7 @@ export default ({
         },
         async delPrestataireArticle({commit}, articleId){
             console.log("Récupération de l'article d'ID :", articleId)
-            let response = await PrestaireService.delPrestataireArticle(articleId)
+            let response = await PrestataireService.delPrestataireArticle(articleId)
             if (response.error === 0) {
                 commit('updateArticleById', response.data);
             } else {

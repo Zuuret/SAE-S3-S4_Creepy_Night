@@ -32,13 +32,10 @@ const axiosAgent = axios.create({
 
 axiosAgent.interceptors.request.use(function (config) {
     //set token in header
-    // const token = localStorage.getItem('token');
-    // if (token) {
-    //     config.headers['x-xsrf-token'] = token;
-    // }
-
-
-
+    const token = JSON.parse(localStorage.getItem("utilisateurConnecte"))
+    if (token) {
+        if (!config.headers['JWT-token']) config.headers['JWT-token'] = token.token;
+    }
     return config;
 }, function (error) {
     // Do something with request error

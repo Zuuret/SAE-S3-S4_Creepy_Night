@@ -203,6 +203,7 @@ export default ({
             }
 
             if (response.error === 0) {
+                response.data.role = userType;
                 commit('updateUtilisateurConnecte', response.data);
                 if (userType === 'prestataire' && response.data.logo instanceof File) {
                     const logoUrl = URL.createObjectURL(response.data.logo);

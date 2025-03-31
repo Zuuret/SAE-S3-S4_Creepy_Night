@@ -4,7 +4,7 @@
     <div class="profil-infos">
       <p v-if="utilisateurConnecte"><strong>Nom :</strong> {{ utilisateurConnecte.nom }}</p>
       <p><strong>Prénom :</strong> {{ utilisateurConnecte.prenom }}</p>
-      <p><strong>Email :</strong> {{ utilisateurConnecte.email }}</p>
+      <p><strong>Email :</strong> {{ utilisateurConnecte.email || utilisateurConnecte.mail }}</p>
       <p><strong>Montant du portefeuille :</strong> {{ utilisateurConnecte.solde }} €</p>
     </div>
     <router-link to="/cashless">
@@ -22,12 +22,12 @@ export default {
     ...mapState('ProfilStore', ['utilisateurConnecte']),
   },
   methods: {
-    ...mapActions('ProfilStore', ['getUserbyId']),
+    ...mapActions('ProfilStore', ['getUserById']),
   },
   mounted() {
     const utilisateurId = this.utilisateurConnecte.id
     if (this.utilisateurConnecte) {
-      this.getUserbyId(utilisateurId);
+      this.getUserById(utilisateurId);
     } else {
       this.$router.push("/connexion");
     }
