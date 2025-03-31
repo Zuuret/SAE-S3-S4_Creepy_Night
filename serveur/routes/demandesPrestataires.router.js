@@ -5,18 +5,18 @@ const sessionMiddleware = require("../middlewares/session.middleware");
 const router = express.Router();
 
 
-router.post("/", demandesPrestatairesController.saveDemandePrestataire);
+router.post("/", sessionMiddleware.authVerif, demandesPrestatairesController.saveDemandePrestataire);
 
 
-router.get("/", demandesPrestatairesController.getDemandesPrestataires);
+router.get("/", sessionMiddleware.authVerif, demandesPrestatairesController.getDemandesPrestataires);
 
 
-router.get("/:uuid", demandesPrestatairesController.getDemandePrestataireById);
+router.get("/:uuid", sessionMiddleware.authVerif, demandesPrestatairesController.getDemandePrestataireById);
 
 
-router.put("/:uuid", sessionMiddleware.checkSession, demandesPrestatairesController.updateDemandePrestataire);
+router.put("/:uuid", sessionMiddleware.authVerif, demandesPrestatairesController.updateDemandePrestataire);
 
 
-router.delete("/:uuid", sessionMiddleware.checkSession, demandesPrestatairesController.deleteDemandePrestataire);
+router.delete("/:uuid", sessionMiddleware.authVerif, demandesPrestatairesController.deleteDemandePrestataire);
 
 module.exports = router;

@@ -73,7 +73,7 @@ const router = express.Router();
  *                   type: string
  *                   example: "Erreur lors de l'achat du billet"
  */
-router.post("/", sessionMiddleware.checkSession, acheterBilletController.acheterBillet);
+router.post("/", sessionMiddleware.authVerif, acheterBilletController.acheterBillet);
 
 router.get("/", acheterBilletController.getBilletsFestival);
 

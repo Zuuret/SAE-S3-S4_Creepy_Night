@@ -44,7 +44,7 @@ const router = express.Router();
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.post("/", sessionMiddleware.checkSession, prestationController.savePrestation);
+router.post("/",  sessionMiddleware.authVerif, prestationController.savePrestation);
 
 /**
  * @swagger
@@ -145,7 +145,7 @@ router.get("/:id", prestationController.getPrestationById);
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.put("/:id", sessionMiddleware.checkSession, prestationController.updatePrestation);
+router.put("/:id",  sessionMiddleware.authVerif, prestationController.updatePrestation);
 
 
 /**
@@ -171,6 +171,6 @@ router.put("/:id", sessionMiddleware.checkSession, prestationController.updatePr
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.delete("/:id", sessionMiddleware.checkSession, prestationController.deletePrestation);
+router.delete("/:id",  sessionMiddleware.authVerif, prestationController.deletePrestation);
 
 module.exports = router;

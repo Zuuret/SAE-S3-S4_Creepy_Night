@@ -73,22 +73,3 @@ module.exports = {
     updatePanierArticle,
     deletePanierArticle
 }
-
-/*
- create mode 100644 serveur/controllers/livreDOr.controller.js
- create mode 100644 serveur/controllers/panierArticles.controller.js
- create mode 100644 serveur/controllers/panierConcerts.controller.js
- create mode 100644 serveur/controllers/placesConcerts.controller.js
- create mode 100644 serveur/controllers/reservationArticles.controller.js
- create mode 100644 serveur/routes/livreDOr.router.js
- create mode 100644 serveur/routes/panierArticles.router.js
- create mode 100644 serveur/routes/panierConcerts.router.js
- create mode 100644 serveur/routes/placesConcerts.router.js
- create mode 100644 serveur/routes/reservationArticles.router.js
- create mode 100644 serveur/services/livreDOr.services.pg.js
- create mode 100644 serveur/services/panierArticles.services.pg.js
- create mode 100644 serveur/services/panierConcerts.services.pg.js
- create mode 100644 serveur/services/placesConcerts.services.pg.js
- create mode 100644 serveur/services/reservationArticles.services.pg.js
-
- */

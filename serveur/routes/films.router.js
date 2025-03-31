@@ -57,7 +57,7 @@ const router = express.Router();
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.post("/", sessionMiddleware.checkSession, filmController.saveFilm);
+router.post("/", sessionMiddleware.authVerif, filmController.saveFilm);
 
 /**
  * @swagger
@@ -191,7 +191,7 @@ router.get("/:id", filmController.getFilmById);
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.put("/:id", sessionMiddleware.checkSession, filmController.updateFilm);
+router.put("/:id", sessionMiddleware.authVerif, filmController.updateFilm);
 
 /**
  * @swagger
@@ -216,6 +216,6 @@ router.put("/:id", sessionMiddleware.checkSession, filmController.updateFilm);
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.delete("/:id", sessionMiddleware.checkSession, filmController.deleteFilm);
+router.delete("/:id", sessionMiddleware.authVerif, filmController.deleteFilm);
 
 module.exports = router;

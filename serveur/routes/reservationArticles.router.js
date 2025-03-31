@@ -1,19 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const reservationArticleController = require("../controllers/reservationArticle.controller");
+const reservationArticleController = require("../controllers/reservationArticles.controller");
+const sessionMiddleware = require("../middlewares/session.middleware");
 
-router.post("/", reservationArticleController.saveReservationArticle);
-
-
-router.get("/", reservationArticleController.getReservationArticle);
+router.post("/", sessionMiddleware.authVerif, reservationArticleController.saveReservationArticles);
 
 
-router.get("/:uuid", reservationArticleController.getReservationArticleById);
+router.get("/", reservationArticleController.getReservationArticles);
 
 
-router.put("/:uuid", reservationArticleController.updateReservationArticle);
+router.get("/:uuid", sessionMiddleware.authVerif, reservationArticleController.getReservationArticleById);
 
 
-router.delete("/:uuid", reservationArticleController.deleteReservationArticle);
+router.put("/:uuid", sessionMiddleware.authVerif, reservationArticleController.updateReservationArticles);
+
+
+router.delete("/:uuid", sessionMiddleware.authVerif, reservationArticleController.deleteReservationArticles);
 
 module.exports = router;

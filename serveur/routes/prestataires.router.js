@@ -86,7 +86,7 @@ router.get("/", prestataireController.getPrestataires);
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.get("/:uuid", prestataireController.getPrestataireById);
+router.get("/:uuid", sessionMiddleware.authVerif, prestataireController.getPrestataireById);
 
 /**
  * @swagger
@@ -148,7 +148,7 @@ router.get("/:uuid", prestataireController.getPrestataireById);
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.put("/:uuid", sessionMiddleware.checkSession, prestataireController.updatePrestataire);
+router.put("/:uuid", sessionMiddleware.authVerif, prestataireController.updatePrestataire);
 
 
 /**
@@ -175,6 +175,6 @@ router.put("/:uuid", sessionMiddleware.checkSession, prestataireController.updat
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.delete("/:uuid", sessionMiddleware.checkSession, prestataireController.deletePrestataire);
+router.delete("/:uuid", sessionMiddleware.authVerif, prestataireController.deletePrestataire);
 
 module.exports = router;

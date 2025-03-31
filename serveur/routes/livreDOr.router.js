@@ -60,7 +60,7 @@ const sessionMiddleware = require("../middlewares/session.middleware");
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.post("/:prestataire_id", livreDOrController.saveLivreDOr);
+router.post("/:prestataire_id", sessionMiddleware.authVerif, livreDOrController.saveLivreDOr);
 
 /**
  * @swagger
@@ -101,7 +101,7 @@ router.get("/", livreDOrController.getAllLivreDOr);
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.get("/:prestataire_id", livreDOrController.getLivreDOrById);
+router.get("/:prestataire_id", sessionMiddleware.authVerif, livreDOrController.getLivreDOrById);
 
 /**
  * @swagger
@@ -126,6 +126,6 @@ router.get("/:prestataire_id", livreDOrController.getLivreDOrById);
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.delete("/:id", livreDOrController.deleteCommentaire);
+router.delete("/:id", sessionMiddleware.authVerif, livreDOrController.deleteCommentaire);
 
 module.exports = router;

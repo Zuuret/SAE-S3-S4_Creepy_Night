@@ -5,6 +5,7 @@ const sessionMiddleware = require("../middlewares/session.middleware");
 const router = express.Router();
 
 router.get("/", emplacementController.getEmplacement);
-router.put("/", sessionMiddleware.checkSession, emplacementController.updateEmplacement);
+
+router.put("/", sessionMiddleware.authVerif, emplacementController.updateEmplacement);
 
 module.exports = router;

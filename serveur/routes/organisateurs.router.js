@@ -11,12 +11,12 @@ router.post("/", organisateursController.saveOrganisateur);
 router.get("/", organisateursController.getOrganisateurs);
 
 
-router.get("/:uuid", organisateursController.getOrganisateurById);
+router.get("/:uuid", sessionMiddleware.authVerif, organisateursController.getOrganisateurById);
 
 
-router.put("/:uuid", sessionMiddleware.checkSession, organisateursController.updateOrganisateur);
+router.put("/:uuid", sessionMiddleware.authVerif, sessionMiddleware.checkSession, organisateursController.updateOrganisateur);
 
 
-router.delete("/:uuid", sessionMiddleware.checkSession, organisateursController.deleteOrganisateur);
+router.delete("/:uuid", sessionMiddleware.authVerif, sessionMiddleware.checkSession, organisateursController.deleteOrganisateur);
 
 module.exports = router;

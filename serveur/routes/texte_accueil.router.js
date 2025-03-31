@@ -5,6 +5,7 @@ const sessionMiddleware = require("../middlewares/session.middleware");
 const router = express.Router();
 
 router.get("/", textController.getTexteAccueil);
-router.put("/", sessionMiddleware.checkSession, textController.updateTexteAccueil);
+
+router.put("/", sessionMiddleware.authVerif, textController.updateTexteAccueil);
 
 module.exports = router;
