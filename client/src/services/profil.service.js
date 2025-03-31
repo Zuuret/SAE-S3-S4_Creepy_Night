@@ -35,11 +35,11 @@ async function loginSiteUtilisateurFromAPI(data){
 }
 
 async function loginSiteOrganisateurFromAPI(data){
-    return  postRequest('login/orga/', data, 'LOGINPRESTA')
+    return  postRequest('login/orga/', data, 'LOGINORGA')
 }
 
 async function loginSitePrestataireFromAPI(data){
-    return  postRequest('login/presta/', data, 'LOGINORGA')
+    return  postRequest('login/presta/', data, 'LOGINPRESTA')
 }
 
 async function getAllPrestataireFromAPI() {
