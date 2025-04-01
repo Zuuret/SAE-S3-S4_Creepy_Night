@@ -5,9 +5,6 @@ exports.consulterHistorique = async (req, res) => {
 
     try {
         const transactions = await transactionsService.getHistoriqueTransactions(utilisateurId);
-        if (transactions.length === 0) {
-            return res.status(404).send({ error: "Aucune transaction trouvée pour cet utilisateur." });
-        }
         res.status(200).send({ data: transactions });
     } catch (error) {
         console.error(error);

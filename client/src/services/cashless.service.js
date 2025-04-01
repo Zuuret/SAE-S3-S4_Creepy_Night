@@ -1,16 +1,8 @@
 import LocalSource from "@/datasource/controller";
-import {getRequest} from "@/services/axios.service";
-// , putRequest
+import {getRequest, postRequest, putRequest} from "@/services/axios.service";
+
 async function getAllTransactionsFromLocalSource(){
     return LocalSource.getAllTransactions();
-}
-
-async function updateFundsToLocalSource(data){
-    return LocalSource.updateFunds(data);
-}
-
-async function checkBankCardFromLocalSource(data) {
-    return LocalSource.validerPaiementBancaire(data);
 }
 
 async function getAllTransactions() {
@@ -23,20 +15,28 @@ async function getAllTransactions() {
     return response;
 }
 
+async function updateFundsFromAPI(data){
+    return await putRequest("cashless/updateFunds", data);
+}
+
 async function updateFunds(data) {
     let response;
     try {
-        response = await updateFundsToLocalSource(data);
+        response = await updateFundsFromAPI(data);
     } catch (err) {
         response = { error: 1, status: 404, data: 'erreur réseau, impossible de mettre à jour le solde' };
     }
     return response;
 }
 
+async function checkBankCardFromAPI(data) {
+    return await postRequest("cashless/checkBankCard", data);
+}
+
 async function checkBankCard(data) {
     let response;
     try {
-        response = await checkBankCardFromLocalSource(data);
+        response = await checkBankCardFromAPI(data);
     } catch (err) {
         response = { error: 1, status: 404, data: 'erreur réseau, impossible de vérifier le compte bancaire' };
     }

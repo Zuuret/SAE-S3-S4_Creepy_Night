@@ -1299,6 +1299,9 @@ VALUES ('11111111-1111-1111-1111-111111111111', 'Menu Whopper',
         18.99, 10,
         'figurine_Garfield.png');
 
+INSERT INTO coordonnees_bancaire (nom, numero_carte, date_expiration, cvv)
+VALUES ('Doe', '123456789ABCDEFG', '11/31', '484');
+
 INSERT INTO texte_accueil (id, titre, contenu) VALUES (
   1,
   'Bienvenue au Festival de l’Horreur',

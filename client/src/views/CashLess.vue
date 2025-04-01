@@ -270,7 +270,7 @@ export default {
 
 .amount {
   font-size: 1.5rem;
-  color: #ff0000;
+  color: #ffffff;
 }
 
 .ticket-info {

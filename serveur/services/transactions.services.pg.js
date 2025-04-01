@@ -7,7 +7,7 @@ async function getHistoriqueTransactions(utilisateurId) {
     //console.log(utilisateurId)
     try {
         const query = format(`
-                    SELECT t.id, 
+                    SELECT DISTINCT t.id, 
                            t.date, 
                            t.montant, 
                            t.details,
