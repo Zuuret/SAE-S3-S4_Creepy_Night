@@ -99,3 +99,53 @@ exports.deletePrestataire = async (req, res) => {
         return res.status(500).json({ message: 'Erreur interne du serveur' });
     }
 };
+
+exports.updateDescription = async (req, res) => {
+    const uuid = req.params.uuid;
+    const description = req.body.description;
+    const resultat = await prestataireService.updateDescriptionPrestataire(uuid, description);
+    if (resultat) {
+        return res.status(500).send({data :"ERREUR INTERNE", error: 1});
+    }
+    return res.status(200).send({data : resultat, error: 0});
+};
+
+exports.updateSociete = async (req, res) => {
+    const uuid = req.params.uuid;
+    const societe = req.body.societe;
+    const resultat = await prestataireService.updateSocietePrestataire(uuid, societe);
+    if (resultat) {
+        return res.status(500).send({data :"ERREUR INTERNE", error: 1});
+    }
+    return res.status(200).send({data : resultat, error: 0});
+};
+
+exports.updateTheme = async (req, res) => {
+    const uuid = req.params.uuid;
+    const theme = req.body.theme;
+    const resultat = await prestataireService.updateThemePrestataire(uuid, theme);
+    if (resultat) {
+        return res.status(500).send({data :"ERREUR INTERNE", error: 1});
+    }
+    return res.status(200).send({data : resultat, error: 0});
+};
+
+exports.updateAdresse = async (req, res) => {
+    const uuid = req.params.uuid;
+    const adresse = req.body.adresse;
+    const resultat = await prestataireService.updateAdressePrestataire(uuid, adresse);
+    if (resultat) {
+        return res.status(500).send({data :"ERREUR INTERNE", error: 1});
+    }
+    return res.status(200).send({data : resultat, error: 0});
+};
+
+exports.updateImage = async (req, res) => {
+    const uuid = req.params.uuid;
+    const background = req.body.background;
+    const resultat = await prestataireService.updateAdressePrestataire(uuid, background);
+    if (resultat) {
+        return res.status(500).send({data :"ERREUR INTERNE", error: 1});
+    }
+    return res.status(200).send({data : resultat, error: 0});
+};
