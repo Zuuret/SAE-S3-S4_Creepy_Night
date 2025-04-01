@@ -59,7 +59,7 @@ async function getArticleById(idArticle) {
 }
 
 async function getAllArticleFromAPI() {
-    return await getRequest(`articles`);
+    return await getRequest(`articles/`);
 }
 
 async function getAllArticle() {
