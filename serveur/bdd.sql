@@ -969,10 +969,10 @@ VALUES
 ('icone_secours.png'),
 ('icone_expo.png'),
 ('icone_cinema.png'),
-('icone_baltrouille.png'),
+('icone_activites.png'),
 ('icone_accueil.png'),
 ('icone_cashless.png'),
-('icone_burgerking.png');
+('icone_restaurants.png');
 
 
 INSERT INTO Emplacement (nom, coord_x, coord_y, prestataire_id, icone_id) 
