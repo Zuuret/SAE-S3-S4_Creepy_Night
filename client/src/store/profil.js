@@ -296,7 +296,7 @@ export default ({
             console.log("Mise à jour du solde de l'utilisateur");
             let response = await CashLessService.updateFunds(data);
             if (response.error === 0) {
-                commit('updateSoldeUtilisateur', response.data);
+                commit('updateSoldeUtilisateur', response.data.newSolde);
                 commit('updateErrorMessage', '');
                 return { success: true };
             } else {

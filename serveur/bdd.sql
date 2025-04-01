@@ -969,10 +969,10 @@ VALUES
 ('icone_secours.png'),
 ('icone_expo.png'),
 ('icone_cinema.png'),
-('icone_baltrouille.png'),
+('icone_activites.png'),
 ('icone_accueil.png'),
 ('icone_cashless.png'),
-('icone_burgerking.png');
+('icone_restaurants.png');
 
 
 INSERT INTO Emplacement (nom, coord_x, coord_y, prestataire_id, icone_id) 
@@ -1298,6 +1298,9 @@ VALUES ('11111111-1111-1111-1111-111111111111', 'Menu Whopper',
         'Cette figurine va vous glasser le sang attention a ne pas croiser son regard',
         18.99, 10,
         'figurine_Garfield.png');
+
+INSERT INTO coordonnees_bancaire (nom, numero_carte, date_expiration, cvv)
+VALUES ('Doe', '123456789ABCDEFG', '11/31', '484');
 
 INSERT INTO texte_accueil (id, titre, contenu) VALUES (
   1,

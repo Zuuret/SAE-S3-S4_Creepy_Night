@@ -44,8 +44,8 @@
           <button class="refund-button" @click="openModal('Remboursement')">Remboursement</button>
         </div>
         <div class="ticket-info">
-          <img src="@/assets/qr.png" alt="QR Code" class="qr-code-image" />
-          <p>N° de billet : {{ utilisateurConnecte.numCashless }}</p>
+          <vue-qr :text="utilisateurConnecte.num_cashless" :size="200"></vue-qr>
+          <p>N° de billet : {{ utilisateurConnecte.num_cashless }}</p>
         </div>
       </div>
       <div class="transactions">
@@ -77,6 +77,7 @@
 
 <script>
 import NavBar from "@/components/NavBar.vue";
+import VueQr from "vue-qr";
 import { mapState, mapActions } from "vuex";
 
 export default {
@@ -90,7 +91,7 @@ export default {
       transactionType: '',
     };
   },
-  components: { NavBar },
+  components: { VueQr, NavBar },
   computed: {
     ...mapState('CashLessStore',['transactions','transactionsUser']),
     ...mapState('ProfilStore',['utilisateurConnecte']),
@@ -99,7 +100,8 @@ export default {
         ...tx,
         montant: Number(tx.montant) || 0,
       }));
-    },soldeAffiche() {
+    },
+    soldeAffiche() {
       const solde = this.utilisateurConnecte?.solde || 0;
       return Number(solde);
     },
@@ -268,7 +270,7 @@ export default {
 
 .amount {
   font-size: 1.5rem;
-  color: #ff0000;
+  color: #ffffff;
 }
 
 .ticket-info {
