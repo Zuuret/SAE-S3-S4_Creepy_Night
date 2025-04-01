@@ -61,6 +61,11 @@
           <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_description" />
         </div>
         <div v-else class="active_edition_description">
+          <section class="editor-section">
+            <input v-model="editableDescription" id="description" type="text" />
+            <label for="contenu">Contenu :</label>
+            <vue-editor v-model="contenu" />
+          </section>
           <editor
               ref="tinymceEditorDescription"
               api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
@@ -527,12 +532,14 @@
 <script>
 /* global tinymce */
 import {mapActions, mapGetters, mapState} from "vuex";
+import { VueEditor } from "vue2-editor";
 import Editor from "@tinymce/tinymce-vue";
 
 export default {
   name: "HomePrestataire",
   components: {
-    'editor': Editor
+    'editor': Editor,
+    VueEditor
   },
   data() {
     return {
