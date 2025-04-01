@@ -57,14 +57,15 @@ import OrgaPrestataires from "@/views/OrgaPrestataires.vue";
 import OrgaDemandes from "@/views/OrgaDemandes.vue"
 import OrgaProfil from "@/views/OrgaProfil.vue"
 import OrgaCarte from '@/views/OrgaCarte.vue';
-
 import MesReservations from "@/views/MesReservations.vue"
 import OrgaTexteAccueil from '@/views/OrgaTexteAccueil.vue';
+
+import store from "@/store/profil";
 
 Vue.use(VueRouter);
 
 const routes = [
-  { path: '/', name: 'home', component: HomeView },
+  { path: '*', name: 'home', component: HomeView },
   { path: '/creation-profil', name: 'creationProfil', component: CreationProfil },
   { path: '/connexion', name: 'PageConnexion', component: PageConnexion },
   { path: '/profil', name: 'profil', component: MonProfil },
@@ -91,8 +92,8 @@ const routes = [
   { path: '/cinepeur/:id', name: 'reservationCinepeur', component: ReservationCinepeurConfirmation },
   { path: '/cinepeur/:id/validate', name: 'validationCinepeur', component: ReservationCinepeurValidation},
   { path: '/uberflippe', name: 'uberFlippe', component: UberFlippe},
-  { path: '/home-organisateur', name: 'HomeOrganisateur', component: HomeOrganisateur },
-  { path: '/home-prestataire', name: 'HomePrestataire', component: HomePrestataire },
+  { path: '/home-organisateur', name: 'HomeOrganisateur', component: HomeOrganisateur, meta: { role: "organisateur"} },
+  { path: '/home-prestataire', name: 'HomePrestataire', component: HomePrestataire, meta: { role: "prestataire"} },
   { path: '/cashless/paiement/', name: 'PaymentFormCashLess', component: PaiementCashLess },
   { path: '/prestataire', name: 'Prestataire', component: PrestatairePublic },
   { path: '/prestataire/:id', name: 'PrestataireSpecifique', component: PrestataireSpecifique },
@@ -117,5 +118,24 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+function checkAccess(to) {
+  if (to.meta.role && !store.state.utilisateurConnecte){
+    return false;
+  }
+  return !((to.meta.role) && (to.meta.role !== store.state.utilisateurConnecte.role));
+}
+
+router.beforeEach((to, from, next) => {
+if (checkAccess(to)) {
+    console.log('true')
+    return next()
+  }
+else {
+    console.log('null')
+    return next('/');
+  }
+});
+
 
 export default router
