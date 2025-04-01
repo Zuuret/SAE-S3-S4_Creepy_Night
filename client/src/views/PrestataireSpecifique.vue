@@ -39,7 +39,8 @@ export default {
   },
   async mounted() {
     const prestataireId = this.$route.params.id;
-    await this.getPrestataireById(prestataireId)
+    await this.getPrestataireById(prestataireId);
+    window.scrollTo(0, 0);
   }
 }
 </script>

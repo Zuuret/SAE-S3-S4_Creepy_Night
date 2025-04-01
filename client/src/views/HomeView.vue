@@ -640,7 +640,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 40px 20px;
   position: relative;
   scroll-margin-top: 100px;
 }
