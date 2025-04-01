@@ -564,15 +564,15 @@ export default {
     };
   },
   computed: {
-    ...mapState("PrestataireStore", ["articles"]),
+    ...mapState("PrestataireStore", ["articlesId"]),
     ...mapGetters("ProfilStore", ["utilisateurConnecte"]),
     accesPermission() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "prestataire";
     },
   },
   methods: {
-    ...mapActions('ProfilStore',['updateDescriptionPrestataire','updateSocietePrestataire', 'updateThemePrestataire', 'updateAdressePrestataire', 'updateImagePrestataire', 'updateImage2Prestataire', 'updateLogoPrestataire']),
-    ...mapActions('PrestataireStore',['getAllArticle', 'setPrestataireArticle', 'delPrestataireArticle']),
+    ...mapActions('ProfilStore',['updateDescriptionPrestataireFromAPI','updateSocietePrestataireFromAPI', 'updateThemePrestataireFromAPI', 'updateAdressePrestataireFromAPI', 'updateImagePrestataireFromAPI', 'updateImage2PrestataireFromAPI', 'updateLogoPrestataireFromAPI']),
+    ...mapActions('PrestataireStore',['getAllArticlesById', 'setPrestataireArticle', 'delPrestataireArticle']),
     editerDescription() {
       this.isEditingDescription = true;
       this.editableDescription = this.utilisateurConnecte?.description || "";
@@ -607,7 +607,7 @@ export default {
       if (editorInstance) {
         let nouvelleDescription = editorInstance.getContent({ format: 'text' }).trim();
         if (id && nouvelleDescription) {
-          this.updateDescriptionPrestataire({ id, nouvelleDescription });
+          this.updateDescriptionPrestataireFromAPI({ id, nouvelleDescription });
         }
       }
       this.isEditingDescription = false;
@@ -618,7 +618,7 @@ export default {
       if (editorInstance) {
         let nouvelleSociete = editorInstance.getContent({ format: 'text' }).trim();
         if (id && nouvelleSociete) {
-          this.updateSocietePrestataire({ id, nouvelleSociete });
+          this.updateSocietePrestataireFromAPI({ id, nouvelleSociete });
         }
       }
       this.isEditingSociete = false;
@@ -629,7 +629,7 @@ export default {
       if (editorInstance) {
         let nouveauTheme = editorInstance.getContent({ format: 'text' }).trim();
         if (id && nouveauTheme) {
-          this.updateThemePrestataire({ id, nouveauTheme });
+          this.updateThemePrestataireFromAPI({ id, nouveauTheme });
         }
       }
       this.isEditingTheme = false;
@@ -640,7 +640,7 @@ export default {
       if (editorInstance) {
         let nouvelleImage = editorInstance.getContent().match(/src="([^"]+)"/)[1];
         if (id && nouvelleImage) {
-          this.updateImagePrestataire({ id, nouvelleImage });
+          this.updateImagePrestataireFromAPI({ id, nouvelleImage });
         }
       }
       this.isEditingImage = false;
@@ -651,7 +651,7 @@ export default {
       if (editorInstance) {
         let nouvelleImage2 = editorInstance.getContent().match(/src="([^"]+)"/)[1];
         if (id && nouvelleImage2) {
-          this.updateImage2Prestataire({ id, nouvelleImage2 });
+          this.updateImage2PrestataireFromAPI({ id, nouvelleImage2 });
         }
       }
       this.isEditingImage2 = false;
@@ -662,7 +662,7 @@ export default {
       if (editorInstance) {
         let nouveauLogo = editorInstance.getContent().match(/src="([^"]+)"/)[1];
         if (id && nouveauLogo) {
-          this.updateLogoPrestataire({ id, nouveauLogo });
+          this.updateLogoPrestataireFromAPI({ id, nouveauLogo });
         }
       }
       this.isEditingLogo = false;
@@ -673,7 +673,7 @@ export default {
       if (editorInstance) {
         let nouvelleAdresse = editorInstance.getContent({ format: 'text' }).trim();
         if (id && nouvelleAdresse) {
-          this.updateAdressePrestataire({ id, nouvelleAdresse });
+          this.updateAdressePrestataireFromAPI({ id, nouvelleAdresse });
         }
       }
       this.isEditingAdresse = false;

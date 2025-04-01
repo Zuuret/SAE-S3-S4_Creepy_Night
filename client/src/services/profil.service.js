@@ -2,6 +2,8 @@ import LocalSource from "@/datasource/controller";
 import { getRequest } from "./axios.service";
 import { deleteRequest } from "./axios.service";
 import { postRequest } from "./axios.service";
+import { patchRequest } from "@/services/axios.service";
+import { postFileRequest } from "@/services/axios.service";
 
 async function ajoutUtilisateurFromLocalSource(data){
     return LocalSource.ajoutUtilisateur(data)
@@ -86,12 +88,47 @@ async function getPrestataireByIdFromAPI(uuid) {
     return await getRequest(`prestataires/${uuid}`);
 }
 
+async function updateDescriptionPrestataireFromAPI(id, nouvelleDescription) {
+    return await patchRequest(`prestataires/${id}/description`, { description: nouvelleDescription }, "updateDescriptionPrestataire");
+}
+
+async function updateSocietePrestataireFromAPI(id, nouvelleSociete) {
+    return await patchRequest(`prestataires/${id}/societe`, { societe: nouvelleSociete }, "updateSocietePrestataire");
+}
+
+async function updateThemePrestataireFromAPI(id, nouveauTheme) {
+    return await patchRequest(`prestataires/${id}/theme`, { theme: nouveauTheme }, "updateThemePrestataire");
+}
+
+async function updateAdressePrestataireFromAPI(id, nouvelleAdresse) {
+    return await patchRequest(`prestataires/${id}/adresse`, { adresse: nouvelleAdresse }, "updateAdressePrestataire");
+}
+
+async function updateImagePrestataireFromAPI(id, nouvelleImage) {
+    const formData = new FormData();
+    formData.append("image", nouvelleImage);
+    return await postFileRequest(`prestataires/${id}/image`, formData, "updateImagePrestataire");
+}
+
+async function updateImage2PrestataireFromAPI(id, nouvelleImage2) {
+    const formData = new FormData();
+    formData.append("image2", nouvelleImage2);
+    return await postFileRequest(`prestataires/${id}/image2`, formData, "updateImage2Prestataire");
+}
+
+async function updateLogoPrestataireFromAPI(id, nouveauLogo) {
+    const formData = new FormData();
+    formData.append("logo", nouveauLogo);
+    return await postFileRequest(`prestataires/${id}/logo`, formData, "updateLogoPrestataire");
+}
+
 async function getUserbyIdFromLocalSource(idUser){
     return LocalSource.getUserById(idUser)
 }
 async function getOrganisateurbyIdFromLocalSource(idOrganisateur){
     return LocalSource.getOrganisateurById(idOrganisateur)
 }
+/*
 async function updateDescriptionPrestataireFromLocalSource(id, nouvelleDescription){
     return LocalSource.updateDescriptionPrestataire(id, nouvelleDescription)
 }
@@ -112,7 +149,7 @@ async function updateImage2PrestataireFromLocalSource(id, nouvelleImage2){
 }
 async function updateLogoPrestataireFromLocalSource(id, nouveauLogo){
     return LocalSource.updateLogoPrestataire(id, nouveauLogo)
-}
+}*/
 
 async function getAllPrestataireFromLocalSource() {
     return LocalSource.getAllPrestataire()
@@ -246,7 +283,7 @@ async function getOrganisateurbyId(idPrestataire){
     }
     return response
 }
-
+/*
 async function updateDescriptionPrestataire(id, nouvelleDescription){
     let response;
     try {
@@ -315,7 +352,7 @@ async function updateLogoPrestataire(id, nouveauLogo){
         response = {error: 1, status: 404, data: "erreur réseau, impossible de modifier le logo du prestataire" }
     }
     return response
-}
+}*/
 
 export async function getAllUtilisateurs() {
     try{
@@ -461,11 +498,18 @@ export default {
     getDemandesPrestataires,
     getUserbyId,
     getOrganisateurbyId,
-    updateDescriptionPrestataire,
+    /*updateDescriptionPrestataire,
     updateSocietePrestataire,
     updateThemePrestataire,
     updateAdressePrestataire,
     updateImagePrestataire,
     updateImage2Prestataire,
-    updateLogoPrestataire
+    updateLogoPrestataire*/
+    updateDescriptionPrestataireFromAPI,
+    updateSocietePrestataireFromAPI,
+    updateThemePrestataireFromAPI,
+    updateAdressePrestataireFromAPI,
+    updateImagePrestataireFromAPI,
+    updateImage2PrestataireFromAPI,
+    updateLogoPrestataireFromAPI
 }
