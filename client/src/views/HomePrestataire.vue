@@ -3,8 +3,7 @@
     <h1>Bienvenue {{ utilisateurConnecte?.societe }}</h1>
 
     <h2>Gestion des articles</h2>
-    <div v-for="(article,index) in articles" :key="index">
-      <div v-if="utilisateurConnecte.id === articles[index].prestataireId">
+    <div v-for="(article,index) in articlesId" :key="index">
         <tr>
           <td>
             {{ article.nom }}
@@ -32,7 +31,6 @@
             </button>
           </td>
         </tr>
-      </div>
     </div>
     <button @click="openModal(undefined)">
       <h5>Ajouter</h5>
@@ -572,7 +570,7 @@ export default {
   },
   methods: {
     ...mapActions('ProfilStore',['updateDescriptionPrestataireFromAPI','updateSocietePrestataireFromAPI', 'updateThemePrestataireFromAPI', 'updateAdressePrestataireFromAPI', 'updateImagePrestataireFromAPI', 'updateImage2PrestataireFromAPI', 'updateLogoPrestataireFromAPI']),
-    ...mapActions('PrestataireStore',['getAllArticlesById', 'setPrestataireArticle', 'delPrestataireArticle']),
+    ...mapActions('PrestataireStore',['getAllArticlesById', 'setPrestataireArticle', 'putPrestataireArticle', 'delPrestataireArticle']),
     editerDescription() {
       this.isEditingDescription = true;
       this.editableDescription = this.utilisateurConnecte?.description || "";
@@ -754,17 +752,30 @@ export default {
     },
     acceptArticle(idProduit) {
       if (this.nom !== '' && this.description !== '' && this.prix !== '' && this.stock !== '') {
-        let data = {
-          id: idProduit,
-          prestataireId: this.utilisateurConnecte.id,
-          nom: this.nom,
-          description: this.description,
-          prix: this.prix,
-          stock: this.stock,
-          image: this.image,
+        if (this.modalButton === 'Modifier') {
+          let data = {
+            id: idProduit,
+            prestataireId: this.utilisateurConnecte.id,
+            nom: this.nom,
+            description: this.description,
+            prix: this.prix,
+            stock: this.stock,
+            image: this.image,
+          }
+          this.putPrestataireArticle(data);
+       }
+        if (this.modalButton === 'Ajouter') {
+          let data = {
+            prestataireId: this.utilisateurConnecte.id,
+            nom: this.nom,
+            description: this.description,
+            prix: this.prix,
+            stock: this.stock,
+            image: this.image,
+          }
+          this.setPrestataireArticle(data);
         }
         this.showModal = false;
-        this.setPrestataireArticle(data);
       }
       else{console.log('Aucun argument donné')}
     },
@@ -773,7 +784,7 @@ export default {
     },
   },
   mounted() {
-    this.getAllArticle();
+    this.getAllArticlesById(this.utilisateurConnecte.id);
     if (!this.utilisateurConnecte) {
       this.$router.push("/");
     } else if (!this.accesPermission) {
