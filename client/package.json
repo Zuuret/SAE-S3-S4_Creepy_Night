@@ -12,6 +12,8 @@
     "aos": "^2.3.4",
     "axios": "^1.8.3",
     "browserify-zlib": "^0.2.0",
+    "chart": "^0.1.2",
+    "chart.js": "^4.4.8",
     "core-js": "^3.8.3",
     "crypto-browserify": "^3.12.1",
     "express": "^4.21.1",
