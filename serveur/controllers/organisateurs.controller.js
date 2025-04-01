@@ -10,7 +10,7 @@ exports.saveOrganisateur = async (req,res) => {
     const prenom = req.body.prenom;
     const email = req.body.email;
     const tel = req.body.tel;
-    const password = req.body.password;
+    const password = bcrypt.hashSync(req.body.password, 8);
     const resultat = await organisateursService.insertOrganisateur(uuid, nom, prenom, email, tel, password);
     if (resultat) {
         return res.status(500).send("ERREUR INTERNE");

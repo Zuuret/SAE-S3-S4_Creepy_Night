@@ -10,7 +10,7 @@ exports.saveUser = async (req,res) => {
     const firstname = req.body.firstname;
     const birthdate = req.body.birthdate;
     const email = req.body.email;
-    const password = bcrypt.hashSync(req.body.password);
+    const password = bcrypt.hashSync(req.body.password, 8);
     const solde = 0;
     const num_cashless = uuidv4();
     const qr_code = 'null';
