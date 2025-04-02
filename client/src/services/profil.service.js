@@ -88,8 +88,9 @@ async function getPrestataireByIdFromAPI(uuid) {
     return await getRequest(`prestataires/${uuid}`);
 }
 
-async function updateDescriptionPrestataireFromAPI(id, nouvelleDescription) {
-    return await patchRequest(`prestataires/${id}/description`, { description: nouvelleDescription }, "updateDescriptionPrestataire");
+async function updateDescriptionPrestataireFromAPI(uuid, nouvelleDescription) {
+    console.log("Nouvelle description depuis service : ", nouvelleDescription)
+    return await patchRequest(`prestataires/${uuid}/description`, { description: nouvelleDescription }, "updateDescriptionPrestataire");
 }
 
 async function updateSocietePrestataireFromAPI(id, nouvelleSociete) {

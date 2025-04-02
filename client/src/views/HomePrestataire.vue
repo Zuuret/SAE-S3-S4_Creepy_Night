@@ -3,9 +3,7 @@
     <h1>Bienvenue {{ utilisateurConnecte?.societe }}</h1>
 
     <h2>Gestion des articles</h2>
-    <div v-for="(article, index) in articles" :key="index">
-  <div v-if="utilisateurConnecte.id === article.prestataireId">
-
+    <div v-for="(article,index) in articlesId" :key="index">
         <tr>
           <td>
             {{ article.nom }}
@@ -33,7 +31,6 @@
             </button>
           </td>
         </tr>
-      </div>
     </div>
     <button @click="openModal(undefined)">
       <h5>Ajouter</h5>
@@ -51,7 +48,7 @@
         <input v-model="stock" min="0" step="0.01"/><br>
         <label>Image :</label>
         <input v-model="image" min="0" step="0.01"/><br>
-        <button @click="acceptArticle(id)">{{ modalButton }}</button>
+        <button @click="acceptArticle()">{{ modalButton }}</button>
         <button @click="closeModal">Annuler</button>
       </div>
     </div>
@@ -64,23 +61,8 @@
           <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_description" />
         </div>
         <div v-else class="active_edition_description">
-          <editor
-              ref="tinymceEditorDescription"
-              api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
-              v-model="editableDescription"
-              :init="{
-            height: 200,
-            menubar: false,
-            toolbar: 'undo redo',
-            plugins: 'link lists code image',
-            base_url: '/tinymce',
-            setup: (editor) => {
-              editor.on('init', () => {
-                editor.setContent(this.editableDescription);
-              });
-            }
-          }"
-          />
+          <label for="description">Description :</label>
+          <vue-editor v-model="editableDescription" />
           <div class="action_edition_description">
             <button @click="sauvegarderDescription" class="sauvegarde_btn">Enregistrer</button>
             <button @click="finEditionDescription" class="finEdition_btn">Annuler</button>
@@ -88,7 +70,6 @@
         </div>
       </div>
     </div>
-
     <div v-else>
       <div class="desactive_edition_description">
         <div v-if="!isEditingDescription" @click="editerDescription" class="affiche_description">
@@ -96,23 +77,8 @@
           <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_description" />
         </div>
         <div v-else class="active_edition_description">
-          <editor
-              ref="tinymceEditorDescription"
-              api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
-              v-model="editableDescription"
-              :init="{
-            height: 200,
-            menubar: false,
-            toolbar: 'undo redo',
-            plugins: 'link lists code image',
-            base_url: '/tinymce',
-            setup: (editor) => {
-              editor.on('init', () => {
-                editor.setContent(this.editableDescription);
-              });
-            }
-          }"
-          />
+          <label for="description">Description :</label>
+          <vue-editor v-model="editableDescription" />
           <div class="action_edition_description">
             <button @click="sauvegarderDescription" class="sauvegarde_btn">Enregistrer</button>
             <button @click="finEditionDescription" class="finEdition_btn">Annuler</button>
@@ -129,23 +95,8 @@
           <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_societe" />
         </div>
         <div v-else class="active_edition_societe">
-          <editor
-              ref="tinymceEditorSociete"
-              api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
-              v-model="editableSociete"
-              :init="{
-            height: 200,
-            menubar: false,
-            toolbar: 'undo redo',
-            plugins: 'link lists code image',
-            base_url: '/tinymce',
-            setup: (editor) => {
-              editor.on('init', () => {
-                editor.setContent(this.editableSociete);
-              });
-            }
-          }"
-          />
+          <label for="societe">Société :</label>
+          <vue-editor v-model="editableSociete" />
           <div class="action_edition_societe">
             <button @click="sauvegarderSociete" class="sauvegarde_btn">Enregistrer</button>
             <button @click="finEditionSociete" class="finEdition_btn">Annuler</button>
@@ -153,7 +104,6 @@
         </div>
       </div>
     </div>
-
     <div v-else>
       <div class="desactive_edition_societe">
         <div v-if="!isEditingSociete" @click="editerSociete" class="affiche_societe">
@@ -161,23 +111,8 @@
           <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_societe" />
         </div>
         <div v-else class="active_edition_societe">
-          <editor
-              ref="tinymceEditorSociete"
-              api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
-              v-model="editableSociete"
-              :init="{
-            height: 200,
-            menubar: false,
-            toolbar: 'undo redo',
-            plugins: 'link lists code image',
-            base_url: '/tinymce',
-            setup: (editor) => {
-              editor.on('init', () => {
-                editor.setContent(this.editableSociete);
-              });
-            }
-          }"
-          />
+          <label for="societe">Société :</label>
+          <vue-editor v-model="editableSociete" />
           <div class="action_edition_societe">
             <button @click="sauvegarderSociete" class="sauvegarde_btn">Enregistrer</button>
             <button @click="finEditionSociete" class="finEdition_btn">Annuler</button>
@@ -194,23 +129,8 @@
           <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_theme" />
         </div>
         <div v-else class="active_edition_theme">
-          <editor
-              ref="tinymceEditorTheme"
-              api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
-              v-model="themeEditable"
-              :init="{
-            height: 200,
-            menubar: false,
-            toolbar: 'undo redo',
-            plugins: 'link lists code image',
-            base_url: '/tinymce',
-            setup: (editor) => {
-              editor.on('init', () => {
-                editor.setContent(this.themeEditable);
-              });
-            }
-          }"
-          />
+          <label for="contenu">Thème :</label>
+          <vue-editor v-model="themeEditable" />
           <div class="action_edition">
             <button @click="sauvegarderTheme" class="sauvegarde_btn">Enregistrer</button>
             <button @click="finEditionTheme" class="finEdition_btn">Annuler</button>
@@ -218,7 +138,6 @@
         </div>
       </div>
     </div>
-
     <div v-else>
       <div class="desactive_edition_theme">
         <div v-if="!isEditingTheme" @click="editerTheme" class="affiche_theme">
@@ -226,23 +145,8 @@
           <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_theme" />
         </div>
         <div v-else class="active_edition_theme">
-          <editor
-              ref="tinymceEditorTheme"
-              api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
-              v-model="themeEditable"
-              :init="{
-            height: 200,
-            menubar: false,
-            toolbar: 'undo redo',
-            plugins: 'link lists code image',
-            base_url: '/tinymce',
-            setup: (editor) => {
-              editor.on('init', () => {
-                editor.setContent(this.themeEditable);
-              });
-            }
-          }"
-          />
+          <label for="theme">Thème :</label>
+          <vue-editor v-model="themeEditable" />
           <div class="action_edition">
             <button @click="sauvegarderTheme" class="sauvegarde_btn">Enregistrer</button>
             <button @click="finEditionTheme" class="finEdition_btn">Annuler</button>
@@ -259,23 +163,8 @@
           <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_adresse" />
         </div>
         <div v-else class="active_edition_adresse">
-          <editor
-              ref="tinymceEditorAdresse"
-              api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
-              v-model="editableAdresse"
-              :init="{
-        height: 200,
-        menubar: false,
-        toolbar: 'undo redo',
-        plugins: 'link lists code image',
-        base_url: '/tinymce',
-        setup: (editor) => {
-          editor.on('init', () => {
-            editor.setContent(this.editableAdresse);
-          });
-        }
-      }"
-          />
+          <label for="contenu">Adresse :</label>
+          <vue-editor v-model="editableAdresse" />
           <div class="action_edition_adresse">
             <button @click="sauvegarderAdresse" class="sauvegarde_btn">Enregistrer</button>
             <button @click="finEditionAdresse" class="finEdition_btn">Annuler</button>
@@ -283,7 +172,6 @@
         </div>
       </div>
     </div>
-
     <div v-else>
       <div class="desactive_edition_adresse">
         <div v-if="!isEditingAdresse" @click="editerAdresse" class="affiche_adresse">
@@ -291,23 +179,8 @@
           <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_adresse" />
         </div>
         <div v-else class="active_edition_adresse">
-          <editor
-              ref="tinymceEditorAdresse"
-              api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
-              v-model="editableAdresse"
-              :init="{
-        height: 200,
-        menubar: false,
-        toolbar: 'undo redo',
-        plugins: 'link lists code image',
-        base_url: '/tinymce',
-        setup: (editor) => {
-          editor.on('init', () => {
-            editor.setContent(this.editableAdresse);
-          });
-        }
-      }"
-          />
+          <label for="contenu">Adresse :</label>
+          <vue-editor v-model="editableAdresse" />
           <div class="action_edition_adresse">
             <button @click="sauvegarderAdresse" class="sauvegarde_btn">Enregistrer</button>
             <button @click="finEditionAdresse" class="finEdition_btn">Annuler</button>
@@ -318,227 +191,139 @@
 
     <h1>Votre Background de slide</h1>
     <div v-if="utilisateurConnecte.background">
-      <div class="background-container" @click="editerImage">
-        <img v-if="!isEditingImage" :src="utilisateurConnecte?.background" :alt="utilisateurConnecte?.title" class="background" />
-        <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="utilisateurConnecte?.background && !isEditingImage"/>
-      </div>
-
-      <div v-if="isEditingImage" class="active_edition_image">
-        <editor
-            ref="tinymceEditorImage"
-            api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
-            v-model="imageEditable"
-            :init="{
-        height: 200,
-        menubar: false,
-        toolbar: 'image',
-        plugins: 'link lists image code',
-        base_url: '/tinymce',
-        setup: (editor) => {
-          editor.on('init', () => {
-            editor.setContent(`<img src='${this.utilisateurConnecte?.background}' alt='Image de fond' />`);
-          });
-        },
-        file_picker_types: 'image',
-        automatic_uploads: true,
-        file_picker_callback: this.filePickerCallback
-      }"
-        />
-        <div class="action_edition">
-          <button @click="sauvegarderImage" class="sauvegarde_btn">Enregistrer</button>
-          <button @click="finEditionImage" class="finEdition_btn">Annuler</button>
+      <div class="background-container">
+        <div v-if="!isEditingImage" @click="editerImage" class="affiche_image">
+          <img :src="require(`@/assets/${utilisateurConnecte.background}`)" alt="background prestataire" class="background"/>
+          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="!isEditingImage" />
+        </div>
+        <div v-else class="active_edition_image">
+          <vue-editor
+              v-model="imageEditable"
+              :editor-options="editorOptions"
+          />
+          <div class="action_edition">
+            <button @click="sauvegarderImage" class="sauvegarde_btn">Enregistrer</button>
+            <button @click="finEditionImage" class="finEdition_btn">Annuler</button>
+          </div>
         </div>
       </div>
     </div>
-
     <div v-else>
-      <div class="background-container" @click="editerImage">
-        <h1 class="background-absent">Veuillez ajouter une image à votre société</h1>
-        <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="utilisateurConnecte?.background && !isEditingImage"/>
-      </div>
-
-      <div v-if="isEditingImage" class="active_edition_image">
-        <editor
-            ref="tinymceEditorImage"
-            api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
-            v-model="imageEditable"
-            :init="{
-        height: 200,
-        menubar: false,
-        toolbar: 'image',
-        plugins: 'link lists image code',
-        base_url: '/tinymce',
-        setup: (editor) => {
-          editor.on('init', () => {
-            editor.setContent(`<img src='${this.utilisateurConnecte?.background}' alt='Image de fond' />`);
-          });
-        },
-        file_picker_types: 'image',
-        automatic_uploads: true,
-        file_picker_callback: this.filePickerCallback
-      }"
-        />
-        <div class="action_edition">
-          <button @click="sauvegarderImage" class="sauvegarde_btn">Enregistrer</button>
-          <button @click="finEditionImage" class="finEdition_btn">Annuler</button>
+      <div class="desactive_edition_image">
+        <div v-if="!isEditingImage" @click="editerImage" class="affiche_image">
+          <h1 class="image-absent">Veuillez ajouter un background à votre société</h1>
+          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_adresse" />
+        </div>
+        <div v-else class="active_edition_image">
+          <label for="image">Background :</label>
+          <vue-editor v-model="imageEditable" />
+          <div class="action_edition_image">
+            <button @click="sauvegarderImage" class="sauvegarde_btn">Enregistrer</button>
+            <button @click="finEditionImage" class="finEdition_btn">Annuler</button>
+          </div>
         </div>
       </div>
     </div>
 
     <h1>Votre Logo</h1>
     <div v-if="utilisateurConnecte.logo">
-      <div class="logo-container" @click="editerLogo">
-        <img v-if="!isEditingLogo" :src="utilisateurConnecte?.logo" :alt="utilisateurConnecte?.societe" class="logo" />
-        <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="utilisateurConnecte?.logo && !isEditingLogo"/>
-      </div>
-
-      <div v-if="isEditingLogo" class="active_edition_logo">
-        <editor
-            ref="tinymceEditorLogo"
-            api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
-            v-model="logoEditable"
-            :init="{
-      height: 200,
-      menubar: false,
-      toolbar: 'image',
-      plugins: 'link lists image code',
-      base_url: '/tinymce',
-      setup: (editor) => {
-        editor.on('init', () => {
-          editor.setContent(`<img src='${this.utilisateurConnecte?.logo}' alt='Logo de fond' />`);
-        });
-      },
-      file_picker_types: 'image',
-      automatic_uploads: true,
-      file_picker_callback: this.filePickerCallback
-    }"
-        />
-        <div class="action_edition">
-          <button @click="sauvegarderLogo" class="sauvegarde_btn">Enregistrer</button>
-          <button @click="finEditionLogo" class="finEdition_btn">Annuler</button>
+      <div class="logo-container">
+        <div v-if="!isEditingLogo" @click="editerLogo" class="affiche_logo">
+          <img :src="require(`@/assets/${utilisateurConnecte.logo}`)" alt="logo prestataire" class="logo"/>
+          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="!isEditingLogo" />
+        </div>
+        <div v-else class="active_edition_logo">
+          <vue-editor
+              v-model="logoEditable"
+              :editor-options="editorOptions"
+          />
+          <div class="action_edition">
+            <button @click="sauvegarderLogo" class="sauvegarde_btn">Enregistrer</button>
+            <button @click="finEditionLogo" class="finEdition_btn">Annuler</button>
+          </div>
         </div>
       </div>
     </div>
-
     <div v-else>
-      <div class="logo-container" @click="editerLogo">
-        <h1 class="logo-absent">Veuillez ajouter un logo à votre société</h1>
-        <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="utilisateurConnecte?.logo && !isEditingLogo"/>
-      </div>
-
-      <div v-if="isEditingLogo" class="active_edition_logo">
-        <editor
-            ref="tinymceEditorLogo"
-            api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
-            v-model="logoEditable"
-            :init="{
-      height: 200,
-      menubar: false,
-      toolbar: 'image',
-      plugins: 'link lists image code',
-      base_url: '/tinymce',
-      setup: (editor) => {
-        editor.on('init', () => {
-          editor.setContent(`<img src='${this.utilisateurConnecte?.logo}' alt='Logo de fond' />`);
-        });
-      },
-      file_picker_types: 'image',
-      automatic_uploads: true,
-      file_picker_callback: this.filePickerCallback
-    }"
-        />
-        <div class="action_edition">
-          <button @click="sauvegarderLogo" class="sauvegarde_btn">Enregistrer</button>
-          <button @click="finEditionLogo" class="finEdition_btn">Annuler</button>
+      <div class="desactive_edition_logo">
+        <div v-if="!isEditingLogo" @click="editerLogo" class="affiche_logo">
+          <h1 class="logo-absent">Veuillez ajouter un logo à votre société</h1>
+          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_adresse" />
+        </div>
+        <div v-else class="active_edition_adresse">
+          <label for="logo">Logo :</label>
+          <vue-editor v-model="logoEditable" />
+          <div class="action_edition_logo">
+            <button @click="sauvegarderLogo" class="sauvegarde_btn">Enregistrer</button>
+            <button @click="finEditionLogo" class="finEdition_btn">Annuler</button>
+          </div>
         </div>
       </div>
     </div>
 
     <h1>Votre Bannière</h1>
     <div v-if="utilisateurConnecte.background2">
-      <div class="background2-container" @click="editerImage2">
-        <img v-if="!isEditingImage2" :src="utilisateurConnecte?.background2" :alt="utilisateurConnecte?.title" class="background2" />
-        <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="utilisateurConnecte?.background && !isEditingImage2"/>
-      </div>
-
-      <div v-if="isEditingImage2" class="active_edition_image2">
-        <editor
-            ref="tinymceEditorImage2"
-            api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
-            v-model="imageEditable2"
-            :init="{
-    height: 200,
-    menubar: false,
-    toolbar: 'image',
-    plugins: 'link lists image code',
-    base_url: '/tinymce',
-    setup: (editor) => {
-      editor.on('init', () => {
-        editor.setContent(`<img src='${this.utilisateurConnecte?.background2}' alt='Image de fond' />`);
-      });
-    },
-    file_picker_types: 'image',
-    automatic_uploads: true,
-    file_picker_callback: this.filePickerCallback
-  }"
-        />
-        <div class="action_edition">
-          <button @click="sauvegarderImage2" class="sauvegarde_btn">Enregistrer</button>
-          <button @click="finEditionImage2" class="finEdition_btn">Annuler</button>
+      <div class="background2-container">
+        <div v-if="!isEditingImage2" @click="editerImage2" class="affiche_image2">
+          <img :src="require(`@/assets/${utilisateurConnecte.background2}`)" alt="background2 prestataire" class="background2"/>
+          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="!isEditingImage2" />
+        </div>
+        <div v-else class="active_edition_image2">
+          <vue-editor
+              v-model="imageEditable2"
+              :editor-options="editorOptions"
+          />
+          <div class="action_edition">
+            <button @click="sauvegarderImage2" class="sauvegarde_btn">Enregistrer</button>
+            <button @click="finEditionImage2" class="finEdition_btn">Annuler</button>
+          </div>
         </div>
       </div>
     </div>
-
     <div v-else>
-      <div class="background2-container" @click="editerImage2">
-        <h1 class="background2-absent">Veuillez ajouter un logo à votre société</h1>
-        <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="utilisateurConnecte?.background && !isEditingImage2"/>
-      </div>
-
-      <div v-if="isEditingImage2" class="active_edition_image2">
-        <editor
-            ref="tinymceEditorImage2"
-            api-key="mls74syw886xnmqv28owgdd35hghbukt85cprqtkhx9sh5r0"
-            v-model="imageEditable2"
-            :init="{
-    height: 200,
-    menubar: false,
-    toolbar: 'image',
-    plugins: 'link lists image code',
-    base_url: '/tinymce',
-    setup: (editor) => {
-      editor.on('init', () => {
-        editor.setContent(`<img src='${this.utilisateurConnecte?.background2}' alt='Image de fond' />`);
-      });
-    },
-    file_picker_types: 'image',
-    automatic_uploads: true,
-    file_picker_callback: this.filePickerCallback
-  }"
-        />
-        <div class="action_edition">
-          <button @click="sauvegarderImage2" class="sauvegarde_btn">Enregistrer</button>
-          <button @click="finEditionImage2" class="finEdition_btn">Annuler</button>
+      <div class="desactive_edition_image2">
+        <div v-if="!isEditingImage2" @click="editerImage2" class="affiche_image2">
+          <h1 class="image2-absent">Veuillez ajouter un background à votre société</h1>
+          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_image2" />
+        </div>
+        <div v-else class="active_edition_image2">
+          <label for="image2">Bannière :</label>
+          <vue-editor v-model="imageEditable2" />
+          <div class="action_edition_image2">
+            <button @click="sauvegarderImage2" class="sauvegarde_btn">Enregistrer</button>
+            <button @click="finEditionImage2" class="finEdition_btn">Annuler</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
   <p v-else class="error">Accès refusé. Vous n'avez pas les permissions pour voir cette page.</p>
 </template>
 
 <script>
-/* global tinymce */
 import {mapActions, mapGetters, mapState} from "vuex";
-import Editor from "@tinymce/tinymce-vue";
+import { VueEditor, Quill } from 'vue2-editor';
+import ImageResize from 'quill-image-resize-vue';
+
+Quill.register("modules/imageResize", ImageResize);
 
 export default {
   name: "HomePrestataire",
   components: {
-    'editor': Editor
+    VueEditor
   },
   data() {
     return {
+      editorOptions: {
+        modules: {
+          toolbar: [
+            ['image', 'link'],
+          ],
+          imageResize: {
+            displaySize: false
+          },
+        },
+      },
       isEditingDescription: false,
       isEditingTheme: false,
       isEditingImage: false,
@@ -575,8 +360,8 @@ export default {
   },
   },
   methods: {
-    ...mapActions('ProfilStore',['updateDescriptionPrestataireFromAPI','updateSocietePrestataireFromAPI', 'updateThemePrestataireFromAPI', 'updateAdressePrestataireFromAPI', 'updateImagePrestataireFromAPI', 'updateImage2PrestataireFromAPI', 'updateLogoPrestataireFromAPI']),
-    ...mapActions('PrestataireStore',['getAllArticlesById', 'setPrestataireArticle', 'delPrestataireArticle']),
+    ...mapActions('ProfilStore',['updateDescriptionPrestataire','updateSocietePrestataire', 'updateThemePrestataire', 'updateAdressePrestataire', 'updateImagePrestataire', 'updateImage2PrestataireFromAPI', 'updateLogoPrestataireFromAPI']),
+    ...mapActions('PrestataireStore',['getAllArticlesById', 'setPrestataireArticle', 'putPrestataireArticle', 'delPrestataireArticle']),
     editerDescription() {
       this.isEditingDescription = true;
       this.editableDescription = this.utilisateurConnecte?.description || "";
@@ -591,15 +376,15 @@ export default {
     },
     editerImage() {
       this.isEditingImage = true;
-      this.imageEditable = this.utilisateurConnecte?.background || "";
+      this.imageEditable = `<img src="${require(`@/assets/${this.utilisateurConnecte.background}`)}" alt="Background">` || "";
     },
     editerLogo() {
       this.isEditingLogo = true;
-      this.logoEditable = this.utilisateurConnecte?.logo || "";
+      this.logoEditable = `<img src="${require(`@/assets/${this.utilisateurConnecte.logo}`)}" alt="Logo">` || "";
     },
     editerImage2() {
       this.isEditingImage2 = true;
-      this.imageEditable2 = this.utilisateurConnecte?.background2 || "";
+      this.imageEditable2 = `<img src="${require(`@/assets/${this.utilisateurConnecte.background2}`)}" alt="Background2">` || "";
     },
     editerAdresse() {
       this.isEditingAdresse = true;
@@ -607,46 +392,49 @@ export default {
     },
     sauvegarderDescription() {
       let id = this.utilisateurConnecte?.id;
-      let editorInstance = this.$refs.tinymceEditorDescription?.getEditor();
-      if (editorInstance) {
-        let nouvelleDescription = editorInstance.getContent({ format: 'text' }).trim();
-        if (id && nouvelleDescription) {
-          this.updateDescriptionPrestataireFromAPI({ id, nouvelleDescription });
-        }
+      let nouvelleDescription = this.editableDescription.trim();
+      nouvelleDescription = nouvelleDescription.replace(/<\/?[^>]+(>|$)/g, "").trim();
+      if (id && nouvelleDescription) {
+        this.utilisateurConnecte.description = nouvelleDescription;
+        this.updateDescriptionPrestataire({ id, nouvelleDescription });
       }
       this.isEditingDescription = false;
     },
     sauvegarderSociete() {
       let id = this.utilisateurConnecte?.id;
-      let editorInstance = this.$refs.tinymceEditorSociete?.getEditor();
-      if (editorInstance) {
-        let nouvelleSociete = editorInstance.getContent({ format: 'text' }).trim();
-        if (id && nouvelleSociete) {
-          this.updateSocietePrestataireFromAPI({ id, nouvelleSociete });
-        }
+      let nouvelleSociete = this.editableSociete.trim();
+      nouvelleSociete = nouvelleSociete.replace(/<\/?[^>]+(>|$)/g, "").trim();
+      if (id && nouvelleSociete) {
+        this.utilisateurConnecte.societe = nouvelleSociete;
+        this.updateSocietePrestataire({ id, nouvelleSociete });
       }
       this.isEditingSociete = false;
     },
     sauvegarderTheme() {
       let id = this.utilisateurConnecte?.id;
-      let editorInstance = this.$refs.tinymceEditorTheme?.getEditor();
-      if (editorInstance) {
-        let nouveauTheme = editorInstance.getContent({ format: 'text' }).trim();
-        if (id && nouveauTheme) {
-          this.updateThemePrestataireFromAPI({ id, nouveauTheme });
-        }
+      let nouveauTheme = this.themeEditable.trim();
+      nouveauTheme = nouveauTheme.replace(/<\/?[^>]+(>|$)/g, "").trim();
+      if (id && nouveauTheme) {
+        this.utilisateurConnecte.theme = nouveauTheme;
+        this.updateThemePrestataire({ id, nouveauTheme });
       }
       this.isEditingTheme = false;
     },
     sauvegarderImage() {
       let id = this.utilisateurConnecte?.id;
-      let editorInstance = this.$refs.tinymceEditorImage?.getEditor();
-      if (editorInstance) {
-        let nouvelleImage = editorInstance.getContent().match(/src="([^"]+)"/)[1];
-        if (id && nouvelleImage) {
-          this.updateImagePrestataireFromAPI({ id, nouvelleImage });
-        }
+
+      // L'éditeur Vue2-Editor fait déjà un binding avec v-model, donc on peut directement accéder à la valeur de l'éditeur
+      let contenu = this.imageEditable; // `imageEditable` est la variable liée au contenu de l'éditeur
+
+      // Utiliser une expression régulière pour trouver l'URL de l'image dans le contenu HTML
+      let match = contenu.match(/src="([^"]+)"/);
+      let nouvelleImage = match ? match[1] : null;
+
+      if (id && nouvelleImage) {
+        this.updateImagePrestataire({ id, nouvelleImage });
       }
+
+      // Fermer l'éditeur après la sauvegarde
       this.isEditingImage = false;
     },
     sauvegarderImage2() {
@@ -673,12 +461,11 @@ export default {
     },
     sauvegarderAdresse() {
       let id = this.utilisateurConnecte?.id;
-      let editorInstance = this.$refs.tinymceEditorAdresse?.getEditor();
-      if (editorInstance) {
-        let nouvelleAdresse = editorInstance.getContent({ format: 'text' }).trim();
-        if (id && nouvelleAdresse) {
-          this.updateAdressePrestataireFromAPI({ id, nouvelleAdresse });
-        }
+      let nouvelleAdresse = this.editableAdresse.trim();
+      nouvelleAdresse = nouvelleAdresse.replace(/<\/?[^>]+(>|$)/g, "").trim();
+      if (id && nouvelleAdresse) {
+        this.utilisateurConnecte.adresse = nouvelleAdresse;
+        this.updateAdressePrestataire({ id, nouvelleAdresse });
       }
       this.isEditingAdresse = false;
     },
@@ -707,28 +494,6 @@ export default {
     finEditionLogo() {
       this.isEditingLogo = false;
     },
-    filePickerCallback(cb) {
-      const input = document.createElement('input');
-      input.setAttribute('type', 'file');
-      input.setAttribute('accept', 'image/*');
-      input.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = (readerEvent) => {
-            const id = 'blobid' + (new Date()).getTime();
-            const blobCache = tinymce.activeEditor.editorUpload.blobCache;
-            const base64 = readerEvent.target.result.split(',')[1];
-            const blobInfo = blobCache.create(id, file, base64);
-            blobCache.add(blobInfo);
-
-            cb(blobInfo.blobUri(), { title: file.name });
-          };
-          reader.readAsDataURL(file);
-        }
-      });
-      input.click();
-    },
     openModal(data) {
       if (this.showModal === false) this.showModal = true;
       if (data === undefined) {
@@ -756,19 +521,32 @@ export default {
       this.modalTitle = '';
       this.modalButton = '';
     },
-    acceptArticle(idProduit) {
+    acceptArticle() {
       if (this.nom !== '' && this.description !== '' && this.prix !== '' && this.stock !== '') {
-        let data = {
-          id: idProduit,
-          prestataireId: this.utilisateurConnecte.id,
-          nom: this.nom,
-          description: this.description,
-          prix: this.prix,
-          stock: this.stock,
-          image: this.image,
+        if (this.modalButton === 'Modifier') {
+          let data = {
+            id: this.id,
+            prestataire_id: this.utilisateurConnecte.id,
+            nom: this.nom,
+            description: this.description,
+            prix: this.prix,
+            stock: this.stock,
+            image: this.image,
+          }
+          this.putPrestataireArticle(data);
+        }
+        if (this.modalButton === 'Ajouter') {
+          let data = {
+            prestataire_id: this.utilisateurConnecte.id,
+            nom: this.nom,
+            description: this.description,
+            prix: this.prix,
+            stock: this.stock,
+            image: this.image,
+          }
+          this.setPrestataireArticle(data);
         }
         this.showModal = false;
-        this.setPrestataireArticle(data);
       }
       else{console.log('Aucun argument donné')}
     },
@@ -776,6 +554,7 @@ export default {
       this.delPrestataireArticle(id);
     },
   },
+<<<<<<< HEAD
 async mounted() {
   if (!this.utilisateurConnecte) {
     this.$router.push("/");
@@ -804,6 +583,14 @@ async mounted() {
       }
     } catch (error) {
       console.error("Erreur inattendue :", error);
+=======
+  mounted() {
+    this.getAllArticlesById(this.utilisateurConnecte.id);
+    if (!this.utilisateurConnecte) {
+      this.$router.push("/");
+    } else if (!this.accesPermission) {
+      console.log("Accès refusé");
+>>>>>>> c3b187e9fe717e36bcee1e7876b3b388b98384f1
     }
   } else {
     console.error("L'ID du prestataire est introuvable !");

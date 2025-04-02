@@ -73,14 +73,14 @@ async function getArticleById(idArticle) {
     return response;
 }
 
-async function getAllArticleFromAPI() {
-    return await getRequest(`articles/`);
+async function getAllArticlesFromAPI() {
+    return await getRequest(`articles/prestataire`);
 }
 
-async function getAllArticle() {
+async function getAllArticles() {
     let response;
     try {
-        response = await getAllArticleFromAPI();
+        response = await getAllArticlesFromAPI();
     } catch(err) {
         response = { error: 1, status: 404, data: "Erreur réseau, impossible de récupérer les articles" };
     }
@@ -159,9 +159,22 @@ async function getReservationArticleById(utilisateurId){
     return response;
 }
 
+async function putPrestataireArticleFromAPI(data){
+    return await putRequest(`articles/prestataire`, data, 'PRESTAMODIFARTICLE');
+}
+
+async function putPrestataireArticle(data){
+    let response;
+    try {
+        response = await putPrestataireArticleFromAPI(data);
+    } catch(err) {
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible de modifier l'article du prestataire" };
+    }
+    return response;
+}
 
 async function setPrestataireArticleFromAPI(data){
-    return await putRequest(`articles/prestataire`, data);
+    return await postRequest(`articles/prestataire`, data, 'PRESTACREATEARTICLE');
 }
 
 async function setPrestataireArticle(data){
@@ -169,19 +182,19 @@ async function setPrestataireArticle(data){
     try {
         response = await setPrestataireArticleFromAPI(data);
     } catch(err) {
-        response = { error: 1, status: 404, data: "Erreur réseau, impossible de modifier l'article du prestataire" };
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible de créer l'article du prestataire" };
     }
     return response;
 }
 
-async function delPrestataireArticleFromAPI(id){
-    return await deleteRequest(`articles/prestataire/${id}`);
+async function delPrestataireArticleFromAPI(data){
+    return await deleteRequest('articles/prestataire/'+data);
 }
 
-async function delPrestataireArticle(id){
+async function delPrestataireArticle(data){
     let response;
     try {
-        response = await delPrestataireArticleFromAPI(id);
+        response = await delPrestataireArticleFromAPI(data);
     } catch(err) {
         response = { error: 1, status: 404, data: "Erreur réseau, impossible de supprimer l'article du prestataire" };
     }
@@ -193,12 +206,13 @@ export default {
     ajoutLivreDOr,
     getAllArticlesById,
     getArticleById,
-    getAllArticle,
+    getAllArticles,
     ajouterAuPanierArticle,
     incrementerQuantiteArticle,
     diminuerQuantiteArticle,
     addReservationArticle,
     getReservationArticleById,
+    putPrestataireArticle,
     setPrestataireArticle,
     delPrestataireArticle,
 };
