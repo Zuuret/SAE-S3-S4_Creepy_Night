@@ -75,6 +75,6 @@ const router = express.Router();
  *                   type: string
  *                   example: "Erreur lors de la récupération des transactions"
  */
-router.get("/:utilisateurId", sessionMiddleware.authVerif(), transactionsController.consulterHistorique);
+router.get("/:utilisateurId", sessionMiddleware.authVerif([1,3]), transactionsController.consulterHistorique);
 
 module.exports = router;

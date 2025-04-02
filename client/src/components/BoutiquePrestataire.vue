@@ -1,36 +1,36 @@
 <template>
   <div class="boutique-container">
     <div class="filters">
-      <h2>Filtres</h2>
+      <h2>{{ $t('boutique.filtres') }}</h2>
       <div class="filter-group">
-        <label for="filtreNom">Nom</label>
-        <input type="text" v-model="filtreNom" id="filtreNom" placeholder="Filtrer par nom" />
+        <label for="filtreNom">{{ $t('boutique.nom') }}</label>
+        <input type="text" v-model="filtreNom" id="filtreNom" :placeholder="$t('boutique.filtrerParNom')" />
       </div>
       <div class="filter-group">
-        <label for="filtrePrixMin">Prix minimum</label>
-        <input type="number" v-model.number="filtrePrixMin" id="filtrePrixMin" placeholder="Filtrer par prix minimum"/>
+        <label for="filtrePrixMin">{{ $t('boutique.prixMin') }}</label>
+        <input type="number" v-model.number="filtrePrixMin" id="filtrePrixMin" :placeholder="$t('boutique.filtrerParPrixMin')" />
       </div>
       <div class="filter-group">
-        <label for="filtrePrixMax">Prix maximum</label>
-        <input type="number" v-model.number="filtrePrixMax" id="filtrePrixMax" placeholder="Filtrer par prix maximum"/>
+        <label for="filtrePrixMax">{{ $t('boutique.prixMax') }}</label>
+        <input type="number" v-model.number="filtrePrixMax" id="filtrePrixMax" :placeholder="$t('boutique.filtrerParPrixMax')" />
       </div>
       <div class="filter-group">
-        <label for="filtreStock">En stock</label>
+        <label for="filtreStock">{{ $t('boutique.enStock') }}</label>
         <input type="checkbox" v-model="filtreStock" id="filtreStock"/>
       </div>
-      <button @click="reinitialiseFiltres">Reinitialiser les filtres</button>
+      <button @click="reinitialiseFiltres">{{ $t('boutique.reinitialiserFiltres') }}</button>
     </div>
 
     <div class="articles-container">
-      <h1>NOTRE BOUTIQUE</h1>
+      <h1>{{ $t('boutique.notreBoutique') }}</h1>
       <div class="prestataires-list">
         <div v-if="filteredArticles.length === 0" class="no-articles">
-          <p>Aucun article disponible</p>
+          <p>{{ $t('boutique.aucunArticleDisponible') }}</p>
         </div>
         <div v-else class="article" v-for="article in filteredArticles" :key="article.id">
           <router-link :to="`articles/${article.id}`">
             <div class="article-item">
-              <img :src=getImageUrl(article.image) :alt="article.nom" class="article_image" />
+              <img :src="getImageUrl(article.image)" :alt="article.nom" class="article_image" />
               <div class="prestataire-details">
                 <h3>{{ article.nom }}</h3>
                 <p>{{ article.prix }} €</p>
@@ -42,6 +42,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import { mapActions, mapState } from "vuex";

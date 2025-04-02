@@ -35,14 +35,29 @@ async function getAllArticlesByIdFromAPI(idPrestataire) {
 }
 
 async function getAllArticlesById(idPrestataire) {
+    if (!idPrestataire) {
+      console.error("ID non défini");
+      return { error: 1, data: "ID prestataire invalide" }; // Retourne une erreur explicite si l'ID est invalide
+    }
+  
     let response;
     try {
-        response = await getAllArticlesByIdFromAPI(idPrestataire);
-    } catch(err) {
-        response = { error: 1, status: 404, data: "Erreur réseau, impossible de récupérer les articles" };
+      response = await getAllArticlesByIdFromAPI(idPrestataire);
+      console.log("Données reçues de l'API :", response.data); // Vérifie les données ici
+  
+      if (response.data && Array.isArray(response.data)) {
+        console.log("Retour avec données");
+        return { data: response.data, error: 0 }; // Retourne l'objet avec les données
+      } else {
+        console.error("Données manquantes ou mal formatées");
+        return { error: 1, data: "Données mal formatées ou vides" };
+      }
+    } catch (err) {
+      console.error("Erreur réseau :", err);
+      return { error: 1, data: "Erreur réseau, impossible de récupérer les articles" }; // Gestion des erreurs réseau
     }
-    return response;
-}
+  }
+  
 
 async function getArticleByIdFromAPI(idArticle) {
     return await getRequest(`articles/${idArticle}`);

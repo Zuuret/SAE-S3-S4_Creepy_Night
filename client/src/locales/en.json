@@ -1,0 +1,89 @@
+{
+    "menu": {
+      "connexion": "Login",
+      "creerProfil": "Create Profile",
+      "deconnexion": "Logout",
+      "monProfil": "My Profile",
+      "prestataires": "Our Providers",
+      "mesReservations": "My Reservations",
+      "secuflippe": "SecuFlippe",
+      "cashless": "CashLess"
+    },
+    "compteRebours": {
+          "tempsRestant": "Time remaining until the start",
+          "debutFestival": "Festival start"
+    },
+    "boutique": {
+    "filtres": "Filters",
+    "nom": "Name",
+    "prixMin": "Minimum price",
+    "prixMax": "Maximum price",
+    "enStock": "In stock",
+    "reinitialiserFiltres": "Reset filters",
+    "notreBoutique": "OUR SHOP",
+    "aucunArticleDisponible": "No articles available",
+    "filtrerParNom": "Filter by name",
+    "filtrerParPrixMin": "Filter by minimum price",
+    "filtrerParPrixMax": "Filter by maximum price"
+  },
+  
+    "prestataires": {
+      "nosPrestataires": "Our Providers",
+      "rechercher": "Search...",
+      "trierParNom": "Sort by name",
+      "trierParCategorie": "Sort by category",
+      "voirProfil": "View Profile",
+      "aucunResultat": "No providers match your search."
+    },
+    "livreDOr": {
+    "notreLivreDOr": "OUR GUESTBOOK",
+    "donnezAvis": "(Give us feedback on our service)",
+    "ajouterCommentaire": "Add a comment",
+    "votreNom": "Your name",
+    "votreMessage": "Your message",
+    "ajouterMessage": "Add message",
+    "aucunCommentaire": "No comments left for this provider"
+  },
+  "sidebar": {
+    "festivalAdmin": "Festival Admin",
+    "tableauDeBord": "Dashboard",
+    "editAccueil": "Edit welcome text",
+    "carte": "Map",
+    "utilisateurs": "Users",
+    "organisateurs": "Organizers",
+    "prestataires": "Service Providers",
+    "demandes": "Requests",
+    "validerConcert": "Validate concert",
+    "profil": "Profile"
+  },
+  "panier": {
+    "prix": "Price",
+    "quantite": "Quantity",
+    "votrePanier": "Your Cart",
+    "artiste": "Artist",
+    "nbPlaces": "Number of Tickets",
+    "prixUnitaire": "Unit Price (€)",
+    "total": "Total (€)",
+    "actions": "Actions",
+    "retirerPlace": "Remove a ticket",
+    "supprimerTout": "Remove all",
+    "totalPanier": "Cart Total",
+    "panierVide": "Your cart is empty"
+  },
+  "intro": {
+    "titreIntro": "Welcome to Creepy Night, the unmissable festival of fear!",
+    "description": "Immerse yourself in a unique and immersive experience dedicated to the fascinating world of fear and mystery. For a week, enjoy a rich and captivating program featuring exhibitions, film screenings, live concerts, and much more. Whether you're a thrill-seeker, a fan of horror cinema, or simply curious, Creepy Night promises unforgettable emotions.",
+    "ticketLink": "Tickets and Subscriptions"
+  },
+  "prestataire": {
+    "titreIntro": "Join Creepy Night as a Vendor!",
+    "description": "Are you an artist, exhibitor, restaurateur, or entertainment professional? Join the Creepy Night adventure and showcase your skills to a horror and thrill-seeking audience. Enjoy unique visibility and be part of this unforgettable experience as an official festival vendor.",
+    "candidatureLink": "Submit my application"
+  }
+  
+  
+  
+      
+      
+  }
+  

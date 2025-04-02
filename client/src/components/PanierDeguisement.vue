@@ -1,13 +1,13 @@
 <template>
   <div class="panier">
-    <h1>Votre Panier</h1>
+    <h1>{{ $t('panier.votrePanier') }}</h1>
     <div v-if="panier.length > 0">
       <div v-for="item in panier" :key="item.id_costume + item.taille" class="panier-item">
         <img :src="item.image" alt="Déguisement" class="panier-item-image" />
         <div class="panier-item-info">
           <p>{{ item.nom_costume }} - Taille : {{ item.taille }}</p>
-          <p>Prix : {{ item.prix }} €</p>
-          <p>Quantité : {{ item.quantite }}</p>
+          <p>{{ $t('panier.prix') }} : {{ item.prix }} €</p>
+          <p>{{ $t('panier.quantite') }} : {{ item.quantite }}</p>
           <div class="quantity-controls">
             <button @click="diminuerQuantite(item)">-</button>
             <button @click="incrementerQuantite(item)">+</button>
@@ -15,13 +15,14 @@
         </div>
       </div>
       <div class="panier-total">
-        <p>Total : {{ total }} €</p>
-        <button @click="addLocationDeguisement(utilisateurConnecte.id)">Valider la commande</button>
+        <p>{{ $t('panier.total') }} : {{ total }} €</p>
+        <button @click="addLocationDeguisement(utilisateurConnecte.id)">{{ $t('panier.validerCommande') }}</button>
       </div>
     </div>
-    <p v-else>Votre panier est vide.</p>
+    <p v-else>{{ $t('panier.panierVide') }}</p>
   </div>
 </template>
+
 
 <script>
 import {mapActions, mapState} from 'vuex';
