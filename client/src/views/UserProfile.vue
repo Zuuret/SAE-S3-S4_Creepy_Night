@@ -7,29 +7,29 @@
       </svg>
     </button>
     
-    <h1>Détails de l'utilisateur</h1>
+    <h1>{{ $t('user_details') }}</h1>
     <div class="card-container">
       <div class="user-info-card">
-        <h2>Informations de l'utilisateur</h2>
-        <p><strong>Prénom :</strong> {{ utilisateur.prenom }}</p>
-        <p><strong>Nom :</strong> {{ utilisateur.nom }}</p>
-        <p><strong>Date de Naissance :</strong> {{ utilisateur.date_naissance }}</p>
-        <p><strong>Email :</strong> {{ utilisateur.mail }}</p>
-        <p><strong>Solde Actuel :</strong> {{ utilisateur.solde }} €</p>
-        <p><strong>Numéro Cashless :</strong> {{ utilisateur.num_cashless }}</p>
+        <h2>{{ $t('user_info') }}</h2>
+        <p><strong>{{ $t('first_name') }} :</strong> {{ utilisateur.prenom }}</p>
+        <p><strong>{{ $t('last_name') }} :</strong> {{ utilisateur.nom }}</p>
+        <p><strong>{{ $t('birth_date') }} :</strong> {{ utilisateur.date_naissance }}</p>
+        <p><strong>{{ $t('email') }} :</strong> {{ utilisateur.mail }}</p>
+        <p><strong>{{ $t('current_balance') }} :</strong> {{ utilisateur.solde }} €</p>
+        <p><strong>{{ $t('cashless_number') }} :</strong> {{ utilisateur.num_cashless }}</p>
       </div>
 
       <div class="transaction-history-card">
-        <h2>Historique des transactions</h2>
+        <h2>{{ $t('transaction_history') }}</h2>
         <div v-if="loadingTransactions" class="loading-transactions">
-          Chargement des transactions...
+          {{ $t('loading_transactions') }}
         </div>
         <div v-else-if="transactionsError" class="transactions-error">
           {{ transactionsError }}
         </div>
         <ul v-else class="transactions-list">
           <li v-if="filteredTransactions.length === 0" class="no-transactions">
-            Aucune transaction trouvée pour cet utilisateur.
+            {{ $t('no_transactions') }}
           </li>
           <li v-else v-for="transaction in filteredTransactions" :key="transaction.id" class="transaction-item">
             <p class="transaction-date">{{ formatDate(transaction.date) }}</p>
@@ -45,7 +45,7 @@
     </div>
   </div>
   <div v-else class="loading-user">
-    Chargement de l'utilisateur...
+    {{ $t('loading_user') }}
   </div>
 </template>
 

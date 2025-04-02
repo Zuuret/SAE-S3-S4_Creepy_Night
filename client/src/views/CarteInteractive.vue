@@ -3,7 +3,7 @@
     <div class="map-and-legend-wrapper">
       <!-- Légende avec icônes agrandies -->
       <div class="legend">
-        <h3>Légende</h3>
+        <h3>{{ $t('legend.title') }}</h3>
         <ul>
           <li 
             v-for="icon in icones" 
@@ -20,14 +20,18 @@
           @click.stop="resetLegendFilter"
           class="reset-filter-btn"
         >
-          Tout afficher
+          {{ $t('legend.showAll') }}
         </button>
       </div>
 
       <!-- Carte avec icônes agrandies -->
       <div class="map-container">
         <div class="map-wrapper">
-          <img src="@/assets/carte_creepy_night.png" alt="Carte du festival" class="base-map">
+          <img 
+            :src="require('@/assets/carte_creepy_night.png')" 
+            :alt="$t('map.altText')" 
+            class="base-map"
+          >
           
           <!-- Icônes des emplacements -->
           <div 
@@ -60,7 +64,7 @@
                   :to="'/prestataire/' + spot.prestataire_id" 
                   class="popup-btn"
                 >
-                  Voir page
+                  {{ $t('popup.viewPage') }}
                 </router-link>
               </div>
             </transition>
@@ -70,6 +74,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import { mapGetters } from 'vuex';

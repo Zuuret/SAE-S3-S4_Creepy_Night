@@ -2,54 +2,55 @@
   <div class="form-container">
     <div>
       <router-link :to="`/expo`">
-        <button>Retour à l'expo</button>
+        <button>{{ $t('back_to_expo') }}</button>
       </router-link>
     </div>
 
     <div class="form-box">
 
-      <h2>Inscription</h2>
+      <h2>{{ $t('registration') }}</h2>
 
       <form @submit.prevent="submitForm" class="form-content">
         <!-- User fields (arranged in a column) -->
         <div>
           <div class="form-group">
-            <label>Nom/Prénom :</label>
-            <input type="text" placeholder="Entrez votre nom de créateur" v-model="form.createur" />
+            <label>{{ $t('name_surname') }} :</label>
+            <input type="text" :placeholder="$t('enter_creator_name')" v-model="form.createur" />
           </div>
 
           <div class="form-group">
-            <label>Date de création :</label>
+            <label>{{ $t('creation_date') }} :</label>
             <input type="date" placeholder="jj/mm/aaaa" v-model="form.dateCrea" />
           </div>
 
           <div class="form-group">
-            <label>Description :</label>
-            <input type="text" placeholder="Insérez une description" v-model="form.description" />
+            <label>{{ $t('description') }} :</label>
+            <input type="text" :placeholder="$t('enter_description')" v-model="form.description" />
           </div>
 
           <div class="form-group">
-            <label>Email :</label>
-            <input type="email" placeholder="Entrez votre email" v-model="form.email" />
+            <label>{{ $t('email') }} :</label>
+            <input type="email" :placeholder="$t('enter_email')" v-model="form.email" />
           </div>
 
           <div class="form-group">
-            <label>Confirmation de l'email :</label>
-            <input type="email" placeholder="Confirmez votre email" v-model="form.confirmEmail" />
+            <label>{{ $t('confirm_email') }} :</label>
+            <input type="email" :placeholder="$t('confirm_email')" v-model="form.confirmEmail" />
           </div>
           <div class="form-group">
-            <label>Image :</label>
+            <label>{{ $t('image') }} :</label>
             <input type="file" v-bind="form.image" name="filename" />
           </div>
         </div>
 
-        <button type="submit" class="submit-button" @click="submitForm">Confirmer l'inscription</button>
+        <button type="submit" class="submit-button" @click="submitForm">{{ $t('confirm_registration') }}</button>
       </form>
 
       <div v-if="message" class="message">{{ message }}</div>
     </div>
   </div>
 </template>
+
 
 <script>
 import { mapActions } from 'vuex';

@@ -1,24 +1,25 @@
 <template>
-    <div class="payment-form">
-      <h1>Formulaire de Paiement</h1>
-      <p>Vous êtes sur le point d'acheter un billet pour le festival Creepy Night au prix de {{ ticketPrice }} €.</p>
-      <form @submit.prevent="submitPayment">
-        <div>
-          <label for="card-number">Numéro de carte :</label>
-          <input type="text" id="card-number" v-model="cardNumber" required />
-        </div>
-        <div>
-          <label for="expiry-date">Date d'expiration (MM/AA) :</label>
-          <input type="text" id="expiry-date" v-model="expiryDate" required />
-        </div>
-        <div>
-          <label for="cvv">CVV :</label>
-          <input type="text" id="cvv" v-model="cvv" required />
-        </div>
-        <button type="submit">Payer</button>
-      </form>
-    </div>
-  </template>
+  <div class="payment-form">
+    <h1>{{ $t('formulairePaiement') }}</h1>
+    <p>{{ $t('achatBillet') }} {{ ticketPrice }} €.</p>
+    <form @submit.prevent="submitPayment">
+      <div>
+        <label for="card-number">{{ $t('numeroCarte') }} :</label>
+        <input type="text" id="card-number" v-model="cardNumber" required />
+      </div>
+      <div>
+        <label for="expiry-date">{{ $t('dateExpiration') }} (MM/AA) :</label>
+        <input type="text" id="expiry-date" v-model="expiryDate" required />
+      </div>
+      <div>
+        <label for="cvv">{{ $t('cvv') }} :</label>
+        <input type="text" id="cvv" v-model="cvv" required />
+      </div>
+      <button type="submit">{{ $t('payer') }}</button>
+    </form>
+  </div>
+</template>
+
   
   <script>
   import { mapActions } from 'vuex';

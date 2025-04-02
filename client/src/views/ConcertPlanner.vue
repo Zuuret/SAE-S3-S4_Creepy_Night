@@ -1,25 +1,25 @@
-<template>
+ <template>
   <div class="concert-planner">
-    <h1>Concert Planner</h1>
+    <h1>{{ $t("concertPlanner.title") }}</h1>
 
     <!-- Liste des concerts à placer -->
     <div class="concert-list">
-      <h2>Concerts</h2>
+      <h2>{{ $t("concertPlanner.concerts") }}</h2>
       <draggable v-model="concerts" group="concerts" :clone="cloneConcert">
         <div v-for="concert in concerts" :key="concert.id" class="concert-item">
-          <p>{{ concert.name }} - {{ concert.duration }} mins</p>
+          <p>{{ concert.name }} - {{ concert.duration }} {{ $t("concertPlanner.mins") }}</p>
         </div>
       </draggable>
     </div>
 
     <!-- Planning hebdomadaire -->
     <div class="planning">
-      <h2>Planning de la semaine</h2>
+      <h2>{{ $t("concertPlanner.weekPlanning") }}</h2>
       <div class="planning-grid">
         <!-- En-tête des jours -->
         <div class="header">
           <div class="time-cell"></div> <!-- Cellule vide pour l'heure -->
-          <div v-for="day in days" :key="day" class="day-header">{{ day }}</div>
+          <div v-for="day in days" :key="day" class="day-header">{{ $t(`concertPlanner.days.${day}`) }}</div>
         </div>
 
         <!-- Grille horaire -->

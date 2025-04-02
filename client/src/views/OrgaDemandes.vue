@@ -6,20 +6,20 @@
 
     <div class="main-content">
       <header>
-        <h1>Gérer les demandes</h1>
+        <h1>{{ $t('gérerLesDemandes') }}</h1>
       </header>
       <div class="card-container">
         <div class="card">
-          <h2>Demandes d'Inscription des Organisateurs</h2>
+          <h2>{{ $t('demandesInscriptionOrganisateurs') }}</h2>
           <table class="modern-table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Prénom</th>
-                <th>Email</th>
-                <th>Téléphone</th>
-                <th>Actions</th>
+                <th>{{ $t('id') }}</th>
+                <th>{{ $t('nom') }}</th>
+                <th>{{ $t('prenom') }}</th>
+                <th>{{ $t('email') }}</th>
+                <th>{{ $t('telephone') }}</th>
+                <th>{{ $t('actions') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -31,10 +31,10 @@
                 <td>{{ demande.tel }}</td>
                 <td>
                   <button @click="handleAccepterDemandeOrganisateur(demande)">
-                    Accepter
+                    {{ $t('accepter') }}
                   </button>
                   <button @click="rejeterDemandeOrganisateur(demande)">
-                    Rejeter
+                    {{ $t('rejeter') }}
                   </button>
                 </td>
               </tr>
@@ -43,14 +43,14 @@
         </div>
 
         <div class="card">
-          <h2>Demandes d'Inscription des Prestataires</h2>
+          <h2>{{ $t('demandesInscriptionPrestataires') }}</h2>
           <table class="modern-table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Société</th>
-                <th>Email</th>
-                <th>Actions</th>
+                <th>{{ $t('id') }}</th>
+                <th>{{ $t('societe') }}</th>
+                <th>{{ $t('email') }}</th>
+                <th>{{ $t('actions') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -60,10 +60,10 @@
                 <td>{{ demande.email }}</td>
                 <td>
                   <button @click="handleAccepterDemandePrestataire(demande)">
-                    Accepter
+                    {{ $t('accepter') }}
                   </button>
                   <button @click="rejeterDemandePrestataire(demande)">
-                    Rejeter
+                    {{ $t('rejeter') }}
                   </button>
                 </td>
               </tr>
@@ -74,6 +74,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";

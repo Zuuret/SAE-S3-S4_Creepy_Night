@@ -6,20 +6,20 @@
   
       <div class="main-content">
         <header>
-          <h1>Liste des utilisateurs de CreepyNight</h1>
+          <h1>{{ $t('listeUtilisateurs') }}</h1>
         </header>
   
         <div class="card-container">
           <div class="card">
-            <h2>Liste des Utilisateurs</h2>
+            <h2>{{ $t('listeUtilisateursDetails') }}</h2>
             <table class="modern-table">
               <thead>
                 <tr>
-                  <th>ID</th>
-                  <th>Prénom</th>
-                  <th>Nom</th>
-                  <th>Email</th>
-                  <th>Profil</th>
+                  <th>{{ $t('id') }}</th>
+                  <th>{{ $t('prenom') }}</th>
+                  <th>{{ $t('nom') }}</th>
+                  <th>{{ $t('email') }}</th>
+                  <th>{{ $t('profil') }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -33,7 +33,7 @@
                       class="profile-link"
                       :to="{ name: 'UserProfile', params: { id: utilisateur.id } }"
                     >
-                      Voir Profil
+                      {{ $t('voirProfil') }}
                     </router-link>
                   </td>
                 </tr>
@@ -43,8 +43,8 @@
         </div>
       </div>
     </div>
-  </template>
-  
+</template>
+
   <script>
   import { mapActions, mapGetters, mapState } from "vuex";
   import NavOrganisateur from "@/components/NavOrganisateur.vue";

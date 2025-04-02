@@ -1,38 +1,39 @@
 <template>
-    <div class="home-organisateur">
-      <div class="navbar">
-        <NavOrganisateur />
-      </div>
-  
-      <div class="main-content">
-        <header>
-          <h1>Liste des prestataires de CreepyNight</h1>
-        </header>
-  
-        <div class="card-container">
-          <div class="card">
-            <h2>Liste des Prestataires</h2>
-            <table class="modern-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Société</th>
-                  <th>Email</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="prestataire in prestataires" :key="prestataire.id">
-                  <td>{{ prestataire.id }}</td>
-                  <td>{{ prestataire.societe }}</td>
-                  <td>{{ prestataire.email }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+  <div class="home-organisateur">
+    <div class="navbar">
+      <NavOrganisateur />
+    </div>
+
+    <div class="main-content">
+      <header>
+        <h1>{{ $t('listePrestatairesCreepyNight') }}</h1>
+      </header>
+
+      <div class="card-container">
+        <div class="card">
+          <h2>{{ $t('listePrestataires') }}</h2>
+          <table class="modern-table">
+            <thead>
+              <tr>
+                <th>{{ $t('id') }}</th>
+                <th>{{ $t('societe') }}</th>
+                <th>{{ $t('email') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="prestataire in prestataires" :key="prestataire.id">
+                <td>{{ prestataire.id }}</td>
+                <td>{{ prestataire.societe }}</td>
+                <td>{{ prestataire.email }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
+
   
   <script>
   import { mapActions, mapGetters, mapState } from "vuex";

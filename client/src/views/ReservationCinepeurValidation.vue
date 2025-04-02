@@ -1,11 +1,10 @@
 <template>
   <div>
     <div><NavBar /></div>
-    <h1 class="titre">Cashless</h1>
+    <h1 class="titre">{{ $t('cashless') }}</h1>
     <div class="bordure">
-      <h3>Monnaie restante</h3>
+      <h3>{{ $t('remaining_balance') }}</h3>
       <p class="solde">{{ utilisateurConnecte.solde }}</p>
-
     </div>
   </div>
 </template>
