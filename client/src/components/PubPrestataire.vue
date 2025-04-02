@@ -2,22 +2,20 @@
     <div class="PubPrestataire">
         <div class="intro">
             <h1 class="titre-partie" id="titre-intro">
-                Participez à Creepy Night en tant que Prestataire !
+                {{ $t('prestataire.titreIntro') }}
             </h1>
             <div class="intro-partie">
                 <div class="description-intro">
                     <p class="introduction">
-                        Vous êtes artiste, exposant, restaurateur ou professionnel du divertissement ?
-                        Rejoignez l’aventure Creepy Night et proposez votre savoir-faire à un public
-                        passionné d’horreur et de frissons. Profitez d’une visibilité unique et faites partie
-                        de cette expérience inoubliable en tant que prestataire officiel du festival.
+                        {{ $t('prestataire.description') }}
                     </p>
-                    <router-link class="btn-candidature" to="/creation-profil">Déposer ma candidature</router-link>
+                    <router-link class="btn-candidature" to="/creation-profil">{{ $t('prestataire.candidatureLink') }}</router-link>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
 
 <script>
 export default {

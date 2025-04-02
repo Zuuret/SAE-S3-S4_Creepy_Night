@@ -5,18 +5,18 @@ const sessionMiddleware = require("../middlewares/session.middleware");
 const router = express.Router();
 
 
-router.post("/",  sessionMiddleware.authVerif(), demandesOrganisateursController.saveDemandeOrganisateurs);
+router.post("/",  sessionMiddleware.authVerif([3]), demandesOrganisateursController.saveDemandeOrganisateurs);
 
 
-router.get("/",  sessionMiddleware.authVerif(), demandesOrganisateursController.getDemandesOrganisateurs);
+router.get("/",  sessionMiddleware.authVerif([3]), demandesOrganisateursController.getDemandesOrganisateurs);
 
 
-router.get("/:uuid",  sessionMiddleware.authVerif(), demandesOrganisateursController.getDemandeOrganisateursById);
+router.get("/:uuid",  sessionMiddleware.authVerif([3]), demandesOrganisateursController.getDemandeOrganisateursById);
 
 
-router.put("/:uuid",  sessionMiddleware.authVerif(), demandesOrganisateursController.updateDemandeOrganisateurs);
+router.put("/:uuid",  sessionMiddleware.authVerif([3]), demandesOrganisateursController.updateDemandeOrganisateurs);
 
 
-router.delete("/:uuid",  sessionMiddleware.authVerif(), demandesOrganisateursController.deleteDemandeOrganisateurs);
+router.delete("/:uuid",  sessionMiddleware.authVerif([3]), demandesOrganisateursController.deleteDemandeOrganisateurs);
 
 module.exports = router;

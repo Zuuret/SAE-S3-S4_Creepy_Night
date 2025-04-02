@@ -3,12 +3,12 @@
     <NavBar/>
     <div v-if="prestataire">
       <div class="banner">
-        <img :src=getImageUrl(prestataire.background2) :alt="prestataire.societe" class="prestataire-background"/>
+        <img :src="getImageUrl(prestataire.background2)" :alt="prestataire.societe" class="prestataire-background"/>
         <div class="prestataire-header">
-          <img :src=getImageUrl(prestataire.logo) :alt="prestataire.societe" class="prestataire-logo"/>
+          <img :src="getImageUrl(prestataire.logo)" :alt="prestataire.societe" class="prestataire-logo"/>
           <div class="trait"></div>
-          <h1>Bienvenue chez {{ prestataire.societe }}</h1>
-          <p>Retrouvez nous au {{ prestataire.adresse }}</p>
+          <h1>{{ $t('bienvenueChez') }} {{ prestataire.societe }}</h1>
+          <p>{{ $t('retrouvezNous') }} {{ prestataire.adresse }}</p>
         </div>
       </div>
       <BoutiquePrestataire/>

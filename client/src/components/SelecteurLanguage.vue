@@ -18,9 +18,7 @@ export default {
   data() {
     return {
       showDropdown: false,
-      selectedImage: require("../assets/drapeau_France.png"),
-      selectedText: "FR",
-      selectedValue: "fr",
+      selectedValue: localStorage.getItem("language") || "fr", // Charge la langue sauvegardée
       options: [
         { value: "fr", imgSrc: require("../assets/drapeau_France.png"), text: "FR" },
         { value: "en", imgSrc: require("../assets/drapeau_Angleterre.png"), text: "EN" },
@@ -28,6 +26,12 @@ export default {
     };
   },
   computed: {
+    selectedImage() {
+      return this.options.find(opt => opt.value === this.selectedValue)?.imgSrc;
+    },
+    selectedText() {
+      return this.options.find(opt => opt.value === this.selectedValue)?.text;
+    },
     filteredOptions() {
       return this.options.filter(option => option.value !== this.selectedValue);
     },
@@ -37,14 +41,23 @@ export default {
       this.showDropdown = !this.showDropdown;
     },
     selectOption(option) {
-      this.selectedImage = option.imgSrc;
-      this.selectedText = option.text;
       this.selectedValue = option.value;
       this.showDropdown = false;
+      
+      // Met à jour la langue de Vue I18n
+      this.$i18n.locale = option.value;
+
+      // Sauvegarde la langue dans localStorage
+      localStorage.setItem("language", option.value);
     },
+  },
+  mounted() {
+    // Applique la langue sauvegardée à Vue I18n lors du chargement du composant
+    this.$i18n.locale = this.selectedValue;
   },
 };
 </script>
+
 
 <style>
 .language-selector {

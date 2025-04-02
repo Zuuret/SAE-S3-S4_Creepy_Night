@@ -148,7 +148,7 @@ router.get("/:uuid", prestataireController.getPrestataireById);
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.put("/:uuid",  sessionMiddleware.authVerif(), prestataireController.updatePrestataire);
+router.put("/:uuid",  sessionMiddleware.authVerif([1,2,3]), prestataireController.updatePrestataire);
 
 
 /**
@@ -175,6 +175,162 @@ router.put("/:uuid",  sessionMiddleware.authVerif(), prestataireController.updat
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.delete("/:uuid",  sessionMiddleware.authVerif(), prestataireController.deletePrestataire);
+router.delete("/:uuid",  sessionMiddleware.authVerif([2]), prestataireController.deletePrestataire);
+
+/**
+ * @swagger
+ * /api/prestataires/{uuid}/description:
+ *   patch:
+ *     summary: Modification de la description d'un prestataire
+ *     description: Utilisé pour modifier la description d'un prestataire
+ *     tags:
+ *       - Informations prestataire
+ *     parameters:
+ *       - in: path
+ *         name: uuid
+ *         required: true
+ *         description: Uuid du prestataire
+ *         schema:
+ *           type: string
+ *       - in: body
+ *         name: informationsPrestataire
+ *         description: Données de la nouvelle description
+ *         schema:
+ *           type: object
+ *           required:
+ *             - description
+ *           properties:
+ *             description:
+ *               type: string
+ *               minLength: 3
+ *               maxLength: 255
+ *               example: Je change de description
+ *               description: nouvelle description
+ *     responses:
+ *       '200':
+ *         description: Description modifiée avec succès
+ *       '400':
+ *         description: Mauvaise requête
+ *       '500':
+ *         description: Erreur interne du serveur
+ */
+router.patch("/:uuid/description", sessionMiddleware.authVerif([1,2,3]), prestataireController.updateDescription);
+
+/**
+ * @swagger
+ * /api/prestataires/{uuid}/societe:
+ *   patch:
+ *     summary: Modification de le nom de société d'un prestataire
+ *     description: Utilisé pour modifier le nom de société d'un prestataire
+ *     tags:
+ *       - Informations prestataire
+ *     parameters:
+ *       - in: path
+ *         name: uuid
+ *         required: true
+ *         description: Uuid du prestataire
+ *         schema:
+ *           type: string
+ *       - in: body
+ *         name: informationsPrestataire
+ *         description: Données de la nouvelle société
+ *         schema:
+ *           type: object
+ *           required:
+ *             - société
+ *           properties:
+ *             société:
+ *               type: string
+ *               minLength: 3
+ *               maxLength: 255
+ *               example: Burger Kingdom
+ *               description: nouveau nom de société
+ *     responses:
+ *       '200':
+ *         description: Société modifiée avec succès
+ *       '400':
+ *         description: Mauvaise requête
+ *       '500':
+ *         description: Erreur interne du serveur
+ */
+router.patch("/:uuid/societe", sessionMiddleware.authVerif([2]), prestataireController.updateSociete);
+
+/**
+ * @swagger
+ * /api/prestataires/{uuid}/theme:
+ *   patch:
+ *     summary: Modification du theme d'un prestataire
+ *     description: Utilisé pour modifier le theme d'un prestataire
+ *     tags:
+ *       - Informations prestataire
+ *     parameters:
+ *       - in: path
+ *         name: uuid
+ *         required: true
+ *         description: Uuid du prestataire
+ *         schema:
+ *           type: string
+ *       - in: body
+ *         name: informationsPrestataire
+ *         description: Données du nouveau theme
+ *         schema:
+ *           type: object
+ *           required:
+ *             - theme
+ *           properties:
+ *             theme:
+ *               type: string
+ *               minLength: 3
+ *               maxLength: 255
+ *               example: Bonbons
+ *               description: nouveau thème
+ *     responses:
+ *       '200':
+ *         description: Thème modifiée avec succès
+ *       '400':
+ *         description: Mauvaise requête
+ *       '500':
+ *         description: Erreur interne du serveur
+ */
+router.patch("/:uuid/theme", sessionMiddleware.authVerif([2]), prestataireController.updateTheme);
+
+/**
+ * @swagger
+ * /api/prestataires/{uuid}/adresse:
+ *   patch:
+ *     summary: Modification de l'adresse d'un prestataire
+ *     description: Utilisé pour modifier l'adresse' d'un prestataire
+ *     tags:
+ *       - Informations prestataire
+ *     parameters:
+ *       - in: path
+ *         name: uuid
+ *         required: true
+ *         description: Uuid du prestataire
+ *         schema:
+ *           type: string
+ *       - in: body
+ *         name: informationsPrestataire
+ *         description: Données de la nouvelle adresse
+ *         schema:
+ *           type: object
+ *           required:
+ *             - adresse
+ *           properties:
+ *             adresse:
+ *               type: string
+ *               minLength: 3
+ *               maxLength: 255
+ *               example: 25 rue de la frite
+ *               description: nouvelle adresse
+ *     responses:
+ *       '200':
+ *         description: Adresse modifiée avec succès
+ *       '400':
+ *         description: Mauvaise requête
+ *       '500':
+ *         description: Erreur interne du serveur
+ */
+router.patch("/:uuid/adresse", sessionMiddleware.authVerif([2,3]), prestataireController.updateAdresse);
 
 module.exports = router;

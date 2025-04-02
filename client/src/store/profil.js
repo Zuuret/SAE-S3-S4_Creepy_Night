@@ -4,8 +4,6 @@ import Vuex from 'vuex';
 import ProfilService from '../services/profil.service';
 import CashLessService from '../services/cashless.service';
 import { getAllUtilisateurs, getPrestataireById, getUserById , getAllOrganisateurs, getAllPrestataires, getDemandesOrganisateurs, getDemandesPrestataires, deleteDemandePrestataire, deleteDemandeOrganisateur, insertOrganisateur, insertPrestataire } from "@/services/profil.service";
-import {demandesPrestataires as initialDemandesPrestataires} from '../datasource/data';
-import { demandesOrganisateurs as initialDemandesOrganisateurs } from '../datasource/data';
 
 Vue.use(Vuex);
 
@@ -21,8 +19,8 @@ export default ({
         errorMessage: '',
         utilisateurConnecte: JSON.parse(localStorage.getItem("utilisateurConnecte")) || null,
         logo: null,
-        demandesPrestataires: initialDemandesPrestataires,
-        demandesOrganisateurs: initialDemandesOrganisateurs,
+        demandesPrestataires: [],
+        demandesOrganisateurs: [],
     },
     mutations: {
         addUtilisateur(state, utilisateur) {
@@ -427,7 +425,7 @@ export default ({
 
         async updateDescriptionPrestataire({ commit }, { id, nouvelleDescription }) {
             console.log("Mis a jour de la description pour : ", nouvelleDescription, "de l'id : ", id);
-            let response = await ProfilService.updateDescriptionPrestataire(id, nouvelleDescription);
+            let response = await ProfilService.updateDescriptionPrestataireFromAPI(id, nouvelleDescription);
             if (response.error === 0) {
                 commit('updateDescription', nouvelleDescription);
             } else {
@@ -437,7 +435,7 @@ export default ({
 
         async updateSocietePrestataire({ commit }, { id, nouvelleSociete }) {
             console.log("Mis a jour du nom de societe pour : ", nouvelleSociete, "de l'id : ", id);
-            let response = await ProfilService.updateSocietePrestataire(id, nouvelleSociete);
+            let response = await ProfilService.updateSocietePrestataireFromAPI(id, nouvelleSociete);
             if (response.error === 0) {
                 commit('updateSociete', nouvelleSociete);
             } else {
@@ -447,7 +445,7 @@ export default ({
 
         async updateThemePrestataire({ commit }, { id, nouveauTheme }) {
             console.log("Mis a jour du theme pour : ", nouveauTheme, "de l'id : ", id);
-            let response = await ProfilService.updateThemePrestataire(id, nouveauTheme);
+            let response = await ProfilService.updateThemePrestataireFromAPI(id, nouveauTheme);
             if (response.error === 0) {
                 commit('updateTheme', nouveauTheme);
             } else {
@@ -457,7 +455,7 @@ export default ({
 
         async updateAdressePrestataire({ commit }, { id, nouvelleAdresse }) {
             console.log("Mis a jour de l'adresse pour : ", nouvelleAdresse, "de l'id : ", id);
-            let response = await ProfilService.updateAdressePrestataire(id, nouvelleAdresse);
+            let response = await ProfilService.updateAdressePrestataireFromAPI(id, nouvelleAdresse);
             if (response.error === 0) {
                 commit('updateAdresse', nouvelleAdresse);
             } else {
@@ -467,7 +465,7 @@ export default ({
 
         async updateImagePrestataire({ commit }, { id, nouvelleImage }) {
             console.log("Mis a jour de l'image pour : ", nouvelleImage, "de l'id : ", id);
-            let response = await ProfilService.updateImagePrestataire(id, nouvelleImage);
+            let response = await ProfilService.updateImagePrestataireFromAPI(id, nouvelleImage);
             if (response.error === 0) {
                 commit('updateImage', nouvelleImage);
             } else {

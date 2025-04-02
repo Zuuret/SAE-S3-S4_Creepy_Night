@@ -1,24 +1,25 @@
 <template>
-    <div class="home-organisateur">
-      <div class="navbar">
-        <NavOrganisateur />
-      </div>
-  
-      <div class="main-content">
-        <div class="card-container">
-          <div class="card">
-            <h1>Mon Profil</h1>
-            <div class="profil-infos">
-                <p><strong>Nom :</strong> {{ utilisateurConnecte.nom }}</p>
-                <p><strong>Prénom :</strong> {{ utilisateurConnecte.prenom }}</p>
-                <p><strong>Email :</strong> {{ utilisateurConnecte.email }}</p>
-                <p><strong>Téléphone :</strong> {{ utilisateurConnecte.numTelephone }}</p>
-            </div>
+  <div class="home-organisateur">
+    <div class="navbar">
+      <NavOrganisateur />
+    </div>
+
+    <div class="main-content">
+      <div class="card-container">
+        <div class="card">
+          <h1>{{ $t('monProfil') }}</h1>
+          <div class="profil-infos">
+            <p><strong>{{ $t('nom') }} :</strong> {{ utilisateurConnecte.nom }}</p>
+            <p><strong>{{ $t('prenom') }} :</strong> {{ utilisateurConnecte.prenom }}</p>
+            <p><strong>{{ $t('email') }} :</strong> {{ utilisateurConnecte.email }}</p>
+            <p><strong>{{ $t('telephone') }} :</strong> {{ utilisateurConnecte.numTelephone }}</p>
           </div>
         </div>
       </div>
     </div>
-  </template>
+  </div>
+</template>
+
   
   <script>
   import { mapState, mapActions } from 'vuex';

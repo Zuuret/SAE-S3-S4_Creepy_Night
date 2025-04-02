@@ -55,7 +55,7 @@ async function updateArticle(id, prestataire_id, nom, description, prix, stock, 
     try {
         const query = format('UPDATE articles SET prestataire_id = %L, nom = %L, description = %L, prix = %L, stock = %L, image = %L WHERE id = %L', prestataire_id, nom, description, prix, stock, image, id);
         await client.query(query);
-        console.log('MISE A JOUR DU CONCERT');
+        console.log("MISE A JOUR D'ARTICLES");
     } catch (error) {
         console.error('Erreur lors de la mise à jour du concert :', error);
         is_error = true;

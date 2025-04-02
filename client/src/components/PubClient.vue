@@ -2,19 +2,14 @@
     <div class="PubClient">
         <div class="intro">
             <h1 class="titre-partie" id="titre-intro">
-                Bienvenue à Creepy Night, le festival
-                incontournable de la peur !
+                {{ $t('intro.titreIntro') }}
             </h1>
             <div class="intro-partie">
                 <div class="description-intro">
                     <p class="introduction">
-                        Plongez dans une expérience unique et immersive dédiée à l'univers fascinant de la
-                        peur et du mystère. Pendant une semaine, vibrez au rythme d’un programme riche et
-                        captivant mêlant expositions, projections cinématographiques, concerts live et bien plus
-                        encore. Que vous soyez un amateur de sensations fortes, un passionné de cinéma
-                        fantastique ou simplement curieux, Creepy Night vous promet des émotions inoubliables.
+                        {{ $t('intro.description') }}
                     </p>
-                    <router-link class="btn-ticket" to="/billet">Tickets et abonnements</router-link>
+                    <router-link class="btn-ticket" to="/billet">{{ $t('intro.ticketLink') }}</router-link>
                 </div>
                 <div class="image-intro">
                     <img alt="creepynight" src="@/assets/img-intro-1.png" class="image-style">
@@ -31,6 +26,7 @@
         </div>
     </div>
 </template>
+
 
 <script>
 export default {

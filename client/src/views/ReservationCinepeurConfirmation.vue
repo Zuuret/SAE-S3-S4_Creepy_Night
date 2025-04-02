@@ -2,34 +2,34 @@
   <div style="margin-top: 150px">
     <NavBar />
     <div v-if="utilisateurConnecte == null">
-      <h1>Veuillez vous connecter :</h1>
+      <h1>{{ $t('please_login') }}:</h1>
       <router-link :to="`/cinepeur/`">
-        <button style="margin-top: 10px">Retour</button>
+        <button style="margin-top: 10px">{{ $t('back') }}</button>
       </router-link>
       <router-link :to="`/connexion/`">
-        <button style="margin-top: 10px">Se Connecter</button>
+        <button style="margin-top: 10px">{{ $t('login') }}</button>
       </router-link>
     </div>
     <div v-else>
-      <h1 class="bordure">Détails du film</h1>
+      <h1 class="bordure">{{ $t('movie_details') }}</h1>
       <img :src="filmById.image" alt="Affiche du film" />
       <div v-if="filmById" class="bordure">
         <h2>{{ filmById.nomFilm }}</h2>
-        <p>Date : {{ filmById.date }}</p>
-        <p>Heure : {{ filmById.heure }}</p>
+        <p>{{ $t('date') }} : {{ filmById.date }}</p>
+        <p>{{ $t('time') }} : {{ filmById.heure }}</p>
         <p>{{ filmById.salle }}</p>
       </div>
 
       <div v-if="places_film.length > 0" class="bordure">
-        <h3>Places disponibles :</h3>
+        <h3>{{ $t('available_seats') }} :</h3>
         <div v-for="place in places_film" :key="place.id">
-          <p>Type de place : {{ place.type_place }}</p>
-          <p>Nombre de places : {{ place.nb_places }}</p>
-          <p>Prix : {{ place.prix_place }} €</p>
+          <p>{{ $t('seat_type') }} : {{ place.type_place }}</p>
+          <p>{{ $t('seat_quantity') }} : {{ place.nb_places }}</p>
+          <p>{{ $t('seat_price') }} : {{ place.prix_place }} €</p>
           <div>
-            <p v-if="utilisateurConnecte !== null">Votre Cashless : {{ prixCashless }} €</p>
+            <p v-if="utilisateurConnecte !== null">{{ $t('your_cashless') }} : {{ prixCashless }} €</p>
             <label :for="`selection_quantite_${place.type_place}`">
-              Quantité :
+              {{ $t('quantity') }} :
             </label>
             <select v-model.number="quantiteParType[place.type_place]">
               <option v-for="n in 7" :key="n" :value="n-1">{{ n-1 }}</option>
@@ -38,17 +38,18 @@
         </div>
       </div>
       <div v-if="places_film.length <= 0" class="bordure">
-        <p>Aucune place disponible pour ce film.</p>
+        <p>{{ $t('no_seats_available') }}</p>
       </div>
       <div class="bordure">
-        <p>Total : {{ prixTotal }}€</p>
+        <p>{{ $t('total') }} : {{ prixTotal }}€</p>
         <router-link v-if="prixTotal !== 0 && utilisateurConnecte.solde >= prixTotal" :to="`/cinepeur/`">
-          <button @click="setPlaceFilm([utilisateurConnecte.id, filmById.id, quantiteParType['Fosse'], prixTotal, filmById.nomFilm])">Obtenir ma place</button>
+          <button @click="setPlaceFilm([utilisateurConnecte.id, filmById.id, quantiteParType['Fosse'], prixTotal, filmById.nomFilm])">{{ $t('get_ticket') }}</button>
         </router-link>
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 import { mapActions, mapState } from 'vuex';

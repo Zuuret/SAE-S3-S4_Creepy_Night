@@ -197,6 +197,7 @@ export default ({
         },
         async putPrestataireArticle({commit}, data){
             console.log("Modification de l'article d'ID :", data.id)
+            console.log(data)
             let response = await PrestataireService.putPrestataireArticle(data)
             if (response.error === 0) {
                 commit('updateArticleById', response.data);

@@ -9,9 +9,9 @@
           <div class="traitBlanc"></div>
           <h3 class="prix">{{ article.prix }} €</h3>
           <p class="description">{{ article.description }}</p>
-          <h3 class="stock">Stock restant : {{ article.stock }}</h3>
+          <h3 class="stock">{{ $t('article.stockRestant') }} : {{ article.stock }}</h3>
           <div class="btn-container">
-            <button @click="ajouterAuPanier()" :disabled="article.stock <= 0">🛒 Ajouter</button>
+            <button @click="ajouterAuPanier()" :disabled="article.stock <= 0">🛒 {{ $t('article.ajouter') }}</button>
           </div>
         </div>
       </div>

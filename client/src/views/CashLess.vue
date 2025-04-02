@@ -4,52 +4,52 @@
       <NavBar />
     </div>
     <div class="cashless-info">
-      <h2>CashLess</h2>
+      <h2>{{ $t('cashless.title') }}</h2>
       <div class="info-container">
         <div class="text-section">
-          <p>Le paiement dématérialisé, l'unique moyen de paiement au Creepy Night Festival</p>
-          <p class="list">Mon espace me permet de :</p>
+          <p>{{ $t('cashless.infoText') }}</p>
+          <p class="list">{{ $t('cashless.listTitle') }}</p>
           <ul>
-            <li>Consulter le solde de mon bracelet et l'historique de mes transactions</li>
-            <li>Enregistrer ma CB pour pouvoir re-créditer mon bracelet en quelques secondes</li>
-            <li>Obtenir le remboursement du solde de mon bracelet après l'événement</li>
+            <li>{{ $t('cashless.balanceCheck') }}</li>
+            <li>{{ $t('cashless.registerCard') }}</li>
+            <li>{{ $t('cashless.refund') }}</li>
           </ul>
         </div>
         <div class="image-section">
-          <img src="@/assets/BraceletCashLess.png" alt="Bracelet CashLess" class="bracelet-image" />
+          <img :src="require('@/assets/BraceletCashLess.png')" :alt="$t('cashless.imageAlt')" class="bracelet-image" />
         </div>
       </div>
       <div class="steps">
         <div class="step">
-          <h3>1. Créditer votre compte CashLess</h3>
-          <p>Rendez-vous sur cette page ou sur l’application mobile pour créditer votre bracelet. Puis le jour J, présentez votre billet à l'entrée pour récupérer votre bracelet préchargé</p>
+          <h3>1. {{ $t('cashless.step1.title') }}</h3>
+          <p>{{ $t('cashless.step1.text') }}</p>
         </div>
         <div class="step">
-          <h3>2. Le paiement simplifié</h3>
-          <p>Utilisez votre bracelet pour régler sur place vos achats (sauf exceptions).</p>
+          <h3>2. {{ $t('cashless.step2.title') }}</h3>
+          <p>{{ $t('cashless.step2.text') }}</p>
         </div>
         <div class="step">
-          <h3>3. Remboursement</h3>
-          <p>À la fin du festival, s'il vous reste du crédit, rendez-vous sur votre compte en ligne pour demander le remboursement du 2 au 15 Novembre inclus. Aucun remboursement accepté une fois cette date passée.</p>
+          <h3>3. {{ $t('cashless.step3.title') }}</h3>
+          <p>{{ $t('cashless.step3.text') }}</p>
         </div>
       </div>
     </div>
 
     <div class="container" v-if="utilisateurConnecte">
       <div class="wallet">
-        <h2>Votre porte-monnaie</h2>
+        <h2>{{ $t('wallet.title') }}</h2>
         <div class="balance">
-          <p>Solde actuel : <span class="amount">{{ soldeAffiche.toFixed(2) }} €</span></p>
-          <button class="recharge-button" @click="openModal('Rechargement')">Recharger</button>
-          <button class="refund-button" @click="openModal('Remboursement')">Remboursement</button>
+          <p>{{ $t('wallet.balance') }}: <span class="amount">{{ soldeAffiche.toFixed(2) }} €</span></p>
+          <button class="recharge-button" @click="openModal('Rechargement')">{{ $t('wallet.recharge') }}</button>
+          <button class="refund-button" @click="openModal('Remboursement')">{{ $t('wallet.refund') }}</button>
         </div>
         <div class="ticket-info">
           <vue-qr :text="utilisateurConnecte.num_cashless" :size="200"></vue-qr>
-          <p>N° de billet : {{ utilisateurConnecte.num_cashless }}</p>
+          <p>{{ $t('wallet.ticketNumber') }}: {{ utilisateurConnecte.num_cashless }}</p>
         </div>
       </div>
       <div class="transactions">
-        <h2>Mes dernières transactions :</h2>
+        <h2>{{ $t('transactions.title') }}</h2>
         <ul>
           <li v-for="transaction in filteredTransactions" :key="transaction.id" class="transaction-item">
             <p>{{ formatDate(transaction.date) }}</p>
@@ -66,10 +66,10 @@
     <div class="modal" v-if="showModal">
       <div class="modal-content">
         <h3>{{ modalTitle }}</h3>
-        <label for="amount">Montant :</label>
+        <label for="amount">{{ $t('modal.amountLabel') }}</label>
         <input type="number" id="amount" v-model="transactionAmount" min="0" step="0.01" /><br>
         <button class="modal-button" @click="processTransaction">{{ modalButton }}</button>
-        <button class="modal-cancel" @click="closeModal">Annuler</button>
+        <button class="modal-cancel" @click="closeModal">{{ $t('modal.cancel') }}</button>
       </div>
     </div>
   </div>

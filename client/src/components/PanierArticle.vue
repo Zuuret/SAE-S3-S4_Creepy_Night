@@ -1,13 +1,13 @@
 <template>
   <div class="panier">
-    <h1>Votre Panier</h1>
+    <h1>{{ $t('panier.votrePanier') }}</h1>
     <div v-if="panier.length > 0" class="panier-items">
       <div v-for="item in panier" :key="item.id" class="panier-item">
         <img :src=getImageUrl(item.image) alt="Article" class="panier-item-image" />
         <div class="panier-item-info">
           <p>{{ item.nom }}</p>
-          <p>Prix : {{ item.prix }} €</p>
-          <p>Quantité : {{ item.quantite }}</p>
+          <p>{{ $t('panier.prix') }} : {{ item.prix }} €</p>
+          <p>{{ $t('panier.quantite') }} : {{ item.quantite }}</p>
           <div class="quantity-controls">
             <button @click="diminuerQuantite(item)">-</button>
             <button @click="incrementerQuantite(item)" :disabled="item.stock <= 0">+</button>
@@ -16,10 +16,10 @@
       </div>
     </div>
     <div v-if="panier.length > 0" class="panier-total">
-      <p>Total : {{ total.toFixed(2) }} €</p>
-      <button @click="reserverArticle(utilisateurConnecte.id)">Valider la commande</button>
+      <p>{{ $t('panier.total') }} : {{ total.toFixed(2) }} €</p>
+      <button @click="reserverArticle(utilisateurConnecte.id)">{{ $t('panier.validerCommande') }}</button>
     </div>
-    <p v-else>Votre panier est vide.</p>
+    <p v-else>{{ $t('panier.panierVide') }}</p>
   </div>
 </template>
 

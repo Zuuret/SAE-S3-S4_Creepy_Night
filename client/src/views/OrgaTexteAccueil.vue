@@ -6,17 +6,17 @@
 
     <div class="main-content">
       <header>
-        <h1>Modifier le texte d’accueil</h1>
+        <h1>{{ $t('modifierTexteAccueil') }}</h1>
       </header>
 
       <section class="editor-section">
-        <label for="titre">Titre :</label>
+        <label for="titre">{{ $t('titre') }} :</label>
         <input v-model="titre" id="titre" type="text" />
 
-        <label for="contenu">Contenu :</label>
+        <label for="contenu">{{ $t('contenu') }} :</label>
         <vue-editor v-model="contenu" />
 
-        <button @click="enregistrer">Enregistrer</button>
+        <button @click="enregistrer">{{ $t('enregistrer') }}</button>
         <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
       </section>
     </div>

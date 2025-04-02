@@ -1,15 +1,16 @@
 <template>
   <div class="compte-rebours">
-    <h1>Temps restant avant le début</h1>
+    <h1>{{ $t('compteRebours.tempsRestant') }}</h1>
     <p class="time-display">
       <span class="time-unit">{{ formatTime(days) }}</span> :
       <span class="time-unit">{{ formatTime(hours) }}</span> :
       <span class="time-unit">{{ formatTime(minutes) }}</span> :
       <span class="time-unit">{{ formatTime(seconds) }}</span>
     </p>
-    <p class="current-date">Début du festival : {{ festivalDate }}</p>
+    <p class="current-date">{{ $t('compteRebours.debutFestival') }} : {{ festivalDate }}</p>
   </div>
 </template>
+
 
 <script>
 export default {

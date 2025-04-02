@@ -6,81 +6,80 @@
     <div class="introduction">
       <div class="form"></div>
       <div class="text-content">
-        <h1>Bienvenue dans SécuFlippe, votre guide pour un festival CreepyNight terrifiant mais sécurisé !</h1>
+        <h1>{{ $t('welcome_secuflippe') }}</h1>
         <p>
-          Que vous soyez ici pour signaler un problème, suivre un incident ou simplement découvrir comment rester en sécurité tout au long de l’événement,
-          cette rubrique est là pour vous accompagner.
+          {{ $t('secuflippe_description') }}
         </p>
       </div>
       <img src="@/assets/Secuflippe_intro.png" alt="Image introduction" class="image_intro" />
     </div>
     <div class="section">
       <div class="section1" data-aos="zoom-in" data-aos-duration="1000">
-        <h1>Que voulez-vous faire ?</h1>
+        <h1>{{ $t('what_want_to_do') }}</h1>
         <ul>
           <li data-aos="flip-left" data-aos-delay="200">
             <img src="@/assets/signalement_icone.png" alt="Icône signalement" class="signalement_icon"/>
-            <h2>Faire un signalement</h2>
-            <p>Avez-vous rencontré un problème ? Notre équipe est là pour vous aider rapidement.</p>
+            <h2>{{ $t('make_a_report') }}</h2>
+            <p>{{ $t('problem_encountered') }}</p>
             <router-link to="/secuflippe/signalement" style="text-decoration: none; color: white;">
-              <button>Accéder au formulaire de signalement</button>
+              <button>{{ $t('access_report_form') }}</button>
             </router-link>
           </li>
           <li data-aos="flip-right" data-aos-delay="400">
             <img src="@/assets/suivi_signalement_icone.png" alt="Icône suivi signalement" class="suivi_signalement_icon"/>
-            <h2>Suivre un signalement</h2>
-            <p>Déjà signalé un problème ? Consultez le statut de votre requête.</p>
+            <h2>{{ $t('track_report') }}</h2>
+            <p>{{ $t('already_reported_problem') }}</p>
             <router-link to="/secuflippe/mesSignalements" style="text-decoration: none; color: white;">
-              <button>Suivre un signalement</button>
+              <button>{{ $t('track_report_button') }}</button>
             </router-link>
           </li>
         </ul>
       </div>
       <div class="section2" data-aos="fade-right" data-aos-duration="1000">
-        <h2>Un festival d'horreur peut être effrayant… mais pas dangereux si vous suivez ces conseils !</h2>
+        <h2>{{ $t('festival_safety_tips') }}</h2>
         <ul>
           <li>
             <img src="@/assets/ensemble.png" alt="Ensemble" class="regle1">
             <div class="trait"></div>
-            Déplacez-vous en groupe : <br>
-            Ne restez pas seul dans les zones sombres ou isolées.
+            {{ $t('move_in_groups') }}<br>
+            {{ $t('dont_stay_alone') }}
           </li>
           <li>
             <img src="@/assets/croix_secours.png" alt="Croix rouge" class="regle2">
             <div class="trait"></div>
-            Localisez les points de secours : <br>
-            Familiarisez-vous avec les postes de secours et les issues de secours sur la carte.</li>
+            {{ $t('locate_first_aid') }}<br>
+            {{ $t('familiarize_with_first_aid') }}</li>
           <li>
             <img src="@/assets/perturbateur.png" alt="Mauvaise personne" class="regle3">
             <div class="trait"></div>
-            Gardez vos affaires près de vous : <br>
-            Les monstres ne voleront pas vos sacs, mais on ne sait jamais avec les autres festivaliers !
+            {{ $t('keep_belongings_near') }}<br>
+            {{ $t('dont_leave_belongings') }}
           </li>
           <li>
             <img src="@/assets/appel.png" alt="Téléphone" class="regle4">
             <div class="trait"></div>
-            Restez vigilant(e) : <br>
-            Si quelque chose semble louche, signalez-le immédiatement via SécuFlippe.
+            {{ $t('stay_vigilant') }}<br>
+            {{ $t('report_suspicious_activity') }}
           </li>
           <li>
             <img src="@/assets/map.png" alt="Carte" class="regle5">
             <div class="trait"></div>
-            Respectez les limites : <br>
-            Certaines zones sont interdites pour votre propre sécurité, ne vous aventurez pas au-delà.</li>
+            {{ $t('respect_boundaries') }}<br>
+            {{ $t('do_not_venture_beyond') }}</li>
         </ul>
       </div>
       <div class="section3" data-aos="fade-up" data-aos-duration="1000">
-        <h1>A propos de l'équipe de SécuFlippe</h1>
-        <p>Nos équipes de sécurité sont composées de professionnels et de bénévoles passionnés qui veillent à ce que tout le monde profite du festival sans inquiétude.
-        N’hésitez pas à demander de l’aide ou des renseignements si nécessaire.</p>
+        <h1>{{ $t('about_secuflippe_team') }}</h1>
+        <p>{{ $t('team_description') }}</p>
       </div>
       <div class="section4" data-aos="fade-up" data-aos-duration="1000">
-        <h1>Plan du site et postes de secours</h1>
+        <h1>{{ $t('site_plan_and_first_aid') }}</h1>
         <img src="@/assets/carte_creepy_night.png" alt="Carte du festival" class="carte-festival" data-aos="zoom-in" data-aos-duration="1200">
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 import NavBar from "@/components/NavBar.vue";

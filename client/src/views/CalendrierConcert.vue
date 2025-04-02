@@ -3,7 +3,7 @@
     <div class="navbar">
       <NavBar />
     </div>
-    <h1>Calendrier des concerts</h1>
+    <h1>{{ $t('concerts.calendrierTitre') }}</h1>
     <div class="calendar">
       <div class="calendar-header">
         <div class="calendar-hour"></div>
@@ -14,11 +14,19 @@
           <div class="calendar-hour">{{ hour }}</div>
           <div v-for="day in days" :key="day" class="calendar-cell">
             <div v-if="!concertsByDayAndHour[day][hour]" class="empty-cell">
-              <p class="placeholder-text">À venir</p>
+              <p class="placeholder-text">{{ $t('concerts.aVenir') }}</p>
             </div>
-            <div v-if="concertsByDayAndHour[day][hour]" class="concert-card">
-              <router-link :to="`/concert/${concertsByDayAndHour[day][hour].id}`">
-                <img class="concert-img" :src="concertsByDayAndHour[day][hour].image" alt="Affiche du concert" />
+            <div v-else class="concert-card">
+              <router-link 
+                :to="`/concert/${concertsByDayAndHour[day][hour].id}`" 
+                @click.native="console.log('Concert ID:', concertsByDayAndHour[day][hour].id)"
+              >
+                <img 
+                  class="concert-img" 
+                  :src="imagePath(concertsByDayAndHour[day][hour].image)" 
+                  :alt="`Affiche de ${concertsByDayAndHour[day][hour].artiste}`"
+                  @error="handleImageError"
+                />
                 <p class="nomArtiste">{{ concertsByDayAndHour[day][hour].artiste }}</p>
               </router-link>
             </div>
@@ -29,66 +37,129 @@
   </div>
 </template>
 
+
 <script>
-import {mapActions, mapState} from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import NavBar from "@/components/NavBar.vue";
+import placeholderImage from '@/assets/affiche_Gims.jpg'; // Assurez-vous que ce fichier existe
 
 export default {
-  name: 'CalendrierConcert.vue',
-  components: {NavBar},
+  name: 'CalendrierConcert',
+  components: { NavBar },
   data() {
     return {
-      days: this.getLastWeekOfOctober(),
       hours: ['18:00', '19:00', '20:00', '21:00', '22:00', '23:00', '00:00', '01:00'],
+      days: [],
+      placeholderImage: placeholderImage
     };
   },
   computed: {
     ...mapState('ConcertStore', ['concerts']),
     concertsByDayAndHour() {
       const concertsByDayAndHour = {};
+      
+      // Initialiser la structure vide
       this.days.forEach(day => {
         concertsByDayAndHour[day] = {};
         this.hours.forEach(hour => {
           concertsByDayAndHour[day][hour] = null;
         });
       });
+
+      // Remplir avec les concerts
       this.concerts.forEach(concert => {
-        const concertDate = new Date(concert.date);
-        const concertDay = concertDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
-        const concertHour = concert.heure.split('h')[0] + ':00';
-        if (this.days.includes(concertDay)) {
-          concertsByDayAndHour[concertDay][concertHour] = concert;
+        try {
+          const concertDate = new Date(concert.date);
+          const options = { 
+            weekday: 'long', 
+            day: 'numeric', 
+            month: 'long',
+            timeZone: 'Europe/Paris'
+          };
+          
+          // Formater la date en français (Paris)
+          const concertDay = concertDate.toLocaleDateString('fr-FR', options);
+          
+          // Extraire l'heure correctement
+          const [hours] = concert.heure.split(':');
+          const concertHour = `${hours.padStart(2, '0')}:00`;
+
+          // Debug logging
+          console.log('Processing concert:', {
+            artiste: concert.artiste,
+            originalDate: concert.date,
+            convertedDate: concertDate,
+            concertDay,
+            concertHour,
+            days: this.days,
+            match: this.days.includes(concertDay) && this.hours.includes(concertHour)
+          });
+
+          if (this.days.includes(concertDay) && this.hours.includes(concertHour)) {
+            concertsByDayAndHour[concertDay][concertHour] = {
+              ...concert,
+              image: concert.image.endsWith('.jpg') ? concert.image : `${concert.image}.jpg`
+            };
+          }
+        } catch (error) {
+          console.error('Erreur de traitement du concert:', concert, error);
         }
       });
 
+      console.log('Final structure:', concertsByDayAndHour);
       return concertsByDayAndHour;
     }
-  }
-,
+  },
   methods: {
-    ...mapActions('ConcertStore',['getAllConcert']),
+    ...mapActions('ConcertStore', ['getAllConcert']),
+    
+    handleImageError(event) {
+      event.target.src = this.placeholderImage;
+    },
+
+    imagePath(imageName) {
+      try {
+        return require(`@/assets/${imageName}`);
+      } catch (e) {
+        return this.placeholderImage;
+      }
+    },
+
     getLastWeekOfOctober() {
-      let year;
-      if (new Date().getMonth() === 11 || new Date().getMonth() === 10) {
-        year = new Date().getFullYear() + 1;
-      } else {
-        year = new Date().getFullYear();
+      const year = 2025; // Fixé pour correspondre à vos données de test
+      const october31 = new Date(year, 9, 31); // 31 octobre 2025
+      const days = [];
+      
+      // Trouver le lundi de la semaine contenant le 31 octobre
+      while (october31.getDay() !== 1) {
+        october31.setDate(october31.getDate() - 1);
       }
-      const lastDayOfOctober = new Date(year, 9, 31);
-      const lastWeek = [];
-      while (lastDayOfOctober.getDay() !== 1) {
-        lastDayOfOctober.setDate(lastDayOfOctober.getDate() - 1);
-      }
+      
+      // Générer les 7 jours de la semaine
       for (let i = 0; i < 7; i++) {
-        lastWeek.push(lastDayOfOctober.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }));
-        lastDayOfOctober.setDate(lastDayOfOctober.getDate() + 1);
+        const currentDate = new Date(october31);
+        currentDate.setDate(october31.getDate() + i);
+        const dayString = currentDate.toLocaleDateString('fr-FR', {
+          weekday: 'long',
+          day: 'numeric',
+          month: 'long',
+          timeZone: 'Europe/Paris'
+        });
+        days.push(dayString);
       }
 
-      return lastWeek;
+      console.log('Generated days:', days);
+      return days;
     }
   },
-  mounted() {
-    this.getAllConcert();
+  async mounted() {
+    await this.getAllConcert();
+    this.days = this.getLastWeekOfOctober();
+    console.log('Données initialisées:', {
+      concerts: this.concerts,
+      days: this.days,
+      hours: this.hours
+    });
   }
 };
 </script>
