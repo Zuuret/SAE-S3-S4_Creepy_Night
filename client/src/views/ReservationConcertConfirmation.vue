@@ -21,29 +21,38 @@
       </div>
 
       <div class="ticket">
-        <h3>{{ $t('available_seats') }} :</h3>
-        <div v-if="place_concert">
+        <h3>Places disponibles :</h3>
+        <div v-if="concert.nb_places > 0">
           <p>
-            <strong>{{ $t('type') }} :</strong> {{ place_concert.type_place }} <br/>
-            <strong>{{ $t('price') }} :</strong> {{ place_concert.prix_place }} €<br/>
-            <strong>{{ $t('available') }} :</strong> {{ place_concert.nb_places }}
+            <strong>Type :</strong> Place standard<br/>
+            <strong>Prix :</strong> {{ concert.prix_place }} €<br/>
+            <strong>Disponibles :</strong> {{ concert.nb_places }}
           </p>
-          <label for="selection_quantite">{{ $t('quantity') }}</label>
-          <input type="number" v-model.number="quantite" id="selection_quantite" min="0" step="1"/>
+          <label for="selection_quantite">QUANTITÉ</label>
+          <input 
+            type="number" 
+            v-model.number="quantite" 
+            id="selection_quantite" 
+            :max="concert.nb_places"
+            min="1" 
+            step="1"
+          />
         </div>
         <div v-else>
-          <p>{{ $t('no_seats_available') }}</p>
+          <p>COMPLET</p>
         </div>
         <div class="ticket-total">
-          <p><strong>{{ $t('total') }} :</strong> {{ prixTotal }} €</p>
-          <button @click="ajoutAuPanier">{{ $t('add_to_cart') }}</button>
+          <p><strong>TOTAL :</strong> {{ prixTotal }} €</p>
+          <button @click="reserverConcert">RÉSERVER</button>
         </div>
-        <router-link to="/cashless">
-          {{ $t('go_to_cashless') }}
-        </router-link>
-        <router-link to="/reservations/concert">
-          {{ $t('view_my_reservations') }}
-        </router-link>
+        <div class="liens-utiles">
+          <router-link to="/cashless">
+            Allez au cashless !!
+          </router-link>
+          <router-link to="/reservations/concert">
+            Voir mes réservations
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
