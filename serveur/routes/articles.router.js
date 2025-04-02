@@ -18,12 +18,12 @@ router.delete("/prestataire/:idPresta", sessionMiddleware.authVerif([2]), articl
 
 router.get("/prestataire/article/:idArticle", articlesController.getArticleById);
 
-router.post("/cart", sessionMiddleware.authVerif(), articlesController.saveArticleToCart);
+router.post("/cart", articlesController.saveArticleToCart);
 
-router.get("/cart/:idUtilisateur", sessionMiddleware.authVerif(), articlesController.getCart);
+router.get("/cart/:idUtilisateur", articlesController.getCart);
 
-router.put("/cart/increment", sessionMiddleware.authVerif(), articlesController.incrementArticleInCart);
+router.put("/cart/increment", articlesController.incrementArticleInCart);
 
-router.put("/cart/decrement", sessionMiddleware.authVerif(), articlesController.decrementArticleInCart);
+router.put("/cart/decrement", articlesController.decrementArticleInCart);
 
 module.exports = router;
