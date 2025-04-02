@@ -31,7 +31,7 @@ exports.getLivreDOrById = async (req, res) => {
 
         return res.status(200).json({ data: livreDOrSpecifique, error: 0 });
     } catch (error) {
-        if (!res.headersSent) {  // ✅ Vérifie si une réponse a déjà été envoyée
+        if (!res.headersSent) {  
             res.status(500).json({ error: 'ERREUR INTERNE' });
         }
     }
