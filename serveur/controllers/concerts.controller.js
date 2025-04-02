@@ -12,7 +12,10 @@ exports.saveConcert = async (req,res) => {
     const duree = 1;
     const categorie = req.body.categorie;
     const scene = req.body.scene;
-    const resultat = await concertService.insertConcert(artiste, nationalite, date, heure, duree, categorie, scene);
+    const nb_places = req.body.nb_places;
+    const prix_place = req.body.prix_place;
+    const image = req.body.image;
+    const resultat = await concertService.insertConcert(artiste, nationalite, date, heure, duree, categorie, scene, nb_places, prix_place, image);
     if (resultat) {
         return res.status(500).send("ERREUR INTERNE");
     }
@@ -58,7 +61,10 @@ exports.updateConcert = async (req,res) => {
     const duree = 1;
     const categorie = req.body.categorie;
     const scene = req.body.scene;
-    const resultat = await concertService.updateConcert(id,artiste,nationalite,date,heure,duree,categorie,scene);
+    const nb_places = req.body.nb_places;
+    const prix_place = req.body.prix_place;
+    const image = req.body.image;
+    const resultat = await concertService.updateConcert(id,artiste,nationalite,date,heure,duree,categorie,scene, nb_places, prix_place, image);
     if(resultat){
         return res.status(500).send("ERREUR INTERNE");
     }

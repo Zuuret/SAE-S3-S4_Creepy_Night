@@ -4,75 +4,74 @@
       <NavBar />
     </div>
 
-    <h1 class="titre">Cauche'Marathon</h1>
+    <h1 class="titre">{{ $t('cauchemarathon.title') }}</h1>
 
     <div class="container">
       <div class="circuit-image">
-        <img v-if="selectedCircuit === 'both'" src="@/assets/Circuits.png" alt="Circuits">
-        <img v-if="selectedCircuit === 'circuit1'" src="@/assets/Circuit1.png" alt="Circuit 1">
-        <img v-if="selectedCircuit === 'circuit2'" src="@/assets/Circuit2.png" alt="Circuit 2">
+        <img v-if="selectedCircuit === 'both'" src="@/assets/Circuits.png" :alt="$t('cauchemarathon.circuits')" />
+        <img v-if="selectedCircuit === 'circuit1'" src="@/assets/Circuit1.png" :alt="$t('cauchemarathon.circuit1')" />
+        <img v-if="selectedCircuit === 'circuit2'" src="@/assets/Circuit2.png" :alt="$t('cauchemarathon.circuit2')" />
       </div>
 
       <div class="content-right">
         <div class="presentation">
           <p class="lft">
-            Le Cauche'Marathon est une course d'horreur unique en son genre, se déroulant dans le festival. Les participants devront courir à travers des circuits effrayants, en évitant les monstres et les pièges, pour atteindre la ligne d'arrivée. Les trois premiers de chaque course recevront des récompenses en argent, des médailles et un trophée exclusif !<br><br>
-            Il y a deux circuits disponibles : La FrayeuRoute et L'ÉpouvanTour.<br><br>
-            Les marathons sur la FrayeuRoute débuteront à 20h, tandis que ceux sur l'ÉpouvanTour débuteront à 22h.
+            {{ $t('cauchemarathon.description') }}
           </p>
         </div>
         <div class="circuit-selection">
-          <h2>Choisissez votre circuit</h2>
-          <button @click="selectCircuit('both')" :disabled="selectedCircuit === 'both'">Carte intégrale</button>
-          <button @click="selectCircuit('circuit1')" :disabled="selectedCircuit === 'circuit1'">La FrayeuRoute</button>
-          <button @click="selectCircuit('circuit2')" :disabled="selectedCircuit === 'circuit2'">L'ÉpouvanTour</button>
+          <h2>{{ $t('cauchemarathon.choose_circuit') }}</h2>
+          <button @click="selectCircuit('both')" :disabled="selectedCircuit === 'both'">{{ $t('cauchemarathon.full_map') }}</button>
+          <button @click="selectCircuit('circuit1')" :disabled="selectedCircuit === 'circuit1'">{{ $t('cauchemarathon.circuit1') }}</button>
+          <button @click="selectCircuit('circuit2')" :disabled="selectedCircuit === 'circuit2'">{{ $t('cauchemarathon.circuit2') }}</button>
         </div>
         <div class="textes">
           <div class="day-selection">
-            <h2>Choisissez votre jour</h2>
+            <h2>{{ $t('cauchemarathon.choose_day') }}</h2>
             <select v-model="selectedDay" :disabled="selectedCircuit === 'both'">
-              <option value="mercredi">Mercredi 29 octobre</option>
-              <option value="vendredi">Vendredi 31 octobre</option>
-              <option value="dimanche">Dimanche 2 novembre</option>
+              <option value="mercredi">{{ $t('cauchemarathon.wednesday') }}</option>
+              <option value="vendredi">{{ $t('cauchemarathon.friday') }}</option>
+              <option value="dimanche">{{ $t('cauchemarathon.sunday') }}</option>
             </select>
           </div>
-          <p>Vivez une expérience effrayante en participant à cette course d'horreur ! Le prix du billet est de 10€.</p>
-          <label class="qtt" for="quantity">Nombre de places : </label>
-          <input type="number" id="quantity" name="quantity" min="1" max="30" v-model="nb_place">
+          <p>{{ $t('cauchemarathon.experience') }}</p>
+          <label class="qtt" for="quantity">{{ $t('cauchemarathon.tickets') }}</label>
+          <input type="number" id="quantity" name="quantity" min="1" max="30" v-model="nb_place" />
           <div class="ticket-purchase" v-if="selectedCircuit !== 'both' && utilisateurConnecte && nb_place > 0">
-            <h2>Participer au Cauche'Marathon</h2>
-            <p>Vous avez choisi : <strong>{{ nb_place }}</strong> place(s) pour le circuit <strong>{{ selectedCircuitName }}</strong> le <strong>{{ selectedDayName }}</strong>.</p>
-            <button @click="buyTicket">Billet(s) - {{ totalPrice }}€</button>
+            <h2>{{ $t('cauchemarathon.participate') }}</h2>
+            <p>{{ $t('cauchemarathon.chosen', { places: nb_place, circuit: selectedCircuitName, day: selectedDayName }) }}</p>
+            <button @click="buyTicket">{{ $t('cauchemarathon.ticket_price', { price: totalPrice }) }}</button>
           </div>
           <div v-else-if="selectedCircuit === 'both'">
-            <p style="color: #ff4444; font-weight: bold;">Veuillez sélectionner un circuit pour acheter un billet.</p>
+            <p style="color: #ff4444; font-weight: bold;">{{ $t('cauchemarathon.select_circuit') }}</p>
           </div>
           <div v-else-if="!utilisateurConnecte">
-            <p style="color: #ff4444; font-weight: bold;">Vous devez être connecté pour acheter un billet.</p>
-            <button @click="$router.push('/connexion')">Se connecter</button>
+            <p style="color: #ff4444; font-weight: bold;">{{ $t('cauchemarathon.login_required') }}</p>
+            <button @click="$router.push('/connexion')">{{ $t('cauchemarathon.login') }}</button>
           </div>
           <div v-else-if="nb_place <= 0">
-            <p style="color: #ff4444; font-weight: bold;">Veuillez sélectionner un nombre de places valide.</p>
+            <p style="color: #ff4444; font-weight: bold;">{{ $t('cauchemarathon.valid_places') }}</p>
           </div>
 
           <div class="prizes">
-            <h2>Récompenses pour les Survivants</h2>
-            <p>Tous les participants qui terminent la course recevront le certificat de "Survivant du Cauche'Marathon" !</p>
-            <p>Les meilleurs coureurs de chaque circuit recevront des récompenses en argent, des médailles et possiblement un trophée exclusif :</p>
+            <h2>{{ $t('cauchemarathon.rewards_title') }}</h2>
+            <p>{{ $t('cauchemarathon.certificate') }}</p>
+            <p>{{ $t('cauchemarathon.rewards') }}</p>
             <ul>
-              <li><strong>1er place : </strong> 250€ + Médaille d'Or + Trophée exclusif</li>
-              <li><strong>2e place : </strong> 150€ + Médaille d'Argent</li>
-              <li><strong>3e place : </strong> 75€ + Médaille de Bronze</li>
+              <li><strong>{{ $t('cauchemarathon.first_place') }}</strong></li>
+              <li><strong>{{ $t('cauchemarathon.second_place') }}</strong></li>
+              <li><strong>{{ $t('cauchemarathon.third_place') }}</strong></li>
             </ul>
-            <br>
-            <p>Trophée exclusif du Cauche'Marathon décerné aux vainqueurs :</p>
-            <img src="@/assets/trophee_marathon.jpeg" alt="Trophée du Cauche'Marathon" class="trophy-image">
+            <br />
+            <p>{{ $t('cauchemarathon.trophy') }}</p>
+            <img src="@/assets/trophee_marathon.jpeg" :alt="$t('cauchemarathon.trophy_image')" class="trophy-image" />
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 import NavBar from "@/components/NavBar.vue";

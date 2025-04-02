@@ -3,15 +3,15 @@
     <NavBar/>
     <div ref="list" class="list">
       <div class="item" v-for="prestataire in filteredPrestataires" :key="prestataire.id">
-        <img :src=getImageUrl(prestataire.background) :alt="prestataire.title" class="background"/>
+        <img :src="getImageUrl(prestataire.background)" :alt="prestataire.title" class="background"/>
         <div class="content">
-          <img :src=getImageUrl(prestataire.logo) :alt="prestataire.title" class="author"/>
+          <img :src="getImageUrl(prestataire.logo)" :alt="prestataire.title" class="author"/>
           <div class="title">{{ prestataire.societe }}</div>
           <div class="topic">{{ prestataire.theme }}</div>
           <div class="description">{{ prestataire.description }}</div>
           <div class="button">
             <router-link :to="`/prestataire/${prestataire.id}`">
-              <button>Voir plus</button>
+              <button>{{ $t('voirPlus') }}</button>
             </router-link>
           </div>
         </div>
@@ -19,7 +19,7 @@
     </div>
     <div class="thumbnail" ref="thumbnail">
       <div class="item" v-for="(thumb, index) in prestataireTrie" :key="index">
-        <img :src=getImageUrl(thumb.background) :alt="thumb.societe" class="background"/>
+        <img :src="getImageUrl(thumb.background)" :alt="thumb.societe" class="background"/>
         <div class="content">
           <div class="title">{{ thumb.societe }}</div>
         </div>
@@ -32,6 +32,7 @@
     <div class="time"></div>
   </div>
 </template>
+
 
 <script>
 import { mapActions, mapState } from "vuex";

@@ -4,8 +4,6 @@ import Vuex from 'vuex';
 import ProfilService from '../services/profil.service';
 import CashLessService from '../services/cashless.service';
 import { getAllUtilisateurs, getPrestataireById, getUserById , getAllOrganisateurs, getAllPrestataires, getDemandesOrganisateurs, getDemandesPrestataires, deleteDemandePrestataire, deleteDemandeOrganisateur, insertOrganisateur, insertPrestataire } from "@/services/profil.service";
-import {demandesPrestataires as initialDemandesPrestataires} from '../datasource/data';
-import { demandesOrganisateurs as initialDemandesOrganisateurs } from '../datasource/data';
 
 Vue.use(Vuex);
 
@@ -21,8 +19,8 @@ export default ({
         errorMessage: '',
         utilisateurConnecte: JSON.parse(localStorage.getItem("utilisateurConnecte")) || null,
         logo: null,
-        demandesPrestataires: initialDemandesPrestataires,
-        demandesOrganisateurs: initialDemandesOrganisateurs,
+        demandesPrestataires: [],
+        demandesOrganisateurs: [],
     },
     mutations: {
         addUtilisateur(state, utilisateur) {

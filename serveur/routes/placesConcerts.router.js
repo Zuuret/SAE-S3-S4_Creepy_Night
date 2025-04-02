@@ -4,7 +4,7 @@ const placesConcertsController = require("../controllers/placesConcerts.controll
 const sessionMiddleware = require("../middlewares/session.middleware");
 
 
-router.post("/",  sessionMiddleware.authVerif(), placesConcertsController.savePlacesConcerts);
+router.post("/",  sessionMiddleware.authVerif([1,2,3]), placesConcertsController.savePlacesConcerts);
 
 
 router.get("/", placesConcertsController.getPlacesConcerts);
@@ -13,9 +13,9 @@ router.get("/", placesConcertsController.getPlacesConcerts);
 router.get("/:uuid", placesConcertsController.getPlacesConcertsById);
 
 
-router.put("/:uuid",  sessionMiddleware.authVerif(), placesConcertsController.updatePlacesConcerts);
+router.put("/:uuid",  sessionMiddleware.authVerif([1,2,3]), placesConcertsController.updatePlacesConcerts);
 
 
-router.delete("/:uuid",  sessionMiddleware.authVerif(), placesConcertsController.deletePlacesConcerts);
+router.delete("/:uuid",  sessionMiddleware.authVerif([1,2,3]), placesConcertsController.deletePlacesConcerts);
 
 module.exports = router;

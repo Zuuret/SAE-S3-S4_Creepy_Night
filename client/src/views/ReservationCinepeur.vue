@@ -1,7 +1,7 @@
 <template>
   <div class="body" style="padding-top: 150px">
     <div><NavBar /></div>
-    <h1>Calendrier des films</h1>
+    <h1>{{ $t('calendarTitle') }}</h1>
     <div class="flex-row">
       <div class="flex-column" style="margin-top: 2.9vw">
         <div v-for="hour in hours" :key="hour" class="heures bordure">
@@ -13,7 +13,7 @@
           <p>{{ day }}</p>
           <div v-for="hour in hours" :key="hour" class="bordure">
             <div v-if="!filmsByDayAndHour[day][hour]" class="case">
-              <p>À venir</p>
+              <p>{{ $t('comingSoon') }}</p>
             </div>
             <div v-if="filmsByDayAndHour[day][hour]" class="item">
               <router-link :to="`/cinepeur/${filmsByDayAndHour[day][hour].id}`">
@@ -27,6 +27,7 @@
     </div>
   </div>
 </template>
+
 
 
 <script>

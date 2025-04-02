@@ -1,13 +1,13 @@
 <template>
   <div class="prestataires-container">
-    <h1 class="titre-section">Nos Prestataires</h1>
+    <h1 class="titre-section">{{ $t('prestataires.nosPrestataires') }}</h1>
 
     <div class="search-sort">
-      <input v-model="searchQuery" placeholder="Rechercher..." class="search-input"/>
+      <input v-model="searchQuery" :placeholder="$t('prestataires.rechercher')" class="search-input"/>
 
       <select v-model="sortOption" class="sort-select">
-        <option value="name">Trier par nom</option>
-        <option value="categorie">Trier par catégorie</option>
+        <option value="name">{{ $t('prestataires.trierParNom') }}</option>
+        <option value="categorie">{{ $t('prestataires.trierParCategorie') }}</option>
       </select>
     </div>
 
@@ -23,10 +23,10 @@
         <img :src="getImageUrl(prestataire.logo)" alt="Logo" class="prestataire-logo"/>
         <h3 class="prestataire-nom">{{ prestataire.societe }}</h3>
         <p class="prestataire-description">{{ prestataire.description }}</p>
-        <router-link :to="'/prestataire/' + prestataire.id" class="btn-details">Voir Profil</router-link>
+        <router-link :to="'/prestataire/' + prestataire.id" class="btn-details">{{ $t('prestataires.voirProfil') }}</router-link>
       </div>
     </div>
-    <p v-else class="no-result">Aucun prestataire ne correspond à votre recherche.</p>
+    <p v-else class="no-result">{{ $t('prestataires.aucunResultat') }}</p>
   </div>
 </template>
 

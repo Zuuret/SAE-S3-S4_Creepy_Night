@@ -2,7 +2,7 @@
   <div>
     <NavBar />
     <div class="container">
-      <h1 v-if="soiree">Déguisements pour la soirée du {{ soiree.date }}</h1>
+      <h1 v-if="soiree">{{ $t('deguisements.titre', { date: soiree.date }) }}</h1>
       <p v-if="soiree">{{ soiree.description }}</p>
 
       <div class="costume-list" v-if="deguisements && deguisements.length">
@@ -10,17 +10,18 @@
           <img :src="costume.image" alt="Affiche du déguisement" class="affiche-deguisement" />
           <h2>{{ costume.nom_costume }}</h2>
           <p>{{ costume.description }}</p>
-          <p>Prix : {{ costume.prix }} €</p>
+          <p>{{ $t('deguisements.prix', { prix: costume.prix }) }}</p>
           <router-link :to="`/baltrouille/${soiree.id_soiree}/deguisements/${costume.id_costume}`">
-            <button>Louer ce costume</button>
+            <button>{{ $t('deguisements.louerCostume') }}</button>
           </router-link>
         </div>
       </div>
 
-      <p v-else>Aucun costume disponible pour cette soirée.</p>
+      <p v-else>{{ $t('deguisements.noCostumes') }}</p>
     </div>
   </div>
 </template>
+
 
 <script>
 import NavBar from "@/components/NavBar.vue";

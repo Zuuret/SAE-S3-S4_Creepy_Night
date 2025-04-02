@@ -9,7 +9,7 @@
         <CompteRebours />
       </div>
       <button class="scroll-down-button" @click="scrollDown">
-        <img src="@/assets/scrolldown.png" alt="Descendre" class="scroll-icon">
+        <img src="@/assets/scrolldown.png" :alt="$t('scrollDown')" class="scroll-icon">
       </button>
       <div class="PubSection" id="texte-accueil" v-if="texteAccueil.titre || texteAccueil.contenu">
         <div class="texte-accueil-container">
@@ -19,7 +19,7 @@
       </div>
 
       <div class="activites">
-        <h1 class="titre-partie" id="titre-activite">Un programme terrifiant, et flexible ?!</h1>
+        <h1 class="titre-partie" id="titre-activite">{{ $t('terrifyingFlexibleProgram') }}</h1>
         <div class="lamelles-container">
           <div
               v-for="(activite, index) in activites"
@@ -35,12 +35,12 @@
                     activite.titre === 'Bal’trouille' ? '/baltrouille' :
                     activite.titre === 'Expositions' ? '/expo' :
                     `/${activite.titre.toLowerCase().replace(/\s+/g, '')}`"
-                class="btn-activite">Voir l'activité</router-link>
+                class="btn-activite">{{ $t('viewActivity') }}</router-link>
           </div>
         </div>
       </div>
       <div class="carte">
-        <h1 class="titre-carte">Découvrez dès maintenant le plan de votre festival Creepynight !</h1>
+        <h1 class="titre-carte">{{ $t('discoverFestivalMap') }}</h1>
         <div class="carte-interactive">
           <CarteInteractive />
         </div>
@@ -52,11 +52,8 @@
     <footer class="footer">
       <div class="footer-content">
         <div class="reste-connectes">
-          <h2>Restez connectés</h2>
-          <p>
-            Pour tout savoir sur le programme, les artistes invités et les surprises à venir, suivez-nous
-            sur les réseaux sociaux :
-          </p>
+          <h2>{{ $t('stayConnected') }}</h2>
+          <p>{{ $t('stayConnectedText') }}</p>
           <div class="social-links">
             <a href="https://www.facebook.com" target="_blank">Facebook</a> |
             <a href="https://www.instagram.com" target="_blank">Instagram</a> |
@@ -64,11 +61,10 @@
           </div>
         </div>
         <div class="contact-info">
-          <p>Creepy Night : La peur n’a jamais été aussi excitante !</p>
-          <p>Vous êtes un artiste et vous voulez nous rejoindre ?</p>
-          <p>Envoyez un mail à : <a href="mailto:pasencore@choisit.com">pasencore@choisit.com</a></p>
+          <p>{{ $t('festivalSlogan') }}</p>
+          <p>{{ $t('joinUs') }}</p>
+          <p>{{ $t('sendEmail') }} <a href="mailto:pasencore@choisit.com">pasencore@choisit.com</a></p>
         </div>
-
       </div>
     </footer>
   </div>

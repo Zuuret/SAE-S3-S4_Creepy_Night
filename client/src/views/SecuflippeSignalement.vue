@@ -5,35 +5,36 @@
     </div>
     <div class="container">
       <div class="formulaire-signalement">
-        <h1>Effectuer un signalement</h1>
-        <label for="incidents-selection">Sélectionnez le type d'incident :</label>
+        <h1>{{ $t('make_report') }}</h1>
+        <label for="incidents-selection">{{ $t('select_incident_type') }} :</label>
         <select v-model="typeIncident" id="incidents-selection" required>
-          <option value="Objet perdu">Objet perdu</option>
-          <option value="Comportement suspect">Comportement suspect</option>
-          <option value="Comportement inapproprié">Comportement inapproprié</option>
-          <option value="Problème technique">Problème technique</option>
-          <option value="Danger environnemental">Danger environnemental</option>
+          <option value="Objet perdu">{{ $t('lost_item') }}</option>
+          <option value="Comportement suspect">{{ $t('suspicious_behavior') }}</option>
+          <option value="Comportement inapproprié">{{ $t('inappropriate_behavior') }}</option>
+          <option value="Problème technique">{{ $t('technical_problem') }}</option>
+          <option value="Danger environnemental">{{ $t('environmental_hazard') }}</option>
         </select>
 
-        <label for="description-incident">Description de l'incident</label>
+        <label for="description-incident">{{ $t('incident_description') }}</label>
         <textarea v-model="descriptionIncident" id="description-incident" name="description-incident" required></textarea>
 
-        <label for="zone-selection">Sélectionnez la zone de l'incident :</label>
+        <label for="zone-selection">{{ $t('select_incident_area') }} :</label>
         <select v-model="zoneIncident" id="zone-selection" required>
-          <option value="Foreffroi">La Foreffroi</option>
-          <option value="Cauchemanoir">Le Cauchemanoir</option>
-          <option value="Bosquepouvante">Le Bosquépouvante</option>
-          <option value="Maudile">La Maudîle</option>
-          <option value="Malaispace">La Malaispace</option>
+          <option value="Foreffroi">{{ $t('la_foreffroi') }}</option>
+          <option value="Cauchemanoir">{{ $t('le_cauchemanoir') }}</option>
+          <option value="Bosquepouvante">{{ $t('le_bosquepouvante') }}</option>
+          <option value="Maudile">{{ $t('la_maudile') }}</option>
+          <option value="Malaispace">{{ $t('la_malaispace') }}</option>
         </select>
 
         <router-link to="/secuflippe/signalement">
-          <button @click="soumissionSignalement">Valider votre signalement</button>
+          <button @click="soumissionSignalement">{{ $t('submit_report') }}</button>
         </router-link>
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 import NavBar from "@/components/NavBar.vue";

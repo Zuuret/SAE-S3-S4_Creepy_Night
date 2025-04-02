@@ -1,25 +1,24 @@
 <template>
-
-  <!-- Faire des emplacements réservés ou non -> Si non reservé, est cliquable. -->
   <div>
     <NavBar />
-    <h1>Liste des expositions</h1>
+    <h1>{{ $t('expo.title') }}</h1>
     <div class="expo-dispo">
       <div v-for="oeuvre in oeuvres" :key="oeuvre.id" class="expo-card">
         <div v-if="oeuvre.createur != 'null'">
-          <img class="expo-img" :src="oeuvre.image" alt="Affiche du expo" />
+          <img class="expo-img" :src="oeuvre.image" :alt="$t('expo.imageAlt')" />
           <p>{{ oeuvre.createur }} - {{ oeuvre.dateCrea }}</p>
           <p>{{ oeuvre.description }}</p>
         </div>
         <div v-else>
           <router-link :to="`/expo/${oeuvre.id}`">
-            <button>Réserver ma place</button>
+            <button>{{ $t('expo.reserveButton') }}</button>
           </router-link>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 import {mapActions, mapState} from 'vuex';

@@ -1,8 +1,8 @@
 <template>
   <div class="home-prestataire" v-if="accesPermission">
-    <h1>Bienvenue {{ utilisateurConnecte?.societe }}</h1>
+    <h1>{{ $t('welcome') }} {{ utilisateurConnecte?.societe }}</h1>
 
-    <h2>Gestion des articles</h2>
+    <h2>{{ $t('articleManagement') }}</h2>
     <div v-for="(article,index) in articlesId" :key="index">
         <tr>
           <td>
@@ -18,287 +18,288 @@
             {{ article.stock }}
           </td>
           <td>
-            <img :src="article.image" alt="Image de produit">
+            <img :src="article.image" :alt="$t('productImage')" />
           </td>
           <td>
             <button @click="openModal(article)">
-              <h5>Modifier</h5>
+              <h5>{{ $t('edit') }}</h5>
             </button>
           </td>
           <td>
             <button @click="delPrestaArticle(article.id)">
-              <h5>Supprimer</h5>
+              <h5>{{ $t('delete') }}</h5>
             </button>
           </td>
         </tr>
     </div>
     <button @click="openModal(undefined)">
-      <h5>Ajouter</h5>
+      <h5>{{ $t('add') }}</h5>
     </button>
     <div v-if="showModal">
       <div class="modal-content">
         <h3>{{ modalTitle }}</h3>
-        <label>Nom :</label>
+        <label>{{ $t('name') }} :</label>
         <input v-model="nom" min="0" step="0.01"/><br>
-        <label>Description :</label>
+        <label>{{ $t('description') }} :</label>
         <input v-model="description" min="0" step="0.01"/><br>
-        <label>Prix :</label>
+        <label>{{ $t('price') }} :</label>
         <input v-model="prix" min="0" step="0.01"/><br>
-        <label>Stock :</label>
+        <label>{{ $t('stock') }} :</label>
         <input v-model="stock" min="0" step="0.01"/><br>
-        <label>Image :</label>
+        <label>{{ $t('image') }} :</label>
         <input v-model="image" min="0" step="0.01"/><br>
         <button @click="acceptArticle()">{{ modalButton }}</button>
-        <button @click="closeModal">Annuler</button>
+        <button @click="closeModal">{{ $t('cancel') }}</button>
       </div>
     </div>
 
-    <h1>Votre Description</h1>
-    <div v-if="utilisateurConnecte.description">
-      <div class="desactive_edition_description">
-        <div v-if="!isEditingDescription" @click="editerDescription" class="affiche_description">
-          <h1 class="description" v-html="utilisateurConnecte?.description"></h1>
-          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_description" />
-        </div>
-        <div v-else class="active_edition_description">
-          <label for="description">Description :</label>
-          <vue-editor v-model="editableDescription" />
-          <div class="action_edition_description">
-            <button @click="sauvegarderDescription" class="sauvegarde_btn">Enregistrer</button>
-            <button @click="finEditionDescription" class="finEdition_btn">Annuler</button>
-          </div>
-        </div>
+    <h1>{{ $t('yourDescription') }}</h1>
+  <div v-if="utilisateurConnecte.description">
+    <div class="desactive_edition_description">
+      <div v-if="!isEditingDescription" @click="editerDescription" class="affiche_description">
+        <h1 class="description" v-html="utilisateurConnecte?.description"></h1>
+        <img src="../assets/icone_modifier.png" :alt="$t('edit')" class="edit-icon_description" />
       </div>
-    </div>
-    <div v-else>
-      <div class="desactive_edition_description">
-        <div v-if="!isEditingDescription" @click="editerDescription" class="affiche_description">
-          <h1 class="description-absent">Veuillez ajouter une description à votre prestation</h1>
-          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_description" />
-        </div>
-        <div v-else class="active_edition_description">
-          <label for="description">Description :</label>
-          <vue-editor v-model="editableDescription" />
-          <div class="action_edition_description">
-            <button @click="sauvegarderDescription" class="sauvegarde_btn">Enregistrer</button>
-            <button @click="finEditionDescription" class="finEdition_btn">Annuler</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h1>Votre nom de société</h1>
-    <div v-if="utilisateurConnecte.societe">
-      <div class="desactive_edition_societe">
-        <div v-if="!isEditingSociete" @click="editerSociete" class="affiche_societe">
-          <h1 class="societe-absent" v-html="utilisateurConnecte?.societe"></h1>
-          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_societe" />
-        </div>
-        <div v-else class="active_edition_societe">
-          <label for="societe">Société :</label>
-          <vue-editor v-model="editableSociete" />
-          <div class="action_edition_societe">
-            <button @click="sauvegarderSociete" class="sauvegarde_btn">Enregistrer</button>
-            <button @click="finEditionSociete" class="finEdition_btn">Annuler</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div v-else>
-      <div class="desactive_edition_societe">
-        <div v-if="!isEditingSociete" @click="editerSociete" class="affiche_societe">
-          <h1 class="societe-absent">Veuillez ajouter un nom à votre société</h1>
-          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_societe" />
-        </div>
-        <div v-else class="active_edition_societe">
-          <label for="societe">Société :</label>
-          <vue-editor v-model="editableSociete" />
-          <div class="action_edition_societe">
-            <button @click="sauvegarderSociete" class="sauvegarde_btn">Enregistrer</button>
-            <button @click="finEditionSociete" class="finEdition_btn">Annuler</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h1>Votre Thème</h1>
-    <div v-if="utilisateurConnecte.theme">
-      <div class="desactive_edition_theme">
-        <div v-if="!isEditingTheme" @click="editerTheme" class="affiche_theme">
-          <h1 class="theme" v-html="utilisateurConnecte?.theme"></h1>
-          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_theme" />
-        </div>
-        <div v-else class="active_edition_theme">
-          <label for="contenu">Thème :</label>
-          <vue-editor v-model="themeEditable" />
-          <div class="action_edition">
-            <button @click="sauvegarderTheme" class="sauvegarde_btn">Enregistrer</button>
-            <button @click="finEditionTheme" class="finEdition_btn">Annuler</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div v-else>
-      <div class="desactive_edition_theme">
-        <div v-if="!isEditingTheme" @click="editerTheme" class="affiche_theme">
-          <h1 class="theme-absent">Veuillez ajouter un thème à votre prestation</h1>
-          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_theme" />
-        </div>
-        <div v-else class="active_edition_theme">
-          <label for="theme">Thème :</label>
-          <vue-editor v-model="themeEditable" />
-          <div class="action_edition">
-            <button @click="sauvegarderTheme" class="sauvegarde_btn">Enregistrer</button>
-            <button @click="finEditionTheme" class="finEdition_btn">Annuler</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h1>Votre Adresse</h1>
-    <div v-if="utilisateurConnecte.adresse">
-      <div class="desactive_edition_adresse">
-        <div v-if="!isEditingAdresse" @click="editerAdresse" class="affiche_adresse">
-          <h1 class="adresse" v-html="utilisateurConnecte?.adresse"></h1>
-          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_adresse" />
-        </div>
-        <div v-else class="active_edition_adresse">
-          <label for="contenu">Adresse :</label>
-          <vue-editor v-model="editableAdresse" />
-          <div class="action_edition_adresse">
-            <button @click="sauvegarderAdresse" class="sauvegarde_btn">Enregistrer</button>
-            <button @click="finEditionAdresse" class="finEdition_btn">Annuler</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div v-else>
-      <div class="desactive_edition_adresse">
-        <div v-if="!isEditingAdresse" @click="editerAdresse" class="affiche_adresse">
-          <h1 class="adresse-absent">Veuillez ajouter une adresse à votre société</h1>
-          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_adresse" />
-        </div>
-        <div v-else class="active_edition_adresse">
-          <label for="contenu">Adresse :</label>
-          <vue-editor v-model="editableAdresse" />
-          <div class="action_edition_adresse">
-            <button @click="sauvegarderAdresse" class="sauvegarde_btn">Enregistrer</button>
-            <button @click="finEditionAdresse" class="finEdition_btn">Annuler</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h1>Votre Background de slide</h1>
-    <div v-if="utilisateurConnecte.background">
-      <div class="background-container">
-        <div v-if="!isEditingImage" @click="editerImage" class="affiche_image">
-          <img :src="require(`@/assets/${utilisateurConnecte.background}`)" alt="background prestataire" class="background"/>
-          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="!isEditingImage" />
-        </div>
-        <div v-else class="active_edition_image">
-          <vue-editor
-              v-model="imageEditable"
-              :editor-options="editorOptions"
-          />
-          <div class="action_edition">
-            <button @click="sauvegarderImage" class="sauvegarde_btn">Enregistrer</button>
-            <button @click="finEditionImage" class="finEdition_btn">Annuler</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div v-else>
-      <div class="desactive_edition_image">
-        <div v-if="!isEditingImage" @click="editerImage" class="affiche_image">
-          <h1 class="image-absent">Veuillez ajouter un background à votre société</h1>
-          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_adresse" />
-        </div>
-        <div v-else class="active_edition_image">
-          <label for="image">Background :</label>
-          <vue-editor v-model="imageEditable" />
-          <div class="action_edition_image">
-            <button @click="sauvegarderImage" class="sauvegarde_btn">Enregistrer</button>
-            <button @click="finEditionImage" class="finEdition_btn">Annuler</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h1>Votre Logo</h1>
-    <div v-if="utilisateurConnecte.logo">
-      <div class="logo-container">
-        <div v-if="!isEditingLogo" @click="editerLogo" class="affiche_logo">
-          <img :src="require(`@/assets/${utilisateurConnecte.logo}`)" alt="logo prestataire" class="logo"/>
-          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="!isEditingLogo" />
-        </div>
-        <div v-else class="active_edition_logo">
-          <vue-editor
-              v-model="logoEditable"
-              :editor-options="editorOptions"
-          />
-          <div class="action_edition">
-            <button @click="sauvegarderLogo" class="sauvegarde_btn">Enregistrer</button>
-            <button @click="finEditionLogo" class="finEdition_btn">Annuler</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div v-else>
-      <div class="desactive_edition_logo">
-        <div v-if="!isEditingLogo" @click="editerLogo" class="affiche_logo">
-          <h1 class="logo-absent">Veuillez ajouter un logo à votre société</h1>
-          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_adresse" />
-        </div>
-        <div v-else class="active_edition_adresse">
-          <label for="logo">Logo :</label>
-          <vue-editor v-model="logoEditable" />
-          <div class="action_edition_logo">
-            <button @click="sauvegarderLogo" class="sauvegarde_btn">Enregistrer</button>
-            <button @click="finEditionLogo" class="finEdition_btn">Annuler</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h1>Votre Bannière</h1>
-    <div v-if="utilisateurConnecte.background2">
-      <div class="background2-container">
-        <div v-if="!isEditingImage2" @click="editerImage2" class="affiche_image2">
-          <img :src="require(`@/assets/${utilisateurConnecte.background2}`)" alt="background2 prestataire" class="background2"/>
-          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon" v-if="!isEditingImage2" />
-        </div>
-        <div v-else class="active_edition_image2">
-          <vue-editor
-              v-model="imageEditable2"
-              :editor-options="editorOptions"
-          />
-          <div class="action_edition">
-            <button @click="sauvegarderImage2" class="sauvegarde_btn">Enregistrer</button>
-            <button @click="finEditionImage2" class="finEdition_btn">Annuler</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div v-else>
-      <div class="desactive_edition_image2">
-        <div v-if="!isEditingImage2" @click="editerImage2" class="affiche_image2">
-          <h1 class="image2-absent">Veuillez ajouter un background à votre société</h1>
-          <img src="../assets/icone_modifier.png" alt="Modifier" class="edit-icon_image2" />
-        </div>
-        <div v-else class="active_edition_image2">
-          <label for="image2">Bannière :</label>
-          <vue-editor v-model="imageEditable2" />
-          <div class="action_edition_image2">
-            <button @click="sauvegarderImage2" class="sauvegarde_btn">Enregistrer</button>
-            <button @click="finEditionImage2" class="finEdition_btn">Annuler</button>
-          </div>
+      <div v-else class="active_edition_description">
+        <label for="description">{{ $t('description') }} :</label>
+        <vue-editor v-model="editableDescription" />
+        <div class="action_edition_description">
+          <button @click="sauvegarderDescription" class="sauvegarde_btn">{{ $t('save') }}</button>
+          <button @click="finEditionDescription" class="finEdition_btn">{{ $t('cancel') }}</button>
         </div>
       </div>
     </div>
   </div>
-  <p v-else class="error">Accès refusé. Vous n'avez pas les permissions pour voir cette page.</p>
+  <div v-else>
+    <div class="desactive_edition_description">
+      <div v-if="!isEditingDescription" @click="editerDescription" class="affiche_description">
+        <h1 class="description-absent">{{ $t('addDescription') }}</h1>
+        <img src="../assets/icone_modifier.png" :alt="$t('edit')" class="edit-icon_description" />
+      </div>
+      <div v-else class="active_edition_description">
+        <label for="description">{{ $t('description') }} :</label>
+        <vue-editor v-model="editableDescription" />
+        <div class="action_edition_description">
+          <button @click="sauvegarderDescription" class="sauvegarde_btn">{{ $t('save') }}</button>
+          <button @click="finEditionDescription" class="finEdition_btn">{{ $t('cancel') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h1>{{ $t('yourCompanyName') }}</h1>
+  <div v-if="utilisateurConnecte.societe">
+    <div class="desactive_edition_societe">
+      <div v-if="!isEditingSociete" @click="editerSociete" class="affiche_societe">
+        <h1 class="societe-absent" v-html="utilisateurConnecte?.societe"></h1>
+        <img src="../assets/icone_modifier.png" :alt="$t('edit')" class="edit-icon_societe" />
+      </div>
+      <div v-else class="active_edition_societe">
+        <label for="societe">{{ $t('company') }} :</label>
+        <vue-editor v-model="editableSociete" />
+        <div class="action_edition_societe">
+          <button @click="sauvegarderSociete" class="sauvegarde_btn">{{ $t('save') }}</button>
+          <button @click="finEditionSociete" class="finEdition_btn">{{ $t('cancel') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <div class="desactive_edition_societe">
+      <div v-if="!isEditingSociete" @click="editerSociete" class="affiche_societe">
+        <h1 class="societe-absent">{{ $t('addCompanyName') }}</h1>
+        <img src="../assets/icone_modifier.png" :alt="$t('edit')" class="edit-icon_societe" />
+      </div>
+      <div v-else class="active_edition_societe">
+        <label for="societe">{{ $t('company') }} :</label>
+        <vue-editor v-model="editableSociete" />
+        <div class="action_edition_societe">
+          <button @click="sauvegarderSociete" class="sauvegarde_btn">{{ $t('save') }}</button>
+          <button @click="finEditionSociete" class="finEdition_btn">{{ $t('cancel') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <template>
+  <h1>{{ $t('yourTheme') }}</h1>
+  <div v-if="utilisateurConnecte.theme">
+    <div class="desactive_edition_theme">
+      <div v-if="!isEditingTheme" @click="editerTheme" class="affiche_theme">
+        <h1 class="theme" v-html="utilisateurConnecte?.theme"></h1>
+        <img src="../assets/icone_modifier.png" :alt="$t('edit')" class="edit-icon_theme" />
+      </div>
+      <div v-else class="active_edition_theme">
+        <label for="theme">{{ $t('theme') }} :</label>
+        <vue-editor v-model="themeEditable" />
+        <div class="action_edition">
+          <button @click="sauvegarderTheme" class="sauvegarde_btn">{{ $t('save') }}</button>
+          <button @click="finEditionTheme" class="finEdition_btn">{{ $t('cancel') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <div class="desactive_edition_theme">
+      <div v-if="!isEditingTheme" @click="editerTheme" class="affiche_theme">
+        <h1 class="theme-absent">{{ $t('addTheme') }}</h1>
+        <img src="../assets/icone_modifier.png" :alt="$t('edit')" class="edit-icon_theme" />
+      </div>
+      <div v-else class="active_edition_theme">
+        <label for="theme">{{ $t('theme') }} :</label>
+        <vue-editor v-model="themeEditable" />
+        <div class="action_edition">
+          <button @click="sauvegarderTheme" class="sauvegarde_btn">{{ $t('save') }}</button>
+          <button @click="finEditionTheme" class="finEdition_btn">{{ $t('cancel') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h1>{{ $t('yourAddress') }}</h1>
+  <div v-if="utilisateurConnecte.adresse">
+    <div class="desactive_edition_adresse">
+      <div v-if="!isEditingAdresse" @click="editerAdresse" class="affiche_adresse">
+        <h1 class="adresse" v-html="utilisateurConnecte?.adresse"></h1>
+        <img src="../assets/icone_modifier.png" :alt="$t('edit')" class="edit-icon_adresse" />
+      </div>
+      <div v-else class="active_edition_adresse">
+        <label for="adresse">{{ $t('address') }} :</label>
+        <vue-editor v-model="editableAdresse" />
+        <div class="action_edition_adresse">
+          <button @click="sauvegarderAdresse" class="sauvegarde_btn">{{ $t('save') }}</button>
+          <button @click="finEditionAdresse" class="finEdition_btn">{{ $t('cancel') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <div class="desactive_edition_adresse">
+      <div v-if="!isEditingAdresse" @click="editerAdresse" class="affiche_adresse">
+        <h1 class="adresse-absent">{{ $t('addAddress') }}</h1>
+        <img src="../assets/icone_modifier.png" :alt="$t('edit')" class="edit-icon_adresse" />
+      </div>
+      <div v-else class="active_edition_adresse">
+        <label for="adresse">{{ $t('address') }} :</label>
+        <vue-editor v-model="editableAdresse" />
+        <div class="action_edition_adresse">
+          <button @click="sauvegarderAdresse" class="sauvegarde_btn">{{ $t('save') }}</button>
+          <button @click="finEditionAdresse" class="finEdition_btn">{{ $t('cancel') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
+
+
+   <template>
+  <h1>{{ $t('yourSlideBackground') }}</h1>
+  <div v-if="utilisateurConnecte.background">
+    <div class="background-container">
+      <div v-if="!isEditingImage" @click="editerImage" class="affiche_image">
+        <img :src="require(`@/assets/${utilisateurConnecte.background}`)" :alt="$t('backgroundAlt')" class="background"/>
+        <img src="../assets/icone_modifier.png" :alt="$t('edit')" class="edit-icon" v-if="!isEditingImage" />
+      </div>
+      <div v-else class="active_edition_image">
+        <vue-editor v-model="imageEditable" :editor-options="editorOptions"/>
+        <div class="action_edition">
+          <button @click="sauvegarderImage" class="sauvegarde_btn">{{ $t('save') }}</button>
+          <button @click="finEditionImage" class="finEdition_btn">{{ $t('cancel') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <div class="desactive_edition_image">
+      <div v-if="!isEditingImage" @click="editerImage" class="affiche_image">
+        <h1 class="image-absent">{{ $t('addBackground') }}</h1>
+        <img src="../assets/icone_modifier.png" :alt="$t('edit')" class="edit-icon_adresse" />
+      </div>
+      <div v-else class="active_edition_image">
+        <label for="image">{{ $t('background') }} :</label>
+        <vue-editor v-model="imageEditable" />
+        <div class="action_edition_image">
+          <button @click="sauvegarderImage" class="sauvegarde_btn">{{ $t('save') }}</button>
+          <button @click="finEditionImage" class="finEdition_btn">{{ $t('cancel') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h1>{{ $t('yourLogo') }}</h1>
+  <div v-if="utilisateurConnecte.logo">
+    <div class="logo-container">
+      <div v-if="!isEditingLogo" @click="editerLogo" class="affiche_logo">
+        <img :src="require(`@/assets/${utilisateurConnecte.logo}`)" :alt="$t('logoAlt')" class="logo"/>
+        <img src="../assets/icone_modifier.png" :alt="$t('edit')" class="edit-icon" v-if="!isEditingLogo" />
+      </div>
+      <div v-else class="active_edition_logo">
+        <vue-editor v-model="logoEditable" :editor-options="editorOptions"/>
+        <div class="action_edition">
+          <button @click="sauvegarderLogo" class="sauvegarde_btn">{{ $t('save') }}</button>
+          <button @click="finEditionLogo" class="finEdition_btn">{{ $t('cancel') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <div class="desactive_edition_logo">
+      <div v-if="!isEditingLogo" @click="editerLogo" class="affiche_logo">
+        <h1 class="logo-absent">{{ $t('addLogo') }}</h1>
+        <img src="../assets/icone_modifier.png" :alt="$t('edit')" class="edit-icon_adresse" />
+      </div>
+      <div v-else class="active_edition_logo">
+        <label for="logo">{{ $t('logo') }} :</label>
+        <vue-editor v-model="logoEditable" />
+        <div class="action_edition_logo">
+          <button @click="sauvegarderLogo" class="sauvegarde_btn">{{ $t('save') }}</button>
+          <button @click="finEditionLogo" class="finEdition_btn">{{ $t('cancel') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+
+   <h1>{{ $t('yourBanner') }}</h1>
+  <div v-if="utilisateurConnecte.background2">
+    <div class="background2-container">
+      <div v-if="!isEditingImage2" @click="editerImage2" class="affiche_image2">
+        <img :src="require(`@/assets/${utilisateurConnecte.background2}`)" :alt="$t('background2Alt')" class="background2"/>
+        <img src="../assets/icone_modifier.png" :alt="$t('edit')" class="edit-icon" v-if="!isEditingImage2" />
+      </div>
+      <div v-else class="active_edition_image2">
+        <vue-editor v-model="imageEditable2" :editor-options="editorOptions"/>
+        <div class="action_edition">
+          <button @click="sauvegarderImage2" class="sauvegarde_btn">{{ $t('save') }}</button>
+          <button @click="finEditionImage2" class="finEdition_btn">{{ $t('cancel') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-else>
+    <div class="desactive_edition_image2">
+      <div v-if="!isEditingImage2" @click="editerImage2" class="affiche_image2">
+        <h1 class="image2-absent">{{ $t('addBanner') }}</h1>
+        <img src="../assets/icone_modifier.png" :alt="$t('edit')" class="edit-icon_image2" />
+      </div>
+      <div v-else class="active_edition_image2">
+        <label for="image2">{{ $t('banner') }} :</label>
+        <vue-editor v-model="imageEditable2" />
+        <div class="action_edition_image2">
+          <button @click="sauvegarderImage2" class="sauvegarde_btn">{{ $t('save') }}</button>
+          <button @click="finEditionImage2" class="finEdition_btn">{{ $t('cancel') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+      <!-- Contenu pour les utilisateurs ayant accès -->
+      <h1>{{ $t('welcome') }} {{ utilisateurConnecte?.societe }}</h1>
+      <!-- Autres contenus -->
+    </div>
+    <p v-else class="error">{{ $t('accessDenied') }}</p>
+  </template>
 
 <script>
 import {mapActions, mapGetters, mapState} from "vuex";

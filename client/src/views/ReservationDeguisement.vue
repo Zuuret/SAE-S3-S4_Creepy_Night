@@ -1,19 +1,19 @@
 <template>
   <div class="reservations-container">
-    <h2>Mes réservations</h2>
+    <h2>{{ $t('my_reservations') }}</h2>
     <div v-if="reservationsId && reservationsId.length > 0" class="reservations-list">
       <div v-for="reservation in reservationsId" :key="reservation.id_location" class="reservation-item">
         <div class="reservation-header">
-          <p><strong>Réservation #{{ reservation.id_location }}</strong></p>
+          <p><strong>{{ $t('reservation_number') }} #{{ reservation.id_location }}</strong></p>
         </div>
         <div class="concert-details">
-          <h3>Détails des concerts réservés :</h3>
+          <h3>{{ $t('reserved_costumes_details') }} :</h3>
           <ul>
             <li v-for="deguisement in reservation.deguisements" :key="deguisement.id_costume" class="concert-item">
               <div class="concert-info">
                 <p><strong>{{ deguisement.nom_costume }}</strong></p>
-                <p>Quantité : {{ deguisement.quantite }}</p>
-                <p>Prix unitaire : {{ deguisement.prix }} €</p>
+                <p>{{ $t('quantity') }} : {{ deguisement.quantite }}</p>
+                <p>{{ $t('unit_price') }} : {{ deguisement.prix }} €</p>
               </div>
             </li>
           </ul>
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div v-else class="no-reservations">
-      <p>Aucune réservation trouvée.</p>
+      <p>{{ $t('no_reservations_found') }}</p>
     </div>
   </div>
 </template>

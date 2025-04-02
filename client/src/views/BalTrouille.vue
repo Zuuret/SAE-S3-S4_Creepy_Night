@@ -4,21 +4,22 @@
       <NavBar />
     </div>
     <div class="container">
-      <h1>Bal'Trouille</h1>
-      <p>Venez profiter des soirées effrayantes du festival !</p>
+      <h1>{{ $t('baltrouille.titre') }}</h1>
+      <p>{{ $t('baltrouille.descriptionIntro') }}</p>
 
       <div class="soirees-list">
         <div v-for="soiree in soirees" :key="soiree.id_soiree" class="soiree-card">
           <h2>{{ soiree.date }}</h2>
           <p>{{ soiree.description }}</p>
           <router-link :to="`/baltrouille/${soiree.id_soiree}/deguisements`">
-            <button>Voir les déguisement louables</button>
+            <button>{{ $t('baltrouille.voirDeguisements') }}</button>
           </router-link>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 import NavBar from "@/components/NavBar.vue";

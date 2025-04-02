@@ -4,7 +4,7 @@
       <NavBar />
     </div>
 
-    <h1 class="titre">TICKETS ET ABONNEMENTS</h1>
+    <h1 class="titre">{{ $t('tickets.abonnementTitre') }}</h1>
 
     <div class="carousel">
       <button @click="previousSlide" class="carousel-button left">❮</button>
@@ -20,7 +20,7 @@
             <li v-for="(feature, i) in ticket.features" :key="i">{{ feature }}</li>
           </ul>
           <button class="buy-button" @click="buyTicket(ticket.id, ticket.price)">
-            Acheter
+            {{ $t('tickets.buy') }}
           </button>
         </div>
       </div>
@@ -29,6 +29,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import NavBar from "@/components/NavBar.vue";

@@ -4,10 +4,10 @@
       <NavOrganisateur />
     </div>
     <div style="margin: 100px 0 0 200px">
-      <h1>Validation de concert</h1>
-      <p>Liste des artistes</p>
+      <h1>{{ $t('validationConcert') }}</h1>
+      <p>{{ $t('listeArtistes') }}</p>
       <div>
-        <p v-if="nbDecision()">Aucune proposition d'artiste.</p>
+        <p v-if="nbDecision()">{{ $t('aucuneProposition') }}</p>
         <div v-for="(artiste) in artistes" :key="artiste.id">
           <li v-if="artiste.decision == 'null'">
             <div>
@@ -15,8 +15,8 @@
               <div style="margin: auto">{{ artiste.nbMembres }}</div>
               <div style="margin: auto">
                 <div class="button-box">
-                  <button @click="setDecision(['true', artiste.id])">Accepter</button>
-                  <button @click="setDecision(['false', artiste.id])">Refuser</button>
+                  <button @click="setDecision(['true', artiste.id])">{{ $t('accepter') }}</button>
+                  <button @click="setDecision(['false', artiste.id])">{{ $t('refuser') }}</button>
                 </div>
               </div>
             </div>

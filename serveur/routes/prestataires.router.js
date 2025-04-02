@@ -148,7 +148,7 @@ router.get("/:uuid", prestataireController.getPrestataireById);
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.put("/:uuid",  sessionMiddleware.authVerif(), prestataireController.updatePrestataire);
+router.put("/:uuid",  sessionMiddleware.authVerif([1,2,3]), prestataireController.updatePrestataire);
 
 
 /**
@@ -175,7 +175,7 @@ router.put("/:uuid",  sessionMiddleware.authVerif(), prestataireController.updat
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.delete("/:uuid",  sessionMiddleware.authVerif(), prestataireController.deletePrestataire);
+router.delete("/:uuid",  sessionMiddleware.authVerif([2]), prestataireController.deletePrestataire);
 
 /**
  * @swagger
@@ -214,7 +214,7 @@ router.delete("/:uuid",  sessionMiddleware.authVerif(), prestataireController.de
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.patch("/:uuid/description", sessionMiddleware.authVerif(), prestataireController.updateDescription);
+router.patch("/:uuid/description", sessionMiddleware.authVerif([1,2,3]), prestataireController.updateDescription);
 
 /**
  * @swagger
@@ -253,7 +253,7 @@ router.patch("/:uuid/description", sessionMiddleware.authVerif(), prestataireCon
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.patch("/:uuid/societe", sessionMiddleware.authVerif(), prestataireController.updateSociete);
+router.patch("/:uuid/societe", sessionMiddleware.authVerif([2]), prestataireController.updateSociete);
 
 /**
  * @swagger
@@ -292,7 +292,7 @@ router.patch("/:uuid/societe", sessionMiddleware.authVerif(), prestataireControl
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.patch("/:uuid/theme", sessionMiddleware.authVerif(), prestataireController.updateTheme);
+router.patch("/:uuid/theme", sessionMiddleware.authVerif([2]), prestataireController.updateTheme);
 
 /**
  * @swagger
@@ -331,7 +331,7 @@ router.patch("/:uuid/theme", sessionMiddleware.authVerif(), prestataireControlle
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.patch("/:uuid/adresse", sessionMiddleware.authVerif(), prestataireController.updateAdresse);
+router.patch("/:uuid/adresse", sessionMiddleware.authVerif([2,3]), prestataireController.updateAdresse);
 
 
 const multer = require("multer");

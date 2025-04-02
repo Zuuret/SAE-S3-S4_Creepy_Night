@@ -1,40 +1,41 @@
 <template>
   <div class="panier">
-    <h2>Votre Panier</h2>
+    <h2>{{ $t('panier.votrePanier') }}</h2>
     <div v-if="panier.length > 0" class="panier-scroll">
       <table>
         <thead>
-        <tr>
-          <th>Artiste</th>
-          <th>Nombre de places</th>
-          <th>Prix unitaire (€)</th>
-          <th>Total (€)</th>
-          <th>Actions</th>
-        </tr>
+          <tr>
+            <th>{{ $t('panier.artiste') }}</th>
+            <th>{{ $t('panier.nbPlaces') }}</th>
+            <th>{{ $t('panier.prixUnitaire') }}</th>
+            <th>{{ $t('panier.total') }}</th>
+            <th>{{ $t('panier.actions') }}</th>
+          </tr>
         </thead>
         <tbody>
-        <tr v-for="item in panier" :key="item.concertId">
-          <td>{{ item.concert.artiste }}</td>
-          <td>{{ item.nbPlaces }}</td>
-          <td>{{ item.place.prix_place }} €</td>
-          <td>{{ item.prixTotal }} €</td>
-          <td class="actions">
-            <button @click="retirerDuPanier({ placeId: item.placeId })">Retirer une place</button>
-            <button @click="viderPlace({ placeId: item.placeId })">Supprimer tout</button>
-          </td>
-        </tr>
+          <tr v-for="item in panier" :key="item.concertId">
+            <td>{{ item.concert.artiste }}</td>
+            <td>{{ item.nbPlaces }}</td>
+            <td>{{ item.place.prix_place }} €</td>
+            <td>{{ item.prixTotal }} €</td>
+            <td class="actions">
+              <button @click="retirerDuPanier({ placeId: item.placeId })">{{ $t('panier.retirerPlace') }}</button>
+              <button @click="viderPlace({ placeId: item.placeId })">{{ $t('panier.supprimerTout') }}</button>
+            </td>
+          </tr>
         </tbody>
       </table>
-      <p><strong>Total du panier : {{ totalPanier }} €</strong></p>
+      <p><strong>{{ $t('panier.totalPanier') }} : {{ totalPanier }} €</strong></p>
       <div v-if="panier.length > 0">
-        <button @click="panierEnReservation()">Valider la commande</button>
+        <button @click="panierEnReservation()">{{ $t('panier.validerCommande') }}</button>
       </div>
     </div>
     <div v-else>
-      <p>Votre panier est vide</p>
+      <p>{{ $t('panier.panierVide') }}</p>
     </div>
   </div>
 </template>
+
 
 <script>
 import {mapActions, mapState} from "vuex";

@@ -20,15 +20,23 @@ exports.getAllLivreDOr = async (req, res) => {
     }
     return res.status(200).json({ data: livreDOr });
 };
-
 exports.getLivreDOrById = async (req, res) => {
-    const prestataire_id = req.params.prestataire_id;
-    const livreDOrSpecifique = await livreDOrService.getLivreDOrById(prestataire_id);
-    if (!livreDOrSpecifique) {
-        return res.status(500).json({ error: 'ERREUR INTERNE' });
+    try {
+        const prestataire_id = req.params.prestataire_id;
+        const livreDOrSpecifique = await livreDOrService.getLivreDOrById(prestataire_id);
+
+        if (!livreDOrSpecifique) {
+            return res.status(404).json({ error: 'Livre d\'Or non trouvé' });
+        }
+
+        return res.status(200).json({ data: livreDOrSpecifique, error: 0 });
+    } catch (error) {
+        if (!res.headersSent) {  
+            res.status(500).json({ error: 'ERREUR INTERNE' });
+        }
     }
-    return res.status(200).json({ data: livreDOrSpecifique, error: 0 });
 };
+
 
 exports.deleteCommentaire = async (req, res) => {
     const id = req.params.id;

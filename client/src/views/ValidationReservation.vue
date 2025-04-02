@@ -1,27 +1,27 @@
 <template>
   <div>
     <form @submit.prevent="validerPaiement({nom, numeroCarte, dateExpiration, cvv})">
-      <h3>Coordonnées bancaires</h3>
+      <h3>{{ $t('bank_details') }}</h3>
       <div>
-        <label for="nom">Nom sur la carte :</label>
+        <label for="nom">{{ $t('card_name') }} :</label>
         <input id="nom" name="nom" type="text" v-model="nom" required />
       </div>
       <div>
-        <label for="numeroCarte">Numéro de carte :</label>
+        <label for="numeroCarte">{{ $t('card_number') }} :</label>
         <input id="numeroCarte" name="numeroCarte" type="text" v-model="numeroCarte" required />
       </div>
       <div>
-        <label for="dateExpiration">Date d'expiration :</label>
+        <label for="dateExpiration">{{ $t('expiration_date') }} :</label>
         <input id="dateExpiration" name="dateExpiration" type="month" v-model="dateExpiration" required />
       </div>
       <div>
-        <label for="cvv">CVV :</label>
+        <label for="cvv">{{ $t('cvv') }} :</label>
         <input id="cvv" name="cvv" type="text" v-model="cvv" required />
       </div>
-      <button type="submit">Confirmer le paiement</button>
+      <button type="submit">{{ $t('confirm_payment') }}</button>
     </form>
     <div v-if="coordonneesBancaire" class="success-message">
-      <p>Votre paiement a bien été pris en compte</p>
+      <p>{{ $t('payment_success') }}</p>
     </div>
   </div>
 </template>

@@ -6,24 +6,24 @@
       <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo-burger">
 
       <div v-if="!utilisateurConnecte" class="user-links">
-        <router-link to="/connexion" @click="closeMenu">Connexion</router-link>
-        <router-link to="/creation-profil" @click="closeMenu">Créer profil</router-link>
+        <router-link to="/connexion" @click="closeMenu">{{ $t('menu.connexion') }}</router-link>
+        <router-link to="/creation-profil" @click="closeMenu">{{ $t('menu.creerProfil') }}</router-link>
       </div>
 
       <div v-else class="user-links">
-        <router-link to="/" @click.native="logout">Déconnexion</router-link>
-        <router-link to="/profil" @click="closeMenu">Mon Profil</router-link>
+        <router-link to="/" @click.native="logout">{{ $t('menu.deconnexion') }}</router-link>
+        <router-link to="/profil" @click="closeMenu">{{ $t('menu.monProfil') }}</router-link>
       </div>
 
-      <router-link to="/prestataire" @click="closeMenu">Nos prestataires</router-link>
-      <router-link to="/reservations" @click="closeMenu">Mes réservations</router-link>
-      <router-link to="/secuflippe" @click="closeMenu">SecuFlippe</router-link>
-      <router-link to="/cashless" @click="closeMenu">CashLess</router-link>
+      <router-link to="/prestataire" @click="closeMenu">{{ $t('menu.prestataires') }}</router-link>
+      <router-link to="/reservations" @click="closeMenu">{{ $t('menu.mesReservations') }}</router-link>
+      <router-link to="/secuflippe" @click="closeMenu">{{ $t('menu.secuflippe') }}</router-link>
+      <router-link to="/cashless" @click="closeMenu">{{ $t('menu.cashless') }}</router-link>
     </div>
 
     <nav :class="{ 'navbar': true, 'hidden': isNavbarHidden }">
-        <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo" style="width: 20%; cursor: pointer;">
-        <router-link to="/" class="logo-overlay" @click.stop></router-link>
+      <img src="@/assets/creepy_night_logo.png" alt="Logo" class="logo" style="width: 20%; cursor: pointer;">
+      <router-link to="/" class="logo-overlay" @click.stop></router-link>
 
       <div class="selection-language">
         <SelecteurLanguage />
@@ -32,6 +32,7 @@
     </nav>
   </div>
 </template>
+
 
 
 <script>

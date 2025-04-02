@@ -1,14 +1,14 @@
 const pool = require('../database/db');
 const format = require('pg-format');
 
-async function insertConcert(artiste,nationalite,date,heure,duree,categorie,scene, nb_places, prix_place, image) {
+async function insertReservConcert(id, utilisateur_id, concert_id, nb_places, date_reservation) {
     const client = await pool.connect();
     let is_error = false;
     try {
         const data = [
-            [artiste,nationalite,date,heure,duree,categorie,scene, nb_places, prix_place, image]
+            [id, utilisateur_id, concert_id, nb_places, date_reservation]
         ]
-        const query = format('INSERT INTO Concert (artiste,nationalite,date,heure,duree,categorie,scene, nb_places, prix_place, image) VALUES %L', data);
+        const query = format('INSERT INTO Concert (id, utilisateur_id, concert_id, nb_places, date_reservation) VALUES %L', data);
         await client.query(query);
         console.log('INSERTIONS AVEC SUCCES');
     } catch (error) {
@@ -20,14 +20,14 @@ async function insertConcert(artiste,nationalite,date,heure,duree,categorie,scen
     return is_error;
 }
 
-async function getConcerts() {
+async function getReservConcert() {
     const client = await pool.connect();
     let res;
     try {
-        res = await client.query('SELECT * FROM Concert');
-        console.log('RECUPERATION DES CONCERTS');
+        res = await client.query('SELECT * FROM reservation_concert');
+        console.log('RECUPERATION DES RESERVATIONS DE CONCERT');
     } catch (error) {
-        console.error('Erreur lors de la récupération des concerts :', error);
+        console.error('Erreur lors de la récupération des réservations :', error);
         res = false;
     } finally {
         client.release();
@@ -35,11 +35,11 @@ async function getConcerts() {
     return res.rows || false;
 }
 
-async function updateConcert(id,artiste,nationalite,date,heure,duree,categorie,scene, nb_places, prix_place, image) {
+async function updateReservConcert(id, utilisateur_id, concert_id, nb_places, date_reservation) {
     const client = await pool.connect();
     let is_error = false;
     try {
-        const query = format('UPDATE Concert SET artiste = %L,nationalite = %L, date = %L, heure = %L, duree = %L, categorie = %L, scene = %L, nb_places = %L, prix_place= %L, image = %L WHERE id = %L', artiste, nationalite,date,heure,duree,categorie,scene, nb_places, prix_place, image, id);
+        const query = format('UPDATE Concert SET utilisateur_id = %L, concert_id = %L, nb_places = %L, date_reservation = %L WHERE id = %L', utilisateur_id, concert_id, nb_places, date_reservation, id);
         await client.query(query);
         console.log('MISE A JOUR DU CONCERT');
     } catch (error) {
@@ -51,7 +51,7 @@ async function updateConcert(id,artiste,nationalite,date,heure,duree,categorie,s
     return is_error;
 }
 
-async function deleteConcert(id) {
+async function deleteReservConcert(id) {
     const client = await pool.connect();
     let is_error = false;
     console.log(id)
@@ -69,8 +69,8 @@ async function deleteConcert(id) {
 }
 
 module.exports = {
-    insertConcert,
-    getConcerts,
-    updateConcert,
-    deleteConcert
+    insertReservConcert,
+    getReservConcert,
+    updateReservConcert,
+    deleteReservConcert
 }

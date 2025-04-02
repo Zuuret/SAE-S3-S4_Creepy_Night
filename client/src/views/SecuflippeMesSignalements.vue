@@ -5,20 +5,20 @@
     </div>
 
     <div class="signalements-container">
-      <h1>Liste des signalements</h1>
+      <h1>{{ $t('report_list') }}</h1>
       <div v-if="signalement.length === 0" class="no-signalements">
-        Aucun signalement n'a été enregistré.
+        {{ $t('no_reports') }}
       </div>
       <div v-for="(signalement, index) in signalement" :key="index" class="signalement-card">
-        <h2>Signalement {{ index + 1 }}</h2>
-        <p><strong>Type :</strong> {{ signalement.typeIncident }}</p>
-        <p><strong>Description :</strong> {{ signalement.descriptionIncident }}</p>
-        <p><strong>Zone :</strong> {{ signalement.zoneIncident }}</p>
-        <p><strong>Position :</strong>
-          Latitude: {{ signalement.positionUtilisateur.latitude }},
-          Longitude: {{ signalement.positionUtilisateur.longitude }}
+        <h2>{{ $t('report') }} {{ index + 1 }}</h2>
+        <p><strong>{{ $t('type') }} :</strong> {{ signalement.typeIncident }}</p>
+        <p><strong>{{ $t('description') }} :</strong> {{ signalement.descriptionIncident }}</p>
+        <p><strong>{{ $t('area') }} :</strong> {{ signalement.zoneIncident }}</p>
+        <p><strong>{{ $t('position') }} :</strong>
+          {{ $t('latitude') }}: {{ signalement.positionUtilisateur.latitude }},
+          {{ $t('longitude') }}: {{ signalement.positionUtilisateur.longitude }}
         </p>
-        <p><strong>Heure :</strong> {{ new Date(signalement.timestamp).toLocaleTimeString() }}</p>
+        <p><strong>{{ $t('time') }} :</strong> {{ new Date(signalement.timestamp).toLocaleTimeString() }}</p>
       </div>
     </div>
   </div>

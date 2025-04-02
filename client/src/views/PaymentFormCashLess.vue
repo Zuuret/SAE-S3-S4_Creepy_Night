@@ -4,21 +4,22 @@
       <NavBar />
     </div>
     <div class="payment-container">
-      <h2>{{ title }}</h2>
+      <h2>{{ $t('titre') }}</h2>
       <form @submit.prevent="processPayment">
-        <label for="name-owner">Nom du propriétaire de la carte :</label>
+        <label for="name-owner">{{ $t('nomProprietaireCarte') }} :</label>
         <input type="text" id="name-owner" v-model="nameOwner" required />
-        <label for="card-number">Numéro de carte :</label>
+        <label for="card-number">{{ $t('numeroCarte') }} :</label>
         <input type="text" id="card-number" v-model="cardNumber" required />
-        <label for="expiry">Date d'expiration (MM/AA) :</label>
+        <label for="expiry">{{ $t('dateExpiration') }} (MM/AA) :</label>
         <input type="text" id="expiry" v-model="expiryDate" required />
-        <label for="cvv">CVV :</label>
+        <label for="cvv">{{ $t('cvv') }} :</label>
         <input type="text" id="cvv" v-model="cvv" required />
-        <button type="submit">{{ buttonText }}</button>
+        <button type="submit">{{ $t('payer') }}</button>
       </form>
     </div>
   </div>
 </template>
+
 
 <script>
 import NavBar from '@/components/NavBar.vue';
