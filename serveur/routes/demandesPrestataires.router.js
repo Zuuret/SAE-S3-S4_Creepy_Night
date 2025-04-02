@@ -11,12 +11,12 @@ router.post("/",  sessionMiddleware.authVerif(), demandesPrestatairesController.
 router.get("/",  sessionMiddleware.authVerif(), demandesPrestatairesController.getDemandesPrestataires);
 
 
-router.get("/:uuid",  sessionMiddleware.authVerif(), demandesPrestatairesController.getDemandePrestataireById);
+router.get("/:uuid",  sessionMiddleware.authVerif([2,3]), demandesPrestatairesController.getDemandePrestataireById);
 
 
-router.put("/:uuid",  sessionMiddleware.authVerif(), demandesPrestatairesController.updateDemandePrestataire);
+router.put("/:uuid",  sessionMiddleware.authVerif([2,3]), demandesPrestatairesController.updateDemandePrestataire);
 
 
-router.delete("/:uuid",  sessionMiddleware.authVerif(), demandesPrestatairesController.deleteDemandePrestataire);
+router.delete("/:uuid",  sessionMiddleware.authVerif([2,3]), demandesPrestatairesController.deleteDemandePrestataire);
 
 module.exports = router;

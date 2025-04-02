@@ -4,18 +4,18 @@ const panierArticleController = require("../controllers/panierArticles.controlle
 const sessionMiddleware = require("../middlewares/session.middleware");
 
 
-router.post("/",  sessionMiddleware.authVerif(), panierArticleController.savePanierArticles);
+router.post("/",  sessionMiddleware.authVerif([1,2,3]), panierArticleController.savePanierArticles);
 
 
 router.get("/", panierArticleController.getPanierArticles);
 
 
-router.get("/:uuid",  sessionMiddleware.authVerif(), panierArticleController.getPanierArticleById);
+router.get("/:uuid",  sessionMiddleware.authVerif([1,2,3]), panierArticleController.getPanierArticleById);
 
 
-router.put("/:uuid",  sessionMiddleware.authVerif(), panierArticleController.updatePanierArticles);
+router.put("/:uuid",  sessionMiddleware.authVerif([1,2,3]), panierArticleController.updatePanierArticles);
 
 
-router.delete("/:uuid",  sessionMiddleware.authVerif(), panierArticleController.deletePanierArticles);
+router.delete("/:uuid",  sessionMiddleware.authVerif([1,2,3]), panierArticleController.deletePanierArticles);
 
 module.exports = router;
