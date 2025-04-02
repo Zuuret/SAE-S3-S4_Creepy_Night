@@ -4,30 +4,6 @@ const userService = require("../services/users.services.pg");
 const prestaService = require("../services/prestataires.services.pg");
 const orgaService = require("../services/organisateurs.services.pg");
 
-module.exports.checkSession = (req, res, next) => {
-
-    // Supposition que le front-end envoie l'identifiant de session
-    // obtenu lors de l'authentification, via la partie query de l'URL
-    // Code à supprimer une fois le front-end en place et qui envoie l'identifiant de session
-    if (!req.query.session) {
-        req.query.session = "12abc45-953-cfb12";
-    }
-    // Fin du code à supprimer
-
-
-    const session = req.query.session;
-    if (!session) {
-        return res.status(401).json({ error: "Session manquante ou invalide." });
-    }
-
-    // vérifications supplémentaires (ex : validation de l'identifiant de
-    // session en base de données / check role session).
-    // ...
-
-    console.log(`Session valide : ${session}`);
-    next();
-};
-
 module.exports.signinUser = async (req, res) => {
     try {
         const users = await userService.getUsers();
@@ -41,7 +17,7 @@ module.exports.signinUser = async (req, res) => {
                 error: "Mot de passe incorrect!"
             });
         }
-        let token = jwt.sign({ id: data.id }, process.env.JWT_SECRET, {
+        let token = jwt.sign({ id: data.id, role: 1 }, process.env.JWT_SECRET, {
             expiresIn: 86400 // 24 heures
         });
         data.token = token;
@@ -67,7 +43,7 @@ module.exports.signinPresta = async (req, res) => {
                 error: "Mot de passe incorrect!"
             });
         }
-        let token = jwt.sign({ id: data.id }, process.env.JWT_SECRET, {
+        let token = jwt.sign({ id: data.id, role: 2 }, process.env.JWT_SECRET, {
             expiresIn: 86400 // 24 heures
         });
         data.token = token;
@@ -93,7 +69,7 @@ module.exports.signinOrga = async (req, res) => {
                 error: "Mot de passe incorrect!"
             });
         }
-        let token = jwt.sign({ id: data.id }, process.env.JWT_SECRET, {
+        let token = jwt.sign({ id: data.id, role: 3 }, process.env.JWT_SECRET, {
             expiresIn: 86400 // 24 heures
         });
         data.token = token;
@@ -106,7 +82,7 @@ module.exports.signinOrga = async (req, res) => {
     }
 };
 
-module.exports.authVerif = () => {
+module.exports.authVerif = (roles) => {
     return async (req, res, next) => {
         try {
             const token = req.headers['jwt-token'];
@@ -114,30 +90,12 @@ module.exports.authVerif = () => {
                 //decode token
                 const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
                 if (decodedToken != null) {
-                    const users = await userService.getUsers();
-                    let user = users.find(user => user.id === decodedToken.id);
-                    console.log(user)
-                    if (user) {
-                        console.log('Authentification user réussie')
-                        return next();
-                    }
-                    const prestas = await prestaService.getPrestataires();
-                    let presta = prestas.find(presta => presta.id === decodedToken.id);
-                    console.log(presta)
-                    if (presta) {
-                        console.log('Authentification presta réussie')
-                        return next();
-                    }
-                    const orgas = await orgaService.getOrganisateurs();
-                    let org = orgas.find(org => org.id === decodedToken.id);
-                    console.log(org)
-                    if (org) {
-                        console.log('Authentification orga réussie')
-                        return next();
-                    }
-                    console.log('Authentification échouée : utilisateur non trouvé')
-                    res.status(401).json({error: 'Unauthorized'});
+                    this.checkRole(decodedToken.role, roles)
+                    console.log('Authentification réussie')
+                    return next();
                 }
+                console.log('Authentification échouée : utilisateur non trouvé')
+                res.status(401).json({error: 'Unauthorized'});
             } else {
                 console.log('Authentification échouée : aucun token');
                 res.status(401).json({error: 'Unauthorized'});
@@ -149,3 +107,18 @@ module.exports.authVerif = () => {
         }
     }
 }
+
+module.exports.checkRole = (tokenRole, allowedRoles) => {
+    return (req, res, next) => {
+        console.log(tokenRole, allowedRoles);
+        if (!tokenRole) {
+            return res.status(401).json({ message: req.t("middlewares.check_role.errors.authorization_error") });
+        }
+
+        if (!allowedRoles.includes(tokenRole)) {
+            return res.status(403).json({ message: req.t("middlewares.check_role.errors.forbidding_error") });
+        }
+
+        return next();
+    };
+};
