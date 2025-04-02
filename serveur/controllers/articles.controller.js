@@ -19,7 +19,7 @@ exports.getAllArticles = async (req, res) => {
     if (!articles) {
         return res.status(500).json({ error: 'ERREUR INTERNE' });
     }
-    return res.status(200).json({ data: articles });
+    return res.status(200).json({ data: articles, error: 0 });
 };
 
 exports.saveArticle = async (req,res) => {
@@ -33,11 +33,12 @@ exports.saveArticle = async (req,res) => {
     if (resultat) {
         return res.status(500).send("ERREUR INTERNE");
     }
-    return res.status(200).send("INSERTION AVEC SUCCES");
+    console.log("INSERTION AVEC SUCCES")
+    return res.status(200).json({ message: 'Article créé', error: 0 });
 };
 
 exports.updateArticle = async (req,res) => {
-    const id = req.params.id;
+    const id = req.body.id;
     const prestataire_id = req.body.prestataire_id;
     const nom = req.body.nom;
     const description = req.body.description;
@@ -48,22 +49,22 @@ exports.updateArticle = async (req,res) => {
     if(resultat){
         return res.status(500).send("ERREUR INTERNE");
     }
-    return res.status(200).send("MODIFICATION ENREGISTREE");
+    console.log("MODIFICATION ENREGISTREE")
+    return res.status(200).json({ message: 'Article modifié', error: 0 });
 };
 
 exports.deleteArticle = async (req, res) => {
-    const { id } = req.params;
-    //console.log(id)
+    let id = req.params.idPresta
     try {
         const result = await articlesService.deleteArticle(id);
 
         if (!result) {
-            return res.status(200).json({ message: 'Article supprimé avec succès' });
+            return res.status(200).json({ message: 'Article supprimé avec succès', error: 0 });
         } else {
-            return res.status(404).json({ message: 'Article non trouvé' });
+            return res.status(404).json({ error: 'Article non trouvé' });
         }
     } catch (error) {
         console.error("Erreur lors de la suppression d'article:", error);
-        return res.status(500).json({ message: 'Erreur interne du serveur' });
+        return res.status(500).json({ error: 'Erreur interne du serveur' });
     }
 };

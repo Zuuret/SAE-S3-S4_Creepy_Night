@@ -110,7 +110,6 @@ module.exports.authVerif = () => {
     return async (req, res, next) => {
         try {
             const token = req.headers['jwt-token'];
-            console.log(req.headers['jwt-token'])
             if (token != null && token.length > 0) {
                 //decode token
                 const decodedToken = jwt.verify(token, process.env.JWT_SECRET);

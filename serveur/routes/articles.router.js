@@ -14,6 +14,6 @@ router.post("/prestataire", sessionMiddleware.authVerif(), articlesController.sa
 
 router.put("/prestataire", sessionMiddleware.authVerif(), articlesController.updateArticle);
 
-router.delete("/prestataire", sessionMiddleware.authVerif(), articlesController.deleteArticle);
+router.delete("/prestataire/:idPresta", sessionMiddleware.authVerif(), articlesController.deleteArticle);
 
 module.exports = router;
