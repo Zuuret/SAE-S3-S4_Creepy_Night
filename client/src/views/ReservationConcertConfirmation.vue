@@ -1,14 +1,22 @@
 <template>
   <div class="concert">
-    <div class="background">
-      <img :src="concert.image" alt="Affiche du concert" class="affiche_concert" />
+    <div class="background" v-if="concert">
+      <img 
+        :src="concertImage" 
+        alt="Affiche du concert" 
+        class="affiche_concert" 
+      />
     </div>
 
-    <div class="concert_info">
-      <div v-if="concert">
+    <div v-if="!concert" class="loading">
+      <p>Chargement du concert...</p>
+    </div>
+
+    <div class="concert_info" v-else>
+      <div>
         <p class="nom_artiste">{{ concert.artiste }}</p>
         <p class="categorie_artiste">{{ concert.categorie }} - {{ concert.nationalite }}</p>
-        <p class="info_concert">{{ concert.date }} - {{ concert.heure }}</p>
+        <p class="info_concert">{{ formattedDate }} - {{ formattedTime }}</p>
         <p class="scene_concert">{{ concert.scene }}</p>
       </div>
 
@@ -37,56 +45,98 @@
           {{ $t('view_my_reservations') }}
         </router-link>
       </div>
-      <PanierConcert></PanierConcert>
     </div>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
-import PanierConcert from "@/components/PanierConcert.vue";
 
 export default {
   name: 'ReservationConcertConfirmation',
-  components: {PanierConcert},
   data() {
     return {
-      quantite: 0,
+      quantite: 1,
+      imageError: false
     };
   },
   computed: {
-    ...mapState('ConcertStore', ['concert', 'place_concert']),
-    prixTotal() {
-      return this.place_concert ? this.place_concert.prix_place * this.quantite : 0;
-    },
-  },
-  methods: {
-    ...mapActions('ConcertStore', ['getConcertbyId', 'getPlacesConcertsbyId','getAllPlacesConcert', 'ajouterAuPanier']),
-    async ajoutAuPanier() {
-      if (this.quantite <= 0) {
-        alert('Veuillez sélectionner une quantité valide.');
-      } else {
-        await this.ajouterAuPanier({
-          placeId: this.place_concert.id_place,
-          nbPlaces: this.quantite
-        }).then(() => {
-          this.place_concert.nb_places -= this.quantite;
-          this.quantite = 0;
-        }).catch(error => {
-          alert("Erreur lors de l'ajout au panier.");
-          console.error(error);
-        });
+    ...mapState('ConcertStore', ['concert', 'utilisateurConnecte']),
+    concertImage() {
+      if (!this.concert) return '';
+      try {
+        return require(`@/assets/${this.concert.image}.jpg`);
+      } catch (e) {
+        return require('@/assets/affiche_Gims.jpg');
       }
     },
+    prixTotal() {
+      return this.concert ? this.concert.prix_place * this.quantite : 0;
+    },
+    formattedDate() {
+      return this.concert?.date ? new Date(this.concert.date).toLocaleDateString('fr-FR') : '';
+    },
+    formattedTime() {
+      return this.concert?.heure ? this.concert.heure.slice(0, 5) : '';
+    }
   },
-  mounted() {
-    const concertId = parseInt(this.$route.params.id);
-    this.getConcertbyId(concertId);
-    this.getPlacesConcertsbyId(concertId);
-    this.getAllPlacesConcert()
+  methods: {
+    ...mapActions('ConcertStore', ['getConcertById', 'insertReservConcert']),
+    
+    async reserverConcert() {
+      if (!this.utilisateurConnecte) {
+        alert('Veuillez vous connecter pour réserver');
+        this.$router.push('/connexion');
+        return;
+      }
+
+      if (!this.quantite || this.quantite < 1 || this.quantite > this.concert.nb_places) {
+        alert('Quantité invalide');
+        return;
+      }
+
+      try {
+        const payload = {
+          concertId: this.concert.id,
+          userId: this.utilisateurConnecte.id,
+          quantity: this.quantite
+        };
+
+        const response = await this.insertReservConcert(payload);
+        
+        if (response.error === 0) {
+          alert('Réservation confirmée !');
+          this.$router.push('/reservations/concert');
+        } else {
+          alert(response.data?.message || 'Erreur lors de la réservation');
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Erreur serveur');
+      }
+    }
   },
+  async mounted() {
+    try {
+      const concertId = this.$route.params.id;
+      console.log('ID concert:', concertId); // Debug
+
+      await this.getConcertById(concertId); // Appelle l'action Vuex
+
+      if (!this.concert) {
+        throw new Error('Concert non trouvé dans l\'état Vuex');
+      }
+
+      console.log('Concert chargé:', this.concert); // Debug
+    } catch (error) {
+      console.error('Erreur complète:', error);
+      alert('Erreur de chargement: ' + error.message);
+      this.$router.push('/concert');
+    }
+  }
 };
 </script>
+
 
 <style scoped>
 .concert {

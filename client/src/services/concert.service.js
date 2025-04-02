@@ -1,32 +1,102 @@
 import LocalSource from "@/datasource/controller";
+import { getRequest } from "./axios.service";
+import { postRequest } from "./axios.service";
+import { deleteRequest } from "./axios.service";
 
-async function getAllConcertsFromLocalSource(){
-    return LocalSource.getAllConcerts();
+async function getConcertsFromAPI() {
+    return await getRequest('concerts');
 }
 
-async function getAllConcerts() {
+async function getConcertByIdFromAPI(uuid) {
+    return await getRequest(`concerts/${uuid}`, 'CONCERTBYID');
+}
+
+async function getReservConcertFromAPI() {
+    return await getRequest('reservConcert');
+}
+
+async function getReservConcertByIdFromAPI() {
+    return await getRequest('reservConcert/${uuid}', 'RESERVCONCERTBYID');
+}
+
+async function insertReservConcertFromAPI(payload) {
+    return await postRequest("reservConcert", payload, '');
+}
+
+async function deleteReservConcertFromAPI(id) {
+    return await deleteRequest(`reservConcert/${id}`);
+}
+
+export async function getAllConcerts() {
+    try {
+        const res = await getConcertsFromAPI();
+        console.log("Concerts récupéré:", res.data);
+        return { error: 0, data: res.data };
+    } catch (error) {
+        console.error("Erreur lors de la récupération des concerts", error);
+        return { error: 1, message: "Erreur lors de la récupération des concerts" };
+    }
+}
+
+export async function getConcertById(uuid) {
+    try {
+        const res = await getConcertByIdFromAPI(uuid);
+        console.log('Concert récupéré depuis l\'API:', res.data);
+        return { error: 0, data: res.data }; // Retourner la structure { error, data }
+    } catch (error) {
+        console.error("Erreur lors de la récupération du concert", error);
+        return { 
+            error: 1, 
+            data: "Erreur réseau, impossible de récupérer le concert." 
+        };
+    }
+}
+
+export async function getAllReservConcert() {
+    try {
+        const res = await getReservConcertFromAPI();
+        console.log("Réservations de concert récupéré:", res.data);
+        return { error: 0, data: res.data };
+    } catch (error) {
+        console.error("Erreur lors de la récupération des réservations de concert", error);
+        return { error: 1, message: "Erreur lors de la récupération des réservations de concert" };
+    }
+}
+
+export async function getReservConcertById(uuid) {
     let response;
     try {
-        response = await getAllConcertsFromLocalSource();
+        response = await getReservConcertByIdFromAPI(uuid);
     } catch (err) {
-        response = { error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des concerts' };
+        response = {
+            error: 1,
+            status: 404,
+            data: "Erreur réseau, impossible de récupérer la réservation de concert."
+        };
     }
     return response;
 }
 
-async function getConcertbyIdFromLocalSource(concertId) {
-    return LocalSource.getConcertbyId(concertId);
+export async function insertReservConcert(payload) {
+    try {
+      const res = await insertReservConcertFromAPI(payload);
+      return { error: 0, data: res.data };
+    } catch (error) {
+      console.error("insert reservConcert", error);
+      return { error: 1, data: "Erreur lors de l'insertion" };
+    }
+}
+ 
+export async function deleteReservConcert(id) {
+    try {
+        const res = await deleteReservConcertFromAPI(id);
+        return { error: 0, data: res.data };
+    } catch (error) {
+        console.error("delete demandes reservConcert", error);
+        return { error: 1, data: "Erreur lors de la suppression" };
+    }
 }
 
-async function getConcertbyId(concertId) {
-    let response;
-    try {
-        response = await getConcertbyIdFromLocalSource(concertId);
-    } catch (err) {
-        response = { error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des concerts' };
-    }
-    return response;
-}
 
 async function getAllPlaceConcertFromLocalSource(){
     return LocalSource.getAllPlaceConcert();
@@ -129,7 +199,6 @@ async function getReservationConcertById(utilisateurId) {
 
 export default {
     getAllConcerts,
-    getConcertbyId,
     getAllPlaceConcert,
     getPlacesConcertsbyId,
     ajouterAuPanier,
