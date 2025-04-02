@@ -31,22 +31,24 @@ exports.getUsers = async (req,res) => {
 }
 
 exports.getUserById = async (req, res) => {
-    const uuid = req.params.uuid;
     try {
-        const users = await userService.getUsers();
-        if (!users) {
-            return res.status(500).json({ error: 'ERREUR INTERNE' });
+        const { uuid } = req.params;
+        if (!uuid) {
+            return res.status(400).json({ error: 'ID utilisateur manquant' });
         }
-        const user = users.find(user => user.id === uuid);
+
+        const user = await userService.getUserById(uuid);
         if (!user) {
             return res.status(404).json({ error: 'Utilisateur non trouvé' });
         }
-        return res.status(200).json({ error : 0, data: user });
+
+        return res.status(200).json({ error: 0, data: user });
     } catch (error) {
-        console.log('Erreur lors de la récupération de l\'utilisateur :', error);
+        console.error('Erreur lors de la récupération de l\'utilisateur :', error);
         return res.status(500).json({ error: 'ERREUR INTERNE' });
     }
 };
+
 
 exports.updateUser = async (req,res) => {
     const uuid = req.params.uuid;
