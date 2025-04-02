@@ -1,23 +1,23 @@
 <template>
   <div class="livre-dor" v-if="prestataire">
     <div class="gauche">
-      <h2>NOTRE LIVRE D'OR</h2>
-      <h3>(Donnez-nous un avis sur notre structure)</h3>
+      <h2>{{ $t('livreDOr.notreLivreDOr') }}</h2>
+      <h3>{{ $t('livreDOr.donnezAvis') }}</h3>
       <form @submit.prevent="ajouterMessage">
-        <h1>Ajouter un commentaire</h1>
+        <h1>{{ $t('livreDOr.ajouterCommentaire') }}</h1>
         <div class="stars">
           <i v-for="i in 5" :key="i" :class="['fa', 'fa-star', { 'gold': i <= tempEvaluation }]" @mouseover="hoverRating(i)" @mouseleave="resetRating" @click="setRating(i)"></i>
         </div>
-        <input v-model="nomUtilisateur" placeholder="Votre nom" required />
-        <textarea v-model="message" placeholder="Votre message" required></textarea>
+        <input v-model="nomUtilisateur" :placeholder="$t('livreDOr.votreNom')" required />
+        <textarea v-model="message" :placeholder="$t('livreDOr.votreMessage')" required></textarea>
         <input type="hidden" v-model="evaluation" />
-        <button type="submit">Ajouter un message</button>
+        <button type="submit">{{ $t('livreDOr.ajouterMessage') }}</button>
       </form>
     </div>
 
     <div class="droit">
       <div v-if="livreDOr.length === 0" class="no-message">
-        <p>Aucun commentaire laissés pour ce prestataire</p>
+        <p>{{ $t('livreDOr.aucunCommentaire') }}</p>
       </div>
       <div v-else class="message" v-for="message in livreDOr" :key="message.id">
         <p><strong>{{ message.nom_utilisateur }}</strong> ({{ formatDate(message.date) }})</p>

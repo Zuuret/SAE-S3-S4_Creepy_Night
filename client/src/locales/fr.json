@@ -1,0 +1,89 @@
+{
+    "menu": {
+      "connexion": "Connexion",
+      "creerProfil": "Créer profil",
+      "deconnexion": "Déconnexion",
+      "monProfil": "Mon Profil",
+      "prestataires": "Nos prestataires",
+      "mesReservations": "Mes réservations",
+      "secuflippe": "SecuFlippe",
+      "cashless": "CashLess"
+    },
+    
+        "compteRebours": {
+          "tempsRestant": "Temps restant avant le début",
+          "debutFestival": "Début du festival"
+        },
+        "boutique": {
+    "filtres": "Filtres",
+    "nom": "Nom",
+    "prixMin": "Prix minimum",
+    "prixMax": "Prix maximum",
+    "enStock": "En stock",
+    "reinitialiserFiltres": "Réinitialiser les filtres",
+    "notreBoutique": "NOTRE BOUTIQUE",
+    "aucunArticleDisponible": "Aucun article disponible",
+    "filtrerParNom": "Filtrer par nom",
+    "filtrerParPrixMin": "Filtrer par prix minimum",
+    "filtrerParPrixMax": "Filtrer par prix maximum"
+  },
+  "prestataires": {
+    "nosPrestataires": "Nos Prestataires",
+    "rechercher": "Rechercher...",
+    "trierParNom": "Trier par nom",
+    "trierParCategorie": "Trier par catégorie",
+    "voirProfil": "Voir Profil",
+    "aucunResultat": "Aucun prestataire ne correspond à votre recherche."
+  },
+  "livreDOr": {
+    "notreLivreDOr": "NOTRE LIVRE D'OR",
+    "donnezAvis": "(Donnez-nous un avis sur notre structure)",
+    "ajouterCommentaire": "Ajouter un commentaire",
+    "votreNom": "Votre nom",
+    "votreMessage": "Votre message",
+    "ajouterMessage": "Ajouter un message",
+    "aucunCommentaire": "Aucun commentaire laissés pour ce prestataire"
+  },
+  "sidebar": {
+    "festivalAdmin": "Festival Admin",
+    "tableauDeBord": "Tableau de bord",
+    "editAccueil": "Edit accueil",
+    "carte": "Carte",
+    "utilisateurs": "Utilisateurs",
+    "organisateurs": "Organisateurs",
+    "prestataires": "Prestataires",
+    "demandes": "Demandes",
+    "validerConcert": "Valider concert",
+    "profil": "Profil"
+  },
+  "panier": {
+    "votrePanier": "Votre Panier",
+    "prix": "Prix",
+    "quantite": "Quantité",
+    "artiste": "Artiste",
+    "nbPlaces": "Nombre de places",
+    "prixUnitaire": "Prix unitaire (€)",
+    "total": "Total (€)",
+    "actions": "Actions",
+    "retirerPlace": "Retirer une place",
+    "supprimerTout": "Supprimer tout",
+    "totalPanier": "Total du panier",
+    "validerCommande": "Valider la commande",
+    "panierVide": "Votre panier est vide"
+  },
+  
+    "intro": {
+      "titreIntro": "Bienvenue à Creepy Night, le festival incontournable de la peur !",
+      "description": "Plongez dans une expérience unique et immersive dédiée à l'univers fascinant de la peur et du mystère. Pendant une semaine, vibrez au rythme d’un programme riche et captivant mêlant expositions, projections cinématographiques, concerts live et bien plus encore. Que vous soyez un amateur de sensations fortes, un passionné de cinéma fantastique ou simplement curieux, Creepy Night vous promet des émotions inoubliables.",
+      "ticketLink": "Tickets et abonnements"
+    },
+    "prestataire": {
+    "titreIntro": "Participez à Creepy Night en tant que Prestataire !",
+    "description": "Vous êtes artiste, exposant, restaurateur ou professionnel du divertissement ? Rejoignez l’aventure Creepy Night et proposez votre savoir-faire à un public passionné d’horreur et de frissons. Profitez d’une visibilité unique et faites partie de cette expérience inoubliable en tant que prestataire officiel du festival.",
+    "candidatureLink": "Déposer ma candidature"
+  }
+  
+  
+      
+  }
+  

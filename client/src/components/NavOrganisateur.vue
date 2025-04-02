@@ -1,21 +1,22 @@
-<template>    
+<template>
     <aside class="sidebar">
         <header class="sidebar-header">
-        <h1>Festival Admin</h1>
+            <h1>{{ $t('sidebar.festivalAdmin') }}</h1>
         </header>
         <nav class="nav">
-        <router-link to="/home-organisateur" class="nav-item">Tableau de bord</router-link>
-        <router-link to="/orga-texte-accueil" class="nav-item">Edit accueil</router-link>
-        <router-link to="/orga-carte" class="nav-item">Carte</router-link>
-        <router-link to="/orga-utilisateurs" class="nav-item">Utilisateurs</router-link>
-        <router-link to="/orga-organisateurs" class="nav-item">Organisateurs</router-link>
-        <router-link to="/orga-prestataires" class="nav-item">Prestataires</router-link>
-        <router-link to="/orga-demandes" class="nav-item">Demandes</router-link>
-        <router-link to="/organisateur/validartiste" class="nav-item" >Valider concert</router-link>
-        <router-link to="/orga-profil" class="nav-item">Profil</router-link>
+            <router-link to="/home-organisateur" class="nav-item">{{ $t('sidebar.tableauDeBord') }}</router-link>
+            <router-link to="/orga-texte-accueil" class="nav-item">{{ $t('sidebar.editAccueil') }}</router-link>
+            <router-link to="/orga-carte" class="nav-item">{{ $t('sidebar.carte') }}</router-link>
+            <router-link to="/orga-utilisateurs" class="nav-item">{{ $t('sidebar.utilisateurs') }}</router-link>
+            <router-link to="/orga-organisateurs" class="nav-item">{{ $t('sidebar.organisateurs') }}</router-link>
+            <router-link to="/orga-prestataires" class="nav-item">{{ $t('sidebar.prestataires') }}</router-link>
+            <router-link to="/orga-demandes" class="nav-item">{{ $t('sidebar.demandes') }}</router-link>
+            <router-link to="/organisateur/validartiste" class="nav-item">{{ $t('sidebar.validerConcert') }}</router-link>
+            <router-link to="/orga-profil" class="nav-item">{{ $t('sidebar.profil') }}</router-link>
         </nav>
     </aside>
 </template>
+
 <script>
 export default{
   name: "NavOrganisateur",
