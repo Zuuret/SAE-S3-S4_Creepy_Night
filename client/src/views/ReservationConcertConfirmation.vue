@@ -13,28 +13,28 @@
       </div>
 
       <div class="ticket">
-        <h3>Places disponibles :</h3>
+        <h3>{{ $t('available_seats') }} :</h3>
         <div v-if="place_concert">
           <p>
-            <strong>Type :</strong> {{ place_concert.type_place }} <br/>
-            <strong>Prix :</strong> {{ place_concert.prix_place }} €<br/>
-            <strong>Disponibles :</strong> {{ place_concert.nb_places }}
+            <strong>{{ $t('type') }} :</strong> {{ place_concert.type_place }} <br/>
+            <strong>{{ $t('price') }} :</strong> {{ place_concert.prix_place }} €<br/>
+            <strong>{{ $t('available') }} :</strong> {{ place_concert.nb_places }}
           </p>
-          <label for="selection_quantite">QUANTITÉ</label>
+          <label for="selection_quantite">{{ $t('quantity') }}</label>
           <input type="number" v-model.number="quantite" id="selection_quantite" min="0" step="1"/>
         </div>
         <div v-else>
-          <p>Aucune place disponible pour ce concert.</p>
+          <p>{{ $t('no_seats_available') }}</p>
         </div>
         <div class="ticket-total">
-          <p><strong>TOTAL :</strong> {{ prixTotal }} €</p>
-          <button @click="ajoutAuPanier">AJOUTER AU PANIER</button>
+          <p><strong>{{ $t('total') }} :</strong> {{ prixTotal }} €</p>
+          <button @click="ajoutAuPanier">{{ $t('add_to_cart') }}</button>
         </div>
         <router-link to="/cashless">
-          Allez au cashless !!
+          {{ $t('go_to_cashless') }}
         </router-link>
         <router-link to="/reservations/concert">
-          Voir mes réservations
+          {{ $t('view_my_reservations') }}
         </router-link>
       </div>
       <PanierConcert></PanierConcert>

@@ -6,18 +6,18 @@
 
     <div class="main-content">
       <header>
-        <h1>Liste des organisateurs de CreepyNight</h1>
+        <h1>{{ $t('listeOrganisateursCreepyNight') }}</h1>
       </header>
 
       <div class="card-container">
         <div class="card">
-          <h2>Liste des Organisateurs</h2>
+          <h2>{{ $t('listeOrganisateurs') }}</h2>
           <table class="modern-table">
             <thead>
               <tr>
-                <th>ID</th>
-                <th>Nom</th>
-                <th>Email</th>
+                <th>{{ $t('id') }}</th>
+                <th>{{ $t('nom') }}</th>
+                <th>{{ $t('email') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -33,6 +33,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";

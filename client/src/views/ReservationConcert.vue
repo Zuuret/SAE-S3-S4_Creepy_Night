@@ -1,32 +1,34 @@
 <template>
   <div class="reservations-container">
-    <h2>Mes réservations</h2>
+    <h2>{{ $t('my_reservations') }}</h2>
     <div v-if="reservationsId && reservationsId.length > 0" class="reservations-list">
       <div v-for="reservation in reservationsId" :key="reservation.id_reservation" class="reservation-item">
         <div class="reservation-header">
-          <p><strong>Réservation #{{ reservation.id_reservation }}</strong></p>
+          <p><strong>{{ $t('reservation') }} #{{ reservation.id_reservation }}</strong></p>
         <div class="concert-details">
-          <h3>Détails des concerts réservés :</h3>
+          <h3>{{ $t('reserved_concert_details') }} :</h3>
           <ul>
             <li v-for="concert in reservation.concerts" :key="concert.concert.id" class="concert-item">
               <div class="concert-info">
                 <p><strong>{{ concert.concert.artiste }}</strong> - {{ concert.concert.categorie }} </p>
-                <p>Date : {{ concert.concert.date }} à {{ concert.concert.heure }}</p>
-                <p>Nombre de places : {{ concert.nbPlaces }}</p>
-                <p>Type de place : {{ concert.place.type_place }}</p>
-                <p>Prix par place : {{ concert.place.prix_place }} €</p>
+                <p>{{ $t('date') }} : {{ concert.concert.date }} {{ $t('at') }} {{ concert.concert.heure }}</p>
+                <p>{{ $t('number_of_seats') }} : {{ concert.nbPlaces }}</p>
+                <p>{{ $t('seat_type') }} : {{ concert.place.type_place }}</p>
+                <p>{{ $t('price_per_seat') }} : {{ concert.place.prix_place }} €</p>
               </div>
             </li>
           </ul>
         </div>
       </div>
     </div>
-  </div>
-    <div v-else class="no-reservations">
-      <p>Aucune réservation trouvée.</p>
+      <!-- Contenu pour les utilisateurs ayant accès -->
+      <h1>{{ $t('welcome') }} {{ utilisateurConnecte?.societe }}</h1>
+      <!-- Autres contenus -->
     </div>
-</div>
+    <p v-else class="error">{{ $t('accessDenied') }}</p>
+  </div>
 </template>
+
 
 <script>
 import { mapActions, mapState } from "vuex";

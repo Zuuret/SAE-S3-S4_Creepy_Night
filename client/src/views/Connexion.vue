@@ -3,41 +3,42 @@
     <img src="@/assets/fond_Accueil.png" class="background" alt="fond_accueil" />
 
     <div class="login-box">
-      <h2>Connexion</h2>
+      <h2>{{ $t("login.title") }}</h2>
       <div class="radio-buttons">
         <label class="custom-radio" :class="{ selected: userType === 'utilisateur' }">
           <input type="radio" name="userType" value="utilisateur" v-model="userType" @click="updateErrorMessage('')">
-          <span>Utilisateur</span>
+          <span>{{ $t("login.user") }}</span>
         </label>
         <label class="custom-radio" :class="{ selected: userType === 'prestataire' }">
           <input type="radio" name="userType" value="prestataire" v-model="userType" @click="updateErrorMessage('')">
-          <span>Prestataire</span>
+          <span>{{ $t("login.provider") }}</span>
         </label>
         <label class="custom-radio" :class="{ selected: userType === 'organisateur' }">
           <input type="radio" name="userType" value="organisateur" v-model="userType" @click="updateErrorMessage('')">
-          <span>Organisateur</span>
+          <span>{{ $t("login.organizer") }}</span>
         </label>
       </div>
 
       <form @submit.prevent="submitLogin(userType)" class="login-form">
         <div class="form-group">
-          <input type="email" v-model="email" id="email" placeholder="Entrez votre email" required/>
+          <input type="email" v-model="email" id="email" :placeholder="$t('login.emailPlaceholder')" required/>
         </div>
         <div class="form-group">
-          <input type="password" v-model="password" id="password" placeholder="Entrez votre mot de passe" required/>
+          <input type="password" v-model="password" id="password" :placeholder="$t('login.passwordPlaceholder')" required/>
         </div>
-        <button type="submit" class="submit-button">Se connecter</button>
+        <button type="submit" class="submit-button">{{ $t("login.submit") }}</button>
       </form>
       <div class="signup-link">
         <span>
-          Pas de compte ?
-          <router-link to="/creation-profil">S'inscrire</router-link>
+          {{ $t("login.noAccount") }}
+          <router-link to="/creation-profil">{{ $t("login.signup") }}</router-link>
         </span>
       </div>
       <p v-if="errorMessage" class="message">{{ errorMessage }}</p>
     </div>
   </div>
 </template>
+
 
 <script>
 

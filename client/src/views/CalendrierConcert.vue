@@ -3,7 +3,7 @@
     <div class="navbar">
       <NavBar />
     </div>
-    <h1>Calendrier des concerts</h1>
+    <h1>{{ $t('concerts.calendrierTitre') }}</h1>
     <div class="calendar">
       <div class="calendar-header">
         <div class="calendar-hour"></div>
@@ -14,7 +14,7 @@
           <div class="calendar-hour">{{ hour }}</div>
           <div v-for="day in days" :key="day" class="calendar-cell">
             <div v-if="!concertsByDayAndHour[day][hour]" class="empty-cell">
-              <p class="placeholder-text">À venir</p>
+              <p class="placeholder-text">{{ $t('concerts.aVenir') }}</p>
             </div>
             <div v-if="concertsByDayAndHour[day][hour]" class="concert-card">
               <router-link :to="`/concert/${concertsByDayAndHour[day][hour].id}`">
@@ -28,6 +28,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import {mapActions, mapState} from 'vuex';

@@ -1,35 +1,36 @@
 <template>
   <div class="location-deguisement">
     <div v-if="deguisement" class="deguisement-info">
-      <img :src="deguisement.image" alt="Affiche du déguisement" class="affiche-deguisement" />
+      <img :src="deguisement.image" :alt="$t('costumePoster')" class="affiche-deguisement" />
       <p class="nom-costume">{{ deguisement.nom_costume }}</p>
       <p class="prix-costume">{{ deguisement.prix }} €</p>
     </div>
 
     <div v-if="taille_deguisement && taille_deguisement.length > 0" class="taille-select-container">
-      <label for="taille-select" class="label-taille">Choisir une taille :</label>
+      <label for="taille-select" class="label-taille">{{ $t('chooseSize') }}</label>
       <select id="taille-select" v-model="selectedTaille" class="taille-select">
         <option v-for="taille in taille_deguisement" :key="taille.taille" :value="taille.taille">
-          {{ taille.taille }} (Stock : {{ taille.quantite }})
+          {{ taille.taille }} ({{ $t('stock') }} : {{ taille.quantite }})
         </option>
       </select>
     </div>
     <div v-else class="no-size-message">
-      <p>Aucune taille disponible pour ce déguisement.</p>
+      <p>{{ $t('noSizeAvailable') }}</p>
     </div>
 
     <button @click="ajouterAuPanier" :disabled="!selectedTaille || stockRestant === 0" class="btn-ajouter">
-      Ajouter au panier
+      {{ $t('addToCart') }}
     </button>
     <router-link to="/cashless">
-      Allez au cashless !!!
+      {{ $t('goToCashless') }}
     </router-link>
     <router-link to="/reservations/baltrouille">
-      Voir mes reservations
+      {{ $t('viewReservations') }}
     </router-link>
     <PanierDeguisement :panier="panier" />
   </div>
 </template>
+
 
 <script>
 import { mapActions, mapState } from "vuex";

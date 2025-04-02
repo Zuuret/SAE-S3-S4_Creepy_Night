@@ -1,17 +1,18 @@
 <template>
   <div class="profil-container">
-    <h1>Bienvenue sur votre profil</h1>
+    <h1>{{ $t('welcomeProfile') }}</h1>
     <div class="profil-infos">
-      <p v-if="utilisateurConnecte"><strong>Nom :</strong> {{ utilisateurConnecte.nom }}</p>
-      <p><strong>Prénom :</strong> {{ utilisateurConnecte.prenom }}</p>
-      <p><strong>Email :</strong> {{ utilisateurConnecte.email || utilisateurConnecte.mail }}</p>
-      <p><strong>Montant du portefeuille :</strong> {{ utilisateurConnecte.solde }} €</p>
+      <p v-if="utilisateurConnecte"><strong>{{ $t('lastName') }} :</strong> {{ utilisateurConnecte.nom }}</p>
+      <p><strong>{{ $t('firstName') }} :</strong> {{ utilisateurConnecte.prenom }}</p>
+      <p><strong>{{ $t('email') }} :</strong> {{ utilisateurConnecte.email || utilisateurConnecte.mail }}</p>
+      <p><strong>{{ $t('walletBalance') }} :</strong> {{ utilisateurConnecte.solde }} €</p>
     </div>
     <router-link to="/cashless">
-      <button class="recharge-button">Recharger mon portefeuille</button>
+      <button class="recharge-button">{{ $t('rechargeWallet') }}</button>
     </router-link>
   </div>
 </template>
+
 
 <script>
 import { mapState, mapActions } from 'vuex';

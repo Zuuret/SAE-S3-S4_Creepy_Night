@@ -6,9 +6,9 @@
 
     <div class="content-container">
       <div class="map-container">
-        <h1>Carte Interactive</h1>
+        <h1>{{ $t('interactiveMap') }}</h1>
         <div class="map-wrapper">
-          <img src="@/assets/carte_creepy_night.png" alt="Carte de l'événement" class="base-map">
+          <img src="@/assets/carte_creepy_night.png" :alt="$t('eventMap')" class="base-map">
           
           <div v-for="spot in emplacement" :key="spot.id" class="map-icon" :class="{ 'selected': selectedSpot?.id === spot.id }" :style="{left: `${spot.coord_x}%`,top: `${spot.coord_y}%`, transform: 'translate(-50%, -50%)'}" @click="selectSpot(spot)">
           <img v-if="getIconById(spot.icone_id)" :src="getImagePath(getIconById(spot.icone_id).nom_image)" :alt="spot.nom" class="icon-image">
@@ -18,27 +18,27 @@
       </div>
 
       <div class="edit-panel" v-if="selectedSpot">
-        <h2>Édition de l'emplacement</h2>
+        <h2>{{ $t('editLocation') }}</h2>
         
         <div class="form-group">
-          <label>Nom :</label>
+          <label>{{ $t('name') }} :</label>
           <input v-model="selectedSpot.nom" type="text">
         </div>
 
         <div class="form-group">
-          <label>Coordonnée X :</label>
+          <label>{{ $t('coordinateX') }} :</label>
           <input v-model.number="selectedSpot.coord_x" type="number" min="0" max="100">
         </div>
 
         <div class="form-group">
-          <label>Coordonnée Y :</label>
+          <label>{{ $t('coordinateY') }} :</label>
           <input v-model.number="selectedSpot.coord_y" type="number" min="0" max="100">
         </div>
 
         <div class="form-group">
-          <label>Prestataire :</label>
+          <label>{{ $t('provider') }} :</label>
           <select v-model="selectedSpot.prestataire_id" class="form-select">
-            <option :value="null">Aucun prestataire</option>
+            <option :value="null">{{ $t('noProvider') }}</option>
             <option 
               v-for="prestataire in prestataires" 
               :key="prestataire.id"
@@ -50,7 +50,7 @@
         </div>
 
         <div class="form-group">
-          <label>Icône actuelle :</label>
+          <label>{{ $t('currentIcon') }} :</label>
           <img 
             :src="getImagePath(getIconById(selectedSpot.icone_id)?.nom_image)" 
             class="current-icon"
@@ -59,7 +59,7 @@
         </div>
 
         <div class="icon-selector" v-if="showIconSelector">
-          <h3>Sélectionnez une icône</h3>
+          <h3>{{ $t('selectIcon') }}</h3>
           <div class="icons-grid">
             <div 
               v-for="icon in icones" 
@@ -70,7 +70,7 @@
               <img :src="getImagePath(icon.nom_image)" :alt="icon.nom_image">
             </div>
           </div>
-          <button @click="showIconSelector = false">Fermer</button>
+          <button @click="showIconSelector = false">{{ $t('close') }}</button>
         </div>
 
         <button 
@@ -78,17 +78,18 @@
           @click="saveChanges"
           :disabled="!hasChanges"
         >
-          Enregistrer les modifications
+          {{ $t('saveChanges') }}
         </button>
       </div>
 
       <div class="edit-panel" v-else>
-        <h2>Sélectionnez un emplacement</h2>
-        <p>Cliquez sur un emplacement de la carte pour le modifier</p>
+        <h2>{{ $t('selectLocation') }}</h2>
+        <p>{{ $t('clickToEdit') }}</p>
       </div>
     </div>
   </div>
 </template>
+
 
 <script>
 import { mapGetters, mapActions, mapState } from "vuex";

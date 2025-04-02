@@ -3,60 +3,59 @@
     <div class="navbars">
       <NavBar />
     </div>
-    <h1>CariHorreur</h1>
+    <h1>{{ $t('carihorreur.titre') }}</h1>
     <div class="container">
       <div class="formulaire-signalement">
-        <h1>Réserver un carré VIP</h1>
+        <h1>{{ $t('carihorreur.reservationTitre') }}</h1>
 
-        <label for="date-selection">Sélectionnez une date</label>
+        <label for="date-selection">{{ $t('carihorreur.dateSelection') }}</label>
         <input type="date" v-model="dateCarre" id="date-selection" :min="'2025-10-27'" :max="'2025-11-02'" required />
 
-        <label for="carre-selection">Sélectionnez la formule</label>
+        <label for="carre-selection">{{ $t('carihorreur.formuleSelection') }}</label>
         <select v-model="idCarre" id="carre-selection" required>
           <option v-for="carre in carres" :value="carre.id_carre" :key="carre.id_carre">
             {{ carre.type }}
           </option>
         </select>
 
-        <label for="nbpersonne-selection">Sélectionnez le nombre de personnes</label>
+        <label for="nbpersonne-selection">{{ $t('carihorreur.nbPersonneSelection') }}</label>
         <select v-model="nbPersonne" id="nbpersonne-selection" required>
           <option v-for="n in 7" :value="n" :key="n">{{ n }}</option>
         </select>
 
-        <label for="bouteille-type">Type de bouteille</label>
+        <label for="bouteille-type">{{ $t('carihorreur.bouteilleType') }}</label>
         <select v-model="idBouteille" id="bouteille-type" required>
           <option v-for="bouteille in bouteilles" :value="bouteille.id_bouteille" :key="bouteille.id_bouteille">
             {{ bouteille.type }}
           </option>
         </select>
 
-        <label for="bouteille-quantite">Quantité de bouteilles</label>
+        <label for="bouteille-quantite">{{ $t('carihorreur.bouteilleQuantite') }}</label>
         <select v-model="bouteilleQuantite" id="bouteille-quantite" required>
           <option v-for="n in 4" :value="n" :key="n">{{ n }}</option>
         </select>
 
-        <button @click="addReservation">Valider la réservation</button>
+        <button @click="addReservation">{{ $t('carihorreur.validerReservation') }}</button>
       </div>
 
       <div class="reservation-list">
-        <h2>Mes Réservations</h2>
+        <h2>{{ $t('carihorreur.reservationsTitre') }}</h2>
         <ul>
           <li v-for="(reservation, index) in reservations" :key="reservation.id_reservation">
             <div>
-      <span v-if="reservation.carre && carres.length">
-        {{ reservation.dateCarre }} - {{ reservation.carre.type || 'Type non défini' }}
-        ({{ reservation.nbPersonne }} personnes) - Total : {{ reservation.prixTotal || 'Inconnu' }} €
-      </span>
+              <span v-if="reservation.carre && carres.length">
+                {{ reservation.dateCarre }} - {{ reservation.carre.type || $t('carihorreur.typeIndefini') }}
+                ({{ reservation.nbPersonne }} {{ $t('carihorreur.personnes') }}) - Total : {{ reservation.prixTotal || $t('carihorreur.inconnu') }} €
+              </span>
               <ul v-if="reservation.bouteilles && reservation.bouteilles.length">
                 <li v-for="bouteille in reservation.bouteilles" :key="bouteille.id_bouteille">
                   {{ bouteille.type }} x {{ bouteille.quantite }} ({{ bouteille.totalPrix }} €)
                 </li>
               </ul>
-              <button @click="confirmCancel(index)">Annuler la réservation</button>
+              <button @click="confirmCancel(index)">{{ $t('carihorreur.annulerReservation') }}</button>
             </div>
           </li>
         </ul>
-
       </div>
     </div>
   </div>

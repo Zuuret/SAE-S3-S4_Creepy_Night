@@ -1,35 +1,35 @@
 <template>
   <div class="demande-formulaire">
-    <h2>Formulaire UberFlippe</h2>
+    <h2>{{ $t('uber_flippe_form') }}</h2>
       <div>
-        <label for="zone-selection">Sélectionnez la zone de l'incident :</label>
+        <label for="zone-selection">{{ $t('select_incident_area') }} :</label>
         <select v-model="zone" id="zone-selection" required>
-          <option value="Foreffroi">La Foreffroi</option>
-          <option value="Cauchemanoir">Le Cauchemanoir</option>
-          <option value="Bosquepouvante">Le Bosquépouvante</option>
-          <option value="Maudile">La Maudîle</option>
-          <option value="Malaispace">La Malaispace</option>
+          <option value="Foreffroi">{{ $t('la_foreffroi') }}</option>
+          <option value="Cauchemanoir">{{ $t('le_cauchemanoir') }}</option>
+          <option value="Bosquepouvante">{{ $t('le_bosquepouvante') }}</option>
+          <option value="Maudile">{{ $t('la_maudile') }}</option>
+          <option value="Malaispace">{{ $t('la_malaispace') }}</option>
         </select>
       </div>
 
       <div>
-        <label for="nbPersonne">Nombre de personnes :</label>
+        <label for="nbPersonne">{{ $t('number_of_people') }} :</label>
         <input v-model.number="nbPersonne" type="number" id="nbPersonne" min="1" required />
       </div>
 
       <div>
-        <label for="description">Description :</label>
+        <label for="description">{{ $t('description') }} :</label>
         <textarea v-model="description" id="description" rows="3" required></textarea>
       </div>
 
-      <button @click="ajouterNouvelleDemande()">Ajouter votre demande</button>
+      <button @click="ajouterNouvelleDemande()">{{ $t('add_request') }}</button>
 
-    <h3>Demandes existantes</h3>
+    <h3>{{ $t('existing_requests') }}</h3>
     <ul>
       <li v-for="demande in demandes" :key="demande.id_demande">
-        <strong>Zone :</strong> {{ demande.zone }} <br />
-        <strong>Nombre de personnes :</strong> {{ demande.nbPersonne }} <br />
-        <strong>Description :</strong> {{ demande.description }}
+        <strong>{{ $t('area') }} :</strong> {{ demande.zone }} <br />
+        <strong>{{ $t('number_of_people') }} :</strong> {{ demande.nbPersonne }} <br />
+        <strong>{{ $t('description') }} :</strong> {{ demande.description }}
       </li>
     </ul>
   </div>

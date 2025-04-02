@@ -6,27 +6,27 @@
 
     <div class="main-content">
       <header>
-        <h1>Bienvenue sur la page de l'organisateur</h1>
+        <h1>{{ $t('organisateur.welcome') }}</h1>
       </header>
       <section class="daily-stats">
-        <h2>Chiffres du jour</h2>
+        <h2>{{ $t('organisateur.dailyStatsTitle') }}</h2>
         <div class="stat-item">
-          <span class="stat-title">Places vendues aujourd'hui :</span>
+          <span class="stat-title">{{ $t('organisateur.ticketsSoldToday') }}</span>
           <span class="stat-value">{{ billetsAchatAujourdHui }}</span>
         </div>
       </section>
 
       <section class="stats-chart">
-        <h2>Évolution des ventes cette semaine</h2>
+        <h2>{{ $t('organisateur.weeklySalesTitle') }}</h2>
         <div class="chart-container">
           <template v-if="loading">
-            <div class="loading-message">Chargement des données...</div>
+            <div class="loading-message">{{ $t('organisateur.loading') }}</div>
           </template>
           <template v-else-if="error">
             <div class="error-message">{{ error }}</div>
           </template>
           <template v-else-if="!chartData || chartData.data.length === 0">
-            <div class="no-data-message">Aucune donnée de vente disponible pour cette semaine</div>
+            <div class="no-data-message">{{ $t('organisateur.noData') }}</div>
           </template>
           <template v-else>
             <div class="chart-wrapper" v-if="chartData && chartData.labels.length === 7">
@@ -37,7 +37,7 @@
                 style="width: 100%; height: 100%; display: block;"
               ></canvas>
               <div v-else class="no-data-message">
-                {{ chartData ? `Données incomplètes (${chartData.labels.length}/7 jours)` : 'Chargement...' }}
+                {{ chartData ? $t('organisateur.incompleteData', { days: chartData.labels.length }) : $t('organisateur.loading') }}
               </div>
             </div>
           </template>
@@ -46,6 +46,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
