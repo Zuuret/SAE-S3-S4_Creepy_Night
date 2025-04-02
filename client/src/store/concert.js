@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import ConcertService from "../services/concert.service";
 import ValidArtiste from "../services/validArtiste.service";
-import { getAllConcerts, getConcertById, getAllReservConcert, getReservConcertById,insertReservConcert,deleteReservConcert } from "@/services/concert.service"
+import { getAllConcerts, getReservConcertByUserId, getConcertById, getAllReservConcert, getReservConcertById,insertReservConcert,deleteReservConcert } from "@/services/concert.service"
 
 Vue.use(Vuex)
 
@@ -114,20 +114,20 @@ export default ({
         },
         async getConcertById({ commit }, id) {
             try {
-                const response = await getConcertById(id);
-                console.log('Réponse de l\'API pour getConcertById:', response);
-                if (response.error === 0) {
-                    commit('SET_CONCERT', response.data); // Accéder à response.data
-                    console.log('Concert mis à jour dans l\'état Vuex:', response.data);
-                } else {
-                    console.error('Erreur API:', response.data);
-                    throw new Error(response.data);
-                }
+              const response = await getConcertById(id);
+              console.log('Réponse de l\'API pour getConcertById:', response); // Debug
+              if (response.error === 0) {
+                commit('SET_CONCERT', response.data);
+                console.log('Concert mis à jour dans l\'état Vuex:', response.data); // Debug
+              } else {
+                console.error('Concert non trouvé:', id);
+                throw new Error('Concert non trouvé');
+              }
             } catch (error) {
-                console.error('Erreur API:', error);
-                throw error;
+              console.error('Erreur API:', error);
+              throw error;
             }
-        },
+          },
         async getAllReservConcert({ commit }) {
             const response = await getAllReservConcert();
             if (response.error === 0) {
@@ -140,6 +140,16 @@ export default ({
                 commit('SET_RESERVCONCERT', response.data);
             }
         },
+        async getReservationConcertById({ commit }, userId) {
+            try {
+              const response = await getReservConcertByUserId(userId); 
+              if (response.error === 0) {
+                commit('updateReservationConcertId', response.data);
+              }
+            } catch (error) {
+              console.error("Erreur de chargement des réservations", error);
+            }
+          },
         async insertReservConcert({ dispatch }, payload) {
             const response = await insertReservConcert(payload);
             if (response.error === 0) {
@@ -208,16 +218,6 @@ export default ({
                 commit('ProfilStore/updateSoldeUtilisateur', response.data.solde, { root: true });
             } else {
                 console.error(response.data);
-            }
-        },
-        async getReservationConcertById({commit}, utilisateurId){
-            console.log("Récupération des commande de ID :", utilisateurId)
-            let response = await ConcertService.getReservationConcertById(utilisateurId)
-            console.log('Response :', response)
-            if (response.error === 0) {
-                commit('updateReservationConcertId', response.data);
-            } else {
-                console.log(response.data);
             }
         },
         async getArtistes({ commit }) {
