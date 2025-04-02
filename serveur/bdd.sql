@@ -803,22 +803,22 @@ CREATE TABLE demande_uber_flippe (
 
 -- Table demandes_prestataires
 CREATE TABLE demandes_prestataires (
-    id INT PRIMARY KEY,
-    societe VARCHAR(255) NOT NULL,
-    adresse VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    statut VARCHAR(50) NOT NULL,
-    password VARCHAR(255) NOT NULL
+id UUID PRIMARY KEY,
+societe VARCHAR(255) NOT NULL,
+adresse VARCHAR(255) NOT NULL,
+email VARCHAR(255) NOT NULL,
+statut VARCHAR(50) NOT NULL,
+password VARCHAR(255) NOT NULL
 );
 
 -- Table demandes_organisateurs
 CREATE TABLE demandes_organisateurs (
-    id INT PRIMARY KEY,
-    nom VARCHAR(255) NOT NULL,
-    prenom VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    tel CHAR(10) NOT NULL,
-    password VARCHAR(255) NOT NULL
+id UUID PRIMARY KEY,
+nom VARCHAR(255) NOT NULL,
+prenom VARCHAR(255) NOT NULL,
+email VARCHAR(255) NOT NULL,
+tel CHAR(10) NOT NULL,
+password VARCHAR(255) NOT NULL
 );
 
 ------------------------------------------------------------
