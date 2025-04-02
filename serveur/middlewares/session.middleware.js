@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const userService = require("../services/users.services.pg");
 const prestaService = require("../services/prestataires.services.pg");
 const orgaService = require("../services/organisateurs.services.pg");
+const checkRole = require("../middlewares/checkRole.middleware")
 
 module.exports.signinUser = async (req, res) => {
     try {
@@ -90,7 +91,7 @@ module.exports.authVerif = (roles) => {
                 //decode token
                 const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
                 if (decodedToken != null) {
-                    this.checkRole(decodedToken.role, roles)
+                    checkRole(decodedToken.role, roles)(req, res, next)
                     console.log('Authentification réussie')
                     return next();
                 }
@@ -107,18 +108,3 @@ module.exports.authVerif = (roles) => {
         }
     }
 }
-
-module.exports.checkRole = (tokenRole, allowedRoles) => {
-    return (req, res, next) => {
-        console.log(tokenRole, allowedRoles);
-        if (!tokenRole) {
-            return res.status(401).json({ message: req.t("middlewares.check_role.errors.authorization_error") });
-        }
-
-        if (!allowedRoles.includes(tokenRole)) {
-            return res.status(403).json({ message: req.t("middlewares.check_role.errors.forbidding_error") });
-        }
-
-        return next();
-    };
-};
