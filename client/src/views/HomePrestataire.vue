@@ -419,19 +419,54 @@ export default {
     },
     sauvegarderImage() {
       let id = this.utilisateurConnecte?.id;
-
-      // L'éditeur Vue2-Editor fait déjà un binding avec v-model, donc on peut directement accéder à la valeur de l'éditeur
-      let contenu = this.imageEditable; // `imageEditable` est la variable liée au contenu de l'éditeur
-
-      // Utiliser une expression régulière pour trouver l'URL de l'image dans le contenu HTML
+      let contenu = this.imageEditable;
       let match = contenu.match(/src="([^"]+)"/);
-      let nouvelleImage = match ? match[1] : null;
+      let imageUrl = match ? match[1] : null;
 
-      if (id && nouvelleImage) {
-        this.updateImagePrestataire({ id, nouvelleImage });
+      if (id && imageUrl) {
+        // Si l'image est en base64
+        if (imageUrl.startsWith("data:image")) {
+          let arr = imageUrl.split(",");
+          let mime = arr[0].match(/:(.*?);/)[1];
+          let bstr = atob(arr[1]);
+          let n = bstr.length;
+          let u8arr = new Uint8Array(n);
+          while (n--) {
+            u8arr[n] = bstr.charCodeAt(n);
+          }
+
+          let fileName = `background-${id}.jpg`; // Utilisation d'un timestamp unique
+
+          let nouvelleImage = new File([u8arr], fileName, { type: mime });
+
+          // Vérifier si c'est bien un fichier
+          if (nouvelleImage instanceof File) {
+            let formData = new FormData();
+            formData.append("image", nouvelleImage);
+
+            // Log détaillé pour vérifier le fichier envoyé
+            console.log("📤 FormData envoyée :", formData.get("image").name, formData.get("image").size, formData.get("image").type);
+
+            this.updateImagePrestataire({ id, formData })
+                .then(response => {
+                  // Répondre à la mise à jour dans le store si nécessaire
+                  if (response && response.data) {
+                    this.utilisateurConnecte.background = response.data;  // Mise à jour avec l'URL de l'image
+                    localStorage.setItem("utilisateurConnecte", JSON.stringify(this.utilisateurConnecte));
+                  }
+                })
+                .catch(error => {
+                  console.error("Erreur lors de la mise à jour de l'image : ", error);
+                });
+          } else {
+            console.error("Erreur : l'image n'a pas pu être convertie en fichier.");
+          }
+        } else {
+          console.error("L'image n'est pas en base64.");
+        }
+      } else {
+        console.error("ID ou URL d'image manquants.");
       }
-
-      // Fermer l'éditeur après la sauvegarde
       this.isEditingImage = false;
     },
     sauvegarderImage2() {

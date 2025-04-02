@@ -140,17 +140,17 @@ async function updateAdressePrestataire(uuid, adresse) {
     return is_error;
 }
 
-async function updateImagePrestataire(uuid, background) {
+async function updateImagePrestataire(uuid, imageUrl) {
     const client = await pool.connect();
     let is_error = false;
     try {
         const query = format(
-            'UPDATE prestataire SET background = %L WHERE id = %L', background, uuid
+            'UPDATE prestataire SET background = %L WHERE id = %L', imageUrl, uuid
         );
         await client.query(query);
-        console.log('BACKGROUND DU PRESTATAIRE MIS À JOUR');
+        console.log('Image du prestataire mise à jour :', imageUrl);
     } catch (error) {
-        console.error('Erreur lors de la mise à jour du background :', error);
+        console.error('Erreur lors de la mise à jour de l\'image :', error);
         is_error = true;
     } finally {
         client.release();
@@ -166,5 +166,6 @@ module.exports = {
     updateDescriptionPrestataire,
     updateSocietePrestataire,
     updateThemePrestataire,
-    updateAdressePrestataire
+    updateAdressePrestataire,
+    updateImagePrestataire
 }
