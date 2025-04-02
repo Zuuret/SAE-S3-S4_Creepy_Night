@@ -141,11 +141,21 @@ exports.updateAdresse = async (req, res) => {
 };
 
 exports.updateImage = async (req, res) => {
-    const uuid = req.params.uuid;
-    const background = req.body.background;
-    const resultat = await prestataireService.updateAdressePrestataire(uuid, background);
-    if (resultat) {
-        return res.status(500).send({data :"ERREUR INTERNE", error: 1});
+    console.log("🔍 Fichier reçu :", req.file); // Affiche le fichier reçu
+    console.log("📌 Paramètres reçus :", req.params);
+
+    if (!req.file) {
+        return res.status(400).send({ data: "Aucune image reçue", error: 1 });
     }
-    return res.status(200).send({data : resultat, error: 0});
+
+    const uuid = req.params.uuid;
+    const background = req.file.filename; // Nom du fichier stocké
+
+    const resultat = await prestataireService.updateImagePrestataire(uuid, background);
+
+    if (resultat) {
+        return res.status(500).send({ data: "ERREUR INTERNE", error: 1 });
+    }
+    return res.status(200).send({ data: resultat, error: 0 });
 };
+

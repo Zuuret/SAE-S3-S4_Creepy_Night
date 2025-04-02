@@ -12,12 +12,6 @@ module.exports.signinUser = async (req, res) => {
             return res.status(500).json({ error: 'ERREUR INTERNE' });
         }
         let data = users.find(user => user.mail === req.body.email);
-        if (!data) {
-            return res.status(401).send({
-                data: null,
-                error: "Utilisateur introuvable!"
-            });
-        }
         if (!bcrypt.compareSync(req.body.password, data.password)) {
             return res.status(401).send({
                 data: null,
@@ -90,27 +84,31 @@ module.exports.signinOrga = async (req, res) => {
 };
 
 module.exports.authVerif = (roles) => {
-    return async (req, res, next) => {
+    return (req, res, next) => {
         try {
             const token = req.headers['jwt-token'];
             if (token != null && token.length > 0) {
                 //decode token
                 const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
                 if (decodedToken != null) {
-                    checkRole(decodedToken.role, roles)(req, res, next)
-                    console.log('Authentification réussie')
+                    let result = checkRole(decodedToken.role, roles);
+                    if (result) {
+                        return res.status(401).json({error: result.message});
+                    } else {
+                        console.log('Authentification réussie')
+                        return next();
+                    }
                 }
                 console.log('Authentification échouée : utilisateur non trouvé')
-                res.status(401).json({error: 'Unauthorized'});
+                return res.status(401).json({error: 'Unauthorized'});
             } else {
                 console.log('Authentification échouée : aucun token');
-                res.status(401).json({error: 'Unauthorized'});
+                return res.status(401).json({error: 'Unauthorized'});
 
             }
         } catch (error) {
             console.log('Authentification échouée : token invalide');
-            res.status(401).json({ error: error.message || 'Requête non authentifiée !' });
-
+            return res.status(401).json({error: error | 'Requête non authentifiée !'});
         }
     }
 }

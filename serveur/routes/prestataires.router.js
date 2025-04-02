@@ -333,4 +333,11 @@ router.patch("/:uuid/theme", sessionMiddleware.authVerif([2]), prestataireContro
  */
 router.patch("/:uuid/adresse", sessionMiddleware.authVerif([2,3]), prestataireController.updateAdresse);
 
+
+const multer = require("multer");
+const upload = multer({ dest: "assets/" });
+
+router.post("/:uuid/background", sessionMiddleware.authVerif(), upload.single('image'), prestataireController.updateImage);
+
+
 module.exports = router;

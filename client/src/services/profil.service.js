@@ -106,10 +106,20 @@ async function updateAdressePrestataireFromAPI(id, nouvelleAdresse) {
 }
 
 async function updateImagePrestataireFromAPI(id, nouvelleImage) {
+    console.log("📂 Type de nouvelleImage :", nouvelleImage);
+
+    if (!(nouvelleImage instanceof File)) {
+        console.error("❌ nouvelleImage n'est pas un fichier !");
+        return false;
+    }
+
     const formData = new FormData();
     formData.append("image", nouvelleImage);
-    return await postFileRequest(`prestataires/${id}/image`, formData, "updateImagePrestataire");
+    console.log("📤 FormData envoyée :", formData.get("image"));
+
+    return await postFileRequest(`prestataires/${id}/background`, formData, "updateImagePrestataire");
 }
+
 
 async function updateImage2PrestataireFromAPI(id, nouvelleImage2) {
     const formData = new FormData();

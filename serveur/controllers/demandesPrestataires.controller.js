@@ -9,7 +9,7 @@ exports.saveDemandePrestataire = async (req,res) => {
     const societe = req.body.societe;
     const adresse = req.body.adresse;
     const email = req.body.email;
-    const statut = req.body.statut;
+    const statut = "en attente";
     const password = req.body.password;
     const resultat = await demandesPrestatairesService.insertDemandePrestataire(uuid, societe, adresse, email, statut, password);
     if (resultat) {

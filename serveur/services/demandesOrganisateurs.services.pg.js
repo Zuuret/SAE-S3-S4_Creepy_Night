@@ -21,10 +21,10 @@ async function insertDemandeOrganisateurs(id, nom, prenom, email, tel, password)
 }
 
 async function getDemandesOrganisateurs() {
-    const client = await pool.connect();
+    const client = pool.connect();
     let res;
     try {
-        res = await client.query('SELECT * FROM demandes_organisateurs');
+        res = await client.query(format('SELECT * FROM demandes_organisateurs'));
         console.log('RECUPERATION DES PRESTATAIRES');
     } catch (error) {
         console.error('Erreur lors de la récupération des prestatairess :', error);
