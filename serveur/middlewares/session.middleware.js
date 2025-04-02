@@ -12,6 +12,12 @@ module.exports.signinUser = async (req, res) => {
             return res.status(500).json({ error: 'ERREUR INTERNE' });
         }
         let data = users.find(user => user.mail === req.body.email);
+        if (!data) {
+            return res.status(401).send({
+                data: null,
+                error: "Utilisateur introuvable!"
+            });
+        }
         if (!bcrypt.compareSync(req.body.password, data.password)) {
             return res.status(401).send({
                 data: null,
@@ -93,7 +99,6 @@ module.exports.authVerif = (roles) => {
                 if (decodedToken != null) {
                     checkRole(decodedToken.role, roles)(req, res, next)
                     console.log('Authentification réussie')
-                    return next();
                 }
                 console.log('Authentification échouée : utilisateur non trouvé')
                 res.status(401).json({error: 'Unauthorized'});
@@ -104,7 +109,8 @@ module.exports.authVerif = (roles) => {
             }
         } catch (error) {
             console.log('Authentification échouée : token invalide');
-            res.status(401).json({error: error | 'Requête non authentifiée !'});
+            res.status(401).json({ error: error.message || 'Requête non authentifiée !' });
+
         }
     }
 }
