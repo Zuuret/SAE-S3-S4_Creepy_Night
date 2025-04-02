@@ -1,16 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import ConcertService from "../services/concert.service";
+import ValidArtiste from "../services/validArtiste.service";
+import { getAllConcerts, getConcertById, getAllReservConcert, getReservConcertById,insertReservConcert,deleteReservConcert } from "@/services/concert.service"
 
 Vue.use(Vuex)
 
-import ConcertService from "../services/concert.service";
-import ValidArtiste from "../services/validArtiste.service";
+
 
 export default ({
     namespaced: true,
     state: {
         concerts: [],
         concert: null,
+        reservsconcert: [],
+        reservconcert: null,
         artistes: [],
         artiste: [],
         place_concert: null,
@@ -21,8 +25,18 @@ export default ({
         utilisateurConnecte: JSON.parse(localStorage.getItem("utilisateurConnecte")) || null,
     },
     mutations: {
-        updateListeConcert(state, concerts){
+        SET_CONCERTS(state, concerts) {
             state.concerts = concerts;
+        },
+        SET_CONCERT(state, concert) {
+            console.log('Mutation SET_CONCERT appelée avec:', concert); // Debug
+            state.concert = concert;
+          },
+        SET_RESERVSCONCERT(state, reservsconcert) {
+            state.reservsconcert = reservsconcert;
+        },
+        SET_RESERVCONCERT(state, reservConcert) {
+            state.reservConcert = reservConcert;
         },
         updateConcertById(state, concert){
             state.concert = concert;
@@ -92,23 +106,54 @@ export default ({
         },
     },
     actions: {
-        async getAllConcert({commit}){
-            console.log("Récupération des concerts");
-            let response = await ConcertService.getAllConcerts();
+        async getAllConcert({ commit }) {
+            const response = await getAllConcerts();
             if (response.error === 0) {
-                commit('updateListeConcert', response.data);
-            } else {
-                console.log(response.data);
+                commit('SET_CONCERTS', response.data);
             }
         },
-        async getConcertbyId({commit}, concertId){
-            console.log("Récupération du concert ID : ", concertId);
-            let response = await ConcertService.getConcertbyId(concertId);
-            if (response.error === 0) {
-                commit('updateConcertById', response.data);
-            } else {
-                console.log(response.data);
+        async getConcertById({ commit }, id) {
+            try {
+                const response = await getConcertById(id);
+                console.log('Réponse de l\'API pour getConcertById:', response);
+                if (response.error === 0) {
+                    commit('SET_CONCERT', response.data); // Accéder à response.data
+                    console.log('Concert mis à jour dans l\'état Vuex:', response.data);
+                } else {
+                    console.error('Erreur API:', response.data);
+                    throw new Error(response.data);
+                }
+            } catch (error) {
+                console.error('Erreur API:', error);
+                throw error;
             }
+        },
+        async getAllReservConcert({ commit }) {
+            const response = await getAllReservConcert();
+            if (response.error === 0) {
+                commit('SET_RESERVSCONCERT', response.data);
+            }
+        },
+        async getReservConcertById({ commit }, uuid) {
+            const response = await getReservConcertById(uuid);
+            if (response.error === 0) {
+                commit('SET_RESERVCONCERT', response.data);
+            }
+        },
+        async insertReservConcert({ dispatch }, payload) {
+            const response = await insertReservConcert(payload);
+            if (response.error === 0) {
+                await dispatch('getAllReservConcert');
+            }
+            return response;
+        },
+        
+        async deleteReservConcert({ dispatch }, id) {
+            const response = await deleteReservConcert(id);
+            if (response.error === 0) {
+                await dispatch('getAllReservConcert');
+            }
+            return response;
         },
         async getAllPlacesConcert({commit}){
             console.log("Récupération des places de concert");
