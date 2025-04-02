@@ -27,6 +27,10 @@ async function deleteReservConcertFromAPI(id) {
     return await deleteRequest(`reservConcert/${id}`);
 }
 
+async function getReservConcertByUserIdFromAPI(userId) {
+    return await getRequest(`reservConcert/user/${userId}`);
+  }
+
 export async function getAllConcerts() {
     try {
         const res = await getConcertsFromAPI();
@@ -97,6 +101,14 @@ export async function deleteReservConcert(id) {
     }
 }
 
+export async function getReservConcertByUserId(userId) {
+    try {
+      const res = await getReservConcertByUserIdFromAPI(userId);
+      return { error: 0, data: res.data };
+    } catch (error) {
+      return { error: 1, data: [] };
+    }
+  }
 
 async function getAllPlaceConcertFromLocalSource(){
     return LocalSource.getAllPlaceConcert();
