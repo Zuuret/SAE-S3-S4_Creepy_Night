@@ -35,7 +35,7 @@ module.exports.signinUser = async (req, res) => {
             return res.status(500).json({ error: 'ERREUR INTERNE' });
         }
         let data = users.find(user => user.mail === req.body.email);
-        if (req.body.password !== data.password) {
+        if (!bcrypt.compareSync(req.body.password, data.password)) {
             return res.status(401).send({
                 data: null,
                 error: "Mot de passe incorrect!"
@@ -61,7 +61,7 @@ module.exports.signinPresta = async (req, res) => {
             return res.status(500).json({ error: 'ERREUR INTERNE' });
         }
         let data = prestas.find(presta => presta.email === req.body.email);
-        if (req.body.password !== data.password) {
+        if (!bcrypt.compareSync(req.body.password, data.password)) {
             return res.status(401).send({
                 data: null,
                 error: "Mot de passe incorrect!"
@@ -87,7 +87,7 @@ module.exports.signinOrga = async (req, res) => {
             return res.status(500).json({ error: 'ERREUR INTERNE' });
         }
         let data = orgs.find(org => org.email === req.body.email);
-        if (req.body.password !== data.password) {
+        if (!bcrypt.compareSync(req.body.password, data.password)) {
             return res.status(401).send({
                 data: null,
                 error: "Mot de passe incorrect!"
@@ -110,7 +110,6 @@ module.exports.authVerif = () => {
     return async (req, res, next) => {
         try {
             const token = req.headers['jwt-token'];
-            console.log(req.headers['jwt-token'])
             if (token != null && token.length > 0) {
                 //decode token
                 const decodedToken = jwt.verify(token, process.env.JWT_SECRET);

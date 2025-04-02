@@ -27,7 +27,7 @@
 import { mapActions, mapState } from 'vuex';
 
 export default {
-  name: "PanierDeguisement",
+  name: "PanierArticle",
   computed: {
     ...mapState('PrestataireStore', ['panier']),
     ...mapState('ProfilStore', ['utilisateurConnecte']),
@@ -36,10 +36,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions('PrestataireStore', ['incrementerQuantite', 'diminuerQuantite', 'getAllArticle', 'reserverArticle']),
+    ...mapActions('PrestataireStore', ['incrementerQuantite', 'diminuerQuantite', 'getAllArticles', 'reserverArticle']),
   },
   mounted() {
-    this.getAllArticle();
+    this.getAllArticles();
   }
 }
 </script>

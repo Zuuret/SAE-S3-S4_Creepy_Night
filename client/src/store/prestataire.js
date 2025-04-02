@@ -120,9 +120,9 @@ export default ({
                 console.log(response.data);
             }
         },
-        async getAllArticle({commit}){
+        async getAllArticles({commit}){
             console.log("Récupération de tout les articles :")
-            let response = await PrestataireService.getAllArticle()
+            let response = await PrestataireService.getAllArticles()
             if (response.error === 0) {
                 commit('updateListeArticle', response.data)
             } else {
@@ -177,7 +177,7 @@ export default ({
             }
         },
         async setPrestataireArticle({commit}, data){
-            console.log("Récupération de l'article d'ID :", data)
+            console.log("Création de l'article")
             let response = await PrestataireService.setPrestataireArticle(data)
             if (response.error === 0) {
                 commit('updateArticleById', response.data);
@@ -185,8 +185,18 @@ export default ({
                 console.log(response.data);
             }
         },
+        async putPrestataireArticle({commit}, data){
+            console.log("Modification de l'article d'ID :", data.id)
+            console.log(data)
+            let response = await PrestataireService.putPrestataireArticle(data)
+            if (response.error === 0) {
+                commit('updateArticleById', response.data);
+            } else {
+                console.log(response.data);
+            }
+        },
         async delPrestataireArticle({commit}, articleId){
-            console.log("Récupération de l'article d'ID :", articleId)
+            console.log("Destruction de l'article d'ID :", articleId)
             let response = await PrestataireService.delPrestataireArticle(articleId)
             if (response.error === 0) {
                 commit('updateArticleById', response.data);
