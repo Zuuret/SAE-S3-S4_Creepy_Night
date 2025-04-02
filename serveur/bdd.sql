@@ -487,51 +487,52 @@ VALUES
 (1, '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4');
 */
 -- Table Utilisateur
-DROP TABLE IF EXISTS texte_accueil;
-DROP TABLE IF EXISTS reservation_carihorreur_bouteilles;
-DROP TABLE IF EXISTS reservations_cauchemarathon;
-DROP TABLE IF EXISTS reservation_carihorreur;
-DROP TABLE IF EXISTS location_deguisement;
-DROP TABLE IF EXISTS panier_deguisement;
-DROP TABLE IF EXISTS soireeBaltrouille_deguisements;
-DROP TABLE IF EXISTS soireeBaltrouille;
-DROP TABLE IF EXISTS reserve_film;
-DROP TABLE IF EXISTS places_films;
-DROP TABLE IF EXISTS reservation_concert;
-DROP TABLE IF EXISTS panier_concert;
-DROP TABLE IF EXISTS artistes;
-DROP TABLE IF EXISTS reservation_article;
-DROP TABLE IF EXISTS demandes_organisateurs;
-DROP TABLE IF EXISTS demandes_prestataires;
-DROP TABLE IF EXISTS demande_uber_flippe;
-DROP TABLE IF EXISTS coordonnees_bancaire;
-DROP TABLE IF EXISTS panier_article;
-DROP TABLE IF EXISTS articles;
-DROP TABLE IF EXISTS livre_dor;
-DROP TABLE IF EXISTS gere;
-DROP TABLE IF EXISTS organise;
-DROP TABLE IF EXISTS Signalement;
-DROP TABLE IF EXISTS Bouteille;
-DROP TABLE IF EXISTS Carre;
-DROP TABLE IF EXISTS Taille_deguisement;
-DROP TABLE IF EXISTS Deguisement;
-DROP TABLE IF EXISTS Films;
-DROP TABLE IF EXISTS Course_cauchemarathon;
-DROP TABLE IF EXISTS Expo_oeuvre;
-DROP TABLE IF EXISTS Concert;
-DROP TABLE IF EXISTS Reservation_prestation;
-DROP TABLE IF EXISTS prestation;
-DROP TABLE IF EXISTS billet_festival;
-DROP TABLE IF EXISTS Evenement;
-DROP TABLE IF EXISTS Billet_activite;
-DROP TABLE IF EXISTS Activite;
-DROP TABLE IF EXISTS Zone;
-DROP TABLE IF EXISTS Transaction;
-DROP TABLE IF EXISTS Organisateur;
-DROP TABLE IF EXISTS emplacement;
-DROP TABLE IF EXISTS icone_carte;
-DROP TABLE IF EXISTS prestataire;
-DROP TABLE IF EXISTS Utilisateur;
+DROP TABLE IF EXISTS texte_accueil CASCADE;
+DROP TABLE IF EXISTS reservation_carihorreur_bouteilles CASCADE;
+DROP TABLE IF EXISTS reservations_cauchemarathon CASCADE;
+DROP TABLE IF EXISTS reservation_carihorreur CASCADE;
+DROP TABLE IF EXISTS location_deguisement CASCADE;
+DROP TABLE IF EXISTS panier_deguisement CASCADE;
+DROP TABLE IF EXISTS soireeBaltrouille_deguisements CASCADE;
+DROP TABLE IF EXISTS soireeBaltrouille CASCADE;
+DROP TABLE IF EXISTS reserve_film CASCADE;
+DROP TABLE IF EXISTS places_films CASCADE;
+DROP TABLE IF EXISTS reservation_concert CASCADE;
+DROP TABLE IF EXISTS panier_concert CASCADE;
+DROP TABLE IF EXISTS artistes CASCADE;
+DROP TABLE IF EXISTS reservation_article CASCADE;
+DROP TABLE IF EXISTS demandes_organisateurs CASCADE;
+DROP TABLE IF EXISTS demandes_prestataires CASCADE;
+DROP TABLE IF EXISTS demande_uber_flippe CASCADE;
+DROP TABLE IF EXISTS coordonnees_bancaire CASCADE;
+DROP TABLE IF EXISTS panier_article CASCADE;
+DROP TABLE IF EXISTS articles CASCADE;
+DROP TABLE IF EXISTS livre_dor CASCADE;
+DROP TABLE IF EXISTS gere CASCADE;
+DROP TABLE IF EXISTS organise CASCADE;
+DROP TABLE IF EXISTS Signalement CASCADE;
+DROP TABLE IF EXISTS Bouteille CASCADE;
+DROP TABLE IF EXISTS Carre CASCADE;
+DROP TABLE IF EXISTS Taille_deguisement CASCADE;
+DROP TABLE IF EXISTS Deguisement CASCADE;
+DROP TABLE IF EXISTS Films CASCADE;
+DROP TABLE IF EXISTS Course_cauchemarathon CASCADE;
+DROP TABLE IF EXISTS Expo_oeuvre CASCADE;
+DROP TABLE IF EXISTS Concert CASCADE;
+DROP TABLE IF EXISTS Reservation_prestation CASCADE;
+DROP TABLE IF EXISTS prestation CASCADE;
+DROP TABLE IF EXISTS billet_festival CASCADE;
+DROP TABLE IF EXISTS Evenement CASCADE;
+DROP TABLE IF EXISTS Billet_activite CASCADE;
+DROP TABLE IF EXISTS Activite CASCADE;
+DROP TABLE IF EXISTS Zone CASCADE;
+DROP TABLE IF EXISTS Transaction CASCADE;
+DROP TABLE IF EXISTS Organisateur CASCADE;
+DROP TABLE IF EXISTS emplacement CASCADE;
+DROP TABLE IF EXISTS icone_carte CASCADE;
+DROP TABLE IF EXISTS prestataire CASCADE;
+DROP TABLE IF EXISTS Utilisateur CASCADE;
+
 
 CREATE TABLE Utilisateur (
     id UUID PRIMARY KEY,
@@ -986,28 +987,28 @@ VALUES
 ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f4', 'Balta', 'Luc', 'lucbalta@gmail.com', '0600000000', '$2a$08$97e9ycY1XGt1.IcZ4qe3Y.CsWNVB9q6nR.y4WhaRH7k0oqGkATDiS');
 
 INSERT INTO demandes_organisateurs (id, nom, prenom, email, tel, password) VALUES
-(1, 'Duncan', 'Tim', 'timduncan@gmail.com', '0707070707', 'mdp'),
-(2, 'Ferrari', 'Enzo', 'enzoferrari@gmail.com', '0606060606', 'mdp'),
-(3, 'Touré', 'Yahia', 'yahiatoure@gmail.com', '0505050505', 'mdp'),
-(4, 'Leclerc', 'Sophie', 'sophieleclerc@gmail.com', '0404040404', 'mdp'),
-(5, 'Dumas', 'Antoine', 'antoinedumas@gmail.com', '0303030303', 'mdp'),
-(6, 'Germain', 'Camille', 'camillegermain@gmail.com', '0202020202', 'mdp'),
-(7, 'Blanc', 'Hugo', 'hugoblanc@gmail.com', '0101010101', 'mdp'),
-(8, 'Renard', 'Juliette', 'julietterenard@gmail.com', '0909090909', 'mdp'),
-(9, 'Fabre', 'Aurélien', 'aurelienfabre@gmail.com', '0808080808', 'mdp'),
-(10, 'Fontaine', 'Chloé', 'chloefontaine@gmail.com', '0707070707', 'mdp');
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d9410', 'Duncan', 'Tim', 'timduncan@gmail.com', '0707070707', 'mdp'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d9411', 'Ferrari', 'Enzo', 'enzoferrari@gmail.com', '0606060606', 'mdp'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d9412', 'Touré', 'Yahia', 'yahiatoure@gmail.com', '0505050505', 'mdp'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d9413', 'Leclerc', 'Sophie', 'sophieleclerc@gmail.com', '0404040404', 'mdp'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d9414', 'Dumas', 'Antoine', 'antoinedumas@gmail.com', '0303030303', 'mdp'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d9415', 'Germain', 'Camille', 'camillegermain@gmail.com', '0202020202', 'mdp'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d9416', 'Blanc', 'Hugo', 'hugoblanc@gmail.com', '0101010101', 'mdp'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d9417', 'Renard', 'Juliette', 'julietterenard@gmail.com', '0909090909', 'mdp'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d9418', 'Fabre', 'Aurélien', 'aurelienfabre@gmail.com', '0808080808', 'mdp'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d9419', 'Fontaine', 'Chloé', 'chloefontaine@gmail.com', '0707070707', 'mdp');
 
 INSERT INTO demandes_prestataires (id, societe, adresse, email, statut, password) VALUES
-(1, 'Société D', 'Adresse D', 'contact@societed.com', 'en attente', 'mdp'),
-(2, 'Société E', 'Adresse E', 'contact@societee.com', 'en attente', 'mdp'),
-(3, 'Société F', 'Adresse F', 'contact@societef.com', 'en attente', 'mdp'),
-(4, 'Société G', 'Adresse G', 'contact@societeg.com', 'en attente', 'mdp'),
-(5, 'Société H', 'Adresse H', 'contact@societeh.com', 'en attente', 'mdp'),
-(6, 'Société I', 'Adresse I', 'contact@societei.com', 'en attente', 'mdp'),
-(7, 'Société J', 'Adresse J', 'contact@societej.com', 'en attente', 'mdp'),
-(8, 'Société K', 'Adresse K', 'contact@societek.com', 'en attente', 'mdp'),
-(9, 'Société L', 'Adresse L', 'contact@societel.com', 'en attente', 'mdp'),
-(10, 'Société M', 'Adresse M', 'contact@societem.com', 'en attente', 'mdp');
+('10101010-1111-1111-1111-111111111111', 'Société D', 'Adresse D', 'contact@societed.com', 'en attente', 'mdp'),
+('12111111-1111-1111-1111-111111111111', 'Société E', 'Adresse E', 'contact@societee.com', 'en attente', 'mdp'),
+('13111111-1111-1111-1111-111111111111', 'Société F', 'Adresse F', 'contact@societef.com', 'en attente', 'mdp'),
+('14111111-1111-1111-1111-111111111111', 'Société G', 'Adresse G', 'contact@societeg.com', 'en attente', 'mdp'),
+('15111111-1111-1111-1111-111111111111', 'Société H', 'Adresse H', 'contact@societeh.com', 'en attente', 'mdp'),
+('16111111-1111-1111-1111-111111111111', 'Société I', 'Adresse I', 'contact@societei.com', 'en attente', 'mdp'),
+('17111111-1111-1111-1111-111111111111', 'Société J', 'Adresse J', 'contact@societej.com', 'en attente', 'mdp'),
+('18111111-1111-1111-1111-111111111111', 'Société K', 'Adresse K', 'contact@societek.com', 'en attente', 'mdp'),
+('19111111-1111-1111-1111-111111111111', 'Société L', 'Adresse L', 'contact@societel.com', 'en attente', 'mdp'),
+('12121212-1111-1111-1111-111111111111', 'Société M', 'Adresse M', 'contact@societem.com', 'en attente', 'mdp');
 
 INSERT INTO transaction (date, operation, details, montant, utilisateur_id)
 VALUES
