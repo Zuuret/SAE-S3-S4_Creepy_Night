@@ -25,7 +25,7 @@ async function getDemandesPrestataires() {
     const client = await pool.connect();
     let res;
     try {
-        res = await client.query('SELECT * FROM demandes_prestataires');
+        res = await client.query(format('SELECT * FROM demandes_prestataires'));
         console.log('RECUPERATION DES PRESTATAIRES');
     } catch (error) {
         console.error('Erreur lors de la récupération des prestatairess :', error);

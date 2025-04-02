@@ -5,7 +5,7 @@ const sessionMiddleware = require("../middlewares/session.middleware");
 const router = express.Router();
 
 
-router.post("/",  sessionMiddleware.authVerif([3]), demandesOrganisateursController.saveDemandeOrganisateurs);
+router.post("/", demandesOrganisateursController.saveDemandeOrganisateurs);
 
 
 router.get("/",  sessionMiddleware.authVerif([3]), demandesOrganisateursController.getDemandesOrganisateurs);

@@ -23,7 +23,7 @@ exports.getDemandesOrganisateurs = async (req, res) => {
     if (!organisateurs) {
         return res.status(500).json({ error: 'ERREUR INTERNE' });
     }
-    return res.status(200).json({ data: organisateurs });
+    return res.status(200).json({ error: 0, data: organisateurs });
 };
 
 exports.getDemandeOrganisateursById = async (req, res) => {

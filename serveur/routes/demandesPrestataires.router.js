@@ -5,10 +5,10 @@ const sessionMiddleware = require("../middlewares/session.middleware");
 const router = express.Router();
 
 
-router.post("/",  sessionMiddleware.authVerif(), demandesPrestatairesController.saveDemandePrestataire);
+router.post("/",  demandesPrestatairesController.saveDemandePrestataire);
 
 
-router.get("/",  sessionMiddleware.authVerif(), demandesPrestatairesController.getDemandesPrestataires);
+router.get("/",  sessionMiddleware.authVerif([2,3]), demandesPrestatairesController.getDemandesPrestataires);
 
 
 router.get("/:uuid",  sessionMiddleware.authVerif([2,3]), demandesPrestatairesController.getDemandePrestataireById);
