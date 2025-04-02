@@ -3,8 +3,9 @@
     <h1>Bienvenue {{ utilisateurConnecte?.societe }}</h1>
 
     <h2>Gestion des articles</h2>
-    <div v-for="(article,index) in articles" :key="index">
-      <div v-if="utilisateurConnecte.id === articles[index].prestataireId">
+    <div v-for="(article, index) in articles" :key="index">
+  <div v-if="utilisateurConnecte.id === article.prestataireId">
+
         <tr>
           <td>
             {{ article.nom }}
@@ -569,6 +570,9 @@ export default {
     accesPermission() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "prestataire";
     },
+    articles() {
+    return this.articlesId || []; 
+  },
   },
   methods: {
     ...mapActions('ProfilStore',['updateDescriptionPrestataireFromAPI','updateSocietePrestataireFromAPI', 'updateThemePrestataireFromAPI', 'updateAdressePrestataireFromAPI', 'updateImagePrestataireFromAPI', 'updateImage2PrestataireFromAPI', 'updateLogoPrestataireFromAPI']),
@@ -772,16 +776,42 @@ export default {
       this.delPrestataireArticle(id);
     },
   },
-  mounted() {
-    this.getAllArticle();
-    if (!this.utilisateurConnecte) {
-      this.$router.push("/");
-    } else if (!this.accesPermission) {
-      console.log("Accès refusé");
+async mounted() {
+  if (!this.utilisateurConnecte) {
+    this.$router.push("/");
+    return;
+  }
+
+  if (!this.accesPermission) {
+    console.log("Accès refusé");
+    return;
+  }
+
+  console.log("Utilisateur connecté :", this.utilisateurConnecte.id);
+
+  if (this.utilisateurConnecte.id) {
+    try {
+      // Attends la réponse de getAllArticlesById
+      const response = await this.getAllArticlesById(this.utilisateurConnecte.id);
+      console.log("Réponse de getAllArticlesById :", response); // Vérifie la réponse ici
+
+      // Si la réponse est correcte et qu'il n'y a pas d'erreur, mets à jour les articles
+      if (response && response.data && !response.error) {
+        this.articles = response.data; // Assigne les données des articles
+        console.log("Articles mis à jour :", this.articles);
+      } else {
+        console.error("Erreur lors de la récupération des articles :", response?.data || "Réponse invalide");
+      }
+    } catch (error) {
+      console.error("Erreur inattendue :", error);
     }
-  },
-};
-</script>
+  } else {
+    console.error("L'ID du prestataire est introuvable !");
+  }
+}
+
+
+};</script>
 
 <style scoped>
 .home-prestataire {
