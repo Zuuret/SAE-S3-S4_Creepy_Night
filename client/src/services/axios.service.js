@@ -34,7 +34,7 @@ axiosAgent.interceptors.request.use(function (config) {
     //set token in header
     const token = JSON.parse(localStorage.getItem("utilisateurConnecte"))
     if (token) {
-        if (!config.headers['JWT-token']) config.headers['JWT-token'] = token.token;
+        if (!config.headers['jwt-token']) config.headers['jwt-token'] = token.token;
     }
     return config;
 }, function (error) {
