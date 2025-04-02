@@ -67,9 +67,77 @@ async function deletePlacesConcerts(id_place) {
     return is_error;
 }
 
+async function insertReservationArticle(utilisateur_id) {
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+
+        const cartQuery = `
+          SELECT pa.id as panier_id, pa.quantite, pa.utilisateur_id,
+                 a.id as article_id, a.nom, a.prix, a.image, a.description, a.stock
+          FROM panier_article pa
+          JOIN articles a ON pa.article_id = a.id
+          WHERE pa.utilisateur_id = $1
+        `;
+        const cartRes = await client.query(cartQuery, [utilisateur_id]);
+        const cartItems = cartRes.rows;
+
+        if (cartItems.length === 0) {
+            await client.query('ROLLBACK');
+            return { error: "Panier vide" };
+        }
+
+        const reservations = [];
+        let totalPrix = 0;
+
+        for (const item of cartItems) {
+            const insertQuery = `
+              INSERT INTO reservation_article (utilisateur_id, article_id, quantite, date_reservation)
+              VALUES ($1, $2, $3, NOW())
+              RETURNING *
+            `;
+            const res = await client.query(insertQuery, [utilisateur_id, item.article_id, item.quantite]);
+            reservations.push(res.rows[0]);
+
+            totalPrix += item.quantite * item.prix;
+        }
+
+        const soldeQuery = `SELECT solde FROM utilisateur WHERE id = $1`;
+        const soldeRes = await client.query(soldeQuery, [utilisateur_id]);
+        if (soldeRes.rows.length === 0) {
+            throw new Error("Utilisateur introuvable");
+        }
+        const soldeActuel = soldeRes.rows[0].solde;
+        if (soldeActuel < totalPrix) {
+            throw new Error("Solde insuffisant");
+        }
+
+        const updateSoldeQuery = `
+          UPDATE utilisateur
+          SET solde = solde - $1
+          WHERE id = $2
+          RETURNING solde
+        `;
+        const updateSoldeRes = await client.query(updateSoldeQuery, [totalPrix, utilisateur_id]);
+
+        const deleteQuery = `DELETE FROM panier_article WHERE utilisateur_id = $1`;
+        await client.query(deleteQuery, [utilisateur_id]);
+
+        await client.query('COMMIT');
+        return { reservations, solde: updateSoldeRes.rows[0].solde };
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.error("Erreur dans insertReservationArticle :", error);
+        return { error: "Erreur interne du serveur" };
+    } finally {
+        client.release();
+    }
+}
+
 module.exports = {
     insertPlacesConcerts,
     getPlacesConcerts,
     updatePlacesConcerts,
-    deletePlacesConcerts
+    deletePlacesConcerts,
+    insertReservationArticle
 }

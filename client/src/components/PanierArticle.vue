@@ -3,20 +3,20 @@
     <h1>Votre Panier</h1>
     <div v-if="panier.length > 0" class="panier-items">
       <div v-for="item in panier" :key="item.id" class="panier-item">
-        <img :src="item.image" alt="Article" class="panier-item-image" />
+        <img :src=getImageUrl(item.image) alt="Article" class="panier-item-image" />
         <div class="panier-item-info">
           <p>{{ item.nom }}</p>
           <p>Prix : {{ item.prix }} €</p>
           <p>Quantité : {{ item.quantite }}</p>
           <div class="quantity-controls">
             <button @click="diminuerQuantite(item)">-</button>
-            <button @click="incrementerQuantite(item)">+</button>
+            <button @click="incrementerQuantite(item)" :disabled="item.stock <= 0">+</button>
           </div>
         </div>
       </div>
     </div>
     <div v-if="panier.length > 0" class="panier-total">
-      <p>Total : {{ total }} €</p>
+      <p>Total : {{ total.toFixed(2) }} €</p>
       <button @click="reserverArticle(utilisateurConnecte.id)">Valider la commande</button>
     </div>
     <p v-else>Votre panier est vide.</p>
@@ -36,10 +36,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions('PrestataireStore', ['incrementerQuantite', 'diminuerQuantite', 'getAllArticles', 'reserverArticle']),
+    ...mapActions('PrestataireStore', ['incrementerQuantite', 'diminuerQuantite', 'reserverArticle', 'fetchPanier']),
+    getImageUrl(image) {
+      return require(`@/assets/${image}`);
+    },
   },
-  mounted() {
-    this.getAllArticles();
+  async mounted() {
+    await this.fetchPanier(this.utilisateurConnecte.id);
   }
 }
 </script>
@@ -54,7 +57,6 @@ export default {
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
-  margin: 20px auto;
   color: #ffffff;
   font-family: Kanit, sans-serif;
   max-height: 80vh;
@@ -147,5 +149,15 @@ button {
 button:hover {
   background: linear-gradient(to right, #219150, #1e8449);
   transform: translateY(-2px);
+}
+
+button:disabled {
+  background: #7f8c8d;
+  cursor: not-allowed;
+}
+
+button:disabled:hover {
+  background: #7f8c8d;
+  transform: none;
 }
 </style>

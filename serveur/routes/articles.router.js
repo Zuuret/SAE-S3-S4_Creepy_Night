@@ -16,4 +16,14 @@ router.put("/prestataire", sessionMiddleware.authVerif(), articlesController.upd
 
 router.delete("/prestataire", sessionMiddleware.authVerif(), articlesController.deleteArticle);
 
+router.get("/prestataire/article/:idArticle", articlesController.getArticleById);
+
+router.post("/cart", sessionMiddleware.authVerif(), articlesController.saveArticleToCart);
+
+router.get("/cart/:idUtilisateur", sessionMiddleware.authVerif(), articlesController.getCart);
+
+router.put("/cart/increment", sessionMiddleware.authVerif(), articlesController.incrementArticleInCart);
+
+router.put("/cart/decrement", sessionMiddleware.authVerif(), articlesController.decrementArticleInCart);
+
 module.exports = router;

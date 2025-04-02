@@ -3,7 +3,7 @@
     <NavBar/>
     <div class="article-container" v-if="article">
       <div class="content">
-        <img :src="article.image" :alt="article.nom" class="article_image" />
+        <img :src=getImageUrl(article.image) :alt="article.nom" class="article_image" />
         <div class="details">
           <h2 class="nom">{{ article.nom }}</h2>
           <div class="traitBlanc"></div>
@@ -11,7 +11,7 @@
           <p class="description">{{ article.description }}</p>
           <h3 class="stock">Stock restant : {{ article.stock }}</h3>
           <div class="btn-container">
-            <button @click="ajouterAuPanier()">🛒 Ajouter</button>
+            <button @click="ajouterAuPanier()" :disabled="article.stock <= 0">🛒 Ajouter</button>
           </div>
         </div>
       </div>
@@ -30,6 +30,7 @@ export default {
   components: {NavBar, PanierArticle},
   computed: {
     ...mapState('PrestataireStore', ['article']),
+    ...mapState('ProfilStore',['utilisateurConnecte']),
   },
   methods: {
     ...mapActions('PrestataireStore', ['getArticleById','addArticlePanier']),
@@ -37,6 +38,7 @@ export default {
       if (this.article.stock > 0) {
         const article = {
           ...this.article,
+          utilisateur_id: this.utilisateurConnecte.id,
         };
         this.addArticlePanier(article);
         alert(`Article ajouté au panier`);
@@ -44,10 +46,13 @@ export default {
         alert("Impossible d'ajouter au panier. Stock insuffisant.");
       }
     },
+    getImageUrl(image) {
+      return require(`@/assets/${image}`);
+    },
   },
-  mounted() {
+  async mounted() {
     const articleId = parseInt(this.$route.params.idArticle)
-    this.getArticleById(articleId);
+    await this.getArticleById(articleId);
   }
 }
 </script>
@@ -55,38 +60,33 @@ export default {
 <style scoped>
 .page-container {
   background-color: #9f041c;
-  height: 91.85vh;
+  min-height: 100vh;
+  padding-top: 100px;
   display: flex;
-  font-family: Kanit, sans-serif;
-  justify-content: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: flex-start;
-  padding: 30px;
   gap: 20px;
-  overflow-x: hidden;
-  flex-wrap: wrap;
+  padding-left: 30px;
+  padding-right: 30px;
+  box-sizing: border-box;
 }
 
 .article-container {
-  box-sizing: border-box;
   background-color: #8e061b;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  width: auto;
-  padding: 70px;
-  text-align: left;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1;
+  flex: 2;
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 .content {
   display: flex;
-  align-items: center;
+  flex-direction: row;
   gap: 20px;
+  align-items: flex-start;
   flex-wrap: wrap;
 }
 
@@ -95,73 +95,82 @@ export default {
   max-width: 300px;
   height: auto;
   border-radius: 10px;
+  object-fit: cover;
 }
 
 .details {
-  text-align: left;
   flex: 1;
-  max-width: 350px;
-  word-wrap: break-word;
+  text-align: left;
+  color: #ffffff;
 }
 
 .nom {
   margin: 0 0 5px 0;
   font-size: 35px;
   font-weight: bold;
-  color: #ffffff;
 }
 
 .traitBlanc {
   border-top: 1px solid white;
-  display: flex;
-  justify-content: center;
-  width: 100%;
+  margin: 10px 0;
+}
+
+.prix {
+  font-size: 25px;
+  color: #ffffff;
+  margin-top: 10px;
 }
 
 .description {
-  margin: 5px 0 0 0;
+  margin-top: 10px;
   font-size: 18px;
   color: #dcdcdc;
   line-height: 1.5;
 }
 
-.prix {
-  margin: 5px 0 0 0;
-  font-size: 25px;
-  color: #ffffff;
-}
-
 .stock {
-  margin: 5px 0 0 0;
+  margin-top: 10px;
   font-size: 20px;
   color: #ffffff;
 }
 
 .btn-container {
-  display: flex;
-  justify-content: flex-start;
-  gap: 10px;
-  flex-wrap: wrap;
   margin-top: 20px;
 }
 
-button {
+.btn-container button {
   background: linear-gradient(to right, #e67e22, #d35400);
   color: white;
   border: none;
-  padding: 12px;
+  padding: 12px 20px;
   font-size: 1rem;
   border-radius: 8px;
   cursor: pointer;
-  flex: 1;
   transition: all 0.3s ease;
   font-weight: bold;
   box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
   min-width: 120px;
 }
 
-button:hover {
+.btn-container button:hover {
   background: linear-gradient(to right, #d35400, #c0392b);
   transform: translateY(-2px);
+}
+
+.btn-container button:disabled {
+  background: #dcdcdc;
+  color: #8c8c8c;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    flex-direction: column;
+    padding-top: 80px;
+  }
+  .article-container {
+    max-width: 100%;
+    width: 100%;
+  }
 }
 </style>

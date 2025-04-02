@@ -5,8 +5,9 @@ const sessionMiddleware = require("../middlewares/session.middleware");
 
 router.post("/",  sessionMiddleware.authVerif(), reservationArticleController.saveReservationArticles);
 
+router.post("/save",  sessionMiddleware.authVerif(), reservationArticleController.saveReservationArticle);
 
-router.get("/", reservationArticleController.getReservationArticles);
+router.get("/",  reservationArticleController.getReservationArticles);
 
 
 router.get("/:uuid",  sessionMiddleware.authVerif(), reservationArticleController.getReservationArticleById);

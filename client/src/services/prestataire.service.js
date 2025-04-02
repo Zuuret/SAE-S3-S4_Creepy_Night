@@ -45,7 +45,7 @@ async function getAllArticlesById(idPrestataire) {
 }
 
 async function getArticleByIdFromAPI(idArticle) {
-    return await getRequest(`articles/${idArticle}`);
+    return await getRequest(`articles/prestataire/article/${idArticle}`);
 }
 
 async function getArticleById(idArticle) {
@@ -73,59 +73,18 @@ async function getAllArticles() {
 }
 
 
-async function ajouterAuPanierArticleFromAPI(article) {
-    return await postRequest(`articles/cart`, article);
+async function ajouterAuPanierArticleFromAPI(article, utilisateur_id) {
+    const data = { article, utilisateur_id };
+    return await postRequest(`articles/cart`, data);
 }
 
 async function ajouterAuPanierArticle(article) {
     let response;
     try {
-        response = await ajouterAuPanierArticleFromAPI(article);
+        const utilisateur_id = article.utilisateur_id;
+        response = await ajouterAuPanierArticleFromAPI(article, utilisateur_id);
     } catch(err) {
         response = { error: 1, status: 404, data: "Erreur réseau, impossible d'ajouter un article au panier" };
-    }
-    return response;
-}
-
-async function incrementerQuantiteArticleFromAPI(item){
-    return await putRequest(`articles/cart/increment`, item);
-}
-
-async function incrementerQuantiteArticle(item){
-    let response;
-    try {
-        response = await incrementerQuantiteArticleFromAPI(item);
-    } catch(err) {
-        response = { error: 1, status: 404, data: "Erreur réseau, impossible d'incrémenter l'article du panier" };
-    }
-    return response;
-}
-
-async function diminuerQuantiteArticleFromAPI(item){
-    return await putRequest(`articles/cart/decrement`, item);
-}
-
-async function diminuerQuantiteArticle(item){
-    let response;
-    try {
-        response = await diminuerQuantiteArticleFromAPI(item);
-    } catch(err) {
-        response = { error: 1, status: 404, data: "Erreur réseau, impossible de diminuer la quantité de l'article du panier" };
-    }
-    return response;
-}
-
-
-async function addReservationArticleFromAPI(idUser){
-    return await postRequest(`articles/reservation`, { idUser });
-}
-
-async function addReservationArticle(idUser){
-    let response;
-    try {
-        response = await addReservationArticleFromAPI(idUser);
-    } catch(err) {
-        response = { error: 1, status: 404, data: "Erreur réseau, impossible d'ajouter une réservation" };
     }
     return response;
 }
@@ -186,6 +145,62 @@ async function delPrestataireArticle(data){
     return response;
 }
 
+async function getPanierFromAPI(utilisateurId){
+    return await getRequest(`articles/cart/${utilisateurId}`);
+}
+
+async function getPanier(utilisateurId){
+    let response;
+    try {
+        response = await getPanierFromAPI(utilisateurId);
+    } catch(err) {
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible de récupérer le panier" };
+    }
+    return response;
+}
+
+async function incrementerQuantiteArticleFromAPI(cart_item_id) {
+    return await putRequest(`articles/cart/increment`, { cart_item_id });
+}
+
+async function incrementerQuantiteArticle(item) {
+    let response;
+    try {
+        response = await incrementerQuantiteArticleFromAPI(item.panier_id);
+    } catch (err) {
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible d'incrémenter la quantité" };
+    }
+    return response;
+}
+
+async function diminuerQuantiteArticleFromAPI(cart_item_id) {
+    return await putRequest(`articles/cart/decrement`, { cart_item_id });
+}
+
+async function diminuerQuantiteArticle(item) {
+    let response;
+    try {
+        response = await diminuerQuantiteArticleFromAPI(item.panier_id);
+    } catch (err) {
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible d'incrémenter la quantité" };
+    }
+    return response;
+}
+
+async function addReservationArticleFromAPI(idUser) {
+    return await postRequest(`reservationsArticles/save`, { idUser });
+}
+
+async function addReservationArticle(idUser) {
+    let response;
+    try {
+        response = await addReservationArticleFromAPI(idUser);
+    } catch(err) {
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible d'ajouter une réservation" };
+    }
+    return response;
+}
+
 export default {
     getLivreDOr,
     ajoutLivreDOr,
@@ -200,4 +215,5 @@ export default {
     putPrestataireArticle,
     setPrestataireArticle,
     delPrestataireArticle,
+    getPanier
 };

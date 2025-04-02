@@ -31,45 +31,36 @@ export default ({
         updateListeArticle(state, articles){
             state.articles = articles
         },
+        updatePanier(state, panier){
+            state.panier = panier
+        },
         addArticle(state, article){
-            const existingArticle = state.panier.find(item => item.id === article.id);
+            const existingArticle = state.panier.find(item => item.panier_id === article.panier_id);
             if (existingArticle) {
                 existingArticle.quantite += 1;
             } else {
-                state.panier.push({ ...article, quantite: 1 });
+                state.panier.push({ ...article });
+            }
+            state.article.stock -= 1;
+        },
+        updateItemInPanier(state, updatedItem) {
+            const index = state.panier.findIndex(item => item.panier_id === updatedItem.panier_id);
+            if (index !== -1) {
+                state.panier.splice(index, 1, updatedItem);
+            }
+
+            if (state.article && state.article.id === updatedItem.article_id) {
+                state.article.stock = updatedItem.stock;
             }
         },
-        incrementerQuantite(state, { article, stock }) {
-            let articleDansPanier = state.panier.find(panierItem => panierItem.id === article.id);
-            let stockArticle = state.articles.find(stockItem => stockItem.id === stock.id);
-            if (!articleDansPanier) {
-                console.error("Article introuvable dans le panier :", article);
-                return;
-            }
-            if (!stockArticle) {
-                console.error("Stock introuvable :", stock);
-                return;
-            }
-            articleDansPanier.quantite = article.quantite;
-            stockArticle.stock = stock.stock;
-        },
-        diminuerQuantite(state, { article, stock }) {
-            let articleDansPanier = state.panier.find(panierItem => panierItem.id === article.id);
-            let stockArticle = state.articles.find(stockItem => stockItem.id === stock.id);
-            if (!articleDansPanier) {
-                console.error("Article introuvable dans le panier :", article);
-                return;
-            }
-            if (!stockArticle) {
-                console.error("Stock introuvable :", stock);
-                return;
-            }
-            if (articleDansPanier.quantite > 1) {
-                articleDansPanier.quantite = article.quantite;
-                stockArticle.stock = stock.stock;
-            } else if (articleDansPanier.quantite === 1) {
-                state.panier = state.panier.filter(panierItem => panierItem.id !== article.id);
-                stockArticle.stock = stock.stock;
+        decrementArticle(state, cart_item_id) {
+            const index = state.panier.findIndex(item => item.panier_id === cart_item_id);
+            if (index !== -1) {
+                const removedItem = state.panier[index];
+                if (state.article && state.article.id === removedItem.article_id) {
+                    state.article.stock += 1;
+                }
+                state.panier.splice(index, 1);
             }
         },
         reservationArticle(state, reservation) {
@@ -80,6 +71,12 @@ export default ({
         updateReservationArticleId(state, reservationsId){
             state.reservationsId = reservationsId
         },
+        setReservationAndClearPanier(state, payload) {
+            state.reservations = payload.reservations;
+            state.reservationsId = payload.reservations.map(r => r.id);
+            state.panier = [];
+        }
+
     },
     actions: {
         async getLivreDOr({commit}, idPrestataire) {
@@ -142,29 +139,42 @@ export default ({
             console.log("Incrementation de la quantite")
             let response = await PrestataireService.incrementerQuantiteArticle(item)
             if (response.error === 0) {
-                commit('incrementerQuantite', response.data)
-                console.log(response.data)
+                commit('updateItemInPanier', response.data)
             } else {
                 console.log(response.data)
             }
         },
-        async diminuerQuantite({commit}, article){
-            console.log("Diminution de la quantite")
-            let response = await PrestataireService.diminuerQuantiteArticle(article)
-            if (response.error === 0){
-                commit('diminuerQuantite', response.data)
+        async diminuerQuantite({ commit }, article) {
+            let response = await PrestataireService.diminuerQuantiteArticle(article);
+            if (response.error === 0) {
+                if (response.data.removed) {
+                    commit('decrementArticle', article.panier_id);
+                } else {
+                    commit('updateItemInPanier', response.data);
+                }
             } else {
-                console.log(response.data)
+                console.log(response.data);
+            }
+        },
+        async fetchPanier({commit}, utilisateurId){
+            console.log("Récupération du panier pour ID :", utilisateurId)
+            let response = await PrestataireService.getPanier(utilisateurId)
+            if (response.error === 0) {
+                commit('updatePanier', response.data)
+            } else {
+                console.log(response.data);
             }
         },
         async reserverArticle({ commit }, idUser) {
-            console.log("Ajout d'une reservation pour ID :", idUser);
-            let response = await PrestataireService.addReservationArticle(idUser)
+            console.log("Validation de la commande pour l'utilisateur ID :", idUser);
+            let response = await PrestataireService.addReservationArticle(idUser);
             if (response.error === 0) {
-                commit('reservationArticle', response.data.newResAr);
+                commit('setReservationAndClearPanier', response.data);
                 commit('ProfilStore/updateSoldeUtilisateur', response.data.solde, { root: true });
+                return { success: true };
             } else {
                 console.error(response.data);
+                return { success: false };
             }
         },
         async getReservationArticleById({commit}, utilisateurId){
