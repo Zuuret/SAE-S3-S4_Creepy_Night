@@ -48,7 +48,7 @@
         <input v-model="stock" min="0" step="0.01"/><br>
         <label>Image :</label>
         <input v-model="image" min="0" step="0.01"/><br>
-        <button @click="acceptArticle(id)">{{ modalButton }}</button>
+        <button @click="acceptArticle()">{{ modalButton }}</button>
         <button @click="closeModal">Annuler</button>
       </div>
     </div>
@@ -518,12 +518,12 @@ export default {
       this.modalTitle = '';
       this.modalButton = '';
     },
-    acceptArticle(idProduit) {
+    acceptArticle() {
       if (this.nom !== '' && this.description !== '' && this.prix !== '' && this.stock !== '') {
         if (this.modalButton === 'Modifier') {
           let data = {
-            id: idProduit,
-            prestataireId: this.utilisateurConnecte.id,
+            id: this.id,
+            prestataire_id: this.utilisateurConnecte.id,
             nom: this.nom,
             description: this.description,
             prix: this.prix,
@@ -531,10 +531,10 @@ export default {
             image: this.image,
           }
           this.putPrestataireArticle(data);
-       }
+        }
         if (this.modalButton === 'Ajouter') {
           let data = {
-            prestataireId: this.utilisateurConnecte.id,
+            prestataire_id: this.utilisateurConnecte.id,
             nom: this.nom,
             description: this.description,
             prix: this.prix,

@@ -173,7 +173,7 @@ async function setPrestataireArticle(data){
 }
 
 async function delPrestataireArticleFromAPI(data){
-    return await deleteRequest(`articles/prestataire`, data);
+    return await deleteRequest('articles/prestataire/'+data);
 }
 
 async function delPrestataireArticle(data){
