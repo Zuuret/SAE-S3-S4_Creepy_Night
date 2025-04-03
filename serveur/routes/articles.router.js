@@ -16,4 +16,14 @@ router.put("/prestataire", sessionMiddleware.authVerif([2]), articlesController.
 
 router.delete("/prestataire/:idPresta", sessionMiddleware.authVerif([2]), articlesController.deleteArticle);
 
+router.get("/prestataire/article/:idArticle", articlesController.getArticleById);
+
+router.post("/cart", articlesController.saveArticleToCart);
+
+router.get("/cart/:idUtilisateur", articlesController.getCart);
+
+router.put("/cart/increment", articlesController.incrementArticleInCart);
+
+router.put("/cart/decrement", articlesController.decrementArticleInCart);
+
 module.exports = router;

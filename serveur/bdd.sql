@@ -781,6 +781,7 @@ CREATE TABLE articles (
 -- Table panier_article
 CREATE TABLE panier_article (
     id SERIAL PRIMARY KEY,
+    utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE,
     article_id INT REFERENCES articles(id) ON DELETE CASCADE,
     quantite INT NOT NULL
 );
@@ -1293,8 +1294,31 @@ VALUES ('11111111-1111-1111-1111-111111111111', 'Menu Whopper',
         18.99, 10,
         'figurine_Garfield.png');
 
+INSERT INTO panier_article (utilisateur_id, article_id, quantite)
+VALUES ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 1, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 2, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 3, 5),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 5, 10),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 7, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 8, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 10, 11),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 12, 6),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 17, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 20, 2),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 11, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 12, 3);
+
 INSERT INTO coordonnees_bancaire (nom, numero_carte, date_expiration, cvv)
 VALUES ('Doe', '123456789ABCDEFG', '11/31', '484');
+
+INSERT INTO reservation_article (utilisateur_id, article_id, quantite, date_reservation)
+VALUES ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 1, 1, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 5, 1, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 9, 5, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 17, 10, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 18, 1, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 20, 10, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 22, 1, '2024-10-25 20:00:00');
 
 INSERT INTO texte_accueil (id, titre, contenu) VALUES (
   1,

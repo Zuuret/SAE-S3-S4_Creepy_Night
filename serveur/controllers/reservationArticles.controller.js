@@ -58,3 +58,17 @@ exports.deleteReservationArticles = async (req, res) => {
         return res.status(500).json({ message: 'Erreur interne du serveur' });
     }
 };
+
+exports.saveReservationArticle = async (req, res) => {
+    const idUser = req.body.idUser;
+    try {
+        const reservations = await reservationArticlesService.insertReservationArticle(idUser);
+        if (reservations.error) {
+            return res.status(500).json({ error: 1, data: reservations.error });
+        }
+        return res.status(200).json({ error: 0, data: reservations });
+    } catch (error) {
+        console.error("Erreur dans saveReservationArticle :", error);
+        return res.status(500).json({ error: 1, data: "Erreur interne du serveur" });
+    }
+};
