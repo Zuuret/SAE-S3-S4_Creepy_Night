@@ -781,6 +781,7 @@ CREATE TABLE articles (
 -- Table panier_article
 CREATE TABLE panier_article (
     id SERIAL PRIMARY KEY,
+    utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE,
     article_id INT REFERENCES articles(id) ON DELETE CASCADE,
     quantite INT NOT NULL
 );
@@ -947,7 +948,7 @@ VALUES
 
 INSERT INTO prestataire (id, societe, adresse, email, password, theme, description, logo, background, background2)
 VALUES
-    ('11111111-1111-1111-1111-111111111111', 'Burger King', '3 rue de Japy', 'burgerking@gmail.com', '$2a$08$RQ1802J25vwBUanWmBpfnOY74SDXY.AlP0c9DXeFCMO5ZKwhLvBay', 'Alimentation', 'Pour le Creepy Night Festival, nous avons revisité nos classiques avec une touche effrayante ! Des recettes revisitées aux couleurs de l’horreur, des saveurs audacieuses et une ambiance qui fait frissonner. Oserez-vous y goûter ?', 'logo_burgerking.png', 'background_BK.jpg', 'background2_BK.jpg'),
+    ('11111111-1111-1111-1111-111111111111', 'Burger King', '3 rue de Japy', 'burgerking@gmail.com', '$2a$08$RQ1802J25vwBUanWmBpfnOY74SDXY.AlP0c9DXeFCMO5ZKwhLvBay', 'Alimentation', 'Pour le Creepy Night Festival, nous avons revisité nos classiques avec une touche effrayante ! Des recettes revisitées aux couleurs de l’horreur, des saveurs audacieuses et une ambiance qui fait frissonner. Oserez-vous y goûter ?', 'logo_burgerking.png', 'background-11111111-1111-1111-1111-111111111111.jpg', 'background2_BK.jpg'),
     ('22222222-2222-2222-2222-222222222222', 'POP', '5 rue de Belfort', 'pop@gmail.com', '$2a$08$ZXvZYEcy2uLc3k6r5pNUVOD3jV0PvIyE4sYAj05i1gz2AqgLotf1y', 'Goodies', 'Les icônes de l’horreur prennent vie dans notre collection spéciale Creepy Night ! Retrouvez vos personnages cultes sous forme de figurines, dans des éditions effrayantes et exclusives. Une touche de frisson à collectionner !', 'logo_pop.png', 'background_POP.jpg', 'background2_POP.jpg'),
     ('33333333-3333-3333-3333-333333333333', 'Starbucks', '22 place de la République', 'starbucks@gmail.com', '$2a$08$ZXvZYEcy2uLc3k6r5pNUVOD3jV0PvIyE4sYAj05i1gz2AqgLotf1y', 'Alimentation', 'Plongez dans un univers ensorcelé avec nos boissons aux notes mystérieuses et envoûtantes. Entre saveurs automnales et créations surprises, chaque gorgée vous emmène dans l’ambiance inquiétante du festival.', 'logo_starbucks.png', 'background_starbucks.jpg', 'background2_starbucks.jpg'),
     ('44444444-4444-4444-4444-444444444444', 'Domino''s Pizza', '45 boulevard Haussmann', 'dominos@gmail.com', '$2a$08$ZXvZYEcy2uLc3k6r5pNUVOD3jV0PvIyE4sYAj05i1gz2AqgLotf1y', 'Alimentation', 'Nos recettes prennent une allure terrifiante pour l’occasion ! Des ingrédients surprenants, des associations audacieuses et une touche infernale dans chaque bouchée. Préparez-vous à une expérience gustative hors du commun', 'logo_domino.png', 'background_DominosPizza.jpg', 'background2_DominosPizza.jpg'),
@@ -1293,11 +1294,74 @@ VALUES ('11111111-1111-1111-1111-111111111111', 'Menu Whopper',
         18.99, 10,
         'figurine_Garfield.png');
 
+INSERT INTO panier_article (utilisateur_id, article_id, quantite)
+VALUES ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 1, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 2, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 3, 5),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 5, 10),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 7, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 8, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 10, 11),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 12, 6),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 17, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 20, 2),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 11, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 12, 3);
+
 INSERT INTO coordonnees_bancaire (nom, numero_carte, date_expiration, cvv)
 VALUES ('Doe', '123456789ABCDEFG', '11/31', '484');
 
-INSERT INTO texte_accueil (id, titre, contenu) VALUES (
+INSERT INTO reservation_article (utilisateur_id, article_id, quantite, date_reservation)
+VALUES ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 1, 1, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 5, 1, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 9, 5, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 17, 10, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 18, 1, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 20, 10, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 22, 1, '2024-10-25 20:00:00');
+
+ALTER TABLE texte_accueil ADD COLUMN titre_en TEXT;
+ALTER TABLE texte_accueil ADD COLUMN contenu_en TEXT;
+
+
+INSERT INTO texte_accueil (id, titre, contenu, titre_en, contenu_en) VALUES (
   1,
   'Bienvenue au Festival de l’Horreur',
-  'Préparez-vous pour une expérience terrifiante et inoubliable...'
+  'Préparez-vous pour une expérience terrifiante et inoubliable...',
+  'Welcome to the Horror Festival',
+  'Get ready for a terrifying and unforgettable experience...'
 );
+
+ALTER TABLE prestataire
+ADD COLUMN description_en TEXT,
+ADD COLUMN description_fr TEXT;
+
+UPDATE prestataire SET description_en = 'For the Creepy Night Festival, we revisited our classics with a scary twist! Revisited recipes in horror-themed colors, bold flavors, and an atmosphere that gives chills. Will you dare to taste it?' WHERE id = '11111111-1111-1111-1111-111111111111';
+UPDATE prestataire SET description_fr = 'Pour le Creepy Night Festival, nous avons revisité nos classiques avec une touche effrayante ! Des recettes revisitées aux couleurs de l’horreur, des saveurs audacieuses et une ambiance qui fait frissonner. Oserez-vous y goûter ?' WHERE id = '11111111-1111-1111-1111-111111111111';
+
+UPDATE prestataire SET description_en = 'For the Creepy Night Festival, we revisited our classics with a scary twist! Revisited recipes in horror-themed colors, bold flavors, and an atmosphere that gives chills. Will you dare to taste it?' WHERE id = '11111111-1111-1111-1111-111111111111';
+UPDATE prestataire SET description_fr = 'Pour le Creepy Night Festival, nous avons revisité nos classiques avec une touche effrayante ! Des recettes revisitées aux couleurs de l’horreur, des saveurs audacieuses et une ambiance qui fait frissonner. Oserez-vous y goûter ?' WHERE id = '11111111-1111-1111-1111-111111111111';
+
+UPDATE prestataire SET description_en = 'Horror icons come to life in our special Creepy Night collection! Find your cult characters in figurine form, in chilling and exclusive editions. A collectible touch of fright!' WHERE id = '22222222-2222-2222-2222-222222222222';
+UPDATE prestataire SET description_fr = 'Les icônes de l’horreur prennent vie dans notre collection spéciale Creepy Night ! Retrouvez vos personnages cultes sous forme de figurines, dans des éditions effrayantes et exclusives. Une touche de frisson à collectionner !' WHERE id = '22222222-2222-2222-2222-222222222222';
+
+UPDATE prestataire SET description_en = 'Dive into a bewitched world with our drinks featuring mysterious and captivating notes. Between autumn flavors and surprise creations, each sip takes you into the unsettling atmosphere of the festival.' WHERE id = '33333333-3333-3333-3333-333333333333';
+UPDATE prestataire SET description_fr = 'Plongez dans un univers ensorcelé avec nos boissons aux notes mystérieuses et envoûtantes. Entre saveurs automnales et créations surprises, chaque gorgée vous emmène dans l’ambiance inquiétante du festival.' WHERE id = '33333333-3333-3333-3333-333333333333';
+
+UPDATE prestataire SET description_en = 'Our recipes take on a terrifying twist for the occasion! Surprising ingredients, bold combinations, and an infernal touch in every bite. Get ready for an extraordinary gastronomic experience.' WHERE id = '44444444-4444-4444-4444-444444444444';
+UPDATE prestataire SET description_fr = 'Nos recettes prennent une allure terrifiante pour l’occasion ! Des ingrédients surprenants, des associations audacieuses et une touche infernale dans chaque bouchée. Préparez-vous à une expérience gustative hors du commun' WHERE id = '44444444-4444-4444-4444-444444444444';
+
+UPDATE prestataire SET description_en = 'Our exclusive creations for the festival will make you shiver with pleasure. Surprising combinations, dark colors, and an unmistakable taste to accompany this terrifying night.' WHERE id = '55555555-5555-5555-5555-555555555555';
+UPDATE prestataire SET description_fr = 'Nos créations inédites pour le festival vous feront frissonner de plaisir. Des associations surprenantes, des couleurs sombres et un goût inimitable pour accompagner cette nuit d’épouvante' WHERE id = '55555555-5555-5555-5555-555555555555';
+
+UPDATE prestataire SET description_en = 'Because horror waits for no one, we’ve got you covered with models specially designed to brave the night. Dark styles, luminous details, and optimal comfort, perfect for walking through the festival without fear.' WHERE id = '66666666-6666-6666-6666-666666666666';
+UPDATE prestataire SET description_fr = 'Parce que l’horreur n’attend pas, nous vous accompagnons avec des modèles spécialement conçus pour braver la nuit. Styles sombres, détails lumineux et confort optimal, parfaits pour parcourir les allées du festival sans crainte.' WHERE id = '66666666-6666-6666-6666-666666666666';
+
+UPDATE prestataire SET description_en = 'Indulge in frozen treats with captivating flavors. Between striking contrasts and surprising textures, our special Creepy Night creations promise you unprecedented sensations.' WHERE id = '77777777-7777-7777-7777-777777777777';
+UPDATE prestataire SET description_fr = 'Succombez à des douceurs glacées aux saveurs envoûtantes. Entre contrastes saisissants et textures surprenantes, nos créations spéciales Creepy Night vous réservent des sensations inédites.' WHERE id = '77777777-7777-7777-7777-777777777777';
+
+UPDATE prestataire SET description_en = 'Spicy and strange meet in our dishes specially created for the festival. An explosion of bold flavors, dark colors, and an experience that will awaken both spirits... and your taste buds!' WHERE id = '88888888-8888-8888-8888-888888888888';
+UPDATE prestataire SET description_fr = 'Le piquant et l’étrange se rencontrent dans nos plats spécialement imaginés pour le festival. Une explosion de saveurs relevées, des couleurs sombres et une expérience qui réveillera les esprits… et vos papilles !' WHERE id = '88888888-8888-8888-8888-888888888888';
+
+UPDATE prestataire SET description_en = 'Dive into the thrill of video games with our special selection of terrifying universes. Challenges, tournaments, and surprises await you for a total immersion in the horrifying gaming world.' WHERE id = '99999999-9999-9999-9999-999999999999';
+UPDATE prestataire SET description_fr = 'Plongez dans le frisson du jeu vidéo avec notre sélection spéciale d’univers terrifiants. Défis, tournois et surprises vous attendent pour une immersion totale dans le monde du gaming horrifique.' WHERE id = '99999999-9999-9999-9999-999999999999';

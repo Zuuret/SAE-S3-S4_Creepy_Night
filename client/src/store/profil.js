@@ -81,7 +81,7 @@ export default ({
         },
         SET_PRESTATAIRES(state, prestataires) {
             state.prestataires = prestataires;
-        },
+          },
         addDemandePrestataire(state, demande) {
             state.demandesPrestataires.push(demande);
         },
@@ -123,14 +123,7 @@ export default ({
             localStorage.setItem("utilisateurConnecte", JSON.stringify(state.utilisateurConnecte));
         },
         updateImage(state, nouvelleImage) {
-            if (nouvelleImage instanceof File) {
-                // Créer une URL locale pour afficher l'image
-                let imageUrl = URL.createObjectURL(nouvelleImage);
-                state.utilisateurConnecte.background = imageUrl;
-            } else {
-                state.utilisateurConnecte.background = nouvelleImage;
-            }
-
+            state.utilisateurConnecte.background = nouvelleImage;
             localStorage.setItem("utilisateurConnecte", JSON.stringify(state.utilisateurConnecte));
         },
         updateImage2(state, nouvelleImage2) {
@@ -332,17 +325,20 @@ export default ({
                 commit('SET_ORGANISATEURS', response.data);
             }
         },
-        async fetchPrestataires({ commit }) {
-            const response = await getAllPrestataires();
-            
+        async fetchPrestataires({ commit, rootState }) {
+            const lang = rootState.i18n?.locale || 'fr'; // Utilisation de la langue du store
+            console.log('Langue actuelle pour APIpresta:', lang);
+            const response = await getAllPrestataires(lang);
+          
             if (response.error === 0) {
-                commit('SET_PRESTATAIRES', response.data);
+              commit('SET_PRESTATAIRES', response.data);
             } else {
-                console.error("Erreur fetchPrestataires:", response.message);
-                // Optionnel: commit une mutation pour stocker l'erreur
-                commit('SET_PRESTATAIRES_ERROR', response.message);
+              console.error("Erreur fetchPrestataires:", response.message);
+              commit('SET_PRESTATAIRES_ERROR', response.message);
             }
-        },
+          }
+          
+          ,
         async fetchDemandesPrestataires({ commit }) {
             const response = await getDemandesPrestataires();
             if (response.error === 0) {
@@ -471,16 +467,17 @@ export default ({
         },
 
         async updateImagePrestataire({ commit }, { id, formData }) {
-            console.log("📤 Envoi du fichier pour l'ID :", id);
+            console.log("📤 Envoi du fichier",  formData.get("image"), " pour l'ID :", id);
             let response = await ProfilService.updateImagePrestataireFromAPI(id, formData);
             if (response.error === 0) {
-                let imageUrl = response.data;
-                console.log(imageUrl)
+                let imageUrl = response.data.imageUrl;
+                console.log(imageUrl);
                 commit('updateImage', imageUrl);
             } else {
-                console.error("Erreur API :", response.data);
+                console.error("❌ Erreur API :", response.error || response.data);
             }
         },
+
 
         async updateImage2Prestataire({ commit }, { id, nouvelleImage2 }) {
             console.log("Mis a jour de l'image pour : ", nouvelleImage2, "de l'id : ", id);

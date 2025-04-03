@@ -68,3 +68,73 @@ exports.deleteArticle = async (req, res) => {
         return res.status(500).json({ error: 'Erreur interne du serveur' });
     }
 };
+
+exports.getArticleById = async (req, res) => {
+    const idArticle = req.params.idArticle;
+    try {
+        const article = await articlesService.getArticleById(idArticle);
+        if (!article) {
+            return res.status(404).json({ message: 'Article non trouvé' });
+        }
+        return res.status(200).json({ data: article[0], error: 0 });
+    } catch (error) {
+        console.error("Erreur dans le contrôleur getArticleById :", error);
+        return res.status(500).json({ message: 'Erreur interne du serveur' });
+    }
+}
+
+exports.saveArticleToCart = async (req, res) => {
+    const { article, utilisateur_id } = req.body;
+    try {
+        const result = await articlesService.saveArticleToCart(article, utilisateur_id);
+        if (!result) {
+            return res.status(500).json({ error: 1, data: "Erreur lors de l'ajout au panier" });
+        }
+        return res.status(200).json({ error: 0, data: result });
+    } catch (error) {
+        console.error("Erreur dans saveArticleToCart :", error);
+        return res.status(500).json({ error: 1, data: "Erreur interne du serveur" });
+    }
+};
+
+exports.getCart = async (req, res) => {
+    const { idUtilisateur } = req.params;
+    try {
+        const result = await articlesService.getCart(idUtilisateur);
+        if (!result) {
+            return res.status(500).json({ error: 1, data: "Erreur lors de la récupération du panier" });
+        }
+        return res.status(200).json({ error: 0, data: result });
+    } catch (error) {
+        console.error("Erreur dans getCart :", error);
+        return res.status(500).json({ error: 1, data: "Erreur interne du serveur" });
+    }
+}
+
+exports.incrementArticleInCart = async (req, res) => {
+    const { cart_item_id } = req.body; // On attend que le front envoie l'id de la ligne du panier
+    try {
+        const result = await articlesService.incrementArticleInCart(cart_item_id);
+        if (result.error) {
+            return res.status(400).json({ error: 1, data: result.error });
+        }
+        return res.status(200).json({ error: 0, data: result });
+    } catch (error) {
+        console.error("Erreur dans incrementArticleInCart :", error);
+        return res.status(500).json({ error: 1, data: "Erreur interne du serveur" });
+    }
+};
+
+exports.decrementArticleInCart = async (req, res) => {
+    const { cart_item_id } = req.body; // On attend que le front envoie l'id de la ligne du panier
+    try {
+        const result = await articlesService.decrementArticleInCart(cart_item_id);
+        if (result.error) {
+            return res.status(400).json({ error: 1, data: result.error });
+        }
+        return res.status(200).json({ error: 0, data: result });
+    } catch (error) {
+        console.error("Erreur dans decrementArticleInCart :", error);
+        return res.status(500).json({ error: 1, data: "Erreur interne du serveur" });
+    }
+};

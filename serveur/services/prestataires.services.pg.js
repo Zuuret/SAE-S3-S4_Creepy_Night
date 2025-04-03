@@ -142,21 +142,25 @@ async function updateAdressePrestataire(uuid, adresse) {
 
 async function updateImagePrestataire(uuid, imageUrl) {
     const client = await pool.connect();
-    let is_error = false;
     try {
-        const query = format(
-            'UPDATE prestataire SET background = %L WHERE id = %L', imageUrl, uuid
-        );
-        await client.query(query);
-        console.log('Image du prestataire mise à jour :', imageUrl);
+        const query = 'UPDATE prestataire SET background = $1 WHERE id = $2';
+        const result = await client.query(query, [imageUrl, uuid]);
+
+        if (result.rowCount > 0) {
+            console.log('✅ Image mise à jour :', imageUrl);
+            return { success: true, imageUrl }; // ✅ Retourne l'URL de l'image
+        } else {
+            console.error('❌ Aucun prestataire trouvé avec cet UUID :', uuid);
+            return { success: false, error: "Aucun prestataire trouvé" };
+        }
     } catch (error) {
-        console.error('Erreur lors de la mise à jour de l\'image :', error);
-        is_error = true;
+        console.error('❌ Erreur SQL :', error);
+        return { success: false, error: "Erreur interne" };
     } finally {
         client.release();
     }
-    return is_error;
 }
+
 
 module.exports = {
     insertPrestataire,

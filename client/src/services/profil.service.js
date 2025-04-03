@@ -105,21 +105,10 @@ async function updateAdressePrestataireFromAPI(id, nouvelleAdresse) {
     return await patchRequest(`prestataires/${id}/adresse`, { adresse: nouvelleAdresse }, "updateAdressePrestataire");
 }
 
-async function updateImagePrestataireFromAPI(id, nouvelleImage) {
-    console.log("📂 Type de nouvelleImage :", nouvelleImage);
-
-    if (!(nouvelleImage instanceof File)) {
-        console.error("❌ nouvelleImage n'est pas un fichier !");
-        return false;
-    }
-
-    const formData = new FormData();
-    formData.append("image", nouvelleImage);
-    console.log("📤 FormData envoyée :", formData.get("image"));
-
+async function updateImagePrestataireFromAPI(id, formData) {
+    console.log("📂 Contenu de formData envoyé :", formData.get("image"));
     return await postFileRequest(`prestataires/${id}/background`, formData, "updateImagePrestataire");
 }
-
 
 async function updateImage2PrestataireFromAPI(id, nouvelleImage2) {
     const formData = new FormData();
@@ -383,30 +372,34 @@ export async function getAllOrganisateurs() {
     }
 }
 
-export async function getAllPrestataires() {
+export async function getAllPrestataires(lang) {
     try {
         const res = await getAllPrestataireFromAPI();
-        
-        // La réponse est directement le tableau des prestataires
+        console.log(res);
+        console.log("Langue choisie:", lang);
+
         if (Array.isArray(res)) {
             return { 
                 error: 0, 
-                data: res // Utilise directement le tableau comme data
+                data: res.map(prestataire => ({
+                    ...prestataire,
+                    // Sélectionner la bonne description en fonction de la langue
+                    description: prestataire[`description_${lang}`] || prestataire.description_fr, // Si description_{lang} est vide, on prend description_fr
+                }))
             };
         }
         
-        // Si la réponse a déjà le format attendu
         if (res && res.data) {
             return res;
         }
-        
+
         console.error("Format de réponse inattendu:", res);
         return { 
             error: 1, 
             message: "Format de réponse API inattendu",
             data: [] 
         };
-        
+
     } catch(error) {
         console.error("Erreur dans getAllPrestataires:", error);
         return { 
@@ -416,6 +409,8 @@ export async function getAllPrestataires() {
         };
     }
 }
+
+
 
 export async function getDemandesOrganisateurs() {
     try{

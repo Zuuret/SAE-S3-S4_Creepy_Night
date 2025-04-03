@@ -149,11 +149,11 @@ exports.updateImage = async (req, res) => {
     }
 
     const uuid = req.params.uuid;
-    const background = req.file.filename; // Nom du fichier stocké
+    const background = req.file.originalname; // Nom du fichier stocké
 
     const resultat = await prestataireService.updateImagePrestataire(uuid, background);
-
-    if (resultat) {
+    console.log("resultat : ", resultat)
+    if (!resultat) {
         return res.status(500).send({ data: "ERREUR INTERNE", error: 1 });
     }
     return res.status(200).send({ data: resultat, error: 0 });

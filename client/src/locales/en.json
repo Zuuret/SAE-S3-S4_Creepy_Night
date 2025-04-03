@@ -33,7 +33,8 @@
       "trierParNom": "Sort by name",
       "trierParCategorie": "Sort by category",
       "voirProfil": "View Profile",
-      "aucunResultat": "No providers match your search."
+      "aucunResultat": "No providers match your search.",
+      "description": "{{ description }}"
     },
     "livreDOr": {
     "notreLivreDOr": "OUR GUESTBOOK",
@@ -502,7 +503,33 @@
   "card_number": "Card Number",
   "expiration_date": "Expiration Date",
   "confirm_payment": "Confirm Payment",
-  "payment_success": "Your payment has been successfully processed"
+  "payment_success": "Your payment has been successfully processed",
+  "activites": {
+    "carihorreur": {
+      "titre": "Carihorreur",
+      "description": "Enter the Carihorreur, a nightclub like no other. Here, darkness comes alive to the rhythm of an enchanting and electrifying sound..."
+    },
+    "cauchemarathon": {
+      "titre": "Cauchemarathon",
+      "description": "Choose your circuit and embark on a race where every step brings you closer to your worst fears..."
+    },
+    "cinepeur": {
+      "titre": "Cinépeur",
+      "description": "Come shiver at Cinépeur with an exclusive selection of cult films, genre classics, and unreleased short films..."
+    },
+    "concerts": {
+      "titre": "Concerts",
+      "description": "Every evening, live concerts will transport you into an enchanting atmosphere, blending dark music, energy, and immersive vibes..."
+    },
+    "baltrouille": {
+      "titre": "Bal’trouille",
+      "description": "Put on your best mask and dive into a night as terrifying as it is fun..."
+    },
+    "expositions": {
+      "titre": "Exhibitions",
+      "description": "Discover disturbing and immersive works created by artists passionate about mystery and horror..."
+    }
+  }
 
       
   }

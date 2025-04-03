@@ -111,7 +111,7 @@ router.get("/", userController.getUsers);
  *       '500':
  *         description: Erreur interne du serveur
  */
-router.get('/:uuid',  sessionMiddleware.authVerif([1,3]), userController.getUserById);
+router.get('/:uuid',  sessionMiddleware.authVerif([1,2,3]), userController.getUserById);
 
 
 

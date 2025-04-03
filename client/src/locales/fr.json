@@ -33,7 +33,8 @@
     "trierParNom": "Trier par nom",
     "trierParCategorie": "Trier par catégorie",
     "voirProfil": "Voir Profil",
-    "aucunResultat": "Aucun prestataire ne correspond à votre recherche."
+    "aucunResultat": "Aucun prestataire ne correspond à votre recherche.",
+    "description": "{{ description }}"
   },
   "livreDOr": {
     "notreLivreDOr": "NOTRE LIVRE D'OR",
@@ -504,7 +505,33 @@
   "card_number": "Numéro de carte",
   "expiration_date": "Date d'expiration",
   "confirm_payment": "Confirmer le paiement",
-  "payment_success": "Votre paiement a bien été pris en compte"
+  "payment_success": "Votre paiement a bien été pris en compte",
+  "activites": {
+    "carihorreur": {
+      "titre": "Carihorreur",
+      "description": "Entrez dans le Carihorreur, un club nocturne comme nul autre. Ici, l’obscurité s’allume au rythme d’un son envoûtant et électrisant..."
+    },
+    "cauchemarathon": {
+      "titre": "Cauchemarathon",
+      "description": "Choisissez votre circuit et lancez-vous dans une course où chaque pas vous rapproche de vos pires frayeurs..."
+    },
+    "cinepeur": {
+      "titre": "Cinépeur",
+      "description": "Venez frissonner au Cinépeur devant une sélection exclusive de films cultes, de classiques du genre et de courts-métrages inédits..."
+    },
+    "concerts": {
+      "titre": "Concerts",
+      "description": "Chaque soir, des concerts live vous transporteront dans une ambiance envoûtante, mêlant musique sombre, énergie et atmosphère immersive..."
+    },
+    "baltrouille": {
+      "titre": "Bal’trouille",
+      "description": "Enfilez votre plus beau masque et plongez dans une nuit aussi terrifiante que amusante..."
+    },
+    "expositions": {
+      "titre": "Expositions",
+      "description": "Découvrez des œuvres troublantes et immersives créées par des artistes passionnés par le mystère et l'horreur..."
+    }
+  }
 
 
 

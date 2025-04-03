@@ -22,7 +22,8 @@
       <div v-for="prestataire in filteredPrestataires" :key="prestataire.id" class="prestataire-card">
         <img :src="getImageUrl(prestataire.logo)" alt="Logo" class="prestataire-logo"/>
         <h3 class="prestataire-nom">{{ prestataire.societe }}</h3>
-        <p class="prestataire-description">{{ prestataire.description }}</p>
+        <p class="prestataire-description">{{ prestataire[`description_${$i18n.locale}`] || prestataire.description_fr }}</p>
+
         <router-link :to="'/prestataire/' + prestataire.id" class="btn-details">{{ $t('prestataires.voirProfil') }}</router-link>
       </div>
     </div>
@@ -47,6 +48,22 @@ export default {
       return require(`@/assets/${image}`);
     },
   },
+  watch: {
+  '$i18n.locale': async function (nouvelleLangue) {
+    console.log("Langue changée :", nouvelleLangue);
+    
+    // Assurez-vous de changer la langue dans Vuex et Vue I18n
+    await this.$store.dispatch('i18n/changeLocale', nouvelleLangue);
+    
+    // Rafraîchissement des prestataires après changement de langue
+    await this.fetchPrestataires();
+    
+    // Rafraîchir d'autres données si nécessaire
+    // await this.$store.dispatch('texte_accueil/fetchTexteAccueil');
+  }
+}
+
+,
   computed: {
     ...mapState("profil", ["prestataires"]),
     uniqueCategories() {
@@ -69,6 +86,7 @@ export default {
     }
   },
   mounted() {
+    console.log('rootState.i18n dans mounted:', this.$store.state.i18n);
     this.fetchPrestataires();
   }
 };
