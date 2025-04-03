@@ -12,11 +12,11 @@
         <img src="@/assets/scrolldown.png" :alt="$t('scrollDown')" class="scroll-icon">
       </button>
       <div class="PubSection" id="texte-accueil" v-if="texteAccueil.titre || texteAccueil.contenu">
-        <div class="texte-accueil-container">
-          <h1 class="texte-accueil-titre">{{ texteAccueil.titre }}</h1>
-          <div class="texte-accueil-contenu" v-html="texteAccueil.contenu"></div>
-        </div>
-      </div>
+    <div class="texte-accueil-container">
+        <h1 class="texte-accueil-titre">{{ texteAccueil.titre }}</h1>
+        <div class="texte-accueil-contenu" v-html="texteAccueil.contenu"></div>
+    </div>
+</div>
 
       <div class="activites">
         <h1 class="titre-partie" id="titre-activite">{{ $t('terrifyingFlexibleProgram') }}</h1>
@@ -132,9 +132,9 @@ export default {
   computed: {
     ...mapGetters('texte_accueil', ['titreAccueil', 'contenuAccueil']),
     texteAccueil() {
-      return {
-        titre: this.titreAccueil,
-        contenu: this.contenuAccueil
+        return {
+            titre: this.titreAccueil,
+            contenu: this.contenuAccueil
       };
     }
   },
@@ -157,11 +157,18 @@ export default {
       return differenceMois > 4 || dateActuelle >= dateSeuil;
     }
   },
+  watch: {
+  '$i18n.locale': async function (nouvelleLangue) {
+    console.log("Langue changée :", nouvelleLangue);
+    await this.$store.dispatch('texte_accueil/fetchTexteAccueil'); // Rafraîchissement explicite
+  }
+},
   mounted() {
     const utilisateur = localStorage.getItem('utilisateurConnecte');
     if (utilisateur) {
       this.utilisateurConnecte = JSON.parse(utilisateur);
     }
+    console.log('Le composant est monté');
     this.$store.dispatch('texte_accueil/fetchTexteAccueil');
   }
 };

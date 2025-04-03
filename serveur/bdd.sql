@@ -1320,8 +1320,14 @@ VALUES ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 1, 1, '2024-10-25 20:00:00'),
        ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 20, 10, '2024-10-25 20:00:00'),
        ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 22, 1, '2024-10-25 20:00:00');
 
-INSERT INTO texte_accueil (id, titre, contenu) VALUES (
+ALTER TABLE texte_accueil ADD COLUMN titre_en TEXT;
+ALTER TABLE texte_accueil ADD COLUMN contenu_en TEXT;
+
+
+INSERT INTO texte_accueil (id, titre, contenu, titre_en, contenu_en) VALUES (
   1,
   'Bienvenue au Festival de l’Horreur',
-  'Préparez-vous pour une expérience terrifiante et inoubliable...'
+  'Préparez-vous pour une expérience terrifiante et inoubliable...',
+  'Welcome to the Horror Festival',
+  'Get ready for a terrifying and unforgettable experience...'
 );

@@ -1,7 +1,8 @@
 const textService = require("../services/texte_accueil.service.pg");
 
 exports.getTexteAccueil = async (req, res) => {
-    const textes = await textService.getTexteAccueil();
+    const lang = req.query.lang || 'fr'; 
+    const textes = await textService.getTexteAccueil(lang);
     if (!textes) {
         return res.status(500).json({ error: 'ERREUR INTERNE' });
     }

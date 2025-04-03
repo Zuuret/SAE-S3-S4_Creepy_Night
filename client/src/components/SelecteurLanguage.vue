@@ -43,16 +43,11 @@ export default {
     selectOption(option) {
       this.selectedValue = option.value;
       this.showDropdown = false;
-      
-      // Met à jour la langue de Vue I18n
       this.$i18n.locale = option.value;
-
-      // Sauvegarde la langue dans localStorage
       localStorage.setItem("language", option.value);
     },
   },
   mounted() {
-    // Applique la langue sauvegardée à Vue I18n lors du chargement du composant
     this.$i18n.locale = this.selectedValue;
   },
 };

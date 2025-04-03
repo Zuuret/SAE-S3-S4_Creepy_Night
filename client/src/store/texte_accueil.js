@@ -13,8 +13,10 @@ const mutations = {
 };
 
 const actions = {
-    async fetchTexteAccueil({ commit }) {
-        const response = await getTexteAccueil();
+    async fetchTexteAccueil({ commit, rootState }) {
+        const lang = rootState.i18n ? rootState.i18n.locale : 'fr';
+        console.log('Langue actuelle pour API:', lang);
+        const response = await getTexteAccueil(lang);
         if (response.error === 0) {
             commit('SET_TEXTE_ACCUEIL', response.data);
         }
