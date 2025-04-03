@@ -8,10 +8,10 @@
           <img :src="getImageUrl(prestataire.logo)" :alt="prestataire.title" class="author"/>
           <div class="title">{{ prestataire.societe }}</div>
           <div class="topic">{{ prestataire.theme }}</div>
-          <div class="description">{{ prestataire.description }}</div>
+          <div class="description">{{ prestataire[`description_${$i18n.locale}`] || prestataire.description_fr }}</div>
           <div class="button">
             <router-link :to="`/prestataire/${prestataire.id}`">
-              <button>{{ $t('voirPlus') }}</button>
+              <button>{{ $t('voirPlus') }}</button> 
             </router-link>
           </div>
         </div>
