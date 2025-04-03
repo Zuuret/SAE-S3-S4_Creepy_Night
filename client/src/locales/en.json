@@ -247,27 +247,22 @@
     "noAccount": "No account?",
     "signup": "Sign up"
   },
-  "register": {
-    "title": "Profile Creation",
     "user": "User",
-    "provider": "Provider",
     "organizer": "Organizer",
-    "firstName": "First Name:",
     "firstNamePlaceholder": "Enter your first name",
-    "lastName": "Last Name:",
     "lastNamePlaceholder": "Enter your last name",
     "birthDate": "Date of Birth:",
-    "email": "Email:",
     "emailPlaceholder": "Enter your email",
     "confirmEmail": "Confirm Email:",
     "confirmEmailPlaceholder": "Confirm your email",
     "password": "Password:",
     "passwordPlaceholder": "Enter your password",
     "alreadyAccount": "Already have a Creepynight account?",
-    "login": "Log in",
-    "cancel": "Cancel",
-    "submit": "Confirm Registration"
-  },
+
+    "submit": "Confirm Registration",
+    "companyName": "Company Name",
+    "companyNamePlaceholder": "Enter your company name"
+  ,
   "expo": {
     "title": "List of Exhibitions",
     "imageAlt": "Exhibition poster",
@@ -529,6 +524,33 @@
       "titre": "Exhibitions",
       "description": "Discover disturbing and immersive works created by artists passionate about mystery and horror..."
     }
+  },
+  "register": {
+    "title": "Sign Up",
+    "user": "User",
+    "organizer": "Organizer",
+    "provider": "Provider",
+    "firstName": "First Name",
+    "firstNamePlaceholder": "Enter your first name",
+    "lastName": "Last Name",
+    "lastNamePlaceholder": "Enter your last name",
+    "birthDate": "Date of Birth",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "confirmEmail": "Confirm Email",
+    "confirmEmailPlaceholder": "Retype your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "alreadyAccount": "Already have an account?",
+    "login": "Log in here",
+    "cancel": "Cancel",
+    "submit": "Sign Up",
+    "companyName": "Company Name",
+    "companyNamePlaceholder": "Enter your company name",
+    "organizerName": "Organizer Name",
+    "organizerNamePlaceholder": "Enter the organizer's name",
+    "providerName": "Provider Name",
+    "providerNamePlaceholder": "Enter the provider's name"
   }
 
       
