@@ -41,6 +41,12 @@ export default ({
         ADD_RESERVATION(state, newReservation) {
             state.reservsconcert.push(newReservation);
         },
+        UPDATE_CONCERT_STOCK(state, { concertId, nbPlaces }) {
+            const concert = state.concerts.find(c => c.id === concertId) || state.concert;
+            if (concert) {
+                concert.nb_places += nbPlaces;
+            }
+        },
         updateReservationConcertId(state, reservationsId){
             state.reservationsId = reservationsId
             console.log(reservationsId)
@@ -146,9 +152,9 @@ export default ({
         },
         async reserveConcert({ commit, state }, { concertId, nbPlaces }) {
             try {
-                // Récupérer le concert pour avoir le prix
+                // Trouver le concert pour obtenir le prix
                 const concert = state.concerts.find(c => c.id === concertId) || 
-                             state.concert;
+                              state.concert;
                 
                 if (!concert) {
                     throw new Error('Concert non trouvé');
@@ -165,7 +171,15 @@ export default ({
                 const response = await insertReservConcert(payload);
                 
                 if (response.error === 0) {
+                    // Mettre à jour le concert dans le store avec le nouveau stock
+                    commit('UPDATE_CONCERT_STOCK', {
+                        concertId,
+                        nbPlaces: -nbPlaces // Décrémente le stock
+                    });
+                    
+                    // Ajouter la réservation
                     commit('ADD_RESERVATION', response.data);
+                    
                     return { success: true };
                 } else {
                     throw new Error(response.data);

@@ -105,8 +105,13 @@ export default {
         return;
       }
 
-      if (!this.quantite || this.quantite < 1 || this.quantite > this.concert.nb_places) {
+      if (!this.quantite || this.quantite < 1) {
         alert('Quantité invalide');
+        return;
+      }
+
+      if (this.quantite > this.concert.nb_places) {
+        alert('Places insuffisantes');
         return;
       }
 
@@ -121,13 +126,12 @@ export default {
         
         if (response?.success) {
           this.reservationSuccess = true;
-          // Réinitialiser après 3 secondes
           setTimeout(() => {
             this.reservationSuccess = false;
           }, 3000);
           
-          // Mettre à jour le nombre de places disponibles
-          this.concert.nb_places -= this.quantite;
+          // Recharger les données du concert pour avoir le stock à jour
+          await this.getConcertById(this.concert.id);
         } else {
           alert(response?.data || 'Erreur lors de la réservation');
         }
@@ -300,5 +304,27 @@ export default {
 .ticket button:hover {
   background-color: #880e0e;
   transform: scale(1.05);
+}
+
+.confirmation-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 128, 0, 0.9);
+  color: white;
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 24px;
+  font-family: "Stencil Std", fantasy;
+  z-index: 1000;
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
 }
 </style>
