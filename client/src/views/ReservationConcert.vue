@@ -8,7 +8,7 @@
 
     <!-- État de chargement -->
     <div v-if="loading" class="loading-message">
-      <p>{{ $t('loading') }}...</p>
+      <p>{{ $t('loading') }}</p>
     </div>
 
     <!-- Utilisateur non connecté -->
@@ -22,41 +22,7 @@
     <!-- Liste des réservations -->
     <div v-else>
       <div v-if="reservations.length > 0" class="reservations-list">
-        <div v-for="reservation in reservations" :key="reservation.id_reservation" class="reservation-card">
-          <div class="reservation-header">
-            <h3>{{ $t('reservation') }} #{{ reservation.id_reservation }}</h3>
-            <p class="reservation-date">{{ formatDate(reservation.date_reservation) }}</p>
-          </div>
-
-          <div class="concert-details">
-            <div v-for="(item, index) in reservation.concert_details" :key="index" class="concert-item">
-              <h4>{{ item.artiste }}</h4>
-              <div class="detail-row">
-                <span class="detail-label">{{ $t('date') }}:</span>
-                <span class="detail-value">{{ item.date }} {{ $t('at') }} {{ item.heure }}</span>
-              </div>
-              <div class="detail-row">
-                <span class="detail-label">{{ $t('scene') }}:</span>
-                <span class="detail-value">{{ item.scene }}</span>
-              </div>
-              <div class="detail-row">
-                <span class="detail-label">{{ $t('quantity') }}:</span>
-                <span class="detail-value">{{ item.quantite }}</span>
-              </div>
-              <div class="detail-row total">
-                <span class="detail-label">{{ $t('total') }}:</span>
-                <span class="detail-value">{{ item.total }} €</span>
-              </div>
-            </div>
-          </div>
-
-          <button 
-            class="cancel-button"
-            @click="annulerReservation(reservation.id_reservation)"
-          >
-            {{ $t('cancel_reservation') }}
-          </button>
-        </div>
+        <!-- Contenu des réservations -->
       </div>
 
       <!-- Aucune réservation -->
@@ -83,30 +49,18 @@ export default {
     };
   },
   computed: {
-    ...mapState('ConcertStore', ['utilisateurConnecte', 'reservations']),
+    ...mapState('ConcertStore', ['reservsconcert'])
   },
   methods: {
-    ...mapActions('ConcertStore', ['fetchUserReservations', 'cancelReservation']),
-    
-    formatDate(dateString) {
-      const options = { year: 'numeric', month: 'long', day: 'numeric' };
-      return new Date(dateString).toLocaleDateString('fr-FR', options);
-    },
-
-    async annulerReservation(reservationId) {
-      if (confirm(this.$t('confirm_cancel'))) {
-        try {
-          await this.cancelReservation(reservationId);
-          await this.fetchUserReservations(this.utilisateurConnecte.id);
-        } catch (error) {
-          console.error("Erreur d'annulation:", error);
-        }
-      }
-    }
+    ...mapActions('ConcertStore', ['fetchUserReservations']),
   },
   async mounted() {
     if (this.utilisateurConnecte?.id) {
-      await this.fetchUserReservations(this.utilisateurConnecte.id);
+      try {
+        await this.$store.dispatch('ConcertStore/fetchUserReservations');
+      } catch (error) {
+        console.error("Erreur de chargement:", error);
+      }
     }
     this.loading = false;
   }

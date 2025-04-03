@@ -28,7 +28,11 @@ async function deleteReservConcertFromAPI(id) {
 }
 
 async function getReservConcertByUserIdFromAPI(userId) {
-    return await getRequest(`reservConcert/user/${userId}`);
+    const allReservations = await getRequest('reservConcert');
+    
+    return allReservations.data.filter(reservation => 
+      reservation.userId === userId
+    );
   }
 
 export async function getAllConcerts() {
@@ -83,11 +87,51 @@ export async function getReservConcertById(uuid) {
 
 export async function insertReservConcert(payload) {
     try {
-      const res = await insertReservConcertFromAPI(payload);
-      return { error: 0, data: res.data };
+        // 1. D'abord créer la réservation via la fonction dédiée
+        const resReservation = await insertReservConcertFromAPI({
+            utilisateur_id: payload.utilisateur_id,
+            concert_id: payload.concert_id,
+            nb_places: payload.nb_places,
+            date_reservation: payload.date_reservation
+        });
+
+        // 2. Ensuite créer la transaction via la route cashless
+        const transactionPayload = {
+            idUser: payload.utilisateur_id,
+            amount: -(payload.prix_total || 0), // Montant négatif (débit)
+            operation: 'RESERVATION_CONCERT',
+            details: `Réservation ${payload.nb_places} place(s) pour concert ${payload.concert_id}`
+        };
+        
+        await postRequest("cashless", transactionPayload, '');
+
+        return { 
+            error: 0, 
+            data: resReservation.data 
+        };
     } catch (error) {
-      console.error("insert reservConcert", error);
-      return { error: 1, data: "Erreur lors de l'insertion" };
+        console.error("Erreur lors de l'insertion de la réservation et transaction", error);
+        
+        // Gestion des erreurs spécifiques
+        let errorCode = 1;
+        let errorMessage = "Erreur lors de la réservation";
+
+        if (error.response) {
+            if (error.response.status === 402) {
+                errorCode = 2;
+                errorMessage = "Solde insuffisant pour effectuer la réservation";
+            } else if (error.response.status === 404) {
+                errorCode = 3;
+                errorMessage = "Concert non trouvé";
+            } else if (error.response.data?.message) {
+                errorMessage = error.response.data.message;
+            }
+        }
+        
+        return { 
+            error: errorCode, 
+            data: errorMessage 
+        };
     }
 }
  
@@ -103,8 +147,8 @@ export async function deleteReservConcert(id) {
 
 export async function getReservConcertByUserId(userId) {
     try {
-      const res = await getReservConcertByUserIdFromAPI(userId);
-      return { error: 0, data: res.data };
+      const reservations = await getReservConcertByUserIdFromAPI(userId);
+      return { error: 0, data: reservations };
     } catch (error) {
       return { error: 1, data: [] };
     }
