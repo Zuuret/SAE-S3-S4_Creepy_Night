@@ -40,7 +40,7 @@
         <h3>{{ modalTitle }}</h3>
         <label>{{ $t('name') }} :</label>
         <input v-model="nom" min="0" step="0.01"/><br>
-        <label>{{ $t('description') }} :</label>
+        <label>{{ 'Description' }} :</label>
         <input v-model="description" min="0" step="0.01"/><br>
         <label>{{ $t('price') }} :</label>
         <input v-model="prix" min="0" step="0.01"/><br>
@@ -54,10 +54,10 @@
     </div>
 
     <h1>{{ $t('yourDescription') }}</h1>
-  <div v-if="utilisateurConnecte.description">
+  <div v-if="utilisateurConnecte.description_fr">
     <div class="desactive_edition_description">
       <div v-if="!isEditingDescription" @click="editerDescription" class="affiche_description">
-        <h1 class="description" v-html="utilisateurConnecte?.description"></h1>
+        <h1 class="description" v-html="utilisateurConnecte?.description_fr"></h1>
         <img src="../assets/icone_modifier.png" :alt="$t('edit')" class="edit-icon_description" />
       </div>
       <div v-else class="active_edition_description">
@@ -353,17 +353,20 @@ export default {
   computed: {
     ...mapState("PrestataireStore", ["articlesId"]),
     ...mapGetters("ProfilStore", ["utilisateurConnecte"]),
-    accesPermission() {
-      return this.utilisateurConnecte && this.utilisateurConnecte.role === "prestataire";
-    },
+    prestataire() {
+    return this.utilisateurConnecte;
+  },
+  accesPermission() {
+    return this.utilisateurConnecte && this.utilisateurConnecte.role === "prestataire";
+  },
   },
   methods: {
     ...mapActions('ProfilStore',['updateDescriptionPrestataire','updateSocietePrestataire', 'updateThemePrestataire', 'updateAdressePrestataire', 'updateImagePrestataire', 'updateImage2PrestataireFromAPI', 'updateLogoPrestataireFromAPI']),
     ...mapActions('PrestataireStore',['getAllArticlesById', 'setPrestataireArticle', 'putPrestataireArticle', 'delPrestataireArticle']),
     editerDescription() {
-      this.isEditingDescription = true;
-      this.editableDescription = this.utilisateurConnecte?.description || "";
-    },
+  this.isEditingDescription = true;
+  this.editableDescription = this.utilisateurConnecte?.[`description_${this.$i18n.locale}`] || "fr";
+},
     editerSociete() {
       this.isEditingSociete = true;
       this.editableSociete = this.utilisateurConnecte?.societe || "";
@@ -393,7 +396,8 @@ export default {
       let nouvelleDescription = this.editableDescription.trim();
       nouvelleDescription = nouvelleDescription.replace(/<\/?[^>]+(>|$)/g, "").trim();
       if (id && nouvelleDescription) {
-        this.utilisateurConnecte.description = nouvelleDescription;
+        this.utilisateurConnecte.description_fr = nouvelleDescription;
+        console.log("description depuis vue : ", this.utilisateurConnecte?.[`description_${this.$i18n.locale}`] || "fr")
         this.updateDescriptionPrestataire({ id, nouvelleDescription });
       }
       this.isEditingDescription = false;
@@ -504,7 +508,7 @@ export default {
     },
     finEditionDescription() {
       this.isEditingDescription = false;
-      this.editableDescription = this.utilisateurConnecte?.description || "";
+      this.editableDescription = this.utilisateurConnecte?.description_fr || "";
     },
     finEditionTheme() {
       this.isEditingTheme = false;
@@ -534,7 +538,7 @@ export default {
         this.modalButton = 'Ajouter';
         this.id = -1;
         this.nom = '';
-        this.description = '';
+        this.description_fr = '';
         this.prix = '';
         this.stock = '';
         this.image = null;
@@ -543,7 +547,7 @@ export default {
         this.modalButton = 'Modifier';
         this.id = data.id;
         this.nom = data.nom;
-        this.description = data.description;
+        this.description_fr = data.description_fr;
         this.prix = data.prix;
         this.stock = data.stock;
         this.image = data.image;
@@ -555,7 +559,7 @@ export default {
       this.modalButton = '';
     },
     acceptArticle() {
-      if (this.nom !== '' && this.description !== '' && this.prix !== '' && this.stock !== '') {
+      if (this.nom !== '' && this.description_fr !== '' && this.prix !== '' && this.stock !== '') {
         if (this.modalButton === 'Modifier') {
           let data = {
             id: this.id,
@@ -572,7 +576,7 @@ export default {
           let data = {
             prestataire_id: this.utilisateurConnecte.id,
             nom: this.nom,
-            description: this.description,
+            description: this.description_fr,
             prix: this.prix,
             stock: this.stock,
             image: this.image,

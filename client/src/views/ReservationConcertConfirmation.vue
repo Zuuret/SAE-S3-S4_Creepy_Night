@@ -1,10 +1,10 @@
 <template>
   <div class="concert">
     <div class="background" v-if="concert">
-      <img 
-        :src="concertImage" 
-        alt="Affiche du concert" 
-        class="affiche_concert" 
+      <img
+        :src="concertImage"
+        alt="Affiche du concert"
+        class="affiche_concert"
       />
     </div>
 
@@ -29,12 +29,12 @@
             <strong>Disponibles :</strong> {{ concert.nb_places }}
           </p>
           <label for="selection_quantite">QUANTITÉ</label>
-          <input 
-            type="number" 
-            v-model.number="quantite" 
-            id="selection_quantite" 
+          <input
+            type="number"
+            v-model.number="quantite"
+            id="selection_quantite"
             :max="concert.nb_places"
-            min="1" 
+            min="1"
             step="1"
           />
         </div>
@@ -43,8 +43,8 @@
         </div>
         <div class="ticket-total">
           <p><strong>TOTAL :</strong> {{ prixTotal }} €</p>
-          <button @click="reserverConcert">RÉSERVER</button>
-  
+          <button @click="ajoutAuPanier">RÉSERVER</button>
+
           <div v-if="reservationSuccess" class="confirmation-message">
             Réservation confirmée !
           </div>
@@ -57,6 +57,7 @@
             Voir mes réservations
           </router-link>
         </div>
+        <PanierConcert></PanierConcert>
       </div>
     </div>
   </div>
@@ -64,9 +65,13 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import PanierConcert from "@/components/PanierConcert.vue";
 
 export default {
   name: 'ReservationConcertConfirmation',
+  components: {
+    PanierConcert
+  },
   data() {
     return {
       quantite: 1,
@@ -76,7 +81,7 @@ export default {
     };
   },
   computed: {
-    ...mapState('ConcertStore', ['concert', 'utilisateurConnecte']),
+    ...mapState('ConcertStore', ['concert', 'utilisateurConnecte', 'place_concert']),
     concertImage() {
       if (!this.concert) return '';
       try {
@@ -96,8 +101,25 @@ export default {
     }
   },
   methods: {
-    ...mapActions('ConcertStore', ['getConcertById', 'reserveConcert']),
-    
+    ...mapActions('ConcertStore', ['getConcertById', 'reserveConcert', 'ajouterAuPanier', 'getAllPlacesConcert', 'getPlacesConcertsbyId']),
+
+    async ajoutAuPanier() {
+      if (this.quantite <= 0) {
+        alert('Veuillez sélectionner une quantité valide.');
+      } else {
+        await this.ajouterAuPanier({
+          placeId: this.place_concert.id_place,
+          nbPlaces: this.quantite
+        }).then(() => {
+          this.place_concert.nb_places -= this.quantite;
+          this.quantite = 0;
+        }).catch(error => {
+          alert("Erreur lors de l'ajout au panier.");
+          console.error(error);
+        });
+      }
+    },
+
     async reserverConcert() {
       if (!this.utilisateurConnecte) {
         alert('Veuillez vous connecter pour réserver');
@@ -123,13 +145,13 @@ export default {
           concertId: this.concert.id,
           nbPlaces: this.quantite
         });
-        
+
         if (response?.success) {
           this.reservationSuccess = true;
           setTimeout(() => {
             this.reservationSuccess = false;
           }, 3000);
-          
+
           // Recharger les données du concert pour avoir le stock à jour
           await this.getConcertById(this.concert.id);
         } else {
@@ -153,6 +175,8 @@ export default {
       if (!this.concert) {
         throw new Error('Concert non trouvé dans l\'état Vuex');
       }
+      this.getPlacesConcertsbyId(concertId);
+      this.getAllPlacesConcert()
 
       console.log('Concert chargé:', this.concert); // Debug
     } catch (error) {

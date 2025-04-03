@@ -1,55 +1,15 @@
 const ReservConcertService = require("../services/reservConcert.services.pg");
 
-exports.saveReservConcert = async (req, res) => {
-    try {
-        const { utilisateur_id, concert_id, nb_places, date_reservation } = req.body;
-        
-        // 1. Vérifier que le concert existe et a assez de places
-        const concert = await Concert.findOne({ where: { id: concert_id } });
-        if (!concert) {
-            return res.status(404).json({ error: "Concert non trouvé" });
-        }
-        
-        if (concert.nb_places < nb_places) {
-            return res.status(400).json({ error: "Places insuffisantes" });
-        }
+const {v4: uuidv4} = require("uuid");
 
-        // 2. Décrémenter le stock (de manière atomique)
-        await Concert.update(
-            { nb_places: sequelize.literal(`nb_places - ${nb_places}`) },
-            { where: { id: concert_id } }
-        );
-
-        // 3. Créer la réservation
-        const reservation = await ReservationConcert.create({
-            utilisateur_id,
-            concert_id,
-            nb_places,
-            date_reservation
-        });
-
-        // 4. Créer la transaction
-        const prixTotal = concert.prix_place * nb_places;
-        const transaction = await Transaction.create({
-            utilisateur_id,
-            montant: -prixTotal,
-            operation: 'RESERVATION_CONCERT',
-            details: `Réservation pour ${concert.artiste}`,
-            date: new Date()
-        });
-
-        // 5. Mettre à jour le solde utilisateur
-        await Utilisateur.update(
-            { solde: sequelize.literal(`solde - ${prixTotal}`) },
-            { where: { id: utilisateur_id } }
-        );
-
-        res.status(201).json(reservation);
-        
-    } catch (error) {
-        console.error("Erreur réservation:", error);
-        res.status(500).json({ error: "Erreur serveur" });
+exports.saveReservationConcert = async (req, res) => {
+    const uuid = uuidv4();
+    const {} = req.body;
+    const resultat = await ReservConcertService.insertReservConcert(uuid, );
+    if (resultat) {
+        return res.status(500).send("ERREUR INTERNE");
     }
+    return res.status(200).send("INSERTION AVEC SUCCÈS");
 };
 
 exports.getReservConcert = async (req, res) => {
@@ -69,7 +29,7 @@ exports.getReservConcertById = async (req, res) => {
             return res.status(500).json({ error: 'ERREUR INTERNE' });
         }
         //console.log(reservConcert)
-        const reservConcert = reservsConcert.find(reservConcert => reservConcert.id == uuid);
+        const reservConcert = reservsConcert.find(reservConcert => reservConcert.id === uuid);
         //console.log(reservConcert)
         if (!reservConcert) {
             return res.status(404).json({ error: 'reservConcert non trouvé' });

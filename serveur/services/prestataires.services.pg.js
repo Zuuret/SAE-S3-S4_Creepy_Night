@@ -73,7 +73,7 @@ async function updateDescriptionPrestataire(uuid, description) {
     let is_error = false;
     try {
         const query = format(
-            'UPDATE prestataire SET description = %L WHERE id = %L', description, uuid
+            'UPDATE prestataire SET description_fr = %L WHERE id = %L', description, uuid
         );
         await client.query(query);
         console.log('DESCRIPTION DU PRESTATAIRE MIS À JOUR');
