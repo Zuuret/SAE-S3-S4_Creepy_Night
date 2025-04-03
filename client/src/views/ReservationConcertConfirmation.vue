@@ -99,30 +99,48 @@ export default {
     ...mapActions('ConcertStore', ['getConcertById', 'reserveConcert']),
     
     async reserverConcert() {
-        if (!this.utilisateurConnecte) {
-            alert('Veuillez vous connecter');
-            return this.$router.push('/connexion');
-        }
+      if (!this.utilisateurConnecte) {
+        alert('Veuillez vous connecter pour réserver');
+        this.$router.push('/connexion');
+        return;
+      }
 
-        if (this.quantite > this.concert.nb_places) {
-            return alert('Places insuffisantes');
-        }
+      if (!this.quantite || this.quantite < 1) {
+        alert('Quantité invalide');
+        return;
+      }
 
-        try {
-            await this.$store.dispatch('concert/reserveConcert', {
-                concertId: this.concert.id,
-                nbPlaces: this.quantite
-            });
-            
-            this.reservationSuccess = true;
-            setTimeout(() => this.reservationSuccess = false, 3000);
-            
-            // Recharger les données
-            await this.$store.dispatch('concert/getConcertById', this.concert.id);
-            
-        } catch (error) {
-            alert(error.message);
+      if (this.quantite > this.concert.nb_places) {
+        alert('Places insuffisantes');
+        return;
+      }
+
+      this.isLoading = true;
+      this.reservationSuccess = false;
+
+      try {
+        const response = await this.reserveConcert({
+          concertId: this.concert.id,
+          nbPlaces: this.quantite
+        });
+        
+        if (response?.success) {
+          this.reservationSuccess = true;
+          setTimeout(() => {
+            this.reservationSuccess = false;
+          }, 3000);
+          
+          // Recharger les données du concert pour avoir le stock à jour
+          await this.getConcertById(this.concert.id);
+        } else {
+          alert(response?.data || 'Erreur lors de la réservation');
         }
+      } catch (error) {
+        console.error(error);
+        alert(error.message || 'Erreur lors de la réservation');
+      } finally {
+        this.isLoading = false;
+      }
     }
   },
   async mounted() {

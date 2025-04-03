@@ -150,20 +150,40 @@ export default ({
                 commit('SET_RESERVCONCERT', response.data);
             }
         },
-        async reserveConcert({ commit }, { concertId, nbPlaces }) {
+        async reserveConcert({ commit, state }, { concertId, nbPlaces }) {
             try {
-                const response = await insertReservConcert({
+                // Trouver le concert pour obtenir le prix
+                const concert = state.concerts.find(c => c.id === concertId) || 
+                              state.concert;
+                
+                if (!concert) {
+                    throw new Error('Concert non trouvé');
+                }
+    
+                const payload = {
+                    utilisateur_id: state.utilisateurConnecte.id,
                     concert_id: concertId,
                     nb_places: nbPlaces,
-                    utilisateur_id: this.state.utilisateurConnecte.id,
-                    date_reservation: new Date().toISOString()
-                });
+                    date_reservation: new Date().toISOString(),
+                    prix_total: concert.prix_place * nbPlaces
+                };
     
+                const response = await insertReservConcert(payload);
+                
                 if (response.error === 0) {
+                    // Mettre à jour le concert dans le store avec le nouveau stock
+                    commit('UPDATE_CONCERT_STOCK', {
+                        concertId,
+                        nbPlaces: -nbPlaces // Décrémente le stock
+                    });
+                    
+                    // Ajouter la réservation
                     commit('ADD_RESERVATION', response.data);
+                    
                     return { success: true };
+                } else {
+                    throw new Error(response.data);
                 }
-                throw new Error(response.data);
             } catch (error) {
                 console.error("Erreur réservation:", error);
                 throw error;
