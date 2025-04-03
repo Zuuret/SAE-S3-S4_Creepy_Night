@@ -41,11 +41,12 @@ export default {
       this.showDropdown = !this.showDropdown;
     },
     selectOption(option) {
-      this.selectedValue = option.value;
-      this.showDropdown = false;
-      this.$i18n.locale = option.value;
-      localStorage.setItem("language", option.value);
-    },
+  this.selectedValue = option.value;
+  this.showDropdown = false;
+  this.$store.dispatch('i18n/changeLocale', option.value);  // Met à jour le store
+  this.$i18n.locale = option.value;
+  localStorage.setItem("language", option.value);
+},
   },
   mounted() {
     this.$i18n.locale = this.selectedValue;

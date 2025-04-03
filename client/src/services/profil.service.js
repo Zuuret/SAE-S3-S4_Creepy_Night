@@ -372,30 +372,34 @@ export async function getAllOrganisateurs() {
     }
 }
 
-export async function getAllPrestataires() {
+export async function getAllPrestataires(lang) {
     try {
         const res = await getAllPrestataireFromAPI();
-        
-        // La réponse est directement le tableau des prestataires
+        console.log(res);
+        console.log("Langue choisie:", lang);
+
         if (Array.isArray(res)) {
             return { 
                 error: 0, 
-                data: res // Utilise directement le tableau comme data
+                data: res.map(prestataire => ({
+                    ...prestataire,
+                    // Sélectionner la bonne description en fonction de la langue
+                    description: prestataire[`description_${lang}`] || prestataire.description_fr, // Si description_{lang} est vide, on prend description_fr
+                }))
             };
         }
         
-        // Si la réponse a déjà le format attendu
         if (res && res.data) {
             return res;
         }
-        
+
         console.error("Format de réponse inattendu:", res);
         return { 
             error: 1, 
             message: "Format de réponse API inattendu",
             data: [] 
         };
-        
+
     } catch(error) {
         console.error("Erreur dans getAllPrestataires:", error);
         return { 
@@ -405,6 +409,8 @@ export async function getAllPrestataires() {
         };
     }
 }
+
+
 
 export async function getDemandesOrganisateurs() {
     try{

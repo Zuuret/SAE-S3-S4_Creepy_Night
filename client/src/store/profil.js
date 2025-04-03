@@ -81,7 +81,7 @@ export default ({
         },
         SET_PRESTATAIRES(state, prestataires) {
             state.prestataires = prestataires;
-        },
+          },
         addDemandePrestataire(state, demande) {
             state.demandesPrestataires.push(demande);
         },
@@ -325,17 +325,20 @@ export default ({
                 commit('SET_ORGANISATEURS', response.data);
             }
         },
-        async fetchPrestataires({ commit }) {
-            const response = await getAllPrestataires();
-            
+        async fetchPrestataires({ commit, rootState }) {
+            const lang = rootState.i18n?.locale || 'fr'; // Utilisation de la langue du store
+            console.log('Langue actuelle pour APIpresta:', lang);
+            const response = await getAllPrestataires(lang);
+          
             if (response.error === 0) {
-                commit('SET_PRESTATAIRES', response.data);
+              commit('SET_PRESTATAIRES', response.data);
             } else {
-                console.error("Erreur fetchPrestataires:", response.message);
-                // Optionnel: commit une mutation pour stocker l'erreur
-                commit('SET_PRESTATAIRES_ERROR', response.message);
+              console.error("Erreur fetchPrestataires:", response.message);
+              commit('SET_PRESTATAIRES_ERROR', response.message);
             }
-        },
+          }
+          
+          ,
         async fetchDemandesPrestataires({ commit }) {
             const response = await getDemandesPrestataires();
             if (response.error === 0) {

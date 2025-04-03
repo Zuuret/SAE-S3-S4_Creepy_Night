@@ -33,7 +33,8 @@
       "trierParNom": "Sort by name",
       "trierParCategorie": "Sort by category",
       "voirProfil": "View Profile",
-      "aucunResultat": "No providers match your search."
+      "aucunResultat": "No providers match your search.",
+      "description": "{{ description }}"
     },
     "livreDOr": {
     "notreLivreDOr": "OUR GUESTBOOK",
