@@ -12,12 +12,16 @@
         <img src="@/assets/scrolldown.png" :alt="$t('scrollDown')" class="scroll-icon">
       </button>
       <div class="PubSection" id="texte-accueil" v-if="texteAccueil.titre || texteAccueil.contenu">
+        <div class="texte-accueil-container">
+          <h1 class="texte-accueil-titre">{{ texteAccueil.titre }}</h1>
+          <div class="texte-accueil-contenu" v-html="texteAccueil.contenu"></div>
+          <router-link to="/billet" class="btn-billet">{{ $t('buyTickets') }}</router-link>
+        </div>
+      </div>
     <div class="texte-accueil-container">
         <h1 class="texte-accueil-titre">{{ texteAccueil.titre }}</h1>
         <div class="texte-accueil-contenu" v-html="texteAccueil.contenu"></div>
     </div>
-</div>
-
       <div class="activites">
         <h1 class="titre-partie" id="titre-activite">{{ $t('terrifyingFlexibleProgram') }}</h1>
         <div class="lamelles-container">
@@ -68,6 +72,7 @@
       </div>
     </footer>
   </div>
+  
 </template>
 
 <script>
@@ -703,6 +708,28 @@ export default {
   font-size: 1.2em;
   color: #333;
   line-height: 1.6;
+}
+
+.btn-billet {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #AD0918;
+  color: white;
+  font-size: 1.2em;
+  font-weight: bold;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-billet:hover {
+  background-color: #8A0714;
+  transform: scale(1.05);
+}
+
+.btn-billet:active {
+  transform: scale(0.95);
 }
 
 </style>
