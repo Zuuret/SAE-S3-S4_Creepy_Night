@@ -6,15 +6,12 @@ async function insertReservConcert(id, utilisateur_id, concert_id, nb_places, da
     let is_error = false;
     try {
         await client.query('BEGIN');
-
         // 1. Récupérer les infos du concert
         const concertQuery = 'SELECT prix_place, artiste, nb_places FROM Concert WHERE id = $1 FOR UPDATE';
         const concertRes = await client.query(concertQuery, [concert_id]);
-        
         if (concertRes.rowCount === 0) {
             throw new Error('Concert non trouvé');
         }
-        
         const prixPlace = concertRes.rows[0].prix_place;
         const artiste = concertRes.rows[0].artiste;
         const placesDisponibles = concertRes.rows[0].nb_places;

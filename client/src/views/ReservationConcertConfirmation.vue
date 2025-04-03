@@ -1,10 +1,10 @@
 <template>
   <div class="concert">
     <div class="background" v-if="concert">
-      <img 
-        :src="concertImage" 
-        alt="Affiche du concert" 
-        class="affiche_concert" 
+      <img
+        :src="concertImage"
+        alt="Affiche du concert"
+        class="affiche_concert"
       />
     </div>
 
@@ -29,12 +29,12 @@
             <strong>Disponibles :</strong> {{ concert.nb_places }}
           </p>
           <label for="selection_quantite">QUANTITÉ</label>
-          <input 
-            type="number" 
-            v-model.number="quantite" 
-            id="selection_quantite" 
+          <input
+            type="number"
+            v-model.number="quantite"
+            id="selection_quantite"
             :max="concert.nb_places"
-            min="1" 
+            min="1"
             step="1"
           />
         </div>
@@ -44,7 +44,7 @@
         <div class="ticket-total">
           <p><strong>TOTAL :</strong> {{ prixTotal }} €</p>
           <button @click="reserverConcert">RÉSERVER</button>
-  
+
           <div v-if="reservationSuccess" class="confirmation-message">
             Réservation confirmée !
           </div>
@@ -97,7 +97,7 @@ export default {
   },
   methods: {
     ...mapActions('ConcertStore', ['getConcertById', 'reserveConcert']),
-    
+
     async reserverConcert() {
       if (!this.utilisateurConnecte) {
         alert('Veuillez vous connecter pour réserver');
@@ -123,13 +123,13 @@ export default {
           concertId: this.concert.id,
           nbPlaces: this.quantite
         });
-        
+
         if (response?.success) {
           this.reservationSuccess = true;
           setTimeout(() => {
             this.reservationSuccess = false;
           }, 3000);
-          
+
           // Recharger les données du concert pour avoir le stock à jour
           await this.getConcertById(this.concert.id);
         } else {
