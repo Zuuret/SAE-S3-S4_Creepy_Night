@@ -41,6 +41,12 @@ export default ({
         ADD_RESERVATION(state, newReservation) {
             state.reservsconcert.push(newReservation);
         },
+        UPDATE_CONCERT_STOCK(state, { concertId, nbPlaces }) {
+            const concert = state.concerts.find(c => c.id === concertId) || state.concert;
+            if (concert) {
+                concert.nb_places += nbPlaces;
+            }
+        },
         updateReservationConcertId(state, reservationsId){
             state.reservationsId = reservationsId
             console.log(reservationsId)
@@ -144,32 +150,20 @@ export default ({
                 commit('SET_RESERVCONCERT', response.data);
             }
         },
-        async reserveConcert({ commit, state }, { concertId, nbPlaces }) {
+        async reserveConcert({ commit }, { concertId, nbPlaces }) {
             try {
-                // Récupérer le concert pour avoir le prix
-                const concert = state.concerts.find(c => c.id === concertId) || 
-                             state.concert;
-                
-                if (!concert) {
-                    throw new Error('Concert non trouvé');
-                }
-    
-                const payload = {
-                    utilisateur_id: state.utilisateurConnecte.id,
+                const response = await insertReservConcert({
                     concert_id: concertId,
                     nb_places: nbPlaces,
-                    date_reservation: new Date().toISOString(),
-                    prix_total: concert.prix_place * nbPlaces
-                };
+                    utilisateur_id: this.state.utilisateurConnecte.id,
+                    date_reservation: new Date().toISOString()
+                });
     
-                const response = await insertReservConcert(payload);
-                
                 if (response.error === 0) {
                     commit('ADD_RESERVATION', response.data);
                     return { success: true };
-                } else {
-                    throw new Error(response.data);
                 }
+                throw new Error(response.data);
             } catch (error) {
                 console.error("Erreur réservation:", error);
                 throw error;

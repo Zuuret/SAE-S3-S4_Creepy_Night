@@ -7,8 +7,8 @@ async function insertReservConcert(id, utilisateur_id, concert_id, nb_places, da
     try {
         await client.query('BEGIN');
 
-        // D'abord, récupérer le prix du concert
-        const concertQuery = 'SELECT prix_place, artiste FROM Concert WHERE id = $1';
+        // 1. Récupérer les infos du concert
+        const concertQuery = 'SELECT prix_place, artiste, nb_places FROM Concert WHERE id = $1 FOR UPDATE';
         const concertRes = await client.query(concertQuery, [concert_id]);
         
         if (concertRes.rowCount === 0) {
@@ -17,16 +17,26 @@ async function insertReservConcert(id, utilisateur_id, concert_id, nb_places, da
         
         const prixPlace = concertRes.rows[0].prix_place;
         const artiste = concertRes.rows[0].artiste;
+        const placesDisponibles = concertRes.rows[0].nb_places;
         const montantTotal = prixPlace * nb_places;
 
-        // Insérer la réservation
+        // 2. Vérifier qu'il y a assez de places
+        if (placesDisponibles < nb_places) {
+            throw new Error('Places insuffisantes');
+        }
+
+        // 3. Décrémenter le stock
+        const updateStockQuery = 'UPDATE Concert SET nb_places = nb_places - $1 WHERE id = $2';
+        await client.query(updateStockQuery, [nb_places, concert_id]);
+
+        // 4. Insérer la réservation
         const insertQuery = `
             INSERT INTO reservation_concert (id, utilisateur_id, concert_id, nb_places, date_reservation) 
             VALUES ($1, $2, $3, $4, $5)
         `;
         await client.query(insertQuery, [id, utilisateur_id, concert_id, nb_places, date_reservation]);
 
-        // Enregistrer la transaction
+        // 5. Enregistrer la transaction
         const transactionQuery = `
             INSERT INTO Transaction (date, operation, details, montant, utilisateur_id)
             VALUES (NOW(), 'RESERVATION_CONCERT', $1, $2, $3)
@@ -34,16 +44,16 @@ async function insertReservConcert(id, utilisateur_id, concert_id, nb_places, da
         const details = `Réservation ${nb_places} place(s) pour ${artiste}`;
         await client.query(transactionQuery, [details, -montantTotal, utilisateur_id]);
 
-        // Mettre à jour le solde de l'utilisateur
-        const updateQuery = 'UPDATE Utilisateur SET solde = solde - $1 WHERE id = $2';
-        await client.query(updateQuery, [montantTotal, utilisateur_id]);
+        // 6. Mettre à jour le solde de l'utilisateur
+        const updateSoldeQuery = 'UPDATE Utilisateur SET solde = solde - $1 WHERE id = $2';
+        await client.query(updateSoldeQuery, [montantTotal, utilisateur_id]);
 
         await client.query('COMMIT');
-        console.log('INSERTION ET TRANSACTION AVEC SUCCES');
+        console.log('RÉSERVATION, TRANSACTION ET MISE À JOUR DU STOCK EFFECTUÉES AVEC SUCCÈS');
     } catch (error) {
         await client.query('ROLLBACK');
         console.error('Erreur : ', error);
-        is_error = true;
+        is_error = error.message; // On retourne maintenant le message d'erreur
     } finally {
         client.release();
     }

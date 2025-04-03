@@ -99,44 +99,30 @@ export default {
     ...mapActions('ConcertStore', ['getConcertById', 'reserveConcert']),
     
     async reserverConcert() {
-      if (!this.utilisateurConnecte) {
-        alert('Veuillez vous connecter pour réserver');
-        this.$router.push('/connexion');
-        return;
-      }
-
-      if (!this.quantite || this.quantite < 1 || this.quantite > this.concert.nb_places) {
-        alert('Quantité invalide');
-        return;
-      }
-
-      this.isLoading = true;
-      this.reservationSuccess = false;
-
-      try {
-        const response = await this.reserveConcert({
-          concertId: this.concert.id,
-          nbPlaces: this.quantite
-        });
-        
-        if (response?.success) {
-          this.reservationSuccess = true;
-          // Réinitialiser après 3 secondes
-          setTimeout(() => {
-            this.reservationSuccess = false;
-          }, 3000);
-          
-          // Mettre à jour le nombre de places disponibles
-          this.concert.nb_places -= this.quantite;
-        } else {
-          alert(response?.data || 'Erreur lors de la réservation');
+        if (!this.utilisateurConnecte) {
+            alert('Veuillez vous connecter');
+            return this.$router.push('/connexion');
         }
-      } catch (error) {
-        console.error(error);
-        alert(error.message || 'Erreur lors de la réservation');
-      } finally {
-        this.isLoading = false;
-      }
+
+        if (this.quantite > this.concert.nb_places) {
+            return alert('Places insuffisantes');
+        }
+
+        try {
+            await this.$store.dispatch('concert/reserveConcert', {
+                concertId: this.concert.id,
+                nbPlaces: this.quantite
+            });
+            
+            this.reservationSuccess = true;
+            setTimeout(() => this.reservationSuccess = false, 3000);
+            
+            // Recharger les données
+            await this.$store.dispatch('concert/getConcertById', this.concert.id);
+            
+        } catch (error) {
+            alert(error.message);
+        }
     }
   },
   async mounted() {
@@ -300,5 +286,27 @@ export default {
 .ticket button:hover {
   background-color: #880e0e;
   transform: scale(1.05);
+}
+
+.confirmation-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 128, 0, 0.9);
+  color: white;
+  padding: 20px 40px;
+  border-radius: 10px;
+  font-size: 24px;
+  font-family: "Stencil Std", fantasy;
+  z-index: 1000;
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
 }
 </style>

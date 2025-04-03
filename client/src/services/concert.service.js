@@ -19,9 +19,7 @@ async function getReservConcertByIdFromAPI() {
     return await getRequest('reservConcert/${uuid}', 'RESERVCONCERTBYID');
 }
 
-async function insertReservConcertFromAPI(payload) {
-    return await postRequest("reservConcert", payload, '');
-}
+
 
 async function deleteReservConcertFromAPI(id) {
     return await deleteRequest(`reservConcert/${id}`);
@@ -87,49 +85,30 @@ export async function getReservConcertById(uuid) {
 
 export async function insertReservConcert(payload) {
     try {
-        // 1. D'abord créer la réservation via la fonction dédiée
-        const resReservation = await insertReservConcertFromAPI({
+        // Envoyer uniquement la réservation - le back gère le reste
+        const response = await postRequest("reservConcert", {
             utilisateur_id: payload.utilisateur_id,
             concert_id: payload.concert_id,
             nb_places: payload.nb_places,
             date_reservation: payload.date_reservation
         });
 
-        // 2. Ensuite créer la transaction via la route cashless
-        const transactionPayload = {
-            idUser: payload.utilisateur_id,
-            amount: -(payload.prix_total || 0), // Montant négatif (débit)
-            operation: 'RESERVATION_CONCERT',
-            details: `Réservation ${payload.nb_places} place(s) pour concert ${payload.concert_id}`
-        };
-        
-        await postRequest("cashless", transactionPayload, '');
-
         return { 
             error: 0, 
-            data: resReservation.data 
+            data: response.data 
         };
     } catch (error) {
-        console.error("Erreur lors de l'insertion de la réservation et transaction", error);
+        console.error("Erreur réservation:", error);
         
-        // Gestion des erreurs spécifiques
-        let errorCode = 1;
         let errorMessage = "Erreur lors de la réservation";
-
-        if (error.response) {
-            if (error.response.status === 402) {
-                errorCode = 2;
-                errorMessage = "Solde insuffisant pour effectuer la réservation";
-            } else if (error.response.status === 404) {
-                errorCode = 3;
-                errorMessage = "Concert non trouvé";
-            } else if (error.response.data?.message) {
-                errorMessage = error.response.data.message;
-            }
+        if (error.response?.status === 400) {
+            errorMessage = error.response.data?.error || "Données invalides";
+        } else if (error.response?.status === 404) {
+            errorMessage = "Concert non trouvé";
         }
-        
+
         return { 
-            error: errorCode, 
+            error: 1, 
             data: errorMessage 
         };
     }

@@ -1,46 +1,54 @@
 const ReservConcertService = require("../services/reservConcert.services.pg");
 
 exports.saveReservConcert = async (req, res) => {
-    const { utilisateur_id, concert_id, nb_places, date_reservation } = req.body;
-    
     try {
-        // Validation des données d'entrée
-        if (!utilisateur_id || !concert_id || !nb_places || !date_reservation) {
-            return res.status(400).send("Tous les champs sont obligatoires");
+        const { utilisateur_id, concert_id, nb_places, date_reservation } = req.body;
+        
+        // 1. Vérifier que le concert existe et a assez de places
+        const concert = await Concert.findOne({ where: { id: concert_id } });
+        if (!concert) {
+            return res.status(404).json({ error: "Concert non trouvé" });
+        }
+        
+        if (concert.nb_places < nb_places) {
+            return res.status(400).json({ error: "Places insuffisantes" });
         }
 
-        if (isNaN(nb_places) || nb_places <= 0) {
-            return res.status(400).send("Le nombre de places doit être un nombre positif");
-        }
-
-        const resultat = await ReservConcertService.insertReservConcert(
-            utilisateur_id, 
-            concert_id, 
-            nb_places, 
-            date_reservation
+        // 2. Décrémenter le stock (de manière atomique)
+        await Concert.update(
+            { nb_places: sequelize.literal(`nb_places - ${nb_places}`) },
+            { where: { id: concert_id } }
         );
 
-        if (resultat) {
-            return res.status(500).send("ERREUR INTERNE LORS DE LA RÉSERVATION");
-        }
-        
-        return res.status(201).json({ 
-            success: true,
-            message: "Réservation et transaction enregistrées avec succès"
+        // 3. Créer la réservation
+        const reservation = await ReservationConcert.create({
+            utilisateur_id,
+            concert_id,
+            nb_places,
+            date_reservation
         });
+
+        // 4. Créer la transaction
+        const prixTotal = concert.prix_place * nb_places;
+        const transaction = await Transaction.create({
+            utilisateur_id,
+            montant: -prixTotal,
+            operation: 'RESERVATION_CONCERT',
+            details: `Réservation pour ${concert.artiste}`,
+            date: new Date()
+        });
+
+        // 5. Mettre à jour le solde utilisateur
+        await Utilisateur.update(
+            { solde: sequelize.literal(`solde - ${prixTotal}`) },
+            { where: { id: utilisateur_id } }
+        );
+
+        res.status(201).json(reservation);
         
     } catch (error) {
-        console.error("Erreur dans saveReservConcert:", error);
-        
-        // Gestion des erreurs spécifiques
-        if (error.message.includes("solde insuffisant")) {
-            return res.status(402).send("Solde insuffisant pour effectuer la réservation");
-        }
-        if (error.message.includes("Concert non trouvé")) {
-            return res.status(404).send("Concert non trouvé");
-        }
-        
-        return res.status(500).send("ERREUR INTERNE DU SERVEUR");
+        console.error("Erreur réservation:", error);
+        res.status(500).json({ error: "Erreur serveur" });
     }
 };
 
