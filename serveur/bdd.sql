@@ -1088,6 +1088,42 @@ VALUES
 ('Vladimir Cauchemar', 'FR', '2025-10-30', '23:00:00', 1, 'Électro', 'Grande Scène', 2500, 44.99, 'affiche_VladimirCauchemar'),
 ('Gims', 'FR', '2025-10-31', '18:00:00', 1, 'Rap', 'Grande Scène', 3500, 54.99, 'affiche_Gims');
 
+INSERT INTO reservation_concert (utilisateur_id, concert_id, nb_places, date_reservation)
+VALUES
+-- Réservations pour BigAli (House)
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 1, 2, '2025-10-20 10:15:00'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 1, 4, '2025-10-21 14:30:00'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 1, 1, '2025-10-22 18:45:00'),
+
+-- Réservations pour Travis Scott (Rap)
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 2, 3, '2025-10-20 11:20:00'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 2, 2, '2025-10-21 16:10:00'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 2, 5, '2025-10-22 19:30:00'),
+
+-- Réservations pour Muse (Rock)
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 3, 2, '2025-10-20 12:45:00'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 3, 4, '2025-10-21 17:20:00'),
+
+-- Réservations pour Vald (Rap)
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 4, 1, '2025-10-20 13:10:00'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 4, 3, '2025-10-21 18:40:00'),
+
+-- Réservations pour David Guetta (Électro)
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 5, 4, '2025-10-20 14:25:00'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 5, 2, '2025-10-21 19:15:00'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 5, 3, '2025-10-22 20:45:00'),
+
+-- Réservations pour Kungs (House)
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 6, 2, '2025-10-21 10:30:00'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 6, 1, '2025-10-22 15:20:00'),
+
+-- Réservations pour Vladimir Cauchemar (Électro)
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 7, 3, '2025-10-21 11:45:00'),
+
+-- Réservations pour Gims (Rap)
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 8, 2, '2025-10-21 12:30:00'),
+('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 8, 4, '2025-10-22 16:50:00');
+
 
 INSERT INTO Expo_oeuvre (createur, email, date_crea, description, image)
 VALUES

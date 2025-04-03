@@ -2,11 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import ConcertService from "../services/concert.service";
 import ValidArtiste from "../services/validArtiste.service";
-import { getAllConcerts, getReservConcertByUserId, getConcertById, getAllReservConcert, getReservConcertById,insertReservConcert,deleteReservConcert } from "@/services/concert.service"
+import { getAllConcerts, getReservConcertByUserId, getConcertById, getAllReservConcert,insertReservConcert,deleteReservConcert, getAllReservations, getReservationById } from "@/services/concert.service"
 
 Vue.use(Vuex)
-
-
 
 export default ({
     namespaced: true,
@@ -21,8 +19,14 @@ export default ({
         places_concert: [],
         panier: [],
         reservations: [],
+        currentReservation: null,
         reservationsId: [],
         utilisateurConnecte: JSON.parse(localStorage.getItem("utilisateurConnecte")) || null,
+    },
+    getters:{
+        allReservations: (state) => state.reservations,
+        getCurrentReservation: (state) => state.currentReservation,
+        allConcerts: (state) => state.concerts,
     },
     mutations: {
         SET_CONCERTS(state, concerts) {
@@ -32,12 +36,15 @@ export default ({
             console.log('Mutation SET_CONCERT appelée avec:', concert); // Debug
             state.concert = concert;
           },
-        SET_RESERVSCONCERT(state, reservsconcert) {
-            state.reservsconcert = reservsconcert;
-        },
-        SET_RESERVCONCERT(state, reservConcert) {
-            state.reservConcert = reservConcert;
-        },
+          SET_RESERVATIONS(state, reservations) {
+            state.reservations = reservations;
+          },
+          SET_CURRENT_RESERVATION(state, reservation) {
+            state.currentReservation = reservation;
+          },
+          CLEAR_CURRENT_RESERVATION(state) {
+            state.currentReservation = null;
+          },
         ADD_RESERVATION(state, newReservation) {
             state.reservsconcert.push(newReservation);
         },
@@ -138,18 +145,21 @@ export default ({
               throw error;
             }
           },
-        async getAllReservConcert({ commit }) {
-            const response = await getAllReservConcert();
+          async fetchReservations({ commit }) {
+            const response = await getAllReservations();
             if (response.error === 0) {
-                commit('SET_RESERVSCONCERT', response.data);
+              commit('SET_RESERVATIONS', response.data);
             }
-        },
-        async getReservConcertById({ commit }, uuid) {
-            const response = await getReservConcertById(uuid);
+            return response;
+          },
+        
+          async fetchReservationById({ commit }, uuid) {
+            const response = await getReservationById(uuid);
             if (response.error === 0) {
-                commit('SET_RESERVCONCERT', response.data);
+              commit('SET_CURRENT_RESERVATION', response.data);
             }
-        },
+            return response;
+          },
         async reserveConcert({ commit, state }, { concertId, nbPlaces }) {
             try {
                 // Trouver le concert pour obtenir le prix

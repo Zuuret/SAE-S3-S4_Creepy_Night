@@ -11,12 +11,12 @@ async function getConcertByIdFromAPI(uuid) {
     return await getRequest(`concerts/${uuid}`, 'CONCERTBYID');
 }
 
-async function getReservConcertFromAPI() {
+async function getAllReservationsFromAPI() {
     return await getRequest('reservConcert');
-}
-
-async function getReservConcertByIdFromAPI() {
-    return await getRequest('reservConcert/${uuid}', 'RESERVCONCERTBYID');
+  }
+  
+async function getReservationByIdFromAPI(uuid) {
+    return await getRequest(`reservConcert/${uuid}`);
 }
 
 async function insertReservConcertFromAPI(payload) {
@@ -60,29 +60,24 @@ export async function getConcertById(uuid) {
     }
 }
 
-export async function getAllReservConcert() {
+export async function getAllReservations() {
     try {
-        const res = await getReservConcertFromAPI();
-        console.log("Réservations de concert récupéré:", res.data);
+      let res = await getAllReservationsFromAPI();
+      return { error: 0, data: res.data };
+    } catch (error) {
+      console.error("get all reservations", error);
+      return { error: 1, message: error.message };
+    }
+  }
+  
+export async function getReservationById(uuid) {
+    try {
+        let res = await getReservationByIdFromAPI(uuid);
         return { error: 0, data: res.data };
     } catch (error) {
-        console.error("Erreur lors de la récupération des réservations de concert", error);
-        return { error: 1, message: "Erreur lors de la récupération des réservations de concert" };
+        console.error("get reservation by id", error);
+        return { error: 1, message: error.message };
     }
-}
-
-export async function getReservConcertById(uuid) {
-    let response;
-    try {
-        response = await getReservConcertByIdFromAPI(uuid);
-    } catch (err) {
-        response = {
-            error: 1,
-            status: 404,
-            data: "Erreur réseau, impossible de récupérer la réservation de concert."
-        };
-    }
-    return response;
 }
 
 export async function insertReservConcert(payload) {
