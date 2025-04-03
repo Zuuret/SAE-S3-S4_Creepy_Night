@@ -17,6 +17,7 @@
         </label>
       </div>
 
+      <!-- Formulaire pour Utilisateur -->
       <div v-if="userType === 'utilisateur'" class="form-box">
         <form @submit.prevent="submitFormUtilisateur" class="form-content">
           <div class="form-group">
@@ -43,11 +44,63 @@
             <label for="passwordUtilisateur">{{ $t("register.password") }}</label>
             <input type="password" v-model="utilisateur.password" id="passwordUtilisateur" :placeholder="$t('register.passwordPlaceholder')" required>
           </div>
+
           <p class="error" v-if="errorMessage">{{ errorMessage }}</p>
           <p class="login-link">
             {{ $t("register.alreadyAccount") }}
             <router-link to="/connexion" class="link">{{ $t("register.login") }}</router-link>
           </p>
+
+          <div class="form-actions">
+            <button type="button" class="cancel-button" @click="$router.go(-1)">{{ $t("register.cancel") }}</button>
+            <button type="submit" class="submit-button">{{ $t("register.submit") }}</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Formulaire pour Organisateur -->
+      <div v-if="userType === 'organisateur'" class="form-box">
+        <form @submit.prevent="submitFormOrganisateur" class="form-content">
+          <div class="form-group">
+            <label for="nomEntrepriseOrganisateur">{{ $t("register.companyName") }}</label>
+            <input type="text" v-model="organisateur.nomEntreprise" id="nomEntrepriseOrganisateur" :placeholder="$t('register.companyNamePlaceholder')" required>
+          </div>
+          <div class="form-group">
+            <label for="emailOrganisateur">{{ $t("register.email") }}</label>
+            <input type="email" v-model="organisateur.email" id="emailOrganisateur" :placeholder="$t('register.emailPlaceholder')" required>
+          </div>
+          <div class="form-group">
+            <label for="passwordOrganisateur">{{ $t("register.password") }}</label>
+            <input type="password" v-model="organisateur.password" id="passwordOrganisateur" :placeholder="$t('register.passwordPlaceholder')" required>
+          </div>
+
+          <p class="error" v-if="errorMessage">{{ errorMessage }}</p>
+
+          <div class="form-actions">
+            <button type="button" class="cancel-button" @click="$router.go(-1)">{{ $t("register.cancel") }}</button>
+            <button type="submit" class="submit-button">{{ $t("register.submit") }}</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Formulaire pour Prestataire -->
+      <div v-if="userType === 'prestataire'" class="form-box">
+        <form @submit.prevent="submitFormPrestataire" class="form-content">
+          <div class="form-group">
+            <label for="nomEntreprisePrestataire">{{ $t("register.companyName") }}</label>
+            <input type="text" v-model="prestataire.nomEntreprise" id="nomEntreprisePrestataire" :placeholder="$t('register.companyNamePlaceholder')" required>
+          </div>
+          <div class="form-group">
+            <label for="emailPrestataire">{{ $t("register.email") }}</label>
+            <input type="email" v-model="prestataire.email" id="emailPrestataire" :placeholder="$t('register.emailPlaceholder')" required>
+          </div>
+          <div class="form-group">
+            <label for="passwordPrestataire">{{ $t("register.password") }}</label>
+            <input type="password" v-model="prestataire.password" id="passwordPrestataire" :placeholder="$t('register.passwordPlaceholder')" required>
+          </div>
+
+          <p class="error" v-if="errorMessage">{{ errorMessage }}</p>
+
           <div class="form-actions">
             <button type="button" class="cancel-button" @click="$router.go(-1)">{{ $t("register.cancel") }}</button>
             <button type="submit" class="submit-button">{{ $t("register.submit") }}</button>
@@ -57,6 +110,7 @@
     </div>
   </div>
 </template>
+
 
 
 <script>

@@ -250,25 +250,31 @@
     "signup": "S'inscrire"
   },
   "register": {
-    "title": "Création de profil",
+    "title": "Inscription",
     "user": "Utilisateur",
-    "provider": "Prestataire",
     "organizer": "Organisateur",
-    "firstName": "Prénom :",
+    "provider": "Prestataire",
+    "firstName": "Prénom",
     "firstNamePlaceholder": "Entrez votre prénom",
-    "lastName": "Nom :",
+    "lastName": "Nom",
     "lastNamePlaceholder": "Entrez votre nom",
-    "birthDate": "Date de naissance :",
-    "email": "Email :",
+    "birthDate": "Date de naissance",
+    "email": "Email",
     "emailPlaceholder": "Entrez votre email",
-    "confirmEmail": "Confirmation de l'email :",
-    "confirmEmailPlaceholder": "Confirmez votre email",
-    "password": "Mot de passe :",
+    "confirmEmail": "Confirmez votre email",
+    "confirmEmailPlaceholder": "Retapez votre email",
+    "password": "Mot de passe",
     "passwordPlaceholder": "Entrez votre mot de passe",
-    "alreadyAccount": "Déjà un compte Creepynight ?",
-    "login": "Connectez-vous",
+    "alreadyAccount": "Vous avez déjà un compte ?",
+    "login": "Connectez-vous ici",
     "cancel": "Annuler",
-    "submit": "Confirmer l'inscription"
+    "submit": "S'inscrire",
+    "companyName": "Nom de l'entreprise",
+    "companyNamePlaceholder": "Entrez le nom de votre entreprise",
+    "organizerName": "Nom de l'organisateur",
+    "organizerNamePlaceholder": "Entrez le nom de l'organisateur",
+    "providerName": "Nom du prestataire",
+    "providerNamePlaceholder": "Entrez le nom du prestataire"
   },
   "expo": {
     "title": "Liste des expositions",
@@ -530,7 +536,30 @@
     "expositions": {
       "titre": "Expositions",
       "description": "Découvrez des œuvres troublantes et immersives créées par des artistes passionnés par le mystère et l'horreur..."
-    }
+    },
+    "register": {
+    "title": "Inscription",
+    "user": "Utilisateur",
+    "organizer": "Organisateur",
+    "provider": "Prestataire",
+    "firstName": "Prénom",
+    "firstNamePlaceholder": "Entrez votre prénom",
+    "lastName": "Nom",
+    "lastNamePlaceholder": "Entrez votre nom",
+    "birthDate": "Date de naissance",
+    "email": "Email",
+    "emailPlaceholder": "Entrez votre email",
+    "confirmEmail": "Confirmez votre email",
+    "confirmEmailPlaceholder": "Retapez votre email",
+    "password": "Mot de passe",
+    "passwordPlaceholder": "Entrez votre mot de passe",
+    "alreadyAccount": "Vous avez déjà un compte ?",
+    "login": "Connectez-vous ici",
+    "cancel": "Annuler",
+    "submit": "S'inscrire",
+    "companyName": "Nom de l'entreprise",
+    "companyNamePlaceholder": "Entrez le nom de votre entreprise"
+  }
   }
 
 
