@@ -18,6 +18,7 @@ import profil from '../store/profil';
 import transactions from '../store/transactions';
 import texte_accueil from '../store/texte_accueil';
 import carte from '../store/carte';
+import i18n from '../store/i18n';
 
 export default new Vuex.Store({
   modules: {
@@ -35,6 +36,7 @@ export default new Vuex.Store({
     profil,
     transactions,
     texte_accueil,
-    carte
+    carte,
+    i18n,
   }
 })

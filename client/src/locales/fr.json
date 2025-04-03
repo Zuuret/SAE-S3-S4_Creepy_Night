@@ -33,7 +33,8 @@
     "trierParNom": "Trier par nom",
     "trierParCategorie": "Trier par catégorie",
     "voirProfil": "Voir Profil",
-    "aucunResultat": "Aucun prestataire ne correspond à votre recherche."
+    "aucunResultat": "Aucun prestataire ne correspond à votre recherche.",
+    "description": "{{ description }}"
   },
   "livreDOr": {
     "notreLivreDOr": "NOTRE LIVRE D'OR",
