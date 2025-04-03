@@ -53,7 +53,7 @@ export default {
     ...mapState("ProfilStore", ["prestataires"]),
     filteredPrestataires() {
       return this.prestataires.filter(prestataire => {
-        return prestataire.background && prestataire.logo && prestataire.societe && prestataire.theme && prestataire.description && prestataire.background2;
+        return prestataire.background && prestataire.logo && prestataire.societe && prestataire.theme && prestataire.description_fr && prestataire.description_en && prestataire.background2;
       });
     },
     prestataireTrie() {
@@ -64,7 +64,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions("ProfilStore", ["fetchPrestataire"]),
+    ...mapActions("ProfilStore", ["fetchPrestataires"]),
     getImageUrl(image) {
       return require(`@/assets/${image}`);
     },
@@ -102,7 +102,7 @@ export default {
 
   },
   mounted() {
-    this.fetchPrestataire();
+    this.fetchPrestataires();
     this.autoRun = setTimeout(() => {
       this.showSlider("next");
     }, this.timeAutoNext);

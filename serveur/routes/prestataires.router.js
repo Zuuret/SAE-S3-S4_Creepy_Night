@@ -335,8 +335,34 @@ router.patch("/:uuid/adresse", sessionMiddleware.authVerif([2,3]), prestataireCo
 
 
 const multer = require("multer");
-const path = require("path")
-const upload = multer({ dest: path.resolve(__dirname, '../assets') });
+const path = require("path");
+const fs = require("fs");
+
+const uploadDir = path.resolve(__dirname, '../../client/src/assets');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        const { uuid } = req.params;
+        // Vérifier que uuid est bien défini
+        console.log("UUID reçu pour l'upload :", uuid);
+        const fileName = `background-${uuid}.jpg`;
+        const filePath = path.join(uploadDir, fileName);
+        if (fs.existsSync(filePath)) {
+            console.log("Fichier existant, suppression :", filePath);
+            fs.unlinkSync(filePath);
+        }
+        console.log("Nom final généré :", fileName);
+        cb(null, fileName);
+    }
+});
+
+const upload = multer({ storage });
 
 router.post("/:uuid/background", sessionMiddleware.authVerif([2]), upload.single('image'), prestataireController.updateImage);
 
