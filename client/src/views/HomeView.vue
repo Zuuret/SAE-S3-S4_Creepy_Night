@@ -96,37 +96,38 @@ export default {
       utilisateurConnecte: null,
       afficherPubPrestataire: this.calculerAffichage(),
       activites: [
-        {
-          titre: "Carihorreur",
-          description: "Entrez dans le Carihorreur, un club nocturne comme nul autre. Ici, l’obscurité s’allume au rythme d’un son envoûtant et électrisant...",
-          image: cariHorreurImg,
-        },
-        {
-          titre: "Cauchemarathon",
-          description: "Choisissez votre circuit et lancez-vous dans une course où chaque pas vous rapproche de vos pires frayeurs...",
-          image: cauchemarathonImg,
-        },
-        {
-          titre: "Cinépeur",
-          description: "Venez frissonner au Cinépeur devant une sélection exclusive de films cultes, de classiques du genre et de courts-métrages inédits...",
-          image: cinepeurImg,
-        },
-        {
-          titre: "Concerts",
-          description: "Chaque soir, des concerts live vous transporteront dans une ambiance envoûtante, mêlant musique sombre, énergie et atmosphère immersive...",
-          image: concertsImg,
-        },
-        {
-          titre: "Bal’trouille",
-          description: "Enfilez votre plus beau masque et plongez dans une nuit aussi terrifiante que amusante...",
-          image: balTrouilleImg,
-        },
-        {
-          titre: "Expositions",
-          description: "Découvrez des œuvres troublantes et immersives créées par des artistes passionnés par le mystère et l'horreur...",
-          image: expoImg,
-        },
-      ],
+  {
+    titre: this.$t("activites.carihorreur.titre"),
+    description: this.$t("activites.carihorreur.description"),
+    image: cariHorreurImg,
+  },
+  {
+    titre: this.$t("activites.cauchemarathon.titre"),
+    description: this.$t("activites.cauchemarathon.description"),
+    image: cauchemarathonImg,
+  },
+  {
+    titre: this.$t("activites.cinepeur.titre"),
+    description: this.$t("activites.cinepeur.description"),
+    image: cinepeurImg,
+  },
+  {
+    titre: this.$t("activites.concerts.titre"),
+    description: this.$t("activites.concerts.description"),
+    image: concertsImg,
+  },
+  {
+    titre: this.$t("activites.baltrouille.titre"),
+    description: this.$t("activites.baltrouille.description"),
+    image: balTrouilleImg,
+  },
+  {
+    titre: this.$t("activites.expositions.titre"),
+    description: this.$t("activites.expositions.description"),
+    image: expoImg,
+  },
+]
+,
     };
   },
   computed: {
@@ -155,12 +156,47 @@ export default {
       const differenceMois = (dateFestival.getFullYear() - dateActuelle.getFullYear()) * 12 + (dateFestival.getMonth() - dateActuelle.getMonth());
       const dateSeuil = new Date("2024-10-02");
       return differenceMois > 4 || dateActuelle >= dateSeuil;
-    }
+    },
+    updateActivites() {
+    this.activites = [
+      {
+        titre: this.$t("activites.carihorreur.titre"),
+        description: this.$t("activites.carihorreur.description"),
+        image: cariHorreurImg,
+      },
+      {
+        titre: this.$t("activites.cauchemarathon.titre"),
+        description: this.$t("activites.cauchemarathon.description"),
+        image: cauchemarathonImg,
+      },
+      {
+        titre: this.$t("activites.cinepeur.titre"),
+        description: this.$t("activites.cinepeur.description"),
+        image: cinepeurImg,
+      },
+      {
+        titre: this.$t("activites.concerts.titre"),
+        description: this.$t("activites.concerts.description"),
+        image: concertsImg,
+      },
+      {
+        titre: this.$t("activites.baltrouille.titre"),
+        description: this.$t("activites.baltrouille.description"),
+        image: balTrouilleImg,
+      },
+      {
+        titre: this.$t("activites.expositions.titre"),
+        description: this.$t("activites.expositions.description"),
+        image: expoImg,
+      },
+    ];
+  },
   },
   watch: {
   '$i18n.locale': async function (nouvelleLangue) {
     console.log("Langue changée :", nouvelleLangue);
     await this.$store.dispatch('texte_accueil/fetchTexteAccueil'); // Rafraîchissement explicite
+    this.updateActivites();
   }
 },
   mounted() {
