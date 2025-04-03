@@ -22,8 +22,6 @@
         <h1 class="texte-accueil-titre">{{ texteAccueil.titre }}</h1>
         <div class="texte-accueil-contenu" v-html="texteAccueil.contenu"></div>
     </div>
-</div>
-
       <div class="activites">
         <h1 class="titre-partie" id="titre-activite">{{ $t('terrifyingFlexibleProgram') }}</h1>
         <div class="lamelles-container">
@@ -74,6 +72,7 @@
       </div>
     </footer>
   </div>
+  
 </template>
 
 <script>
