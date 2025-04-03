@@ -1,64 +1,43 @@
 <template>
   <div class="concert">
-    <div class="background" v-if="concert">
-      <img
-        :src="concertImage"
-        alt="Affiche du concert"
-        class="affiche_concert"
-      />
+    <div class="background">
+      <img :src="concert.image" alt="Affiche du concert" class="affiche_concert" />
     </div>
 
-    <div v-if="!concert" class="loading">
-      <p>Chargement du concert...</p>
-    </div>
-
-    <div class="concert_info" v-else>
-      <div>
+    <div class="concert_info">
+      <div v-if="concert">
         <p class="nom_artiste">{{ concert.artiste }}</p>
         <p class="categorie_artiste">{{ concert.categorie }} - {{ concert.nationalite }}</p>
-        <p class="info_concert">{{ formattedDate }} - {{ formattedTime }}</p>
+        <p class="info_concert">{{ concert.date }} - {{ concert.heure }}</p>
         <p class="scene_concert">{{ concert.scene }}</p>
       </div>
 
       <div class="ticket">
         <h3>Places disponibles :</h3>
-        <div v-if="concert.nb_places > 0">
+        <div v-if="place_concert">
           <p>
-            <strong>Type :</strong> Place standard<br/>
-            <strong>Prix :</strong> {{ concert.prix_place }} €<br/>
-            <strong>Disponibles :</strong> {{ concert.nb_places }}
+            <strong>Type :</strong> {{ place_concert.type_place }} <br/>
+            <strong>Prix :</strong> {{ place_concert.prix_place }} €<br/>
+            <strong>Disponibles :</strong> {{ place_concert.nb_places }}
           </p>
           <label for="selection_quantite">QUANTITÉ</label>
-          <input
-            type="number"
-            v-model.number="quantite"
-            id="selection_quantite"
-            :max="concert.nb_places"
-            min="1"
-            step="1"
-          />
+          <input type="number" v-model.number="quantite" id="selection_quantite" min="0" step="1"/>
         </div>
         <div v-else>
-          <p>COMPLET</p>
+          <p>Aucune place disponible pour ce concert.</p>
         </div>
         <div class="ticket-total">
           <p><strong>TOTAL :</strong> {{ prixTotal }} €</p>
-          <button @click="ajoutAuPanier">RÉSERVER</button>
-
-          <div v-if="reservationSuccess" class="confirmation-message">
-            Réservation confirmée !
-          </div>
+          <button @click="ajoutAuPanier">AJOUTER AU PANIER</button>
         </div>
-        <div class="liens-utiles">
-          <router-link to="/cashless">
-            Allez au cashless !!
-          </router-link>
-          <router-link to="/reservations/concert">
-            Voir mes réservations
-          </router-link>
-        </div>
-        <PanierConcert></PanierConcert>
+        <router-link to="/cashless">
+          Allez au cashless !!
+        </router-link>
+        <router-link to="/reservations/concert">
+          Voir mes réservations
+        </router-link>
       </div>
+      <PanierConcert></PanierConcert>
     </div>
   </div>
 </template>
@@ -69,40 +48,20 @@ import PanierConcert from "@/components/PanierConcert.vue";
 
 export default {
   name: 'ReservationConcertConfirmation',
-  components: {
-    PanierConcert
-  },
+  components: {PanierConcert},
   data() {
     return {
-      quantite: 1,
-      imageError: false,
-      reservationSuccess: false,
-      isLoading: false
+      quantite: 0,
     };
   },
   computed: {
-    ...mapState('ConcertStore', ['concert', 'utilisateurConnecte', 'place_concert']),
-    concertImage() {
-      if (!this.concert) return '';
-      try {
-        return require(`@/assets/${this.concert.image}.jpg`);
-      } catch (e) {
-        return require('@/assets/affiche_Gims.jpg');
-      }
-    },
+    ...mapState('ConcertStore', ['concert', 'place_concert']),
     prixTotal() {
-      return this.concert ? this.concert.prix_place * this.quantite : 0;
+      return this.place_concert ? this.place_concert.prix_place * this.quantite : 0;
     },
-    formattedDate() {
-      return this.concert?.date ? new Date(this.concert.date).toLocaleDateString('fr-FR') : '';
-    },
-    formattedTime() {
-      return this.concert?.heure ? this.concert.heure.slice(0, 5) : '';
-    }
   },
   methods: {
-    ...mapActions('ConcertStore', ['getConcertById', 'reserveConcert', 'ajouterAuPanier', 'getAllPlacesConcert', 'getPlacesConcertsbyId']),
-
+    ...mapActions('ConcertStore', ['getConcertbyId', 'getPlacesConcertsbyId', 'getAllPlacesConcert', 'ajouterAuPanier']),
     async ajoutAuPanier() {
       if (this.quantite <= 0) {
         alert('Veuillez sélectionner une quantité valide.');
@@ -119,75 +78,15 @@ export default {
         });
       }
     },
-
-    async reserverConcert() {
-      if (!this.utilisateurConnecte) {
-        alert('Veuillez vous connecter pour réserver');
-        this.$router.push('/connexion');
-        return;
-      }
-
-      if (!this.quantite || this.quantite < 1) {
-        alert('Quantité invalide');
-        return;
-      }
-
-      if (this.quantite > this.concert.nb_places) {
-        alert('Places insuffisantes');
-        return;
-      }
-
-      this.isLoading = true;
-      this.reservationSuccess = false;
-
-      try {
-        const response = await this.reserveConcert({
-          concertId: this.concert.id,
-          nbPlaces: this.quantite
-        });
-
-        if (response?.success) {
-          this.reservationSuccess = true;
-          setTimeout(() => {
-            this.reservationSuccess = false;
-          }, 3000);
-
-          // Recharger les données du concert pour avoir le stock à jour
-          await this.getConcertById(this.concert.id);
-        } else {
-          alert(response?.data || 'Erreur lors de la réservation');
-        }
-      } catch (error) {
-        console.error(error);
-        alert(error.message || 'Erreur lors de la réservation');
-      } finally {
-        this.isLoading = false;
-      }
-    }
   },
-  async mounted() {
-    try {
-      const concertId = this.$route.params.id;
-      console.log('ID concert:', concertId); // Debug
-
-      await this.getConcertById(concertId); // Appelle l'action Vuex
-
-      if (!this.concert) {
-        throw new Error('Concert non trouvé dans l\'état Vuex');
-      }
-      this.getPlacesConcertsbyId(concertId);
-      this.getAllPlacesConcert()
-
-      console.log('Concert chargé:', this.concert); // Debug
-    } catch (error) {
-      console.error('Erreur complète:', error);
-      alert('Erreur de chargement: ' + error.message);
-      this.$router.push('/concert');
-    }
-  }
+  mounted() {
+    const concertId = parseInt(this.$route.params.id);
+    this.getConcertbyId(concertId);
+    this.getPlacesConcertsbyId(concertId);
+    this.getAllPlacesConcert()
+  },
 };
 </script>
-
 
 <style scoped>
 .concert {
@@ -196,6 +95,7 @@ export default {
   height: 100vh;
   overflow: hidden;
 }
+
 .background {
   position: absolute;
   top: 0;
@@ -204,16 +104,19 @@ export default {
   height: 100%;
   z-index: 1;
 }
+
 .background img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
+
 .concert_info {
   position: relative;
   z-index: 2;
   color: #b71c1c;
 }
+
 .nom_artiste {
   margin: 35px 0 0 40px;
   font-size: 80px;
@@ -221,6 +124,7 @@ export default {
   font-family: Blippo, fantasy;
   -webkit-text-stroke: 2px black;
 }
+
 .categorie_artiste {
   margin: 0 0 0 42px;
   font-size: 50px;
@@ -228,6 +132,7 @@ export default {
   font-family: Stencil Std, fantasy;
   -webkit-text-stroke: 2px black;
 }
+
 .info_concert {
   margin: 15px 0 0 42px;
   font-size: 35px;
@@ -235,6 +140,7 @@ export default {
   font-family: Stencil Std, fantasy;
   -webkit-text-stroke: 2px black;
 }
+
 .scene_concert {
   margin: 15px 0 0 42px;
   font-size: 35px;
@@ -242,6 +148,7 @@ export default {
   font-family: Stencil Std, fantasy;
   -webkit-text-stroke: 2px black;
 }
+
 .ticket {
   position: absolute;
   margin: 25px 0 0 37px;
@@ -259,6 +166,7 @@ export default {
   z-index: 3;
   cursor: context-menu;
 }
+
 .ticket h3 {
   font-size: 35px;
   color: #b71c1c;
@@ -266,6 +174,7 @@ export default {
   text-transform: uppercase;
   margin: 0;
 }
+
 .ticket p {
   font-size: 18px;
   text-align: center;
@@ -276,6 +185,7 @@ export default {
   line-height: 1.6;
   letter-spacing: 1px;
 }
+
 .ticket label {
   font-size: 25px;
   font-weight: bold;
@@ -286,6 +196,7 @@ export default {
   display: block;
   letter-spacing: 1px;
 }
+
 .ticket input[type="number"] {
   width: 100%;
   font-size: 18px;
@@ -298,21 +209,25 @@ export default {
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease-in-out;
 }
+
 .ticket input[type="number"]:hover {
   background-color: #fff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+
 .ticket input[type="number"]:focus {
   outline: none;
   border-color: #880e0e;
   box-shadow: 0 0 8px rgba(183, 28, 28, 0.5);
 }
+
 .ticket .ticket-total {
   font-size: 18px;
   text-align: center;
   font-weight: bold;
   color: #b71c1c;
 }
+
 .ticket button {
   width: 100%;
   padding: 12px;
@@ -325,30 +240,9 @@ export default {
   font-family: "Stencil Std", fantasy;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
 .ticket button:hover {
   background-color: #880e0e;
   transform: scale(1.05);
-}
-
-.confirmation-message {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: rgba(0, 128, 0, 0.9);
-  color: white;
-  padding: 20px 40px;
-  border-radius: 10px;
-  font-size: 24px;
-  font-family: "Stencil Std", fantasy;
-  z-index: 1000;
-  animation: fadeInOut 3s ease-in-out;
-}
-
-@keyframes fadeInOut {
-  0% { opacity: 0; }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { opacity: 0; }
 }
 </style>

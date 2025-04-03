@@ -27,7 +27,7 @@ exports.getConcerts = async (req, res) => {
     if (!concerts) {
         return res.status(500).json({ error: 'ERREUR INTERNE' });
     }
-    return res.status(200).json({ data: concerts });
+    return res.status(200).json({ data: concerts, error: 0 });
 };
 
 exports.getConcertById = async (req, res) => {
@@ -44,7 +44,7 @@ exports.getConcertById = async (req, res) => {
         if (!concert) {
             return res.status(404).json({ error: 'Concert non trouvé' });
         }
-        return res.status(200).json({ data: concert });
+        return res.status(200).json({ data: concert, error : 0 });
     } catch (error) {
         console.error('Erreur lors de la récupération du concert :', error);
         return res.status(500).json({ error: 'ERREUR INTERNE' });

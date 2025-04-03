@@ -666,9 +666,15 @@ CREATE TABLE Concert (
     duree INT NOT NULL,
     categorie VARCHAR(50),
     scene VARCHAR(50),
-    nb_places INT NOT NULL,
-    prix_place DECIMAL NOT NULL,
     image VARCHAR(100)
+);
+
+CREATE TABLE Place_concert (
+    id_place SERIAL PRIMARY KEY,
+    id_concert INT REFERENCES Concert(id) ON DELETE CASCADE,
+    type_place VARCHAR(50) NOT NULL,
+    nb_places INT NOT NULL,
+    prix_place DECIMAL NOT NULL
 );
 
 -- Table Expo_oeuvre
@@ -1078,17 +1084,27 @@ VALUES
 ('2024-10-25 12:00:00', '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 1),
 ('2024-10-25 12:10:00', '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7', 2);
 
-INSERT INTO Concert (artiste, nationalite, date, heure, duree, categorie, scene, nb_places, prix_place, image)
+INSERT INTO Concert (artiste, nationalite, date, heure, duree, categorie, scene, image)
 VALUES
-('BigAli', 'USA', '2025-10-27', '22:00:00', 1, 'House', 'Grande Scène', 5000, 49.99, 'affiche_BigAli'),
-('Travis Scott', 'USA', '2025-10-28', '19:00:00', 1, 'Rap', 'Grande Scène', 4500, 79.99, 'affiche_TravisScott'),
-('Muse', 'USA', '2025-10-29', '21:00:00', 1, 'Rock', 'Grande Scène', 6000, 69.99, 'affiche_Muse'),
-('Vald', 'FR', '2025-10-29', '22:00:00', 1, 'Rap', 'Grande Scène', 3000, 39.99, 'affiche_Vald'),
-('David Guetta', 'FR', '2025-10-29', '00:00:00', 1, 'Électro', 'Grande Scène', 8000, 89.99, 'affiche_DavidGuetta'),
-('Kungs', 'FR', '2025-10-30', '21:00:00', 1, 'House', 'Grande Scène', 4000, 59.99, 'affiche_Kungs'),
-('Vladimir Cauchemar', 'FR', '2025-10-30', '23:00:00', 1, 'Électro', 'Grande Scène', 2500, 44.99, 'affiche_VladimirCauchemar'),
-('Gims', 'FR', '2025-10-31', '18:00:00', 1, 'Rap', 'Grande Scène', 3500, 54.99, 'affiche_Gims');
+('BigAli', 'USA', '2025-10-27', '22:00:00', 1, 'House', 'Grande Scène','affiche_BigAli'),
+('Travis Scott', 'USA', '2025-10-28', '19:00:00', 1, 'Rap', 'Grande Scène','affiche_TravisScott'),
+('Muse', 'USA', '2025-10-29', '21:00:00', 1, 'Rock', 'Grande Scène','affiche_Muse'),
+('Vald', 'FR', '2025-10-29', '22:00:00', 1, 'Rap', 'Grande Scène','affiche_Vald'),
+('David Guetta', 'FR', '2025-10-29', '00:00:00', 1, 'Électro', 'Grande Scène','affiche_DavidGuetta'),
+('Kungs', 'FR', '2025-10-30', '21:00:00', 1, 'House', 'Grande Scène','affiche_Kungs'),
+('Vladimir Cauchemar', 'FR', '2025-10-30', '23:00:00', 1, 'Électro', 'Grande Scène','affiche_VladimirCauchemar'),
+('Gims', 'FR', '2025-10-31', '18:00:00', 1, 'Rap', 'Grande Scène','affiche_Gims');
 
+INSERT INTO Place_concert (id_concert, type_place, nb_places, prix_place)
+VALUES
+    (1, 'Fosse', 300, 5),
+    (2, 'Fosse', 250, 6),
+    (3, 'Fosse', 280, 7),
+    (4, 'Fosse', 320, 8),
+    (5, 'Fosse', 290, 9),
+    (6, 'Fosse', 310, 10),
+    (7, 'Fosse', 270, 5),
+    (8, 'Fosse', 330, 6);
 
 INSERT INTO Expo_oeuvre (createur, email, date_crea, description, image)
 VALUES

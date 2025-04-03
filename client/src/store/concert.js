@@ -1,20 +1,18 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import ConcertService from "../services/concert.service";
-import ValidArtiste from "../services/validArtiste.service";
-import { getAllConcerts, getReservConcertByUserId, getConcertById, getAllReservConcert, getReservConcertById,insertReservConcert,deleteReservConcert } from "@/services/concert.service"
 
 Vue.use(Vuex)
 
+import ConcertService from "../services/concert.service";
+import ValidArtiste from "../services/validArtiste.service";
 
+import { getAllConcerts, getConcertbyId } from "@/services/concert.service"
 
 export default ({
     namespaced: true,
     state: {
         concerts: [],
         concert: null,
-        reservsconcert: [],
-        reservconcert: null,
         artistes: [],
         artiste: [],
         place_concert: null,
@@ -25,33 +23,12 @@ export default ({
         utilisateurConnecte: JSON.parse(localStorage.getItem("utilisateurConnecte")) || null,
     },
     mutations: {
-        SET_CONCERTS(state, concerts) {
+        updateListeConcert(state, concerts){
+            console.log(state.concerts)
             state.concerts = concerts;
         },
-        SET_CONCERT(state, concert) {
-            console.log('Mutation SET_CONCERT appelée avec:', concert); // Debug
-            state.concert = concert;
-          },
-        SET_RESERVSCONCERT(state, reservsconcert) {
-            state.reservsconcert = reservsconcert;
-        },
-        SET_RESERVCONCERT(state, reservConcert) {
-            state.reservConcert = reservConcert;
-        },
-        ADD_RESERVATION(state, newReservation) {
-            state.reservsconcert.push(newReservation);
-        },
-        UPDATE_CONCERT_STOCK(state, { concertId, nbPlaces }) {
-            const concert = state.concerts.find(c => c.id === concertId) || state.concert;
-            if (concert) {
-                concert.nb_places += nbPlaces;
-            }
-        },
-        updateReservationConcertId(state, reservationsId){
-            state.reservationsId = reservationsId
-            console.log(reservationsId)
-        },
         updateConcertById(state, concert){
+            console.log(state.concert)
             state.concert = concert;
         },
         updateListePlaceConcert(state, places_concert){
@@ -107,7 +84,10 @@ export default ({
             state.reservationsId.push(reservation.id_reservation);
             state.panier = [];
         },
-        
+        updateReservationConcertId(state, reservationsId){
+            state.reservationsId = reservationsId
+            console.log(reservationsId)
+        },
         updateListeArtistes(state, artistes){
             state.artistes = artistes;
         },
@@ -116,117 +96,24 @@ export default ({
         },
     },
     actions: {
-        async getAllConcert({ commit }) {
-            const response = await getAllConcerts();
+        async getAllConcert({commit}){
+            console.log("Récupération des concerts");
+            let response = await getAllConcerts();
+            console.log(response.data);
             if (response.error === 0) {
-                commit('SET_CONCERTS', response.data);
+                commit('updateListeConcert', response.data);
+            } else {
+                console.log(response.data);
             }
         },
-        async getConcertById({ commit }, id) {
-            try {
-              const response = await getConcertById(id);
-              console.log('Réponse de l\'API pour getConcertById:', response); // Debug
-              if (response.error === 0) {
-                commit('SET_CONCERT', response.data);
-                console.log('Concert mis à jour dans l\'état Vuex:', response.data); // Debug
-              } else {
-                console.error('Concert non trouvé:', id);
-                throw new Error('Concert non trouvé');
-              }
-            } catch (error) {
-              console.error('Erreur API:', error);
-              throw error;
-            }
-          },
-        async getAllReservConcert({ commit }) {
-            const response = await getAllReservConcert();
+        async getConcertbyId({commit}, uuid){
+            console.log("Récupération du concert ID : ", uuid);
+            let response = await getConcertbyId(uuid);
             if (response.error === 0) {
-                commit('SET_RESERVSCONCERT', response.data);
+                commit('updateConcertById', response.data);
+            } else {
+                console.log(response.data);
             }
-        },
-        async getReservConcertById({ commit }, uuid) {
-            const response = await getReservConcertById(uuid);
-            if (response.error === 0) {
-                commit('SET_RESERVCONCERT', response.data);
-            }
-        },
-        async reserveConcert({ commit, state }, { concertId, nbPlaces }) {
-            try {
-                // Trouver le concert pour obtenir le prix
-                const concert = state.concerts.find(c => c.id === concertId) || 
-                              state.concert;
-                
-                if (!concert) {
-                    throw new Error('Concert non trouvé');
-                }
-    
-                const payload = {
-                    utilisateur_id: state.utilisateurConnecte.id,
-                    concert_id: concertId,
-                    nb_places: nbPlaces,
-                    date_reservation: new Date().toISOString(),
-                    prix_total: concert.prix_place * nbPlaces
-                };
-    
-                const response = await insertReservConcert(payload);
-                
-                if (response.error === 0) {
-                    // Mettre à jour le concert dans le store avec le nouveau stock
-                    commit('UPDATE_CONCERT_STOCK', {
-                        concertId,
-                        nbPlaces: -nbPlaces // Décrémente le stock
-                    });
-                    
-                    // Ajouter la réservation
-                    commit('ADD_RESERVATION', response.data);
-                    
-                    return { success: true };
-                } else {
-                    throw new Error(response.data);
-                }
-            } catch (error) {
-                console.error("Erreur réservation:", error);
-                throw error;
-            }
-        },
-
-        async fetchUserReservations({ commit, state }) {
-            try {
-              const allReservs = await getAllReservConcert();
-              const userReservs = allReservs.data.filter(reserv => 
-                reserv.userId === state.utilisateurConnecte?.id
-              );
-        
-              commit('SET_RESERVSCONCERT', userReservs);
-              
-            } catch (error) {
-              console.error("Erreur de chargement:", error);
-            }
-          },
-        async getReservationConcertById({ commit }, userId) {
-            try {
-              const response = await getReservConcertByUserId(userId); 
-              if (response.error === 0) {
-                commit('updateReservationConcertId', response.data);
-              }
-            } catch (error) {
-              console.error("Erreur de chargement des réservations", error);
-            }
-          },
-        async insertReservConcert({ dispatch }, payload) {
-            const response = await insertReservConcert(payload);
-            if (response.error === 0) {
-                await dispatch('getAllReservConcert');
-            }
-            return response;
-        },
-        
-        async deleteReservConcert({ dispatch }, id) {
-            const response = await deleteReservConcert(id);
-            if (response.error === 0) {
-                await dispatch('getAllReservConcert');
-            }
-            return response;
         },
         async getAllPlacesConcert({commit}){
             console.log("Récupération des places de concert");
@@ -281,6 +168,16 @@ export default ({
                 commit('ProfilStore/updateSoldeUtilisateur', response.data.solde, { root: true });
             } else {
                 console.error(response.data);
+            }
+        },
+        async getReservationConcertById({commit}, utilisateurId){
+            console.log("Récupération des commande de ID :", utilisateurId)
+            let response = await ConcertService.getReservationConcertById(utilisateurId)
+            console.log('Response :', response)
+            if (response.error === 0) {
+                commit('updateReservationConcertId', response.data);
+            } else {
+                console.log(response.data);
             }
         },
         async getArtistes({ commit }) {
