@@ -18,6 +18,7 @@ const loginRouter = require("./routes/login.router")
 const articlesRouter = require('./routes/articles.router');
 const cashlessRouter = require("./routes/cashless.router");
 const ReservConcertRouter = require ("./routes/reservConcert.router")
+const reservationArticlesRouter = require("./routes/reservationArticles.router");
 
 const emplacementRouter = require("./routes/emplacement.router");
 const iconeCarteRouter = require("./routes/iconeCarte.router");
@@ -52,6 +53,7 @@ app.use('/api/login', loginRouter);
 app.use('/api/articles', articlesRouter);
 app.use('/api/cashless', cashlessRouter);
 app.use('/api/reservConcert', ReservConcertRouter);
+app.use("/api/reservationsArticles", reservationArticlesRouter);
 
 /** Swagger Initialization - START */
 const swaggerOption = {

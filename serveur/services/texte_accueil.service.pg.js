@@ -1,12 +1,20 @@
 const pool = require('../database/db');
 const format = require('pg-format');
 
-async function getTexteAccueil() {
+async function getTexteAccueil(lang = 'fr') {
     const client = await pool.connect();
     let res;
     try {
-        res = await client.query('SELECT * FROM texte_accueil WHERE id = 1');
-        console.log('TEXTE D\'ACCUEIL RÉCUPÉRÉ');
+        const colonneTitre = lang === 'en' ? 'titre_en' : 'titre';
+        const colonneContenu = lang === 'en' ? 'contenu_en' : 'contenu';
+
+        res = await client.query(`
+            SELECT ${colonneTitre} AS titre, ${colonneContenu} AS contenu
+            FROM texte_accueil
+            WHERE id = 1
+        `);
+
+        console.log(`TEXTE D'ACCUEIL RÉCUPÉRÉ POUR LA LANGUE : ${lang}`);
     } catch (error) {
         console.error('Erreur lors de la récupération du texte d\'accueil :', error);
         res = false;

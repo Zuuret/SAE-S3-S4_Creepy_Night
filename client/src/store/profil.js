@@ -123,14 +123,7 @@ export default ({
             localStorage.setItem("utilisateurConnecte", JSON.stringify(state.utilisateurConnecte));
         },
         updateImage(state, nouvelleImage) {
-            if (nouvelleImage instanceof File) {
-                // Créer une URL locale pour afficher l'image
-                let imageUrl = URL.createObjectURL(nouvelleImage);
-                state.utilisateurConnecte.background = imageUrl;
-            } else {
-                state.utilisateurConnecte.background = nouvelleImage;
-            }
-
+            state.utilisateurConnecte.background = nouvelleImage;
             localStorage.setItem("utilisateurConnecte", JSON.stringify(state.utilisateurConnecte));
         },
         updateImage2(state, nouvelleImage2) {
@@ -471,16 +464,17 @@ export default ({
         },
 
         async updateImagePrestataire({ commit }, { id, formData }) {
-            console.log("📤 Envoi du fichier pour l'ID :", id);
+            console.log("📤 Envoi du fichier",  formData.get("image"), " pour l'ID :", id);
             let response = await ProfilService.updateImagePrestataireFromAPI(id, formData);
             if (response.error === 0) {
-                let imageUrl = response.data;
-                console.log(imageUrl)
+                let imageUrl = response.data.imageUrl;
+                console.log(imageUrl);
                 commit('updateImage', imageUrl);
             } else {
-                console.error("Erreur API :", response.data);
+                console.error("❌ Erreur API :", response.error || response.data);
             }
         },
+
 
         async updateImage2Prestataire({ commit }, { id, nouvelleImage2 }) {
             console.log("Mis a jour de l'image pour : ", nouvelleImage2, "de l'id : ", id);

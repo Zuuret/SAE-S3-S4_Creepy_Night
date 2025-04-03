@@ -781,6 +781,7 @@ CREATE TABLE articles (
 -- Table panier_article
 CREATE TABLE panier_article (
     id SERIAL PRIMARY KEY,
+    utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE,
     article_id INT REFERENCES articles(id) ON DELETE CASCADE,
     quantite INT NOT NULL
 );
@@ -947,7 +948,7 @@ VALUES
 
 INSERT INTO prestataire (id, societe, adresse, email, password, theme, description, logo, background, background2)
 VALUES
-    ('11111111-1111-1111-1111-111111111111', 'Burger King', '3 rue de Japy', 'burgerking@gmail.com', '$2a$08$RQ1802J25vwBUanWmBpfnOY74SDXY.AlP0c9DXeFCMO5ZKwhLvBay', 'Alimentation', 'Pour le Creepy Night Festival, nous avons revisité nos classiques avec une touche effrayante ! Des recettes revisitées aux couleurs de l’horreur, des saveurs audacieuses et une ambiance qui fait frissonner. Oserez-vous y goûter ?', 'logo_burgerking.png', 'background_BK.jpg', 'background2_BK.jpg'),
+    ('11111111-1111-1111-1111-111111111111', 'Burger King', '3 rue de Japy', 'burgerking@gmail.com', '$2a$08$RQ1802J25vwBUanWmBpfnOY74SDXY.AlP0c9DXeFCMO5ZKwhLvBay', 'Alimentation', 'Pour le Creepy Night Festival, nous avons revisité nos classiques avec une touche effrayante ! Des recettes revisitées aux couleurs de l’horreur, des saveurs audacieuses et une ambiance qui fait frissonner. Oserez-vous y goûter ?', 'logo_burgerking.png', 'background-11111111-1111-1111-1111-111111111111.jpg', 'background2_BK.jpg'),
     ('22222222-2222-2222-2222-222222222222', 'POP', '5 rue de Belfort', 'pop@gmail.com', '$2a$08$ZXvZYEcy2uLc3k6r5pNUVOD3jV0PvIyE4sYAj05i1gz2AqgLotf1y', 'Goodies', 'Les icônes de l’horreur prennent vie dans notre collection spéciale Creepy Night ! Retrouvez vos personnages cultes sous forme de figurines, dans des éditions effrayantes et exclusives. Une touche de frisson à collectionner !', 'logo_pop.png', 'background_POP.jpg', 'background2_POP.jpg'),
     ('33333333-3333-3333-3333-333333333333', 'Starbucks', '22 place de la République', 'starbucks@gmail.com', '$2a$08$ZXvZYEcy2uLc3k6r5pNUVOD3jV0PvIyE4sYAj05i1gz2AqgLotf1y', 'Alimentation', 'Plongez dans un univers ensorcelé avec nos boissons aux notes mystérieuses et envoûtantes. Entre saveurs automnales et créations surprises, chaque gorgée vous emmène dans l’ambiance inquiétante du festival.', 'logo_starbucks.png', 'background_starbucks.jpg', 'background2_starbucks.jpg'),
     ('44444444-4444-4444-4444-444444444444', 'Domino''s Pizza', '45 boulevard Haussmann', 'dominos@gmail.com', '$2a$08$ZXvZYEcy2uLc3k6r5pNUVOD3jV0PvIyE4sYAj05i1gz2AqgLotf1y', 'Alimentation', 'Nos recettes prennent une allure terrifiante pour l’occasion ! Des ingrédients surprenants, des associations audacieuses et une touche infernale dans chaque bouchée. Préparez-vous à une expérience gustative hors du commun', 'logo_domino.png', 'background_DominosPizza.jpg', 'background2_DominosPizza.jpg'),
@@ -1293,11 +1294,40 @@ VALUES ('11111111-1111-1111-1111-111111111111', 'Menu Whopper',
         18.99, 10,
         'figurine_Garfield.png');
 
+INSERT INTO panier_article (utilisateur_id, article_id, quantite)
+VALUES ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 1, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 2, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 3, 5),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 5, 10),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 7, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 8, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 10, 11),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 12, 6),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 17, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 20, 2),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 11, 1),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 12, 3);
+
 INSERT INTO coordonnees_bancaire (nom, numero_carte, date_expiration, cvv)
 VALUES ('Doe', '123456789ABCDEFG', '11/31', '484');
 
-INSERT INTO texte_accueil (id, titre, contenu) VALUES (
+INSERT INTO reservation_article (utilisateur_id, article_id, quantite, date_reservation)
+VALUES ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 1, 1, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 5, 1, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 9, 5, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 17, 10, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 18, 1, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 20, 10, '2024-10-25 20:00:00'),
+       ('5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 22, 1, '2024-10-25 20:00:00');
+
+ALTER TABLE texte_accueil ADD COLUMN titre_en TEXT;
+ALTER TABLE texte_accueil ADD COLUMN contenu_en TEXT;
+
+
+INSERT INTO texte_accueil (id, titre, contenu, titre_en, contenu_en) VALUES (
   1,
   'Bienvenue au Festival de l’Horreur',
-  'Préparez-vous pour une expérience terrifiante et inoubliable...'
+  'Préparez-vous pour une expérience terrifiante et inoubliable...',
+  'Welcome to the Horror Festival',
+  'Get ready for a terrifying and unforgettable experience...'
 );

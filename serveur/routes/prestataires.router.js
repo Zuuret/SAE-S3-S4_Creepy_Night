@@ -335,9 +335,10 @@ router.patch("/:uuid/adresse", sessionMiddleware.authVerif([2,3]), prestataireCo
 
 
 const multer = require("multer");
-const upload = multer({ dest: "assets/" });
+const path = require("path")
+const upload = multer({ dest: path.resolve(__dirname, '../assets') });
 
-router.post("/:uuid/background", sessionMiddleware.authVerif(), upload.single('image'), prestataireController.updateImage);
+router.post("/:uuid/background", sessionMiddleware.authVerif([2]), upload.single('image'), prestataireController.updateImage);
 
 
 module.exports = router;
