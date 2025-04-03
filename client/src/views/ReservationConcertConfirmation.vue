@@ -44,6 +44,10 @@
         <div class="ticket-total">
           <p><strong>TOTAL :</strong> {{ prixTotal }} €</p>
           <button @click="reserverConcert">RÉSERVER</button>
+  
+          <div v-if="reservationSuccess" class="confirmation-message">
+            Réservation confirmée !
+          </div>
         </div>
         <div class="liens-utiles">
           <router-link to="/cashless">
@@ -66,7 +70,9 @@ export default {
   data() {
     return {
       quantite: 1,
-      imageError: false
+      imageError: false,
+      reservationSuccess: false,
+      isLoading: false
     };
   },
   computed: {
@@ -90,7 +96,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('ConcertStore', ['getConcertById', 'insertReservConcert']),
+    ...mapActions('ConcertStore', ['getConcertById', 'reserveConcert']),
     
     async reserverConcert() {
       if (!this.utilisateurConnecte) {
@@ -104,24 +110,32 @@ export default {
         return;
       }
 
-      try {
-        const payload = {
-          concertId: this.concert.id,
-          userId: this.utilisateurConnecte.id,
-          quantity: this.quantite
-        };
+      this.isLoading = true;
+      this.reservationSuccess = false;
 
-        const response = await this.insertReservConcert(payload);
+      try {
+        const response = await this.reserveConcert({
+          concertId: this.concert.id,
+          nbPlaces: this.quantite
+        });
         
-        if (response.error === 0) {
-          alert('Réservation confirmée !');
-          this.$router.push('/reservations/concert');
+        if (response?.success) {
+          this.reservationSuccess = true;
+          // Réinitialiser après 3 secondes
+          setTimeout(() => {
+            this.reservationSuccess = false;
+          }, 3000);
+          
+          // Mettre à jour le nombre de places disponibles
+          this.concert.nb_places -= this.quantite;
         } else {
-          alert(response.data?.message || 'Erreur lors de la réservation');
+          alert(response?.data || 'Erreur lors de la réservation');
         }
       } catch (error) {
         console.error(error);
-        alert('Erreur serveur');
+        alert(error.message || 'Erreur lors de la réservation');
+      } finally {
+        this.isLoading = false;
       }
     }
   },

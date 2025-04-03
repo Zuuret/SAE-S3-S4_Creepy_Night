@@ -1,16 +1,48 @@
 const ReservConcertService = require("../services/reservConcert.services.pg");
 
-exports.saveReservConcert = async (req,res) => {
-    const utilisateur_id = req.body.utilisateur_id;
-    const concert_id = req.body.concert_id;
-    const nb_places = req.body.nb_places;
-    const date_reservation = req.body.date_reservation;
-    const resultat = await ReservConcertService.insertReservConcert(utilisateur_id, concert_id, nb_places, date_reservation);
-    if (resultat) {
-        return res.status(500).send("ERREUR INTERNE");
+exports.saveReservConcert = async (req, res) => {
+    const { utilisateur_id, concert_id, nb_places, date_reservation } = req.body;
+    
+    try {
+        // Validation des données d'entrée
+        if (!utilisateur_id || !concert_id || !nb_places || !date_reservation) {
+            return res.status(400).send("Tous les champs sont obligatoires");
+        }
+
+        if (isNaN(nb_places) || nb_places <= 0) {
+            return res.status(400).send("Le nombre de places doit être un nombre positif");
+        }
+
+        const resultat = await ReservConcertService.insertReservConcert(
+            utilisateur_id, 
+            concert_id, 
+            nb_places, 
+            date_reservation
+        );
+
+        if (resultat) {
+            return res.status(500).send("ERREUR INTERNE LORS DE LA RÉSERVATION");
+        }
+        
+        return res.status(201).json({ 
+            success: true,
+            message: "Réservation et transaction enregistrées avec succès"
+        });
+        
+    } catch (error) {
+        console.error("Erreur dans saveReservConcert:", error);
+        
+        // Gestion des erreurs spécifiques
+        if (error.message.includes("solde insuffisant")) {
+            return res.status(402).send("Solde insuffisant pour effectuer la réservation");
+        }
+        if (error.message.includes("Concert non trouvé")) {
+            return res.status(404).send("Concert non trouvé");
+        }
+        
+        return res.status(500).send("ERREUR INTERNE DU SERVEUR");
     }
-    return res.status(200).send("INSERTION AVEC SUCCES");
-}
+};
 
 exports.getReservConcert = async (req, res) => {
     const reservConcert = await ReservConcertService.getReservConcert();

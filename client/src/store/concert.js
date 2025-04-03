@@ -38,6 +38,13 @@ export default ({
         SET_RESERVCONCERT(state, reservConcert) {
             state.reservConcert = reservConcert;
         },
+        ADD_RESERVATION(state, newReservation) {
+            state.reservsconcert.push(newReservation);
+        },
+        updateReservationConcertId(state, reservationsId){
+            state.reservationsId = reservationsId
+            console.log(reservationsId)
+        },
         updateConcertById(state, concert){
             state.concert = concert;
         },
@@ -94,10 +101,7 @@ export default ({
             state.reservationsId.push(reservation.id_reservation);
             state.panier = [];
         },
-        updateReservationConcertId(state, reservationsId){
-            state.reservationsId = reservationsId
-            console.log(reservationsId)
-        },
+        
         updateListeArtistes(state, artistes){
             state.artistes = artistes;
         },
@@ -140,6 +144,51 @@ export default ({
                 commit('SET_RESERVCONCERT', response.data);
             }
         },
+        async reserveConcert({ commit, state }, { concertId, nbPlaces }) {
+            try {
+                // Récupérer le concert pour avoir le prix
+                const concert = state.concerts.find(c => c.id === concertId) || 
+                             state.concert;
+                
+                if (!concert) {
+                    throw new Error('Concert non trouvé');
+                }
+    
+                const payload = {
+                    utilisateur_id: state.utilisateurConnecte.id,
+                    concert_id: concertId,
+                    nb_places: nbPlaces,
+                    date_reservation: new Date().toISOString(),
+                    prix_total: concert.prix_place * nbPlaces
+                };
+    
+                const response = await insertReservConcert(payload);
+                
+                if (response.error === 0) {
+                    commit('ADD_RESERVATION', response.data);
+                    return { success: true };
+                } else {
+                    throw new Error(response.data);
+                }
+            } catch (error) {
+                console.error("Erreur réservation:", error);
+                throw error;
+            }
+        },
+
+        async fetchUserReservations({ commit, state }) {
+            try {
+              const allReservs = await getAllReservConcert();
+              const userReservs = allReservs.data.filter(reserv => 
+                reserv.userId === state.utilisateurConnecte?.id
+              );
+        
+              commit('SET_RESERVSCONCERT', userReservs);
+              
+            } catch (error) {
+              console.error("Erreur de chargement:", error);
+            }
+          },
         async getReservationConcertById({ commit }, userId) {
             try {
               const response = await getReservConcertByUserId(userId); 

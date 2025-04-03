@@ -12,16 +12,13 @@
         <img src="@/assets/scrolldown.png" :alt="$t('scrollDown')" class="scroll-icon">
       </button>
       <div class="PubSection" id="texte-accueil" v-if="texteAccueil.titre || texteAccueil.contenu">
-        <div class="texte-accueil-container">
-          <h1 class="texte-accueil-titre">{{ texteAccueil.titre }}</h1>
-          <div class="texte-accueil-contenu" v-html="texteAccueil.contenu"></div>
-          <router-link to="/billet" class="btn-billet">{{ $t('buyTickets') }}</router-link>
-        </div>
-      </div>
     <div class="texte-accueil-container">
         <h1 class="texte-accueil-titre">{{ texteAccueil.titre }}</h1>
         <div class="texte-accueil-contenu" v-html="texteAccueil.contenu"></div>
+        <router-link to="/billet" class="btn-billet">{{ $t('buyTickets') }}</router-link>
     </div>
+</div>
+
       <div class="activites">
         <h1 class="titre-partie" id="titre-activite">{{ $t('terrifyingFlexibleProgram') }}</h1>
         <div class="lamelles-container">
