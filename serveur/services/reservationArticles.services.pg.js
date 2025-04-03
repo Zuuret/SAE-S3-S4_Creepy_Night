@@ -73,11 +73,11 @@ async function insertReservationArticle(utilisateur_id) {
         await client.query('BEGIN');
 
         const cartQuery = `
-          SELECT pa.id as panier_id, pa.quantite, pa.utilisateur_id,
-                 a.id as article_id, a.nom, a.prix, a.image, a.description, a.stock
-          FROM panier_article pa
-          JOIN articles a ON pa.article_id = a.id
-          WHERE pa.utilisateur_id = $1
+            SELECT pa.id as panier_id, pa.quantite, pa.utilisateur_id,
+                   a.id as article_id, a.nom, a.prix, a.image, a.description, a.stock
+            FROM panier_article pa
+                     JOIN articles a ON pa.article_id = a.id
+            WHERE pa.utilisateur_id = $1
         `;
         const cartRes = await client.query(cartQuery, [utilisateur_id]);
         const cartItems = cartRes.rows;
@@ -92,9 +92,9 @@ async function insertReservationArticle(utilisateur_id) {
 
         for (const item of cartItems) {
             const insertQuery = `
-              INSERT INTO reservation_article (utilisateur_id, article_id, quantite, date_reservation)
-              VALUES ($1, $2, $3, NOW())
-              RETURNING *
+                INSERT INTO reservation_article (utilisateur_id, article_id, quantite, date_reservation)
+                VALUES ($1, $2, $3, NOW())
+                RETURNING *
             `;
             const res = await client.query(insertQuery, [utilisateur_id, item.article_id, item.quantite]);
             reservations.push(res.rows[0]);
@@ -113,18 +113,27 @@ async function insertReservationArticle(utilisateur_id) {
         }
 
         const updateSoldeQuery = `
-          UPDATE utilisateur
-          SET solde = solde - $1
-          WHERE id = $2
-          RETURNING solde
+            UPDATE utilisateur
+            SET solde = solde - $1
+            WHERE id = $2
+            RETURNING solde
         `;
         const updateSoldeRes = await client.query(updateSoldeQuery, [totalPrix, utilisateur_id]);
+
+        const insertTransactionQuery = `
+            INSERT INTO Transaction (date, operation, details, montant, utilisateur_id)
+            VALUES (NOW(), $1, $2, $3, $4)
+                RETURNING *
+        `;
+        const operationText = "Commande - Prestataire(s)";
+        const detailsText = `Réservation de commande d'une valeur de ${totalPrix} €`;
+        const transactionRes = await client.query(insertTransactionQuery, [operationText, detailsText, -totalPrix, utilisateur_id]);
 
         const deleteQuery = `DELETE FROM panier_article WHERE utilisateur_id = $1`;
         await client.query(deleteQuery, [utilisateur_id]);
 
         await client.query('COMMIT');
-        return { reservations, solde: updateSoldeRes.rows[0].solde };
+        return { reservations, solde: updateSoldeRes.rows[0].solde, transaction: transactionRes.rows[0] };
     } catch (error) {
         await client.query('ROLLBACK');
         console.error("Erreur dans insertReservationArticle :", error);
