@@ -8,6 +8,7 @@
       <header>
         <h1>{{ $t('organisateur.welcome') }}</h1>
       </header>
+
       <section class="daily-stats">
         <h2>{{ $t('organisateur.dailyStatsTitle') }}</h2>
         <div class="stat-item">
@@ -33,20 +34,23 @@
               <canvas 
                 ref="ventesChart"
                 key="ventesChart"
-                v-if="chartData && chartData.labels.length === 7"
                 style="width: 100%; height: 100%; display: block;"
               ></canvas>
-              <div v-else class="no-data-message">
-                {{ chartData ? $t('organisateur.incompleteData', { days: chartData.labels.length }) : $t('organisateur.loading') }}
-              </div>
             </div>
           </template>
         </div>
       </section>
+
+      <section class="stats-chart">
+        <h2>Réservations par style musical</h2>
+        <div class="chart-container">
+          <canvas ref="stylesChart" style="width: 100%; height: 400px;"></canvas>
+        </div>
+      </section>
+
     </div>
   </div>
 </template>
-
 
 <script>
 import { mapActions, mapGetters, mapState } from "vuex";
@@ -62,7 +66,9 @@ export default {
     return {
       chart: null,
       loading: true,
+      loadingReservations: true,
       error: null,
+      reservationsError: null,
       windowWidth: window.innerWidth,
       refreshInterval: null,
       dateCheckInterval: null
@@ -70,9 +76,52 @@ export default {
   },
   computed: {
     ...mapGetters("ProfilStore", ["utilisateurConnecte", "getUtilisateurs"]),
+    ...mapGetters("ConcertStore", ["allReservations", "allConcerts"]),
+    ...mapState("ConcertStore", ["concerts"]),
     ...mapState("organisateur", ["billetsAchatAujourdHui", "historiqueVentes"]),
     hasAccess() {
       return this.utilisateurConnecte && this.utilisateurConnecte.role === "organisateur";
+    },
+    stylesData() {
+      // Compte le nombre de réservations par style
+      const styleCounts = this.reservationsWithDetails.reduce((acc, reservation) => {
+        const style = reservation.concertType;
+        acc[style] = (acc[style] || 0) + reservation.nb_places;
+        return acc;
+      }, {});
+
+      // Transforme en format adapté pour Chart.js
+      return {
+        labels: Object.keys(styleCounts),
+        datasets: [{
+          label: 'Nombre de places réservées',
+          data: Object.values(styleCounts),
+          backgroundColor: [
+            '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', 
+            '#9966FF', '#FF9F40', '#8AC24A', '#607D8B'
+          ],
+          borderColor: '#fff',
+          borderWidth: 2
+        }]
+      };
+    },
+    reservations() {  // Ajoutez cette propriété
+      return this.allReservations || [];
+    },
+    reservationsWithDetails() {
+      return this.allReservations?.map(reservation => {
+        // Utilisez concert_id au lieu de evenement_id
+        const concert = this.concerts?.find(c => c.id === reservation.concert_id);
+        console.log('Matching concert:', concert, 'for reservation:', reservation);
+        
+        return {
+          ...reservation,
+          concertType: concert?.categorie || 'Inconnu',
+          artiste: concert?.artiste || 'Artiste inconnu',
+          // Formatage de la date
+          formattedDate: this.formatDate(reservation.date_reservation)
+        };
+      }) || [];
     },
     chartData() {
       if (!this.historiqueVentes || this.historiqueVentes.length !== 7) {
@@ -85,50 +134,131 @@ export default {
           weekday: 'short', 
           day: 'numeric',
           month: 'short'
-        }).replace('.', '').replace(/\s+/g, ' '); // Format "mar 26 mars"
+        }).replace('.', '').replace(/\s+/g, ' ');
       });
       
       const data = this.historiqueVentes.map(item => item.count);
 
-      console.log('Données formatées:', { labels, data });
       return { labels, data };
     }
   },
   methods: {
     ...mapActions("organisateur", ["fetchBilletsAchatAujourdhui", "fetchHistoriqueVentes"]),
+    ...mapActions("ConcertStore", ["fetchReservations", "getAllConcert"]),
+    
+    formatDate(dateString) {
+      if (!dateString) return 'Date inconnue';
+      
+      try {
+        // Essayez d'abord de parser la date telle quelle
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) {
+          // Si échec, essayez avec Date.parse
+          const parsed = Date.parse(dateString);
+          if (isNaN(parsed)) {
+            return 'Date invalide';
+          }
+          return new Date(parsed).toLocaleDateString('fr-FR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+          });
+        }
+        return date.toLocaleDateString('fr-FR', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      } catch (e) {
+        console.error("Erreur de formatage de date:", e, dateString);
+        return 'Date invalide';
+      }
+    },
+
+    initStylesChart() {
+      const ctx = this.$refs.stylesChart?.getContext('2d');
+      if (!ctx) return;
+
+      if (this.stylesChart) {
+        this.stylesChart.destroy();
+      }
+
+      this.stylesChart = new Chart(ctx, {
+        type: 'bar',
+        data: this.stylesData,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            tooltip: {
+              callbacks: {
+                label: (context) => {
+                  return `${context.dataset.label}: ${context.raw} places`;
+                }
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                precision: 0,
+                stepSize: 1
+              },
+              grid: {
+                color: 'rgba(0, 0, 0, 0.05)'
+              }
+            },
+            x: {
+              grid: {
+                display: false
+              }
+            }
+          },
+          barPercentage: 0.6, // Contrôle l'épaisseur des barres
+          categoryPercentage: 0.8
+        }
+      });
+    },
+
+    shortUserId(userId) {
+      return userId ? `${userId.substring(0, 8)}...` : 'N/A';
+    },
+
     handleResize() {
       this.windowWidth = window.innerWidth;
       if (this.chart) {
         this.chart.resize();
       }
     },
+
     async initChart() {
-      // 1. Détruire l'ancien graphique
       if (this.chart) {
         this.chart.destroy();
         this.chart = null;
       }
 
-      // 2. Attendre que les conditions soient remplies
       await this.$nextTick();
       
       if (!this.$refs.ventesChart) {
-        console.error('ERREUR: Canvas non trouvé - nouvelle tentative dans 100ms');
         setTimeout(() => this.initChart(), 100);
         return;
       }
 
-      // 3. Vérifier les données
       if (!this.chartData || this.chartData.labels.length !== 7) {
-        console.error('Données incomplètes', this.chartData);
         return;
       }
 
-      // 4. Initialiser le graphique
       const ctx = this.$refs.ventesChart.getContext('2d');
       if (!ctx) return;
 
-      // Forcer les dimensions
       const canvas = this.$refs.ventesChart;
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
@@ -165,13 +295,12 @@ export default {
         }
       });
     },
+
     setupAutoRefresh() {
-      // Actualiser toutes les heures
       this.refreshInterval = setInterval(() => {
         this.fetchHistoriqueVentes();
       }, 3600000);
 
-      // Vérifier le changement de jour toutes les minutes
       this.dateCheckInterval = setInterval(() => {
         const maintenant = new Date();
         if (maintenant.getDate() !== this.lastCheckDate) {
@@ -179,68 +308,71 @@ export default {
         }
         this.lastCheckDate = maintenant.getDate();
       }, 60000);
-    },
-      scheduleMidnightRefresh() {
-      const maintenant = new Date();
-      const minuit = new Date();
-      minuit.setHours(24, 0, 0, 0);
-      const delai = minuit - maintenant;
-      
-      setTimeout(() => {
-        this.fetchHistoriqueVentes();
-        this.scheduleMidnightRefresh(); // Reprogrammer pour le prochain minuit
-      }, delai);
-    }
-  },
-  watch: {
-    historiqueVentes: {
-      async handler() {
-        this.loading = false;
-        await this.$nextTick();
-        this.initChart();
-      },
-      immediate: true,
-      deep: true
-    },
-    windowWidth() {
-      this.initChart();
     }
   },
   async mounted() {
+    this.initStylesChart();
     window.addEventListener('resize', this.handleResize);
-    this.setupAutoRefresh();
     
     if (!this.utilisateurConnecte) {
-      console.log("Utilisateur non connecté, redirection vers /");
       this.$router.push("/");
     } else if (!this.hasAccess) {
-      console.log("Accès refusé pour cet utilisateur.");
+      console.log("Accès refusé");
     } else {
       try {
         this.loading = true;
+        this.loadingReservations = true;
+        
+        // Chargez d'abord les concerts
+        await this.getAllConcert();
+        console.log('Concerts chargés:', this.concerts);
+        
+        // Puis les réservations
+        await this.fetchReservations();
+        console.log('Réservations chargées:', this.allReservations);
+        
+        // Enfin les autres données
         await Promise.all([
           this.fetchBilletsAchatAujourdhui(),
           this.fetchHistoriqueVentes()
         ]);
+        
       } catch (error) {
+        console.error('Erreur de chargement:', error);
         this.error = "Erreur lors du chargement des données";
-        console.error(error);
+        this.reservationsError = "Erreur lors du chargement des réservations";
       } finally {
         this.loading = false;
+        this.loadingReservations = false;
       }
     }
     this.setupAutoRefresh();
   },
+  watch: {
+    historiqueVentes: {
+      async handler() {
+        await this.$nextTick();
+        this.initChart();
+      },
+      immediate: true
+    },
+    reservationsWithDetails: {
+      handler() {
+        this.$nextTick(() => {
+          this.initStylesChart();
+        });
+      },
+      deep: true
+    }
+  },
   beforeUnmount() {
     window.removeEventListener('resize', this.handleResize);
-    if (this.refreshInterval) {
-      clearInterval(this.refreshInterval);
+    if (this.refreshInterval) clearInterval(this.refreshInterval);
+    if (this.dateCheckInterval) clearInterval(this.dateCheckInterval);
+    if (this.chart) this.chart.destroy();
+    if (this.stylesChart) {
+      this.stylesChart.destroy();
     }
-    if (this.chart) {
-      this.chart.destroy();
-    }
-    clearInterval(this.refreshInterval);
-    clearInterval(this.dateCheckInterval);
   }
 };
 </script>
