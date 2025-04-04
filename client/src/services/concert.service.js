@@ -15,6 +15,20 @@ export async function getConcertbyId(uuid) {
     return await getConcertbyIdFromAPI(uuid)
 }
 
+async function getAllReservationsFromAPI() {
+    return await getRequest('reservConcert');
+}
+
+export async function getAllReservations() {
+    try {
+        let res = await getAllReservationsFromAPI();
+        return { error: 0, data: res.data };
+    } catch (error) {
+        console.error("get all reservations", error);
+        return { error: 1, message: error.message };
+    }
+}
+
 async function getAllPlaceConcertFromLocalSource(){
     return LocalSource.getAllPlaceConcert();
 }
