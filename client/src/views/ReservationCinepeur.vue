@@ -14,11 +14,12 @@
           <div v-for="hour in hours" :key="hour" class="bordure">
             <div v-if="!filmsByDayAndHour[day][hour]" class="case">
               <p>{{ $t('comingSoon') }}</p>
+              <p>{{ filmsByDayAndHour[day][hour] }}</p>
             </div>
             <div v-if="filmsByDayAndHour[day][hour]" class="item">
               <router-link :to="`/cinepeur/${filmsByDayAndHour[day][hour].id}`">
                 <img :src="filmsByDayAndHour[day][hour].image" alt="Affiche du concert"/>
-                <p>{{ filmsByDayAndHour[day][hour].nomFilm }}</p>
+                <p>{{ filmsByDayAndHour[day][hour].nom }}</p>
               </router-link>
             </div>
           </div>
@@ -56,11 +57,13 @@ export default {
       this.films.forEach(film => {
         const filmDate = new Date(film.date);
         const filmDay = filmDate.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
-        const filmHour = film.heure.split('h')[0] + ':00';
+        const filmHour = film.heure.split(":00")[0]+":00";
         if (this.days.includes(filmDay)) {
+          console.log(filmDay, filmHour)
           filmsByDayAndHour[filmDay][filmHour] = film;
         }
       });
+      console.log(filmsByDayAndHour)
 
       return filmsByDayAndHour;
     }

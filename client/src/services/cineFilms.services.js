@@ -1,5 +1,8 @@
-import LocalSource from "@/datasource/controller";
-
+//import LocalSource from "@/datasource/controller";
+import {getRequest, postRequest,
+    //patchRequest, deleteRequest, putRequest
+} from "@/services/axios.service";
+/*
 async function getFilmsFromLocalSource() {
     return LocalSource.getFilms();
 }
@@ -19,11 +22,31 @@ async function getPlacesFilmsFromLocalSource(places_film) {
 async function setPlaceFilmFromLocalSource(film) {
     return LocalSource.setPlaceFilm(film);
 }
+*/
+async function getFilmsFromAPI() {
+    return getRequest('films/',"GETFILMS");
+}
+
+async function getFilmByIdFromAPI(filmId) {
+    return getRequest('films/'+filmId,"GETFILMBYID");
+}
+
+async function setFilmFromAPI(film) {
+    return postRequest('films/',film,"SETFILM");
+}
+
+async function getPlacesFilmsFromAPI(places_film) {
+    return getRequest('placesFilms/'+places_film,"GETPLACESFILMS");
+}
+
+async function setPlaceFilmFromAPI(film) {
+    return postRequest('placesFilms/',film,"SETPLACEFILM");
+}
 
 async function getFilms() {
     let response = null;
     try {
-        response = await getFilmsFromLocalSource();
+        response = await getFilmsFromAPI();
         return response;
     }
     catch(err) {
@@ -35,7 +58,7 @@ async function getFilms() {
 async function getFilmById(filmId) {
     let response;
     try {
-        response = await getFilmByIdFromLocalSource(filmId);
+        response = await getFilmByIdFromAPI(filmId);
     } catch (err) {
         response = { error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des concerts' };
     }
@@ -45,7 +68,7 @@ async function getFilmById(filmId) {
 async function setFilm(film) {
     let response = null;
     try {
-        response = await setFilmInLocalSource(film);
+        response = await setFilmFromAPI(film);
         return response;
     }
     catch(err) {
@@ -57,7 +80,7 @@ async function setFilm(film) {
 async function getPlacesFilm(places_film) {
     let response;
     try {
-        response = await getPlacesFilmsFromLocalSource(places_film);
+        response = await getPlacesFilmsFromAPI(places_film);
     } catch (err) {
         response = { error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des places de film' };
     }
@@ -67,7 +90,7 @@ async function getPlacesFilm(places_film) {
 async function setPlaceFilm(film) {
     let response;
     try {
-        response = await setPlaceFilmFromLocalSource(film);
+        response = await setPlaceFilmFromAPI(film);
     } catch (err) {
         response = { error: 1, status: 404, data: "erreur réseau, impossible de créer la place" };
     }
