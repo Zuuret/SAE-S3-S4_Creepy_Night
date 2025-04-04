@@ -1,5 +1,4 @@
 module.exports = (tokenRole, allowedRoles) => {
-    console.log(tokenRole, allowedRoles)
     if (!tokenRole) {
         return { message: "middlewares.check_role.errors.authorization_error" };
     }

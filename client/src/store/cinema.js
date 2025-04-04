@@ -11,10 +11,11 @@ export default ({
         films: [],
         filmById: null,
         film: [],
-        places_film: [],
+        places_film: {},
     }),
     mutations: {
         updateListeFilms(state, films){
+            console.log(films[0])
             state.films = films;
         },
         updateFilmById(state, filmById){
@@ -41,6 +42,7 @@ export default ({
         async getFilmById({commit}, filmById){
             console.log("Récupération du film par id : ", filmById);
             let response = await CineFilms.getFilmById(filmById);
+            console.log(response.data)
             if (response.error === 0) {
                 commit('updateFilmById', response.data);
             } else {
@@ -59,6 +61,7 @@ export default ({
         async getPlacesFilms({ commit }, places_film) {
             console.log("Récupération des places pour le film : ", places_film);
             let response = await CineFilms.getPlacesFilm(places_film);
+            console.log(response)
             if (response.error === 0) {
                 commit('updateListePlaceFilm', response.data);
             } else {

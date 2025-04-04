@@ -7,13 +7,13 @@ const {FALSE} = require("pg-format/lib/reserved");
 exports.saveFilm = async (req,res) => {
     const nom = req.body.nom;
     const date = req.body.date;
-    const duree = req.body.duree;
+    const heure = req.body.heure;
     const image = req.body.image;
     const categorie = req.body.categorie;
     const salle = req.body.salle;
     const nb_places = req.body.nb_places;
     const prix = req.body.prix;
-    const resultat = await filmService.insertFilm(nom, date, duree, image, categorie, salle, nb_places, prix);
+    const resultat = await filmService.insertFilm(nom, date, heure, image, categorie, salle, nb_places, prix);
     if (resultat) {
         return res.status(500).send("ERREUR INTERNE");
     }
@@ -25,7 +25,7 @@ exports.getFilms = async (req, res) => {
     if (!films) {
         return res.status(500).json({ error: 'ERREUR INTERNE' });
     }
-    return res.status(200).json({ data: films });
+    return res.status(200).json({error: 0, data: films });
 };
 
 exports.getFilmById = async (req, res) => {
@@ -42,7 +42,7 @@ exports.getFilmById = async (req, res) => {
         if (!film) {
             return res.status(404).json({ error: 'Film non trouvé' });
         }
-        return res.status(200).json({ data: film });
+        return res.status(200).json({ error: 0, data: film });
     } catch (error) {
         console.error('Erreur lors de la récupération du film :', error);
         return res.status(500).json({ error: 'ERREUR INTERNE' });
@@ -54,13 +54,13 @@ exports.updateFilm = async (req,res) => {
     const id = req.params.id;
     const nom = req.body.nom;
     const date = req.body.date;
-    const duree = 2;
+    const heure = req.body.heure;
     const image = req.body.image;
     const categorie = req.body.categorie;
     const salle = req.body.salle;
     const nb_places = req.body.nb_places;
     const prix = req.body.prix;
-    const resultat = await filmService.updateFilm(id,nom, date, duree, image, categorie, salle, nb_places, prix);
+    const resultat = await filmService.updateFilm(id,nom, date, heure, image, categorie, salle, nb_places, prix);
     if(resultat){
         return res.status(500).send("ERREUR INTERNE");
     }
