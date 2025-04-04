@@ -701,7 +701,7 @@ CREATE TABLE Films (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(50) NOT NULL,
     date TIMESTAMP NOT NULL,
-    duree INT NOT NULL,
+    heure VARCHAR(8) NOT NULL,
     image VARCHAR(50),
     categorie VARCHAR(50) DEFAULT '',
     salle VARCHAR(50),
@@ -873,14 +873,17 @@ CREATE TABLE places_films (
     type_place VARCHAR(50) NOT NULL,
     nb_places INT NOT NULL,
     prix_place DECIMAL NOT NULL,
-    PRIMARY KEY (id_film, type_place)
+    PRIMARY KEY (id_film)
 );
 
 -- Table reserve_film (réservation de places dans un film)
 CREATE TABLE reserve_film (
-    id SERIAL PRIMARY KEY,
-    nb_places_prises INT NOT NULL,
-    type_place_prises VARCHAR(50) NOT NULL
+    id_reservation SERIAL PRIMARY KEY,
+    id_utilisateur UUID REFERENCES Utilisateur(id) ON DELETE CASCADE,
+    id_film INT REFERENCES Films(id) ON DELETE CASCADE,
+    nom_film VARCHAR(50) NOT NULL,
+    nb_places INT NOT NULL,
+    prix_billets DECIMAL NOT NULL
 );
 
 -- Table soireeBaltrouille (soirées spéciales)
@@ -944,6 +947,9 @@ CREATE TABLE texte_accueil (
     contenu TEXT NOT NULL,
     date_maj TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+
 
 INSERT INTO utilisateur (id, nom, prenom, date_naissance, mail, password, solde, num_cashless, qr_code, est_festivalier)
 VALUES
@@ -1122,20 +1128,37 @@ VALUES
 ('L''ÉpouvanTour', '2025-10-31 22:00:00', 100, 15),
 ('L''ÉpouvanTour', '2025-11-02 22:00:00', 100, 15);
 
-INSERT INTO Films (nom, date, duree, image, categorie, salle, nb_places, prix)
+INSERT INTO Films (nom, date, heure, image, categorie, salle, nb_places, prix)
 VALUES
-('Shining', '2025-10-27 22:00:00', 1, 'affiche_BigAli.jpg', 'House', 'Salle 1', 100, 10),
-('Halloween', '2025-10-28 19:00:00', 1, 'affiche_TravisScott.jpg', 'Rap', 'Salle 2', 100, 10),
-('l''Exorciste', '2025-10-29 21:00:00', 1, 'affiche_Muse.jpg', 'Rock', 'Salle 3', 100, 10),
-('Alien', '2025-10-29 22:00:00', 1, 'affiche_Vald.jpg', 'Rap', 'Salle 4', 100, 10),
-('Psychose', '2025-10-29 00:00:00', 1, 'affiche_DavidGuetta.jpg', 'Électro', 'Salle 1', 100, 10),
-('Massacre à la tronçonneuse', '2025-10-30 21:00:00', 1, 'affiche_Kungs.jpg', 'House', 'Salle 2', 100, 10),
-('Conjuring', '2025-10-30 23:00:00', 1, 'affiche_VladimirCauchemard.jpg', 'Électro', 'Salle 3', 100, 10),
-('La Nuit des masques', '2025-10-31 18:00:00', 1, 'affiche_Gims.jpg', 'Rap', 'Salle 4', 100, 10),
-('[REC]', '2025-10-31 21:00:00', 1, 'affiche_DaftPunk.jpg', 'Électro', 'Salle 1', 100, 10),
-('Suspiria', '2025-10-31 22:00:00', 1, 'affiche_KendrickLamar.jpg', 'Rap', 'Salle 2', 100, 10),
-('Le Projet Blair Witch', '2025-10-31 23:00:00', 1, 'affiche_RollingStones.jpg', 'Rock', 'Salle 3', 100, 10),
-('Rosemary''s Baby', '2025-11-01 18:00:00', 1, 'affiche_Guy2Bezbar.jpg', 'Rap', 'Salle 4', 100, 10);
+('Shining', '2025-10-27', '22:00', 'affiche_BigAli.jpg', 'House', 'Salle 1', 100, 10),
+('Halloween', '2025-10-28', '19:00', 'affiche_TravisScott.jpg', 'Rap', 'Salle 2', 100, 10),
+('l''Exorciste', '2025-10-29', '21:00', 'affiche_Muse.jpg', 'Rock', 'Salle 3', 100, 10),
+('Alien', '2025-10-29', '22:00', 'affiche_Vald.jpg', 'Rap', 'Salle 4', 100, 10),
+('Psychose', '2025-10-29', '00:00', 'affiche_DavidGuetta.jpg', 'Électro', 'Salle 1', 100, 10),
+('Massacre à la tronçonneuse', '2025-10-30', '21:00', 'affiche_Kungs.jpg', 'House', 'Salle 2', 100, 10),
+('Conjuring', '2025-10-30', '23:00', 'affiche_VladimirCauchemard.jpg', 'Électro', 'Salle 3', 100, 10),
+('La Nuit des masques', '2025-10-31', '18:00', 'affiche_Gims.jpg', 'Rap', 'Salle 4', 100, 10),
+('[REC]', '2025-10-31', '21:00', 'affiche_DaftPunk.jpg', 'Électro', 'Salle 1', 100, 10),
+('Suspiria', '2025-10-31', '22:00', 'affiche_KendrickLamar.jpg', 'Rap', 'Salle 2', 100, 10),
+('Le Projet Blair Witch', '2025-10-31', '23:00', 'affiche_RollingStones.jpg', 'Rock', 'Salle 3', 100, 10),
+('Rosemary''s Baby', '2025-11-01', '18:00', 'affiche_Guy2Bezbar.jpg', 'Rap', 'Salle 4', 100, 10);
+
+
+INSERT INTO places_films(id_film, type_place, nb_places, prix_place)
+VALUES
+(1, 'Fosse', 300, 5 ),
+(2, 'Fosse', 300, 25 ),
+(3, 'Fosse', 300, 10 ),
+(4, 'Fosse', 300, 10 ),
+(5, 'Fosse', 300, 25 ),
+(6, 'Fosse', 300, 8 ),
+(7, 'Fosse', 300, 8 ),
+(8, 'Fosse', 300, 15 ),
+(9, 'Fosse', 300, 30 ),
+(10, 'Fosse', 300, 15 ),
+(11, 'Fosse', 300, 15 ),
+(12, 'Fosse', 300, 10 );
+
 
 INSERT INTO Deguisement (nom, prix, image)
 VALUES

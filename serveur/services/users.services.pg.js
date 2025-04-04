@@ -35,11 +35,11 @@ async function getUsers() {
     return res.rows;
 }
 
-async function updateUser(uuid, name, firstname, birthdate, email, password, est_festivalier) {
+async function updateUser(uuid, name, firstname, birthdate, email, password, solde, est_festivalier) {
     const client = await pool.connect();
     let is_error = false;
     try {
-        const query = format('UPDATE Utilisateur SET nom = %L, prenom = %L, date_naissance = %L, mail = %L, password = %L, est_festivalier = %L WHERE id = %L', name, firstname, birthdate, email, password, est_festivalier, uuid);
+        const query = format('UPDATE Utilisateur SET nom = %L, prenom = %L, date_naissance = %L, mail = %L, password = %L, solde = %L, est_festivalier = %L WHERE id = %L', name, firstname, birthdate, email, password, solde, est_festivalier, uuid);
         await client.query(query);
         console.log('MISE A JOUR DE L\'UTILISATEUR');
     } catch (error) {

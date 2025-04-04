@@ -37,7 +37,12 @@ exports.getUserById = async (req, res) => {
             return res.status(400).json({ error: 'ID utilisateur manquant' });
         }
 
-        const user = await userService.getUserById(uuid);
+        const users = await userService.getUsers();
+        if (!users) {
+            return res.status(404).json({ error: 'Utilisateurs non trouvé' });
+        }
+
+        const user = users.find(u => u.id == uuid);
         if (!user) {
             return res.status(404).json({ error: 'Utilisateur non trouvé' });
         }
@@ -57,8 +62,9 @@ exports.updateUser = async (req,res) => {
     const birthdate = req.body.birthdate;
     const email = req.body.email;
     const password = req.body.password;
+    const solde = req.body.solde;
     const est_festivalier = req.body.is_festivalier;
-    const resultat = await userService.updateUser(uuid,nom,prenom,birthdate,email,password,est_festivalier);
+    const resultat = await userService.updateUser(uuid, nom, prenom, birthdate, email, password, solde, est_festivalier);
     if(resultat){
         return res.status(500).send("ERREUR INTERNE");
     }
