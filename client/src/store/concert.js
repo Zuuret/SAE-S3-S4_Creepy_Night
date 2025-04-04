@@ -6,7 +6,7 @@ Vue.use(Vuex)
 import ConcertService from "../services/concert.service";
 import ValidArtiste from "../services/validArtiste.service";
 
-import { getAllConcerts, getConcertbyId } from "@/services/concert.service"
+import { getAllConcerts, getConcertbyId, getAllReservations } from "@/services/concert.service"
 
 export default ({
     namespaced: true,
@@ -21,6 +21,9 @@ export default ({
         reservations: [],
         reservationsId: [],
         utilisateurConnecte: JSON.parse(localStorage.getItem("utilisateurConnecte")) || null,
+    },
+    getters: {
+        allReservations: (state) => state.reservations
     },
     mutations: {
         updateListeConcert(state, concerts){
@@ -87,6 +90,9 @@ export default ({
         updateReservationConcertId(state, reservationsId){
             state.reservationsId = reservationsId
             console.log(reservationsId)
+        },
+        SET_RESERVATIONS(state, reservations) {
+            state.reservations = reservations;
         },
         updateListeArtistes(state, artistes){
             state.artistes = artistes;
@@ -169,6 +175,13 @@ export default ({
             } else {
                 console.error(response.data);
             }
+        },
+        async fetchReservations({ commit }) {
+            const response = await getAllReservations();
+            if (response.error === 0) {
+                commit('SET_RESERVATIONS', response.data);
+            }
+            return response;
         },
         async getReservationConcertById({commit}, utilisateurId){
             console.log("Récupération des commande de ID :", utilisateurId)
