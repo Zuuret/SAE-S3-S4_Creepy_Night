@@ -1,24 +1,29 @@
 <template>
   <div class="concert">
     <div class="background">
-      <img :src="concert.image" alt="Affiche du concert" class="affiche_concert" />
+      <img
+          v-if="concert && concert.image"
+          :src="require(`@/assets/${concert.image}`)"
+          alt="Affiche du concert"
+          class="affiche_concert"
+      />
+      <p v-else>Chargement de l'image...</p>
     </div>
-
     <div class="concert_info">
       <div v-if="concert">
         <p class="nom_artiste">{{ concert.artiste }}</p>
         <p class="categorie_artiste">{{ concert.categorie }} - {{ concert.nationalite }}</p>
-        <p class="info_concert">{{ concert.date }} - {{ concert.heure }}</p>
+        <p class="info_concert">{{ formattedDate }} - {{ formattedTime }}</p>
         <p class="scene_concert">{{ concert.scene }}</p>
       </div>
 
       <div class="ticket">
         <h3>Places disponibles :</h3>
-        <div v-if="place_concert">
+        <div v-if="concert && concert.nb_places > 0">
           <p>
-            <strong>Type :</strong> {{ place_concert.type_place }} <br/>
-            <strong>Prix :</strong> {{ place_concert.prix_place }} €<br/>
-            <strong>Disponibles :</strong> {{ place_concert.nb_places }}
+            <strong>Type :</strong> {{ concert.type_place }} <br/>
+            <strong>Prix :</strong> {{ concert.prix_place }} €<br/>
+            <strong>Disponibles :</strong> {{ concert.nb_places }}
           </p>
           <label for="selection_quantite">QUANTITÉ</label>
           <input type="number" v-model.number="quantite" id="selection_quantite" min="0" step="1"/>
@@ -55,35 +60,35 @@ export default {
     };
   },
   computed: {
+    ...mapState('ProfilStore',['utilisateurConnecte']),
     ...mapState('ConcertStore', ['concert', 'place_concert']),
     prixTotal() {
       return this.place_concert ? this.place_concert.prix_place * this.quantite : 0;
     },
+    formattedDate() {
+      return this.concert?.date ? new Date(this.concert.date).toLocaleDateString('fr-FR') : '';
+    },
+    formattedTime() {
+      return this.concert?.heure ? this.concert.heure.slice(0, 5) : '';
+    }
   },
   methods: {
-    ...mapActions('ConcertStore', ['getConcertbyId', 'getPlacesConcertsbyId', 'getAllPlacesConcert', 'ajouterAuPanier']),
+    ...mapActions('ConcertStore', ['getConcertbyId', 'ajouterAuPanier']),
     async ajoutAuPanier() {
       if (this.quantite <= 0) {
         alert('Veuillez sélectionner une quantité valide.');
       } else {
-        await this.ajouterAuPanier({
-          placeId: this.place_concert.id_place,
-          nbPlaces: this.quantite
-        }).then(() => {
-          this.place_concert.nb_places -= this.quantite;
-          this.quantite = 0;
-        }).catch(error => {
-          alert("Erreur lors de l'ajout au panier.");
-          console.error(error);
-        });
+          const concert = {
+            ...this.concert,
+            utilisateur_id: this.utilisateurConnecte.id,
+          }
+          this.ajouterAuPanier(concert)
       }
     },
   },
   mounted() {
     const concertId = parseInt(this.$route.params.id);
     this.getConcertbyId(concertId);
-    this.getPlacesConcertsbyId(concertId);
-    this.getAllPlacesConcert()
   },
 };
 </script>

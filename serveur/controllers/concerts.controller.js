@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 
 const concertService = require("../services/concerts.services.pg");
 const {FALSE} = require("pg-format/lib/reserved");
+const articlesService = require("../services/articles.service.pg");
 
 exports.saveConcert = async (req,res) => {
     const artiste = req.body.artiste;
@@ -48,6 +49,48 @@ exports.getConcertById = async (req, res) => {
     } catch (error) {
         console.error('Erreur lors de la récupération du concert :', error);
         return res.status(500).json({ error: 'ERREUR INTERNE' });
+    }
+};
+
+exports.PostConcertInPanier = async (req, res) => {
+    const { concert, utilisateur_id } = req.body;
+    try {
+        const result = await concertService.insertConcertInPanier(concert, utilisateur_id);
+        if (!result) {
+            return res.status(500).json({ error: 1, data: "Erreur lors de l'ajout au panier" });
+        }
+        return res.status(200).json({ error: 0, data: result });
+    } catch (error) {
+        console.error("Erreur dans insertConcertInPanier :", error);
+        return res.status(500).json({ error: 1, data: "Erreur interne du serveur" });
+    }
+};
+
+exports.incrementNbPlacesInPanier = async (req, res) => {
+    const { panier_item_id } = req.body; // On attend que le front envoie l'id de la ligne du panier
+    try {
+        const result = await concertService.incrementNbPlacesInPanier(panier_item_id);
+        if (result.error) {
+            return res.status(400).json({ error: 1, data: result.error });
+        }
+        return res.status(200).json({ error: 0, data: result });
+    } catch (error) {
+        console.error("Erreur dans incrementNbPlacesInPanier :", error);
+        return res.status(500).json({ error: 1, data: "Erreur interne du serveur" });
+    }
+};
+
+exports.decrementNbPlacesInPanier = async (req, res) => {
+    const { panier_item_id } = req.body; // On attend que le front envoie l'id de la ligne du panier
+    try {
+        const result = await concertService.decrementNbPlacesInPanier(panier_item_id);
+        if (result.error) {
+            return res.status(400).json({ error: 1, data: result.error });
+        }
+        return res.status(200).json({ error: 0, data: result });
+    } catch (error) {
+        console.error("Erreur dans decrementNbPlacesInPanier :", error);
+        return res.status(500).json({ error: 1, data: "Erreur interne du serveur" });
     }
 };
 

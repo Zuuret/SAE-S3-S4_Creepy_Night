@@ -387,7 +387,7 @@ VALUES
 ('Vladimir Cauchemar', 'FR', '2025-10-30', '23:00:00', 1, 'Électro', 'Grande Scène'),
 ('Gims', 'FR', '2025-10-31', '18:00:00', 1, 'Rap', 'Grande Scène');
 
-INSERT INTO Place_concert (id_concert, type_place, nb_places, prix_place)
+INSERT INTO Place_concertPlace_concert (id_concert, type_place, nb_places, prix_place)
 VALUES
 (1, 'Fosse', 300, 5),
 (2, 'Fosse', 300, 25),
@@ -519,7 +519,6 @@ DROP TABLE IF EXISTS Films CASCADE;
 DROP TABLE IF EXISTS Course_cauchemarathon CASCADE;
 DROP TABLE IF EXISTS Expo_oeuvre CASCADE;
 DROP TABLE IF EXISTS Concert CASCADE;
-DROP TABLE IF EXISTS Place_concert CASCADE;
 DROP TABLE IF EXISTS Reservation_prestation CASCADE;
 DROP TABLE IF EXISTS prestation CASCADE;
 DROP TABLE IF EXISTS billet_festival CASCADE;
@@ -666,15 +665,10 @@ CREATE TABLE Concert (
     duree INT NOT NULL,
     categorie VARCHAR(50),
     scene VARCHAR(50),
-    image VARCHAR(100)
-);
-
-CREATE TABLE Place_concert (
-    id_place SERIAL PRIMARY KEY,
-    id_concert INT REFERENCES Concert(id) ON DELETE CASCADE,
-    type_place VARCHAR(50) NOT NULL,
+    type_place VARCHAR(50),
     nb_places INT NOT NULL,
-    prix_place DECIMAL NOT NULL
+    prix_place DECIMAL NOT NULL,
+    image VARCHAR(100)
 );
 
 -- Table Expo_oeuvre
@@ -855,7 +849,7 @@ CREATE TABLE panier_concert (
     id SERIAL PRIMARY KEY,
     utilisateur_id UUID REFERENCES Utilisateur(id) ON DELETE CASCADE,
     concert_id INT REFERENCES Concert(id) ON DELETE CASCADE,
-    quantite INT NOT NULL
+    nb_places_panier INT NOT NULL
 );
 
 -- Table reservation_concert (réservation de places pour un concert)
@@ -1090,27 +1084,16 @@ VALUES
 ('2024-10-25 12:00:00', '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f6', 1),
 ('2024-10-25 12:10:00', '5fbd1d86-3e25-461a-be8d-bbbd9d5d94f7', 2);
 
-INSERT INTO Concert (artiste, nationalite, date, heure, duree, categorie, scene, image)
+INSERT INTO Concert (artiste, nationalite, date, heure, duree, categorie, scene, type_place, nb_places, prix_place, image)
 VALUES
-('BigAli', 'USA', '2025-10-27', '22:00:00', 1, 'House', 'Grande Scène','affiche_BigAli'),
-('Travis Scott', 'USA', '2025-10-28', '19:00:00', 1, 'Rap', 'Grande Scène','affiche_TravisScott'),
-('Muse', 'USA', '2025-10-29', '21:00:00', 1, 'Rock', 'Grande Scène','affiche_Muse'),
-('Vald', 'FR', '2025-10-29', '22:00:00', 1, 'Rap', 'Grande Scène','affiche_Vald'),
-('David Guetta', 'FR', '2025-10-29', '00:00:00', 1, 'Électro', 'Grande Scène','affiche_DavidGuetta'),
-('Kungs', 'FR', '2025-10-30', '21:00:00', 1, 'House', 'Grande Scène','affiche_Kungs'),
-('Vladimir Cauchemar', 'FR', '2025-10-30', '23:00:00', 1, 'Électro', 'Grande Scène','affiche_VladimirCauchemar'),
-('Gims', 'FR', '2025-10-31', '18:00:00', 1, 'Rap', 'Grande Scène','affiche_Gims');
-
-INSERT INTO Place_concert (id_concert, type_place, nb_places, prix_place)
-VALUES
-    (1, 'Fosse', 300, 5),
-    (2, 'Fosse', 250, 6),
-    (3, 'Fosse', 280, 7),
-    (4, 'Fosse', 320, 8),
-    (5, 'Fosse', 290, 9),
-    (6, 'Fosse', 310, 10),
-    (7, 'Fosse', 270, 5),
-    (8, 'Fosse', 330, 6);
+    ('BigAli', 'USA', '2025-10-27', '22:00:00', 1, 'House', 'Grande Scène', 'Fosse', 5000, 49.99, 'affiche_BigAli.jpg'),
+    ('Travis Scott', 'USA', '2025-10-28', '19:00:00', 1, 'Rap', 'Grande Scène', 'Fosse',4500, 79.99, 'affiche_TravisScott.jpg'),
+    ('Muse', 'USA', '2025-10-29', '21:00:00', 1, 'Rock', 'Grande Scène', 'Fosse',6000, 69.99, 'affiche_Muse.jpg'),
+    ('Vald', 'FR', '2025-10-29', '22:00:00', 1, 'Rap', 'Grande Scène', 'Fosse',3000, 39.99, 'affiche_Vald.jpg'),
+    ('David Guetta', 'FR', '2025-10-29', '00:00:00', 1, 'Électro', 'Grande Scène', 'Fosse',8000, 89.99, 'affiche_DavidGuetta.jpg'),
+    ('Kungs', 'FR', '2025-10-30', '21:00:00', 1, 'House', 'Grande Scène', 'Fosse',4000, 59.99, 'affiche_Kungs.jpg'),
+    ('Vladimir Cauchemar', 'FR', '2025-10-30', '23:00:00', 1, 'Électro', 'Grande Scène', 'Fosse',2500, 44.99, 'affiche_VladimirCauchemar.jpg'),
+    ('Gims', 'FR', '2025-10-31', '18:00:00', 1, 'Rap', 'Grande Scène', 'Fosse',3500, 54.99, 'affiche_Gims.jpg');
 
 INSERT INTO Expo_oeuvre (createur, email, date_crea, description, image)
 VALUES

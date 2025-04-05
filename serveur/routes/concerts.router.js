@@ -216,4 +216,10 @@ router.put("/:id",  sessionMiddleware.authVerif([1,2,3]), concertController.upda
  */
 router.delete("/:id",  sessionMiddleware.authVerif([1,2,3]), concertController.deleteConcert);
 
+router.post("/panier", sessionMiddleware.authVerif([1,2,3]), concertController.PostConcertInPanier);
+
+router.put("/panier/incrementation", sessionMiddleware.authVerif([1,2,3]), concertController.incrementNbPlacesInPanier)
+
+router.put("/panier/decrementation", sessionMiddleware.authVerif([1,2,3]), concertController.decrementNbPlacesInPanier)
+
 module.exports = router;
