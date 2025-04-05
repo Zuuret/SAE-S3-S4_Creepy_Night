@@ -138,15 +138,15 @@
     "refund": "Get a refund for my bracelet balance after the event",
     "imageAlt": "CashLess Bracelet",
     "step1": {
-      "title": "1. Credit your CashLess account",
+      "title": "Credit your CashLess account",
       "text": "Go to this page or the mobile app to credit your bracelet. Then on the day, present your ticket at the entrance to receive your preloaded bracelet."
     },
     "step2": {
-      "title": "2. Simplified payment",
+      "title": "Simplified payment",
       "text": "Use your bracelet to pay for your purchases on-site (except for exceptions)."
     },
     "step3": {
-      "title": "3. Refund",
+      "title": "Refund",
       "text": "At the end of the festival, if you have remaining credit, go to your online account to request a refund from November 2nd to 15th. No refunds will be accepted after this date."
     }
   },
@@ -166,12 +166,12 @@
   },
   "title": "Cauche'Marathon",
   "description": "Cauche'Marathon is a unique horror race held at the festival. Participants must run through scary circuits, avoiding monsters and traps, to reach the finish line. The top three runners of each race will receive cash rewards, medals, and an exclusive trophy!",
-  "circuit_description": "There are two circuits available: The FrayeuRoute and The EpouvanTour.",
-  "circuit_time": "Marathons on the FrayeuRoute will start at 8 PM, while those on The EpouvanTour will start at 10 PM.",
+  "circuit_description": "There are two circuits available: The FrayeuRoute and The CrainTour.",
+  "circuit_time": "Marathons on the FrayeuRoute will start at 8 PM, while those on The CrainTour will start at 10 PM.",
   "choose_circuit": "Choose your circuit",
   "full_map": "Full map",
   "frayeuRoute": "The FrayeuRoute",
-  "epouvanTour": "The EpouvanTour",
+  "epouvanTour": "The CrainTour",
   "choose_day": "Choose your day",
   "wednesday": "Wednesday, October 29",
   "friday": "Friday, October 31",
@@ -195,8 +195,8 @@
     "title": "Cauche'Marathon",
     "circuits": "Circuits",
     "circuit1": "The FrayeuRoute",
-    "circuit2": "The EpouvanTour",
-    "description": "The Cauche'Marathon is a unique horror race taking place in the festival. Participants must run through terrifying circuits, avoiding monsters and traps, to reach the finish line. The top three in each race will receive cash prizes, medals, and an exclusive trophy!\n\nThere are two circuits available: The FrayeuRoute and The EpouvanTour.\n\nMarathons on the FrayeuRoute will start at 8 PM, while those on the EpouvanTour will start at 10 PM.",
+    "circuit2": "The CrainTour",
+    "description": "The Cauche'Marathon is a unique horror race taking place in the festival. Participants must run through terrifying circuits, avoiding monsters and traps, to reach the finish line. The top three in each race will receive cash prizes, medals, and an exclusive trophy!\n\nThere are two circuits available: The FrayeuRoute and The CrainTour.\n\nMarathons on the FrayeuRoute will start at 8 PM, while those on the CrainTour will start at 10 PM.",
     "choose_circuit": "Choose your circuit",
     "full_map": "Full map",
     "choose_day": "Choose your day",

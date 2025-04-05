@@ -140,15 +140,15 @@
     "refund": "Obtenir le remboursement du solde de mon bracelet après l'événement",
     "imageAlt": "Bracelet CashLess",
     "step1": {
-      "title": "1. Créditer votre compte CashLess",
+      "title": "Créditer votre compte CashLess",
       "text": "Rendez-vous sur cette page ou sur l’application mobile pour créditer votre bracelet. Puis le jour J, présentez votre billet à l'entrée pour récupérer votre bracelet préchargé"
     },
     "step2": {
-      "title": "2. Le paiement simplifié",
+      "title": "Le paiement simplifié",
       "text": "Utilisez votre bracelet pour régler sur place vos achats (sauf exceptions)."
     },
     "step3": {
-      "title": "3. Remboursement",
+      "title": "Remboursement",
       "text": "À la fin du festival, s'il vous reste du crédit, rendez-vous sur votre compte en ligne pour demander le remboursement du 2 au 15 Novembre inclus. Aucun remboursement accepté une fois cette date passée."
     }
   },
@@ -169,12 +169,12 @@
   
     "title": "Cauche'Marathon",
     "description": "Le Cauche'Marathon est une course d'horreur unique en son genre, se déroulant dans le festival. Les participants devront courir à travers des circuits effrayants, en évitant les monstres et les pièges, pour atteindre la ligne d'arrivée. Les trois premiers de chaque course recevront des récompenses en argent, des médailles et un trophée exclusif !",
-    "circuit_description": "Il y a deux circuits disponibles : La FrayeuRoute et L'ÉpouvanTour.",
-    "circuit_time": "Les marathons sur la FrayeuRoute débuteront à 20h, tandis que ceux sur l'ÉpouvanTour débuteront à 22h.",
+    "circuit_description": "Il y a deux circuits disponibles : La FrayeuRoute et Le CrainTour",
+    "circuit_time": "Les marathons sur la FrayeuRoute débuteront à 20h, tandis que ceux sur Le CrainTour débuteront à 22h.",
     "choose_circuit": "Choisissez votre circuit",
     "full_map": "Carte intégrale",
     "frayeuRoute": "La FrayeuRoute",
-    "epouvanTour": "L'ÉpouvanTour",
+    "epouvanTour": "Le CrainTour",
     "choose_day": "Choisissez votre jour",
     "wednesday": "Mercredi 29 octobre",
     "friday": "Vendredi 31 octobre",
@@ -197,8 +197,8 @@
     "title": "Cauche'Marathon",
     "circuits": "Circuits",
     "circuit1": "La FrayeuRoute",
-    "circuit2": "L'ÉpouvanTour",
-    "description": "Le Cauche'Marathon est une course d'horreur unique en son genre, se déroulant dans le festival. Les participants devront courir à travers des circuits effrayants, en évitant les monstres et les pièges, pour atteindre la ligne d'arrivée. Les trois premiers de chaque course recevront des récompenses en argent, des médailles et un trophée exclusif !\n\nIl y a deux circuits disponibles : La FrayeuRoute et L'ÉpouvanTour.\n\nLes marathons sur la FrayeuRoute débuteront à 20h, tandis que ceux sur l'ÉpouvanTour débuteront à 22h.",
+    "circuit2": "Le CrainTour",
+    "description": "Le Cauche'Marathon est une course d'horreur unique en son genre, se déroulant dans le festival. Les participants devront courir à travers des circuits effrayants, en évitant les monstres et les pièges, pour atteindre la ligne d'arrivée. Les trois premiers de chaque course recevront des récompenses en argent, des médailles et un trophée exclusif !\n\nIl y a deux circuits disponibles : La FrayeuRoute et Le CrainTour.\n\nLes marathons sur la FrayeuRoute débuteront à 20h, tandis que ceux sur Le CrainTour débuteront à 22h.",
     "choose_circuit": "Choisissez votre circuit",
     "full_map": "Carte intégrale",
     "choose_day": "Choisissez votre jour",
