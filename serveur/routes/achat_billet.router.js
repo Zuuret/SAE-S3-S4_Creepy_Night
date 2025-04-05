@@ -75,6 +75,52 @@ const router = express.Router();
  */
 router.post("/",  sessionMiddleware.authVerif([1,2,3]), acheterBilletController.acheterBillet);
 
+/**
+ * @swagger
+ * /api/achat:
+ *   get:
+ *     summary: Récupérer les billets du festival
+ *     description: Permet de récupérer la liste de tous les billets achetés pour le festival.
+ *     tags:
+ *       - Billets
+ *     responses:
+ *       '200':
+ *         description: Liste des billets récupérée avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: Identifiant du billet (généré automatiquement)
+ *                     example: 1
+ *                   date_achat:
+ *                     type: string
+ *                     format: date-time
+ *                     description: Date d'achat du billet
+ *                   evenement_id:
+ *                     type: integer
+ *                     description: Identifiant de l'événement associé
+ *                     example: 1
+ *                   utilisateur_id:
+ *                     type: string
+ *                     format: uuid
+ *                     description: Identifiant de l'utilisateur ayant acheté le billet
+ *                     example: "123e4567-e89b-12d3-a456-426614174000"
+ *       '500':
+ *         description: Erreur interne du serveur lors de la récupération des billets
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Erreur lors de la récupération des billets"
+ */
 router.get("/", acheterBilletController.getBilletsFestival);
 
 module.exports = router;
