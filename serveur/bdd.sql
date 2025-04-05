@@ -410,9 +410,9 @@ VALUES
 ('La FrayeuRoute', '2025-10-29 20:00:00', 150, 10),
 ('La FrayeuRoute', '2025-10-31 20:00:00', 150, 10),
 ('La FrayeuRoute', '2025-11-02 20:00:00', 150, 10),
-('L''ÉpouvanTour', '2025-10-29 22:00:00', 100, 15),
-('L''ÉpouvanTour', '2025-10-31 22:00:00', 100, 15),
-('L''ÉpouvanTour', '2025-11-02 22:00:00', 100, 15);
+('Le CrainTour', '2025-10-29 22:00:00', 100, 10),
+('Le CrainTour', '2025-10-31 22:00:00', 100, 10),
+('Le CrainTour', '2025-11-02 22:00:00', 100, 10);
 
 INSERT INTO Films (nom, date, duree, image, categorie, salle, nb_places, prix)
 VALUES
@@ -1107,9 +1107,9 @@ VALUES
 ('La FrayeuRoute', '2025-10-29 20:00:00', 150, 10),
 ('La FrayeuRoute', '2025-10-31 20:00:00', 150, 10),
 ('La FrayeuRoute', '2025-11-02 20:00:00', 150, 10),
-('L''ÉpouvanTour', '2025-10-29 22:00:00', 100, 15),
-('L''ÉpouvanTour', '2025-10-31 22:00:00', 100, 15),
-('L''ÉpouvanTour', '2025-11-02 22:00:00', 100, 15);
+('Le CrainTour', '2025-10-29 22:00:00', 100, 10),
+('Le CrainTour', '2025-10-31 22:00:00', 100, 10),
+('Le CrainTour', '2025-11-02 22:00:00', 100, 10);
 
 INSERT INTO Films (nom, date, heure, image, categorie, salle, nb_places, prix)
 VALUES

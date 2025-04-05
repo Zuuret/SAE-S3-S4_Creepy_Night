@@ -1,19 +1,20 @@
-import LocalSource from "@/datasource/controller";
+import { postRequest } from "@/services/axios.service";
 
-async function buyTicketCauchemarathonFromLocalSource(data) {
-    return LocalSource.buyTicketCauchemarathon(data);
+async function buyTicketCauchemarathonFromAPI(data) {
+    return await postRequest("cauchemarathon/buyTicket", data);
 }
 
 async function buyTicketCauchemarathon(data) {
-    let response;
+    let response
     try {
-        response = await buyTicketCauchemarathonFromLocalSource(data);
+        response = await buyTicketCauchemarathonFromAPI(data);
     } catch (err) {
-        response = { error: 1, status: 404, data: 'erreur réseau, impossible de vérifier le compte bancaire' };
+        console.error("Erreur dans buyTicketCauchemarathon:", err);
+        return { error: 1, status: 404, data: 'Erreur réseau, impossible d\'acheter le billet' };
     }
     return response;
 }
 
 export default {
     buyTicketCauchemarathon
-}
+};

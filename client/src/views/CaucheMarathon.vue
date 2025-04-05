@@ -99,7 +99,7 @@ export default {
         case 'circuit1':
           return 'La FrayeuRoute';
         case 'circuit2':
-          return 'L\'ÉpouvanTour';
+          return 'Le CrainTour';
         case 'both':
           return 'Carte intégrale';
         default:
@@ -118,6 +118,25 @@ export default {
           return 'Non sélectionné';
       }
     },
+    selectedDayIso() {
+      const key = `${this.selectedDay}-${this.selectedCircuit}`;
+      switch (key) {
+        case 'mercredi-circuit1':
+          return "2025-10-29T20:00:00.000Z";
+        case 'vendredi-circuit1':
+          return "2025-10-31T20:00:00.000Z";
+        case 'dimanche-circuit1':
+          return "2025-11-02T20:00:00.000Z";
+        case 'mercredi-circuit2':
+          return "2025-10-29T22:00:00.000Z";
+        case 'vendredi-circuit2':
+          return "2025-10-31T22:00:00.000Z";
+        case 'dimanche-circuit2':
+          return "2025-11-02T22:00:00.000Z";
+        default:
+          return new Date().toISOString();
+      }
+    }
   },
   methods: {
     ...mapMutations('ProfilStore', ['updateSoldeUtilisateur']),
@@ -129,13 +148,16 @@ export default {
         alert('Solde insuffisant pour acheter le(s) billet(s). Veuillez recharger votre compte sur la page CashLess.');
         return;
       }
-      let response = await CauchemarathonService.buyTicketCauchemarathon({ idUser: this.utilisateurConnecte.id, nbBillets: this.nb_place, price: this.totalPrice, dateCourse: this.selectedDayName, nomCourse: this.selectedCircuitName });
-      if (response.status !== 200) {
-        alert(response.data);
+      let response = await CauchemarathonService.buyTicketCauchemarathon({ idUser: this.utilisateurConnecte.id, nbBillets: this.nb_place, price: this.totalPrice, dateCourse: this.selectedDayIso, nomCourse: this.selectedCircuitName });
+      if (response.data.status !== 200) {
+        alert(response.error);
         return;
       }
       this.updateSoldeUtilisateur(response.data.solde);
-      alert(`Billet(s) acheté(s) ! Préparez-vous pour la terreur. Prix : ${this.totalPrice}€. Circuit : ${this.selectedCircuitName}, Jour : ${this.selectedDayName}, Nombre de places : ${this.nb_place}.\nId de la réservation : ${response.data.idRes}`);
+      alert(`Billet(s) acheté(s) ! Préparez-vous pour la terreur.
+             Prix : ${this.totalPrice}€.
+             Circuit : ${this.selectedCircuitName}, Jour : ${this.selectedDayName}, Nombre de place : ${this.nb_place}.
+             Id de la réservation : ${response.data.reservation.id_reservation}`);
     },
   }
 };

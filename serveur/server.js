@@ -20,6 +20,7 @@ const articlesRouter = require('./routes/articles.router');
 const cashlessRouter = require("./routes/cashless.router");
 const ReservConcertRouter = require ("./routes/reservConcert.router")
 const reservationArticlesRouter = require("./routes/reservationArticles.router");
+const cauchemarathonRouter = require("./routes/cauchemarathon.router");
 
 const emplacementRouter = require("./routes/emplacement.router");
 const iconeCarteRouter = require("./routes/iconeCarte.router");
@@ -56,6 +57,7 @@ app.use('/api/articles', articlesRouter);
 app.use('/api/cashless', cashlessRouter);
 app.use('/api/reservConcert', ReservConcertRouter);
 app.use("/api/reservationsArticles", reservationArticlesRouter);
+app.use("/api/cauchemarathon", cauchemarathonRouter);
 
 /** Swagger Initialization - START */
 const swaggerOption = {
@@ -73,6 +75,10 @@ const swaggerOption = {
         "./routes/prestataires.router.js", "./routes/prestations.router.js", "./routes/achat_billet.router.js",
         "./routes/transactions.router.js", "./routes/signalement.router.js", "./routes/demandesPrestataires.router.js",
         "./routes/organisateurs", "./routes/demandesOrganisateurs.router.js", "./routes/livreDOr.router.js", "./routes/texte_accueil.router.js",
+        "./routes/articles.router.js", "./routes/cashless.router.js", "./routes/reservationArticles.router.js",
+        "./routes/cauchemarathon.router.js", "./routes/achat_billet.router.js", "./routes/transactions.router.js",
+        "./routes/signalement.router.js", "./routes/demandesPrestataires.router.js", "./routes/organisateurs.router.js",
+        "./routes/demandesOrganisateurs.router.js", "./routes/livreDOr.router.js", "./routes/texte_accueil.router.js",
         "./routes/emplacement.router.js", "./routes/iconeCarte.router.js", "./routes/login.router", "./routes/reservConcert.router"
     ],
 };
