@@ -12,7 +12,7 @@
     </div>
     <div v-else>
       <h1 class="bordure">{{ $t('movie_details') }}</h1>
-      <img :src="filmById.image" alt="Affiche du film" />
+      <img :src="getImageUrl(filmById.image)" alt="Affiche du film" />
       <div v-if="filmById" class="bordure">
         <h2>{{ filmById.nom }}</h2>
         <p>{{ $t('date') }} : {{ filmById.date }}</p>
@@ -76,6 +76,9 @@ export default {
   },
   methods: {
     ...mapActions('CinemaStore',['getFilmById', 'getPlacesFilms', 'setPlaceFilm']),
+    getImageUrl(image) {
+      return require(`@/assets/${image}`);
+    },
   },
   mounted() {
     const filmId = parseInt(this.$route.params.id);

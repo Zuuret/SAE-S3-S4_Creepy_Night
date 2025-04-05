@@ -18,7 +18,7 @@
             </div>
             <div v-if="filmsByDayAndHour[day][hour]" class="item">
               <router-link :to="`/cinepeur/${filmsByDayAndHour[day][hour].id}`">
-                <img :src="filmsByDayAndHour[day][hour].image" alt="Affiche du concert"/>
+                <img :src="getImageUrl(filmsByDayAndHour[day][hour].image)" alt="Affiche du concert"/>
                 <p>{{ filmsByDayAndHour[day][hour].nom }}</p>
               </router-link>
             </div>
@@ -71,6 +71,9 @@ export default {
   ,
   methods: {
     ...mapActions('CinemaStore',['getFilms']),
+    getImageUrl(image) {
+      return require(`@/assets/${image}`);
+    },
     getLastWeekOfOctober() {
       let year;
       if (new Date().getMonth() === 11 || new Date().getMonth() === 10) {

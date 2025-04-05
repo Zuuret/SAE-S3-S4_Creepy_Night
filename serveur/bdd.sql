@@ -1113,18 +1113,18 @@ VALUES
 
 INSERT INTO Films (nom, date, heure, image, categorie, salle, nb_places, prix)
 VALUES
-('Shining', '2025-10-27', '22:00', 'affiche_BigAli.jpg', 'House', 'Salle 1', 100, 10),
-('Halloween', '2025-10-28', '19:00', 'affiche_TravisScott.jpg', 'Rap', 'Salle 2', 100, 10),
-('l''Exorciste', '2025-10-29', '21:00', 'affiche_Muse.jpg', 'Rock', 'Salle 3', 100, 10),
-('Alien', '2025-10-29', '22:00', 'affiche_Vald.jpg', 'Rap', 'Salle 4', 100, 10),
-('Psychose', '2025-10-29', '00:00', 'affiche_DavidGuetta.jpg', 'Électro', 'Salle 1', 100, 10),
-('Massacre à la tronçonneuse', '2025-10-30', '21:00', 'affiche_Kungs.jpg', 'House', 'Salle 2', 100, 10),
-('Conjuring', '2025-10-30', '23:00', 'affiche_VladimirCauchemard.jpg', 'Électro', 'Salle 3', 100, 10),
-('La Nuit des masques', '2025-10-31', '18:00', 'affiche_Gims.jpg', 'Rap', 'Salle 4', 100, 10),
-('[REC]', '2025-10-31', '21:00', 'affiche_DaftPunk.jpg', 'Électro', 'Salle 1', 100, 10),
-('Suspiria', '2025-10-31', '22:00', 'affiche_KendrickLamar.jpg', 'Rap', 'Salle 2', 100, 10),
-('Le Projet Blair Witch', '2025-10-31', '23:00', 'affiche_RollingStones.jpg', 'Rock', 'Salle 3', 100, 10),
-('Rosemary''s Baby', '2025-11-01', '18:00', 'affiche_Guy2Bezbar.jpg', 'Rap', 'Salle 4', 100, 10);
+('Shining', '2025-10-27', '22:00', 'shining.jpg', 'House', 'Salle 1', 100, 10),
+('The Thing', '2025-10-28', '19:00', 'the_thing.jpg', 'Rap', 'Salle 2', 100, 10),
+('l''Exorciste', '2025-10-29', '21:00', 'the_exorcist.jpg', 'Rock', 'Salle 3', 100, 10),
+('Alien', '2025-10-29', '22:00', 'alien_romulus.jpg', 'Rap', 'Salle 4', 100, 10),
+('Psychose', '2025-10-29', '00:00', 'psychose.jpg', 'Électro', 'Salle 1', 100, 10),
+('Massacre à la tronçonneuse', '2025-10-30', '21:00', 'massacre_troncon.jpg', 'House', 'Salle 2', 100, 10),
+('Conjuring', '2025-10-30', '23:00', 'conjuring.jpg', 'Électro', 'Salle 3', 100, 10),
+('La Nuit des masques', '2025-10-31', '18:00', 'nuit_des_masques.jpg', 'Rap', 'Salle 4', 100, 10),
+('[REC]', '2025-10-31', '21:00', 'rec.jpg', 'Électro', 'Salle 1', 100, 10),
+('Suspiria', '2025-10-31', '22:00', 'suspiria.jpg', 'Rap', 'Salle 2', 100, 10),
+('Le Projet Blair Witch', '2025-10-31', '23:00', 'projet_blair_witch.jpg', 'Rock', 'Salle 3', 100, 10),
+('Rosemary''s Baby', '2025-11-01', '18:00', 'rosemary_baby.jpg', 'Rap', 'Salle 4', 100, 10);
 
 
 INSERT INTO places_films(id_film, type_place, nb_places, prix_place)
