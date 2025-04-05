@@ -56,6 +56,7 @@ export default ({
         },
         decrementArticle(state, cart_item_id) {
             const index = state.panier.findIndex(item => item.panier_id === cart_item_id);
+            console.log(index)
             if (index !== -1) {
                 const removedItem = state.panier[index];
                 if (state.article && state.article.id === removedItem.article_id) {

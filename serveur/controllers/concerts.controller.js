@@ -52,10 +52,24 @@ exports.getConcertById = async (req, res) => {
     }
 };
 
-exports.PostConcertInPanier = async (req, res) => {
-    const { concert, utilisateur_id } = req.body;
+exports.getPanierConcerts = async (req, res) => {
+    const { idUtilisateur } = req.params;
     try {
-        const result = await concertService.insertConcertInPanier(concert, utilisateur_id);
+        const result = await concertService.getPanier(idUtilisateur);
+        if (!result) {
+            return res.status(500).json({ error: 1, data: "Erreur lors de la récupération du panier" });
+        }
+        return res.status(200).json({ error: 0, data: result });
+    } catch (error) {
+        console.error("Erreur dans getPanier :", error);
+        return res.status(500).json({ error: 1, data: "Erreur interne du serveur" });
+    }
+}
+
+exports.postConcertInPanier = async (req, res) => {
+    const { concert, utilisateur_id, quantite } = req.body;
+    try {
+        const result = await concertService.insertConcertInPanier(concert, utilisateur_id, quantite);
         if (!result) {
             return res.status(500).json({ error: 1, data: "Erreur lors de l'ajout au panier" });
         }
@@ -66,22 +80,8 @@ exports.PostConcertInPanier = async (req, res) => {
     }
 };
 
-exports.incrementNbPlacesInPanier = async (req, res) => {
-    const { panier_item_id } = req.body; // On attend que le front envoie l'id de la ligne du panier
-    try {
-        const result = await concertService.incrementNbPlacesInPanier(panier_item_id);
-        if (result.error) {
-            return res.status(400).json({ error: 1, data: result.error });
-        }
-        return res.status(200).json({ error: 0, data: result });
-    } catch (error) {
-        console.error("Erreur dans incrementNbPlacesInPanier :", error);
-        return res.status(500).json({ error: 1, data: "Erreur interne du serveur" });
-    }
-};
-
 exports.decrementNbPlacesInPanier = async (req, res) => {
-    const { panier_item_id } = req.body; // On attend que le front envoie l'id de la ligne du panier
+    const { panier_item_id } = req.body;
     try {
         const result = await concertService.decrementNbPlacesInPanier(panier_item_id);
         if (result.error) {
@@ -90,6 +90,20 @@ exports.decrementNbPlacesInPanier = async (req, res) => {
         return res.status(200).json({ error: 0, data: result });
     } catch (error) {
         console.error("Erreur dans decrementNbPlacesInPanier :", error);
+        return res.status(500).json({ error: 1, data: "Erreur interne du serveur" });
+    }
+};
+
+exports.viderPlacesInPanier = async (req, res) => {
+    const { panier_item_id } = req.params; // On attend que le front envoie l'id de la ligne du panier
+    try {
+        const result = await concertService.viderPlacesInPanier(panier_item_id);
+        if (result.error) {
+            return res.status(400).json({ error: 1, data: result.error });
+        }
+        return res.status(200).json({ error: 0, data: result });
+    } catch (error) {
+        console.error("Erreur dans viderPlacesInPanier :", error);
         return res.status(500).json({ error: 1, data: "Erreur interne du serveur" });
     }
 };

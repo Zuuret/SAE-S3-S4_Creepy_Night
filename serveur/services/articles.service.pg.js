@@ -224,7 +224,6 @@ async function decrementArticleInCart(cart_item_id) {
     const client = await pool.connect();
     try {
         await client.query('BEGIN');
-
         const selectCartQuery = 'SELECT article_id, quantite FROM panier_article WHERE id = $1';
         const cartRes = await client.query(selectCartQuery, [cart_item_id]);
         if (cartRes.rowCount === 0) {

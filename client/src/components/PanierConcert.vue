@@ -13,14 +13,14 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in panier" :key="item.concertId">
+          <tr v-for="item in panier" :key="item.concert_id">
             <td>{{ item.artiste }}</td>
             <td>{{ item.nb_places_panier }}</td>
             <td>{{ item.prix_place }} €</td>
             <td>{{ item.prixTotal }} €</td>
             <td class="actions">
-              <button @click="retirerDuPanier({ placeId: item.placeId })">{{ $t('panier.retirerPlace') }}</button>
-              <button @click="viderPlace({ placeId: item.placeId })">{{ $t('panier.supprimerTout') }}</button>
+              <button @click="retirerDuPanier(item)">{{ $t('panier.retirerPlace') }}</button>
+              <button @click="viderPlace(item)">{{ $t('panier.supprimerTout') }}</button>
             </td>
           </tr>
         </tbody>
@@ -51,10 +51,9 @@ export default {
       }, 0);
       return Math.round(total * 100) / 100;
     }
-
   },
   methods: {
-    ...mapActions('ConcertStore', ['retirerDuPanier', 'viderPlace', 'reserverConcert']),
+    ...mapActions('ConcertStore', ['getPanier','retirerDuPanier', 'viderPlace', 'reserverConcert']),
     async panierEnReservation() {
       if (this.utilisateurConnecte === null) {
         alert('Veuillez créer un profil pour continuer.');
@@ -74,6 +73,9 @@ export default {
         alert('Une erreur est survenue lors de la réservation. Veuillez réessayer.');
       }
     }
+  },
+  mounted() {
+    this.getPanier(this.utilisateurConnecte.id)
   }
 };
 </script>

@@ -61,9 +61,9 @@ export default {
   },
   computed: {
     ...mapState('ProfilStore',['utilisateurConnecte']),
-    ...mapState('ConcertStore', ['concert', 'place_concert']),
+    ...mapState('ConcertStore', ['concert']),
     prixTotal() {
-      return this.place_concert ? this.place_concert.prix_place * this.quantite : 0;
+      return this.concert && this.concert.prix_place ? Math.round(this.concert.prix_place * this.quantite * 100) / 100 : 0;
     },
     formattedDate() {
       return this.concert?.date ? new Date(this.concert.date).toLocaleDateString('fr-FR') : '';
@@ -80,8 +80,10 @@ export default {
       } else {
           const concert = {
             ...this.concert,
+            quantite:  this.quantite,
             utilisateur_id: this.utilisateurConnecte.id,
           }
+          console.log(concert)
           this.ajouterAuPanier(concert)
       }
     },

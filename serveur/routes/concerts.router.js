@@ -214,12 +214,14 @@ router.put("/:id",  sessionMiddleware.authVerif([1,2,3]), concertController.upda
  *       '500':
  *         description: Erreur interne du serveur.
  */
-router.delete("/:id",  sessionMiddleware.authVerif([1,2,3]), concertController.deleteConcert);
+router.delete("/:id",  sessionMiddleware.authVerif([1]), concertController.deleteConcert);
 
-router.post("/panier", sessionMiddleware.authVerif([1,2,3]), concertController.PostConcertInPanier);
+router.get("/panier/:idUtilisateur", sessionMiddleware.authVerif([1]), concertController.getPanierConcerts)
 
-router.put("/panier/incrementation", sessionMiddleware.authVerif([1,2,3]), concertController.incrementNbPlacesInPanier)
+router.post("/panier", sessionMiddleware.authVerif([1]), concertController.postConcertInPanier);
 
-router.put("/panier/decrementation", sessionMiddleware.authVerif([1,2,3]), concertController.decrementNbPlacesInPanier)
+router.put("/panier/decrementation", sessionMiddleware.authVerif([1]), concertController.decrementNbPlacesInPanier)
+
+router.delete("/panier/vider/:panier_item_id", sessionMiddleware.authVerif([1]), concertController.viderPlacesInPanier)
 
 module.exports = router;

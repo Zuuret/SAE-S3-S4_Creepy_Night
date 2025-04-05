@@ -6,7 +6,7 @@ Vue.use(Vuex)
 import ConcertService from "../services/concert.service";
 import ValidArtiste from "../services/validArtiste.service";
 
-import { getAllConcerts, getConcertbyId, getAllReservations, ajouterAuPanier, retirerDuPanier } from "@/services/concert.service"
+import { getAllConcerts, getConcertbyId, getAllReservations, getPanier ,ajouterAuPanier, retirerDuPanier, viderDuPanier } from "@/services/concert.service"
 
 export default ({
     namespaced: true,
@@ -36,8 +36,8 @@ export default ({
         ajouterAuPanier(state, concert) {
             let placeDansPanier = state.panier.find(item => item.panier_id === concert.panier_id);
             if (placeDansPanier) {
-                placeDansPanier.nb_places_panier += 1;
-                placeDansPanier.prixTotal = placeDansPanier.nb_places_panier * placeDansPanier.prix_place;
+                placeDansPanier.nb_places_panier = concert.nb_places_panier;
+                placeDansPanier.prixTotal = Math.round(placeDansPanier.nb_places_panier * placeDansPanier.prix_place * 100) / 100;
             } else {
                 const concertAvecInfos = {
                     ...concert,
@@ -45,27 +45,41 @@ export default ({
                 };
                 state.panier.push(concertAvecInfos);
                 console.log(state.panier);
+                console.log("concert : ", concert)
             }
-            state.nb_places -= 1;
+            state.concert.nb_places = concert.nb_places;
+        },
+        updateNbPlacesInPanier(state, nbPlaceMaj) {
+            const index = state.panier.findIndex(item => item.panier_id === nbPlaceMaj.panier_id);
+            if (index !== -1) {
+                state.panier.splice(index, 1, {
+                    ...nbPlaceMaj,
+                    prixTotal: Math.round(nbPlaceMaj.nb_places_panier * nbPlaceMaj.prix_place * 100) / 100
+                });
+            }
+            if (state.concert && state.concert.id === nbPlaceMaj.concert_id) {
+                state.concert.nb_places += 1;
+            }
         },
         retirerDuPanier(state, panier_item_id) {
-            const placeDansPanier = state.panier.find(item => item.panier_id === panier_item_id);
+            const placeDansPanier = state.panier.findIndex(item => item.panier_id === panier_item_id);
             if (placeDansPanier !== -1) {
                 const removedItem = state.panier[placeDansPanier];
+                console.log(removedItem)
                 if (state.concert && state.concert.id === removedItem.concert_id) {
                     state.concert.nb_places += 1;
                 }
                 state.panier.splice(placeDansPanier, 1);
             }
         },
-        viderPlace(state, { placeId }) {
-            const placeDansPanier = state.panier.find(item => item.placeId === placeId);
-            const placesConcert = state.places_concert.find(place => place.id_concert === placeId);
-            if (placeDansPanier && placesConcert) {
-                placesConcert.nb_places += placeDansPanier.nbPlaces;
-                placeDansPanier.nbPlaces = 0;
+        viderPlace(state, panier_item_id) {
+            const placeDansPanier = state.panier.find(item => item.panier_id === panier_item_id);
+            console.log(placeDansPanier)
+            if (placeDansPanier) {
+                state.concert.nb_places += placeDansPanier.nb_places_panier;
+                placeDansPanier.nb_places_panier = 0;
                 placeDansPanier.prixTotal = 0;
-                state.panier = state.panier.filter(item => item.placeId !== placeId);
+                state.panier = state.panier.filter(item => item.panier_id !== panier_item_id);
             } else {
                 console.log("Concert non trouvé dans le panier.");
             }
@@ -109,30 +123,39 @@ export default ({
                 console.log(response.data);
             }
         },
+        async getPanier({commit}, utilisateurId){
+            console.log("Récupération du panier pour ID :", utilisateurId)
+            let response = await getPanier(utilisateurId)
+            if (response.error === 0) {
+                commit('updatePanier', response.data)
+            } else {
+                console.log(response.data);
+            }
+        },
         async ajouterAuPanier({ commit }, concert) {
             console.log("Ajout dans le panier")
             let response = await ajouterAuPanier(concert);
-            console.log("Response : ", response.data)
             if (response.error === 0) {
                 commit("ajouterAuPanier", response.data);
             } else {
                 console.log(response.data);
             }
         },
-        async retirerDuPanier({ commit }, panier_item_id) {
+        async retirerDuPanier({ commit }, concert) {
             console.log("Retrait dans le panier");
-            let response = await retirerDuPanier(panier_item_id)
-            if (response.error === 0){
-                commit("retirerDuPanier", response.data);
+            let response = await retirerDuPanier(concert)
+            if (response.data.removed) {
+                commit("retirerDuPanier", concert.panier_id);
             } else {
-                console.log(response.data)
+                commit("updateNbPlacesInPanier", response.data);
             }
+            console.log(response.data)
         },
-        async viderPlace({ commit }, { placeId }) {
+        async viderPlace({ commit }, concert) {
             console.log("Supression dans le panier");
-            let response = await ConcertService.viderPlace(placeId)
+            let response = await viderDuPanier(concert)
             if (response.error === 0) {
-                commit("viderPlace", response.data);
+                commit("viderPlace", concert.panier_id);
             } else {
                 console.log(response.data)
             }
