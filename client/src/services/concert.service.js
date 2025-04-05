@@ -1,11 +1,18 @@
 import LocalSource from "@/datasource/controller";
-import {getRequest} from "@/services/axios.service";
+import {getRequest, postRequest, putRequest} from "@/services/axios.service";
 
 async function getAllConcertsFromAPI(){
     return getRequest('concerts', 'GETALLCONCERTS')
 }
 async function getConcertbyIdFromAPI(uuid) {
     return getRequest(`concerts/${uuid}`, 'GETCONCERTBYID')
+}
+async function ajouterAuPanierFromAPI(concert, utilisateur_id){
+    const data = { concert, utilisateur_id }
+    return postRequest('concerts/panier', data, 'POSTPANIER')
+}
+async function retirerDuPanierFromAPI(panier_item_id){
+    return putRequest('concerts/panier/decrementation', panier_item_id, 'PUTDECREMENTPANIER')
 }
 
 export async function getAllConcerts() {
@@ -14,59 +21,22 @@ export async function getAllConcerts() {
 export async function getConcertbyId(uuid) {
     return await getConcertbyIdFromAPI(uuid)
 }
-
-async function getAllPlaceConcertFromLocalSource(){
-    return LocalSource.getAllPlaceConcert();
-}
-
-async function getAllPlaceConcert() {
+export async function ajouterAuPanier(concert) {
     let response;
     try {
-        response = await getAllPlaceConcertFromLocalSource();
-    } catch (err) {
-        response = { error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des concerts' };
+        const utilisateur_id = concert.utilisateur_id;
+        response = await ajouterAuPanierFromAPI(concert, utilisateur_id);
+    } catch(err) {
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible d'ajouter un concert au panier" };
     }
     return response;
 }
-
-async function getPlacesConcertsbyIdFromLocalSource(placeId) {
-    return LocalSource.getPlaceConcertbyId(placeId);
-}
-
-async function getPlacesConcertsbyId(placeId) {
+export async function retirerDuPanier(item) {
     let response;
     try {
-        response = await getPlacesConcertsbyIdFromLocalSource(placeId);
+        response = await retirerDuPanierFromAPI(item.panier_id);
     } catch (err) {
-        response = { error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des places de concerts' };
-    }
-    return response;
-}
-
-async function ajouterAuPanierFromLocalSource(concertId, nbPlaces){
-    return LocalSource.ajouterAuPanier(concertId, nbPlaces)
-}
-
-async function ajouterAuPanier(concertId, nbPlaces) {
-    let response;
-    try {
-        response = await ajouterAuPanierFromLocalSource(concertId, nbPlaces)
-    } catch (err) {
-        response = { error: 1, status: 404, data: 'erreur réseau, impossible d\'ajouter un concert au panier' };
-    }
-    return response;
-}
-
-async function retirerDuPanierFromLocalSource(placeId){
-    return LocalSource.retirerDuPanier(placeId)
-}
-
-async function retirerDuPanier(placeId) {
-    let response;
-    try {
-        response = await retirerDuPanierFromLocalSource(placeId)
-    } catch (err) {
-        response = { error: 1, status: 404, data: 'erreur réseau, impossible de retirer une panier' };
+        response = { error: 1, status: 404, data: "Erreur réseau, impossible d'incrémenter la quantité" };
     }
     return response;
 }
@@ -114,12 +84,22 @@ async function getReservationConcertById(utilisateurId) {
     return response;
 }
 
+async function getAllReservationsFromAPI() {
+    return await getRequest('reservConcert');
+}
+
+export async function getAllReservations() {
+    try {
+        let res = await getAllReservationsFromAPI();
+        return { error: 0, data: res.data };
+    } catch (error) {
+        console.error("get all reservations", error);
+        return { error: 1, message: error.message };
+    }
+}
+
 export default {
-    getConcertbyId,
-    getAllPlaceConcert,
-    getPlacesConcertsbyId,
     ajouterAuPanier,
-    retirerDuPanier,
     viderPlace,
     addReservationConcert,
     getReservationConcertById

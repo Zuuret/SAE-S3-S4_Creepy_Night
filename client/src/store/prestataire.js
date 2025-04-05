@@ -40,6 +40,7 @@ export default ({
                 existingArticle.quantite += 1;
             } else {
                 state.panier.push({ ...article });
+                console.log(state.panier)
             }
             state.article.stock -= 1;
         },

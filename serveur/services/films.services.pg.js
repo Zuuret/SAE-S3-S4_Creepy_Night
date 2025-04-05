@@ -1,14 +1,14 @@
 const pool = require('../database/db');
 const format = require('pg-format');
 
-async function insertFilm(nom, date, duree, image, categorie, salle, nb_places, prix) {
+async function insertFilm(nom, date, heure, image, categorie, salle, nb_places, prix) {
     const client = await pool.connect();
     let is_error = false;
     try {
         const data = [
-            [nom, date, duree, image, categorie, salle, nb_places, prix]
+            [nom, date, heure, image, categorie, salle, nb_places, prix]
         ]
-        const query = format('INSERT INTO Films (nom, date, duree, image, categorie, salle, nb_places, prix) VALUES %L', data);
+        const query = format('INSERT INTO Films (nom, date, heure, image, categorie, salle, nb_places, prix) VALUES %L', data);
         await client.query(query);
         console.log('INSERTIONS AVEC SUCCES');
     } catch (error) {
@@ -35,11 +35,11 @@ async function getFilms() {
     return res.rows || false;
 }
 
-async function updateFilm(id,nom, date, duree, image, categorie, salle, nb_places, prix) {
+async function updateFilm(id,nom, date, heure, image, categorie, salle, nb_places, prix) {
     const client = await pool.connect();
     let is_error = false;
     try {
-        const query = format('UPDATE Films SET nom = %L,date = %L, duree = %L, image = %L, categorie = %L, salle = %L, nb_places = %L, prix = %L WHERE id = %L',nom, date, duree, image, categorie, salle, nb_places, prix, id);
+        const query = format('UPDATE Films SET nom = %L,date = %L, heure = %L, image = %L, categorie = %L, salle = %L, nb_places = %L, prix = %L WHERE id = %L',nom, date, heure, image, categorie, salle, nb_places, prix, id);
         await client.query(query);
         console.log('MISE A JOUR DU FILM');
     } catch (error) {
