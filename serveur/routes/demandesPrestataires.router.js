@@ -8,14 +8,14 @@ const router = express.Router();
  * @swagger
  * /api/demandesPrestataires:
  *   post:
- *     summary: Créer une demande de prestataire
- *     description: Permet de créer une nouvelle demande pour devenir prestataire.
+ *     summary: "Créer une demande de prestataire"
+ *     description: "Permet de créer une nouvelle demande pour devenir prestataire."
  *     tags:
- *       - Demandes Prestataires
+ *       - "Demandes Prestataires"
  *     parameters:
  *       - in: body
  *         name: demande
- *         description: Données de la demande de prestataire
+ *         description: "Données de la demande de prestataire"
  *         required: true
  *         schema:
  *           type: object
@@ -30,35 +30,35 @@ const router = express.Router();
  *             id:
  *               type: string
  *               format: uuid
- *               description: Identifiant unique de la demande
+ *               description: "Identifiant unique de la demande"
  *               example: "223e4567-e89b-12d3-a456-426614174111"
  *             societe:
  *               type: string
- *               description: Nom de la société
+ *               description: "Nom de la société"
  *               example: "MaSociete"
  *             adresse:
  *               type: string
- *               description: Adresse de la société
+ *               description: "Adresse de la société"
  *               example: "12 Rue de l'Exemple, 75000 Paris"
  *             email:
  *               type: string
- *               description: Adresse email de contact
+ *               description: "Adresse email de contact"
  *               example: "contact@masociete.com"
  *             statut:
  *               type: string
- *               description: Statut de la demande (ex: en attente, approuvé, rejeté)
+ *               description: "Statut de la demande (ex. en attente, approuvé, rejeté)"
  *               example: "en attente"
  *             password:
  *               type: string
- *               description: Mot de passe associé à la demande
+ *               description: "Mot de passe associé à la demande"
  *               example: "motdepasse123"
  *     responses:
  *       '200':
- *         description: Demande créée avec succès
+ *         description: "Demande créée avec succès"
  *       '400':
- *         description: Données invalides ou demande non valide
+ *         description: "Données invalides ou demande non valide"
  *       '500':
- *         description: Erreur interne du serveur
+ *         description: "Erreur interne du serveur"
  */
 router.post("/",  demandesPrestatairesController.saveDemandePrestataire);
 
@@ -172,7 +172,7 @@ router.get("/:uuid",  sessionMiddleware.authVerif([2,3]), demandesPrestatairesCo
  *               example: "contact@masociete.com"
  *             statut:
  *               type: string
- *               description: Statut de la demande (ex: en attente, approuvé, rejeté)
+ *               description: Statut de la demande (ex.en attente, approuvé, rejeté)
  *               example: "en attente"
  *             password:
  *               type: string

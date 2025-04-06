@@ -364,6 +364,32 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+/**
+ * @swagger
+ * /api/prestataires/{uuid}/background:
+ *   post:
+ *     summary: "Mettre à jour l'image de fond d'un prestataire"
+ *     description: "Utilisé pour mettre à jour l'image de fond d'un prestataire"
+ *     tags:
+ *       - "Informations prestataire"
+ *     parameters:
+ *       - in: path
+ *         name: uuid
+ *         required: true
+ *         description: "UUID du prestataire"
+ *         schema:
+ *           type: string
+ *       - in: formData
+ *         name: image
+ *         type: file
+ *         required: true
+ *         description: "Fichier image à télécharger"
+ *     responses:
+ *       '200':
+ *         description: "Image de fond mise à jour avec succès."
+ *       '400':
+ *         description: "Mauvaise requête."
+ */
 router.post("/:uuid/background", sessionMiddleware.authVerif([2]), upload.single('image'), prestataireController.updateImage);
 
 
