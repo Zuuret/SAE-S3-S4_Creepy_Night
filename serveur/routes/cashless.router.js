@@ -88,19 +88,19 @@ router.put("/updateFunds", cashlessController.updateFunds);
  *             nom:
  *               type: string
  *               description: Nom inscrit sur la carte bancaire
- *               example: "Dupont"
+ *               example: "Doe"
  *             numeroCarte:
  *               type: string
  *               description: Numéro de la carte bancaire (16 chiffres)
- *               example: "4111111111111111"
+ *               example: "123456789ABCDEFG"
  *             dateExpiration:
  *               type: string
  *               description: Date d'expiration de la carte (MM/YY)
- *               example: "12/25"
+ *               example: "11/31"
  *             cvv:
  *               type: string
  *               description: Code CVV de la carte bancaire
- *               example: "123"
+ *               example: "484"
  *     responses:
  *       '200':
  *         description: Coordonnées bancaires vérifiées avec succès

@@ -216,12 +216,161 @@ router.put("/:id",  sessionMiddleware.authVerif([1,2,3]), concertController.upda
  */
 router.delete("/:id",  sessionMiddleware.authVerif([1]), concertController.deleteConcert);
 
+/**
+ * @swagger
+ * /api/concerts/panier/{idUtilisateur}:
+ *   get:
+ *     summary: Récupérer le panier de concerts d’un utilisateur
+ *     description: Permet de récupérer les concerts présents dans le panier d’un utilisateur.
+ *     tags:
+ *       - Concerts / Panier
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: idUtilisateur
+ *         required: true
+ *         description: Identifiant de l'utilisateur
+ *         schema:
+ *           type: string
+ *           format: uuid
+ *           example: "123e4567-e89b-12d3-a456-426614174000"
+ *     responses:
+ *       '200':
+ *         description: Panier récupéré avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   panier_id:
+ *                     type: integer
+ *                     example: 5
+ *                   nb_places_panier:
+ *                     type: integer
+ *                     example: 2
+ *                   concert_id:
+ *                     type: integer
+ *                     example: 3
+ *                   artiste:
+ *                     type: string
+ *                     example: "Silverman"
+ *                   prix_place:
+ *                     type: number
+ *                     format: float
+ *                     example: 20.00
+ *       '500':
+ *         description: Erreur interne du serveur
+ */
 router.get("/panier/:idUtilisateur", sessionMiddleware.authVerif([1]), concertController.getPanierConcerts)
 
+/**
+ * @swagger
+ * /api/concerts/panier:
+ *   post:
+ *     summary: Ajouter un concert au panier
+ *     description: Permet d'ajouter des places pour un concert au panier d'un utilisateur. La route vérifie le stock disponible et met à jour le nombre de places dans le panier.
+ *     tags:
+ *       - Concerts / Panier
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: body
+ *         name: panierData
+ *         description: Données pour ajouter un concert au panier
+ *         required: true
+ *         schema:
+ *           type: object
+ *           required:
+ *             - utilisateur_id
+ *             - concert_id
+ *             - quantite
+ *           properties:
+ *             utilisateur_id:
+ *               type: string
+ *               format: uuid
+ *               description: Identifiant de l'utilisateur
+ *               example: "123e4567-e89b-12d3-a456-426614174000"
+ *             concert_id:
+ *               type: integer
+ *               description: Identifiant du concert
+ *               example: 3
+ *             quantite:
+ *               type: integer
+ *               description: Nombre de places à ajouter
+ *               example: 2
+ *     responses:
+ *       '200':
+ *         description: Concert ajouté au panier avec succès
+ *       '400':
+ *         description: Données invalides ou nombre de places insuffisant
+ *       '500':
+ *         description: Erreur interne du serveur
+ */
 router.post("/panier", sessionMiddleware.authVerif([1]), concertController.postConcertInPanier);
 
+/**
+ * @swagger
+ * /api/concerts/panier/decrementation:
+ *   put:
+ *     summary: Décrémenter le nombre de places dans le panier
+ *     description: Permet de diminuer le nombre de places réservées dans le panier d'un utilisateur. Si le nombre de places devient 0, l'élément est supprimé du panier.
+ *     tags:
+ *       - Concerts / Panier
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: body
+ *         name: decrementData
+ *         description: Données pour décrémenter le nombre de places dans le panier
+ *         required: true
+ *         schema:
+ *           type: object
+ *           required:
+ *             - panier_item_id
+ *           properties:
+ *             panier_item_id:
+ *               type: integer
+ *               description: Identifiant de l'entrée du panier à décrémenter
+ *               example: 5
+ *     responses:
+ *       '200':
+ *         description: Quantité décrémentée ou élément retiré du panier avec succès
+ *       '400':
+ *         description: Données invalides
+ *       '500':
+ *         description: Erreur interne du serveur
+ */
 router.put("/panier/decrementation", sessionMiddleware.authVerif([1]), concertController.decrementNbPlacesInPanier)
 
+/**
+ * @swagger
+ * /api/concerts/panier/vider/{panier_item_id}:
+ *   delete:
+ *     summary: Vider un élément du panier
+ *     description: Permet de retirer un concert du panier d'un utilisateur et de rétablir le stock de places pour le concert.
+ *     tags:
+ *       - Concerts / Panier
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: panier_item_id
+ *         required: true
+ *         description: Identifiant de l'élément du panier à supprimer
+ *         schema:
+ *           type: integer
+ *           example: 5
+ *     responses:
+ *       '200':
+ *         description: Concert retiré du panier et places rétablies dans le stock avec succès
+ *       '400':
+ *         description: Données invalides
+ *       '500':
+ *         description: Erreur interne du serveur
+ */
 router.delete("/panier/vider/:panier_item_id", sessionMiddleware.authVerif([1]), concertController.viderPlacesInPanier)
 
 module.exports = router;

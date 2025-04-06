@@ -245,7 +245,7 @@ async function viderPlacesInPanier(panier_item_id) {
         const deleteCartQuery = 'DELETE FROM panier_concert WHERE id = $1';
         await client.query(deleteCartQuery, [panier_item_id]);
 
-        // 4. On renvoie les informations utiles (optionnel, selon ton besoin)
+        // 4. On renvoie les informations utiles
         await client.query('COMMIT');
         return { success: "Concert retiré du panier et places remises dans le stock" };
 
